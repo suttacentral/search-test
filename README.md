@@ -15,8 +15,8 @@ The objective of this tool is to test the "instant search" API using a combinati
 Github workflows to automate testing of the staging and production environments. The CLI can be run locally on the
 developers machine against localhost, staging or production and reads test cases from a JSON file.
 
-I'm writing the initial version of the CLI in Rust but will happily port it to another language if required. Likewise
-the workflow should be able to be recreated in another CI/CD environment (e.g. GitLabs CI).
+I'm writing the initial version of the CLI in Rust but will happily rewrite it in Python if required. Likewise
+the workflow could be ported to another CI/CD environment (e.g. GitLabs CI).
 
 This is not intended for unit or integration testing, nor is it intended to run on the staging or production servers.
 It sits outside the system it is designed to test.
