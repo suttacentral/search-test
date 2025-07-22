@@ -28,7 +28,7 @@ mod tests {
             query: String::from("adze"),
         };
 
-        assert_eq!(case.query, "adze")
+        assert_eq!(case.query, "adze");
     }
 
     #[test]
@@ -41,6 +41,30 @@ mod tests {
         assert_eq!(
             request.uri,
             "http://localhost/api/search/instant?limit=50&query=adze&language=en&restrict=all&matchpartial=false"
-        )
+        );
+    }
+
+    struct SearchClientStub {}
+
+    struct SearchResponse {
+        top_result: String,
+    }
+
+    impl SearchClientStub {
+        fn send(self, request: SearchRequest) -> SearchResponse {
+            SearchResponse {
+                top_result: String::from("example"),
+            }
+        }
+    }
+
+    #[test]
+    fn can_send_a_request() {
+        let request = SearchRequest {
+            uri: String::from("http://example.com"),
+        };
+        let client = SearchClientStub {};
+        let response = client.send(request);
+        assert_eq!(response.top_result, "example");
     }
 }
