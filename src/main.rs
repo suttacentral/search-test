@@ -16,6 +16,6 @@ mod tests {
             query: String::from("adze"),
         };
 
-        assert_eq!(case.query, "adze")
+        assert_eq!(case.query, "adzexxx")
     }
 }
