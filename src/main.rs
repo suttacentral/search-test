@@ -1,5 +1,6 @@
 struct SearchTestCase {
     query: String,
+    limit: u16,
 }
 
 struct SearchRequest {
@@ -11,9 +12,15 @@ struct SearchResponse {
 }
 
 fn create_request(test_case: SearchTestCase) -> SearchRequest {
+    let host = "localhost";
+    let path = "/api/search/instant";
+    let uri_language = "en";
+    let restrict = "all";
+    let match_partial = "false";
+
     let uri = format!(
-        "http://localhost/api/search/instant?limit=50&query={}&language=en&restrict=all&matchpartial=false",
-        test_case.query
+        "http://{}{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
+        host, path, test_case.limit, test_case.query, uri_language, restrict, match_partial,
     );
     SearchRequest { uri }
 }
@@ -30,6 +37,7 @@ mod tests {
     fn can_assign_a_query_to_test_case() {
         let case = SearchTestCase {
             query: String::from("adze"),
+            limit: 1,
         };
 
         assert_eq!(case.query, "adze");
@@ -39,12 +47,13 @@ mod tests {
     fn can_add_query_to_request() {
         let case = SearchTestCase {
             query: String::from("adze"),
+            limit: 1,
         };
 
         let request = create_request(case);
         assert_eq!(
             request.uri,
-            "http://localhost/api/search/instant?limit=50&query=adze&language=en&restrict=all&matchpartial=false"
+            "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false"
         );
     }
 
