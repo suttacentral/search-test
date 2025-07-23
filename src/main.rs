@@ -3,6 +3,15 @@ struct SearchTestCase {
     limit: u16,
 }
 
+impl Default for SearchTestCase {
+    fn default() -> Self {
+        SearchTestCase {
+            query: String::new(),
+            limit: 1,
+        }
+    }
+}
+
 struct SearchRequest {
     uri: String,
 }
@@ -41,6 +50,12 @@ mod tests {
         };
 
         assert_eq!(case.query, "adze");
+    }
+
+    #[test]
+    fn can_create_a_test_case_limit_defaults_to_one() {
+        let case = SearchTestCase::default();
+        assert_eq!(case.limit, 1);
     }
 
     #[test]
