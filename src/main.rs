@@ -45,7 +45,13 @@ fn create_request(test_case: SearchTestCase) -> SearchRequest {
 }
 
 fn main() {
-    println!("Run system tests on the SuttaCentral search engine.");
+    let test_case = SearchTestCase::default();
+    let request = create_request(test_case);
+    let response = SearchResponse {
+        top_result: "mn1".to_string(),
+    };
+    println!("Request URI: {}", request.uri);
+    println!("Top result was {}", response.top_result)
 }
 
 #[cfg(test)]
