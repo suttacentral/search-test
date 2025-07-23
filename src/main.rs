@@ -25,14 +25,20 @@ struct SearchResponse {
 fn create_request(test_case: SearchTestCase) -> SearchRequest {
     let host = "localhost";
     let path = "/api/search/instant";
-    let uri_language = "en";
     let restrict = "all";
     let match_partial = "false";
 
     let uri = format!(
         "http://{}{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
-        host, path, test_case.limit, test_case.query, uri_language, restrict, match_partial,
+        host,
+        path,
+        test_case.limit,
+        test_case.query,
+        test_case.uri_language,
+        restrict,
+        match_partial,
     );
+
     SearchRequest { uri }
 }
 
