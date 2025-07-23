@@ -75,7 +75,7 @@ mod tests {
     struct SearchClientStub {}
 
     impl SearchClientStub {
-        fn send(self, request: SearchRequest) -> SearchResponse {
+        fn send(self, _request: SearchRequest) -> SearchResponse {
             SearchResponse {
                 top_result: String::from("example"),
             }
