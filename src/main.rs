@@ -6,6 +6,10 @@ struct SearchRequest {
     uri: String,
 }
 
+struct SearchResponse {
+    top_result: String,
+}
+
 fn create_request(test_case: SearchTestCase) -> SearchRequest {
     let uri = format!(
         "http://localhost/api/search/instant?limit=50&query={}&language=en&restrict=all&matchpartial=false",
@@ -45,10 +49,6 @@ mod tests {
     }
 
     struct SearchClientStub {}
-
-    struct SearchResponse {
-        top_result: String,
-    }
 
     impl SearchClientStub {
         fn send(self, request: SearchRequest) -> SearchResponse {
