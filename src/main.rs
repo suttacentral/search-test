@@ -1,6 +1,7 @@
 struct SearchTestCase {
     query: String,
     limit: u16,
+    uri_language: String,
 }
 
 impl Default for SearchTestCase {
@@ -8,6 +9,7 @@ impl Default for SearchTestCase {
         SearchTestCase {
             query: String::new(),
             limit: 1,
+            uri_language: "en".to_string(),
         }
     }
 }
@@ -43,16 +45,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn can_assign_a_query_to_test_case() {
-        let case = SearchTestCase {
-            query: String::from("adze"),
-            limit: 1,
-        };
-
-        assert_eq!(case.query, "adze");
-    }
-
-    #[test]
     fn can_create_a_test_case_limit_defaults_to_one() {
         let case = SearchTestCase::default();
         assert_eq!(case.limit, 1);
@@ -62,7 +54,7 @@ mod tests {
     fn can_add_query_to_request() {
         let case = SearchTestCase {
             query: String::from("adze"),
-            limit: 1,
+            ..Default::default()
         };
 
         let request = create_request(case);
