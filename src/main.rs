@@ -2,6 +2,8 @@ struct SearchTestCase {
     query: String,
     limit: u16,
     uri_language: String,
+    restrict: String,
+    match_partial: String,
 }
 
 impl Default for SearchTestCase {
@@ -10,6 +12,8 @@ impl Default for SearchTestCase {
             query: String::new(),
             limit: 1,
             uri_language: "en".to_string(),
+            restrict: "all".to_string(),
+            match_partial: "false".to_string(),
         }
     }
 }
@@ -25,8 +29,6 @@ struct SearchResponse {
 fn create_request(test_case: SearchTestCase) -> SearchRequest {
     let host = "localhost";
     let path = "/api/search/instant";
-    let restrict = "all";
-    let match_partial = "false";
 
     let uri = format!(
         "http://{}{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
@@ -35,8 +37,8 @@ fn create_request(test_case: SearchTestCase) -> SearchRequest {
         test_case.limit,
         test_case.query,
         test_case.uri_language,
-        restrict,
-        match_partial,
+        test_case.restrict,
+        test_case.match_partial,
     );
 
     SearchRequest { uri }
