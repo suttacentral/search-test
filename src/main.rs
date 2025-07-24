@@ -1,3 +1,5 @@
+use reqwest;
+
 struct SearchTestCase {
     query: String,
     limit: u16,
@@ -96,5 +98,10 @@ mod tests {
         let client = SearchClientStub {};
         let response = client.send(request);
         assert_eq!(response.top_result, "example");
+    }
+
+    #[test]
+    fn can_use_reqwest() {
+        let _result = reqwest::blocking::get("http://localhost");
     }
 }
