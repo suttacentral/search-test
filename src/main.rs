@@ -1,5 +1,3 @@
-use reqwest;
-
 struct SearchTestCase {
     query: String,
     limit: u16,
@@ -103,5 +101,17 @@ mod tests {
     #[test]
     fn can_use_reqwest() {
         let _result = reqwest::blocking::get("http://localhost");
+    }
+
+    #[derive(serde::Deserialize, serde::Serialize, Debug)]
+    struct Gadget {
+        name: String,
+    }
+
+    #[test]
+    fn can_use_serde() {
+        let gadget_json = "{ \"name\": \"extendable legs\" }";
+        let gadget: Gadget = serde_json::from_str(gadget_json).unwrap();
+        assert_eq!(gadget.name, "extendable legs");
     }
 }
