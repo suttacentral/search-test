@@ -20,3 +20,11 @@ the workflow could be ported to another CI/CD environment (e.g. GitLabs CI).
 
 This is not intended for unit or integration testing, nor is it intended to run on the staging or production servers.
 It sits outside the system it is designed to test.
+
+## Building
+
+I'll expand this later on, but here's what I've needed on my machine:
+
+```
+sudo apt install libssl-dev
+```
