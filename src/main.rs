@@ -114,4 +114,18 @@ mod tests {
         let gadget: Gadget = serde_json::from_str(gadget_json).unwrap();
         assert_eq!(gadget.name, "extendable legs");
     }
+
+    #[test]
+    fn build_a_url() {
+        let url = reqwest::Url::parse_with_params(
+            "http://reptiles.com/api/snake",
+            &[("venom", "deadly"), ("teeth", "pointy")],
+        )
+        .expect("URL failed to parse");
+
+        assert_eq!(
+            url.as_str(),
+            "http://reptiles.com/api/snake?venom=deadly&teeth=pointy"
+        );
+    }
 }
