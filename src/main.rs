@@ -24,22 +24,12 @@ impl Default for TestCase {
 }
 
 fn build_search_request(target: &Target, test_case: TestCase) -> reqwest::blocking::Request {
-    let uri = format!(
-        "{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
-        target.endpoint,
-        test_case.limit,
-        test_case.query,
-        test_case.uri_language,
-        test_case.restrict,
-        test_case.match_partial,
-    );
-
     let params = vec![
-        ("limit", "1"),
-        ("query", "adze"),
-        ("language", "en"),
-        ("restrict", "all"),
-        ("matchpartial", "false"),
+        ("limit", test_case.limit.to_string()),
+        ("query", test_case.query),
+        ("language", test_case.uri_language),
+        ("restrict", test_case.restrict),
+        ("matchpartial", test_case.match_partial),
     ];
 
     let client = reqwest::blocking::Client::new();
