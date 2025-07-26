@@ -117,11 +117,9 @@ mod tests {
 
     #[test]
     fn build_a_url() {
-        let url = reqwest::Url::parse_with_params(
-            "http://reptiles.com/api/snake",
-            &[("venom", "deadly"), ("teeth", "pointy")],
-        )
-        .expect("URL failed to parse");
+        let params = vec![("venom", "deadly"), ("teeth", "pointy")];
+        let url = reqwest::Url::parse_with_params("http://reptiles.com/api/snake", params)
+            .expect("URL failed to parse");
 
         assert_eq!(
             url.as_str(),
