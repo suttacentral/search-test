@@ -1,4 +1,4 @@
-struct SearchTestCase {
+struct TestCase {
     query: String,
     limit: u16,
     uri_language: String,
@@ -6,9 +6,9 @@ struct SearchTestCase {
     match_partial: String,
 }
 
-impl Default for SearchTestCase {
+impl Default for TestCase {
     fn default() -> Self {
-        SearchTestCase {
+        TestCase {
             query: String::new(),
             limit: 1,
             uri_language: "en".to_string(),
@@ -22,18 +22,15 @@ struct SearchRequest {
     uri: String,
 }
 
-struct SearchResponse {
-    top_result: String,
+struct Target {
+    name: String,
+    endpoint: String,
 }
 
-fn create_request(test_case: SearchTestCase) -> SearchRequest {
-    let host = "localhost";
-    let path = "/api/search/instant";
-
+fn create_request(target: Target, test_case: TestCase) -> SearchRequest {
     let uri = format!(
-        "http://{}{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
-        host,
-        path,
+        "{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
+        target.endpoint,
         test_case.limit,
         test_case.query,
         test_case.uri_language,
@@ -45,13 +42,17 @@ fn create_request(test_case: SearchTestCase) -> SearchRequest {
 }
 
 fn main() {
-    let test_case = SearchTestCase::default();
-    let request = create_request(test_case);
-    let response = SearchResponse {
-        top_result: "mn1".to_string(),
+    let test_case = TestCase::default();
+
+    let target = Target {
+        name: String::from("dev"),
+        endpoint: String::from("http://localhost/api/search/instant"),
     };
-    println!("Request URI: {}", request.uri);
-    println!("Top result was {}", response.top_result)
+
+    println!("Creating request for {} target", target.name);
+
+    let request = create_request(target, test_case);
+    println!("Search URL is {}", request.uri);
 }
 
 #[cfg(test)]
@@ -60,42 +61,27 @@ mod tests {
 
     #[test]
     fn can_create_a_test_case_limit_defaults_to_one() {
-        let case = SearchTestCase::default();
+        let case = TestCase::default();
         assert_eq!(case.limit, 1);
     }
 
     #[test]
     fn can_add_query_to_request() {
-        let case = SearchTestCase {
+        let target = Target {
+            name: String::from("dev"),
+            endpoint: String::from("http://localhost/api/search/instant"),
+        };
+
+        let test_case = TestCase {
             query: String::from("adze"),
             ..Default::default()
         };
 
-        let request = create_request(case);
+        let request = create_request(target, test_case);
         assert_eq!(
             request.uri,
             "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false"
         );
-    }
-
-    struct SearchClientStub {}
-
-    impl SearchClientStub {
-        fn send(self, _request: SearchRequest) -> SearchResponse {
-            SearchResponse {
-                top_result: String::from("example"),
-            }
-        }
-    }
-
-    #[test]
-    fn can_send_a_request() {
-        let request = SearchRequest {
-            uri: String::from("http://example.com"),
-        };
-        let client = SearchClientStub {};
-        let response = client.send(request);
-        assert_eq!(response.top_result, "example");
     }
 
     #[test]
