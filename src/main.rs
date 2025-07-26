@@ -27,7 +27,7 @@ struct SearchRequest {
     uri: String,
 }
 
-fn create_request(target: Target, test_case: TestCase) -> SearchRequest {
+fn create_request(target: &Target, test_case: TestCase) -> SearchRequest {
     let uri = format!(
         "{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
         target.endpoint,
@@ -49,9 +49,8 @@ fn main() {
         endpoint: String::from("http://localhost/api/search/instant"),
     };
 
-    println!("Creating request for {} target", target.name);
-
-    let request = create_request(target, test_case);
+    let request = create_request(&target, test_case);
+    println!("Created request for {} target", target.name);
     println!("Search URL is {}", request.uri);
 }
 
@@ -77,7 +76,7 @@ mod tests {
             ..Default::default()
         };
 
-        let request = create_request(target, test_case);
+        let request = create_request(&target, test_case);
         assert_eq!(
             request.uri,
             "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false"
