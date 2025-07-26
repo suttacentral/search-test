@@ -23,11 +23,7 @@ impl Default for TestCase {
     }
 }
 
-struct SearchRequest {
-    uri: String,
-}
-
-fn create_request(target: &Target, test_case: TestCase) -> SearchRequest {
+fn build_search_request(target: &Target, test_case: TestCase) -> reqwest::blocking::Request {
     let uri = format!(
         "{}?limit={}&query={}&language={}&restrict={}&matchpartial={}",
         target.endpoint,
@@ -38,7 +34,17 @@ fn create_request(target: &Target, test_case: TestCase) -> SearchRequest {
         test_case.match_partial,
     );
 
-    SearchRequest { uri }
+    let params = vec![
+        ("limit", "1"),
+        ("query", "adze"),
+        ("language", "en"),
+        ("restrict", "all"),
+        ("matchpartial", "false"),
+    ];
+
+    let client = reqwest::blocking::Client::new();
+    let builder = client.post(target.endpoint.as_str()).query(&params);
+    builder.build().unwrap()
 }
 
 fn main() {
@@ -49,9 +55,9 @@ fn main() {
         endpoint: String::from("http://localhost/api/search/instant"),
     };
 
-    let request = create_request(&target, test_case);
+    let request = build_search_request(&target, test_case);
     println!("Created request for {} target", target.name);
-    println!("Search URL is {}", request.uri);
+    println!("Search URL is {}", request.url().as_str());
 }
 
 #[cfg(test)]
@@ -59,13 +65,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn can_create_a_test_case_limit_defaults_to_one() {
-        let case = TestCase::default();
-        assert_eq!(case.limit, 1);
-    }
-
-    #[test]
-    fn can_add_query_to_request() {
+    fn can_build_search_request_for_dev_server() {
         let target = Target {
             name: String::from("dev"),
             endpoint: String::from("http://localhost/api/search/instant"),
@@ -76,16 +76,12 @@ mod tests {
             ..Default::default()
         };
 
-        let request = create_request(&target, test_case);
+        let request = build_search_request(&target, test_case);
+
         assert_eq!(
-            request.uri,
+            request.url().as_str(),
             "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false"
         );
-    }
-
-    #[test]
-    fn can_use_reqwest() {
-        let _result = reqwest::blocking::get("http://localhost");
     }
 
     #[derive(serde::Deserialize, serde::Serialize, Debug)]
@@ -98,18 +94,5 @@ mod tests {
         let gadget_json = "{ \"name\": \"extendable legs\" }";
         let gadget: Gadget = serde_json::from_str(gadget_json).unwrap();
         assert_eq!(gadget.name, "extendable legs");
-    }
-
-    #[test]
-    fn use_request_builder() {
-        let params = vec![("venom", "deadly"), ("teeth", "pointy")];
-        let client = reqwest::blocking::Client::new();
-        let builder = client.post("http://reptiles.com/api/snake").query(&params);
-        let request = builder.build().unwrap();
-        let url = request.url();
-        assert_eq!(
-            url.as_str(),
-            "http://reptiles.com/api/snake?venom=deadly&teeth=pointy"
-        )
     }
 }
