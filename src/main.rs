@@ -1,3 +1,8 @@
+struct Target {
+    name: String,
+    endpoint: String,
+}
+
 struct TestCase {
     query: String,
     limit: u16,
@@ -20,11 +25,6 @@ impl Default for TestCase {
 
 struct SearchRequest {
     uri: String,
-}
-
-struct Target {
-    name: String,
-    endpoint: String,
 }
 
 fn create_request(target: Target, test_case: TestCase) -> SearchRequest {
