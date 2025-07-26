@@ -116,14 +116,15 @@ mod tests {
     }
 
     #[test]
-    fn build_a_url() {
+    fn use_request_builder() {
         let params = vec![("venom", "deadly"), ("teeth", "pointy")];
-        let url = reqwest::Url::parse_with_params("http://reptiles.com/api/snake", params)
-            .expect("URL failed to parse");
-
+        let client = reqwest::blocking::Client::new();
+        let builder = client.post("http://reptiles.com/api/snake").query(&params);
+        let request = builder.build().unwrap();
+        let url = request.url();
         assert_eq!(
             url.as_str(),
             "http://reptiles.com/api/snake?venom=deadly&teeth=pointy"
-        );
+        )
     }
 }
