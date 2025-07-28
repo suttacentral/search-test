@@ -9,6 +9,7 @@ struct TestCase {
     uri_language: String,
     restrict: String,
     match_partial: String,
+    selected_languages: Vec<String>,
 }
 
 impl Default for TestCase {
@@ -19,6 +20,7 @@ impl Default for TestCase {
             uri_language: "en".to_string(),
             restrict: "all".to_string(),
             match_partial: "false".to_string(),
+            selected_languages: vec!["en".to_string()],
         }
     }
 }
@@ -33,7 +35,10 @@ fn build_search_request(target: &Target, test_case: TestCase) -> reqwest::blocki
     ];
 
     let client = reqwest::blocking::Client::new();
-    let builder = client.post(target.endpoint.as_str()).query(&params);
+    let builder = client
+        .post(target.endpoint.as_str())
+        .query(&params)
+        .json(&test_case.selected_languages);
     builder.build().unwrap()
 }
 
@@ -72,6 +77,34 @@ mod tests {
             request.url().as_str(),
             "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false"
         );
+    }
+
+    #[test]
+    fn can_add_selected_languages_to_request_body() {
+        let target = Target {
+            name: String::from("dev"),
+            endpoint: String::from("http://localhost/api/search/instant"),
+        };
+
+        let test_case = TestCase {
+            query: String::from("adze"),
+            selected_languages: vec!["en".to_string(), "pli".to_string()],
+            ..Default::default()
+        };
+
+        let request = build_search_request(&target, test_case);
+
+        let body = request
+            .body()
+            .expect("Body is missing.")
+            .as_bytes()
+            .expect("Body has no bytes");
+
+        let body_contents = str::from_utf8(body)
+            .expect("Failed to convert bytes to str")
+            .to_string();
+
+        assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 
     #[derive(serde::Deserialize, serde::Serialize, Debug)]
