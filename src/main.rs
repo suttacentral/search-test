@@ -1,3 +1,4 @@
+use reqwest::Error;
 use reqwest::blocking::{Client, Request};
 
 struct Target {
@@ -27,7 +28,7 @@ impl Default for TestCase {
     }
 }
 
-fn build_search_request(target: &Target, test_case: TestCase) -> Request {
+fn build_search_request(target: &Target, test_case: TestCase) -> Result<Request, Error> {
     let params = vec![
         ("limit", test_case.limit.to_string()),
         ("query", test_case.query),
@@ -36,12 +37,11 @@ fn build_search_request(target: &Target, test_case: TestCase) -> Request {
         ("matchpartial", test_case.match_partial),
     ];
 
-    let client = Client::new();
-    let builder = client
+    Client::new()
         .post(target.endpoint.as_str())
         .query(&params)
-        .json(&test_case.selected_languages);
-    builder.build().unwrap()
+        .json(&test_case.selected_languages)
+        .build()
 }
 
 fn main() {
@@ -52,7 +52,7 @@ fn main() {
         endpoint: String::from("http://localhost/api/search/instant"),
     };
 
-    let request = build_search_request(&target, test_case);
+    let request = build_search_request(&target, test_case).unwrap();
     let client = Client::new();
     let response = client.execute(request).unwrap();
     println!("{}", response.text().unwrap())
@@ -74,7 +74,7 @@ mod tests {
             ..Default::default()
         };
 
-        let request = build_search_request(&target, test_case);
+        let request = build_search_request(&target, test_case).unwrap();
 
         assert_eq!(
             request.url().as_str(),
@@ -95,10 +95,10 @@ mod tests {
             ..Default::default()
         };
 
-        let request = build_search_request(&target, test_case);
-
+        let request = build_search_request(&target, test_case).unwrap();
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
+
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 
