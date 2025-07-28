@@ -53,8 +53,10 @@ fn main() {
     };
 
     let request = build_search_request(&target, test_case);
-    println!("Created request for {} target", target.name);
-    println!("Search URL is {}", request.url().as_str());
+    let client = Client::new();
+    let response = client.execute(request).unwrap();
+    let text = response.text().unwrap();
+    println!("{text}")
 }
 
 #[cfg(test)]
