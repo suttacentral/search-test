@@ -1,3 +1,5 @@
+use reqwest::blocking::{Client, Request};
+
 struct Target {
     name: String,
     endpoint: String,
@@ -25,7 +27,7 @@ impl Default for TestCase {
     }
 }
 
-fn build_search_request(target: &Target, test_case: TestCase) -> reqwest::blocking::Request {
+fn build_search_request(target: &Target, test_case: TestCase) -> Request {
     let params = vec![
         ("limit", test_case.limit.to_string()),
         ("query", test_case.query),
@@ -34,7 +36,7 @@ fn build_search_request(target: &Target, test_case: TestCase) -> reqwest::blocki
         ("matchpartial", test_case.match_partial),
     ];
 
-    let client = reqwest::blocking::Client::new();
+    let client = Client::new();
     let builder = client
         .post(target.endpoint.as_str())
         .query(&params)
@@ -60,7 +62,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn can_build_search_request_for_dev_server() {
+    fn search_request_has_correct_url() {
         let target = Target {
             name: String::from("dev"),
             endpoint: String::from("http://localhost/api/search/instant"),
@@ -80,7 +82,7 @@ mod tests {
     }
 
     #[test]
-    fn can_add_selected_languages_to_request_body() {
+    fn search_request_has_correct_body() {
         let target = Target {
             name: String::from("dev"),
             endpoint: String::from("http://localhost/api/search/instant"),
