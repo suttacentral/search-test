@@ -55,8 +55,7 @@ fn main() {
     let request = build_search_request(&target, test_case);
     let client = Client::new();
     let response = client.execute(request).unwrap();
-    let text = response.text().unwrap();
-    println!("{text}")
+    println!("{}", response.text().unwrap())
 }
 
 #[cfg(test)]
@@ -98,16 +97,8 @@ mod tests {
 
         let request = build_search_request(&target, test_case);
 
-        let body = request
-            .body()
-            .expect("Body is missing.")
-            .as_bytes()
-            .expect("Body has no bytes");
-
-        let body_contents = str::from_utf8(body)
-            .expect("Failed to convert bytes to str")
-            .to_string();
-
+        let body = request.body().unwrap().as_bytes().unwrap();
+        let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 
