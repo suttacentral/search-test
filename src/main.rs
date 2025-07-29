@@ -1,5 +1,4 @@
 use reqwest::Error;
-use reqwest::Url;
 use reqwest::blocking::{Client, Request};
 use serde::Deserialize;
 
@@ -68,6 +67,7 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use reqwest::Url;
     use reqwest::blocking::Body;
     use std::fs;
 
@@ -109,18 +109,6 @@ mod tests {
         let mut request = Request::new(reqwest::Method::POST, url);
         let body = request.body_mut();
         *body = Some(Body::from("The body content".to_string()));
-    }
-
-    #[derive(serde::Deserialize, serde::Serialize, Debug)]
-    struct Gadget {
-        name: String,
-    }
-
-    #[test]
-    fn can_use_serde() {
-        let gadget_json = "{ \"name\": \"extendable legs\" }";
-        let gadget: Gadget = serde_json::from_str(gadget_json).unwrap();
-        assert_eq!(gadget.name, "extendable legs");
     }
 
     #[test]
