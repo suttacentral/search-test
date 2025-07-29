@@ -1,12 +1,8 @@
 use reqwest::Error;
 use reqwest::blocking::{Client, Request};
 
-struct Target {
-    name: String,
-    endpoint: String,
-}
-
 struct TestCase {
+    url: String,
     query: String,
     limit: u16,
     uri_language: String,
@@ -19,6 +15,7 @@ impl Default for TestCase {
     fn default() -> Self {
         TestCase {
             query: String::new(),
+            url: "http://localhost/api/search/instant".to_string(),
             limit: 1,
             uri_language: "en".to_string(),
             restrict: "all".to_string(),
@@ -28,7 +25,7 @@ impl Default for TestCase {
     }
 }
 
-fn build_search_request(target: &Target, test_case: TestCase) -> Result<Request, Error> {
+fn build_search_request(test_case: TestCase) -> Result<Request, Error> {
     let params = vec![
         ("limit", test_case.limit.to_string()),
         ("query", test_case.query),
@@ -38,7 +35,7 @@ fn build_search_request(target: &Target, test_case: TestCase) -> Result<Request,
     ];
 
     Client::new()
-        .post(target.endpoint.as_str())
+        .post(test_case.url.as_str())
         .query(&params)
         .json(&test_case.selected_languages)
         .build()
@@ -46,13 +43,7 @@ fn build_search_request(target: &Target, test_case: TestCase) -> Result<Request,
 
 fn main() {
     let test_case = TestCase::default();
-
-    let target = Target {
-        name: String::from("dev"),
-        endpoint: String::from("http://localhost/api/search/instant"),
-    };
-
-    let request = build_search_request(&target, test_case).unwrap();
+    let request = build_search_request(test_case).unwrap();
     let client = Client::new();
     let response = client.execute(request).unwrap();
     println!("{}", response.text().unwrap())
@@ -64,17 +55,12 @@ mod tests {
 
     #[test]
     fn search_request_has_correct_url() {
-        let target = Target {
-            name: String::from("dev"),
-            endpoint: String::from("http://localhost/api/search/instant"),
-        };
-
         let test_case = TestCase {
             query: String::from("adze"),
             ..Default::default()
         };
 
-        let request = build_search_request(&target, test_case).unwrap();
+        let request = build_search_request(test_case).unwrap();
 
         assert_eq!(
             request.url().as_str(),
@@ -84,18 +70,13 @@ mod tests {
 
     #[test]
     fn search_request_has_correct_body() {
-        let target = Target {
-            name: String::from("dev"),
-            endpoint: String::from("http://localhost/api/search/instant"),
-        };
-
         let test_case = TestCase {
             query: String::from("adze"),
             selected_languages: vec!["en".to_string(), "pli".to_string()],
             ..Default::default()
         };
 
-        let request = build_search_request(&target, test_case).unwrap();
+        let request = build_search_request(test_case).unwrap();
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
 
