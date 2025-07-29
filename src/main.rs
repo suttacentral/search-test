@@ -1,5 +1,6 @@
 use reqwest::Error;
-use reqwest::blocking::{Client, Request};
+use reqwest::Url;
+use reqwest::blocking::{Body, Client, Request};
 
 struct TestCase {
     url: String,
@@ -86,6 +87,15 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
+    }
+
+    #[test]
+    fn create_request_without_client() {
+        let params = vec![("teeth", "pointy"), ("venom", "deadly")];
+        let url = Url::parse_with_params("http://reptiles.com", params).unwrap();
+        let mut request = Request::new(reqwest::Method::POST, url);
+        let body = request.body_mut();
+        *body = Some(Body::from("The body content".to_string()));
     }
 
     #[derive(serde::Deserialize, serde::Serialize, Debug)]
