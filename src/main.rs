@@ -1,6 +1,7 @@
 use reqwest::Error;
 use reqwest::Url;
 use reqwest::blocking::{Client, Request};
+use serde::Deserialize;
 
 struct TestCase {
     url: String,
@@ -46,11 +47,22 @@ impl TryFrom<TestCase> for Request {
     }
 }
 
+#[derive(Deserialize)]
+struct SearchResults {
+    total: u16,
+}
+
 fn main() {
-    let test_case = TestCase::default();
+    let test_case = TestCase {
+        query: String::from("adze"),
+        selected_languages: vec!["en".to_string(), "pli".to_string()],
+        ..Default::default()
+    };
+
     let request = Request::try_from(test_case).unwrap();
     let response = Client::new().execute(request).unwrap();
-    println!("{}", response.text().unwrap())
+    let results: SearchResults = response.json().unwrap();
+    println!("Total = {}", results.total)
 }
 
 #[cfg(test)]
