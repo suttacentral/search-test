@@ -1,6 +1,6 @@
 use reqwest::Error;
 use reqwest::Url;
-use reqwest::blocking::{Body, Client, Request};
+use reqwest::blocking::{Client, Request};
 
 struct TestCase {
     url: String,
@@ -49,14 +49,14 @@ impl TryFrom<TestCase> for Request {
 fn main() {
     let test_case = TestCase::default();
     let request = Request::try_from(test_case).unwrap();
-    let client = Client::new();
-    let response = client.execute(request).unwrap();
+    let response = Client::new().execute(request).unwrap();
     println!("{}", response.text().unwrap())
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use reqwest::blocking::Body;
 
     #[test]
     fn search_request_has_correct_url() {
