@@ -25,7 +25,28 @@ impl Default for TestCase {
     }
 }
 
-fn build_search_request(test_case: TestCase) -> Result<Request, Error> {
+impl TryFrom<TestCase> for Request {
+    type Error = Error;
+
+    fn try_from(value: TestCase) -> Result<Self, Error> {
+        let params = vec![
+            ("limit", value.limit.to_string()),
+            ("query", value.query),
+            ("language", value.uri_language),
+            ("restrict", value.restrict),
+            ("matchpartial", value.match_partial),
+        ];
+
+        Client::new()
+            .post(value.url.as_str())
+            .query(&params)
+            .json(&value.selected_languages)
+            .build()
+    }
+}
+
+fn main() {
+    let test_case = TestCase::default();
     let params = vec![
         ("limit", test_case.limit.to_string()),
         ("query", test_case.query),
@@ -33,17 +54,12 @@ fn build_search_request(test_case: TestCase) -> Result<Request, Error> {
         ("restrict", test_case.restrict),
         ("matchpartial", test_case.match_partial),
     ];
-
-    Client::new()
+    let request = Client::new()
         .post(test_case.url.as_str())
         .query(&params)
         .json(&test_case.selected_languages)
         .build()
-}
-
-fn main() {
-    let test_case = TestCase::default();
-    let request = build_search_request(test_case).unwrap();
+        .unwrap();
     let client = Client::new();
     let response = client.execute(request).unwrap();
     println!("{}", response.text().unwrap())
@@ -60,7 +76,19 @@ mod tests {
             ..Default::default()
         };
 
-        let request = build_search_request(test_case).unwrap();
+        let params = vec![
+            ("limit", test_case.limit.to_string()),
+            ("query", test_case.query),
+            ("language", test_case.uri_language),
+            ("restrict", test_case.restrict),
+            ("matchpartial", test_case.match_partial),
+        ];
+        let request = Client::new()
+            .post(test_case.url.as_str())
+            .query(&params)
+            .json(&test_case.selected_languages)
+            .build()
+            .unwrap();
 
         assert_eq!(
             request.url().as_str(),
@@ -76,11 +104,34 @@ mod tests {
             ..Default::default()
         };
 
-        let request = build_search_request(test_case).unwrap();
+        let params = vec![
+            ("limit", test_case.limit.to_string()),
+            ("query", test_case.query),
+            ("language", test_case.uri_language),
+            ("restrict", test_case.restrict),
+            ("matchpartial", test_case.match_partial),
+        ];
+        let request = Client::new()
+            .post(test_case.url.as_str())
+            .query(&params)
+            .json(&test_case.selected_languages)
+            .build()
+            .unwrap();
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
 
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
+    }
+
+    #[test]
+    fn convert_test_case_to_request_with_try_from() {
+        let test_case = TestCase {
+            query: String::from("adze"),
+            selected_languages: vec!["en".to_string(), "pli".to_string()],
+            ..Default::default()
+        };
+
+        let _request = Request::try_from(test_case);
     }
 
     #[derive(serde::Deserialize, serde::Serialize, Debug)]
