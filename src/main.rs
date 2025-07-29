@@ -69,6 +69,7 @@ fn main() {
 mod tests {
     use super::*;
     use reqwest::blocking::Body;
+    use std::fs;
 
     #[test]
     fn search_request_has_correct_url() {
@@ -120,5 +121,13 @@ mod tests {
         let gadget_json = "{ \"name\": \"extendable legs\" }";
         let gadget: Gadget = serde_json::from_str(gadget_json).unwrap();
         assert_eq!(gadget.name, "extendable legs");
+    }
+
+    #[test]
+    fn can_get_search_results_from_json_file() {
+        let path = "examples/metta.json";
+        let data = fs::read_to_string(path).unwrap();
+        let results: SearchResults = serde_json::from_str(data.as_str()).unwrap();
+        assert_eq!(results.total, 80);
     }
 }
