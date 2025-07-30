@@ -1,5 +1,4 @@
-use reqwest::Error;
-use reqwest::blocking::{Client, Request};
+use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
 
 struct TestCase {
@@ -26,10 +25,8 @@ impl Default for TestCase {
     }
 }
 
-impl TryFrom<TestCase> for Request {
-    type Error = Error;
-
-    fn try_from(value: TestCase) -> Result<Self, Error> {
+impl From<TestCase> for RequestBuilder {
+    fn from(value: TestCase) -> RequestBuilder {
         let params = vec![
             ("limit", value.limit.to_string()),
             ("query", value.query),
@@ -42,7 +39,6 @@ impl TryFrom<TestCase> for Request {
             .post(value.url.as_str())
             .query(&params)
             .json(&value.selected_languages)
-            .build()
     }
 }
 
@@ -58,8 +54,8 @@ fn main() {
         ..Default::default()
     };
 
-    let request = Request::try_from(test_case).unwrap();
-    let response = Client::new().execute(request).unwrap();
+    let request = RequestBuilder::from(test_case);
+    let response = request.send().unwrap();
     let results: SearchResults = response.json().unwrap();
     println!("Total = {}", results.total)
 }
@@ -68,7 +64,7 @@ fn main() {
 mod tests {
     use super::*;
     use reqwest::Url;
-    use reqwest::blocking::Body;
+    use reqwest::blocking::{Body, Request};
     use std::fs;
 
     #[test]
@@ -79,7 +75,7 @@ mod tests {
             ..Default::default()
         };
 
-        let request = Request::try_from(test_case).unwrap();
+        let request = RequestBuilder::from(test_case).build().unwrap();
 
         assert_eq!(
             request.url().as_str(),
@@ -95,7 +91,7 @@ mod tests {
             ..Default::default()
         };
 
-        let request = Request::try_from(test_case).unwrap();
+        let request = RequestBuilder::from(test_case).build().unwrap();
 
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
