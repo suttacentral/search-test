@@ -1,5 +1,7 @@
+mod results;
+
 use reqwest::blocking::{Client, RequestBuilder};
-use serde::Deserialize;
+use results::SearchResults;
 
 struct TestCase {
     url: String,
@@ -42,11 +44,6 @@ impl From<TestCase> for RequestBuilder {
     }
 }
 
-#[derive(Deserialize)]
-struct SearchResults {
-    total: u16,
-}
-
 fn main() {
     let test_case = TestCase {
         query: String::from("adze"),
@@ -65,7 +62,6 @@ mod tests {
     use super::*;
     use reqwest::Url;
     use reqwest::blocking::{Body, Request};
-    use std::fs;
 
     #[test]
     fn search_request_has_correct_url() {
@@ -105,13 +101,5 @@ mod tests {
         let mut request = Request::new(reqwest::Method::POST, url);
         let body = request.body_mut();
         *body = Some(Body::from("The body content".to_string()));
-    }
-
-    #[test]
-    fn can_get_search_results_from_json_file() {
-        let path = "examples/metta.json";
-        let data = fs::read_to_string(path).unwrap();
-        let results: SearchResults = serde_json::from_str(data.as_str()).unwrap();
-        assert_eq!(results.total, 80);
     }
 }
