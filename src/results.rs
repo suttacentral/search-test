@@ -3,7 +3,6 @@ use serde::Deserialize;
 #[derive(Deserialize)]
 struct Hit {
     url: String,
-    category: String,
 }
 
 #[derive(Deserialize)]
@@ -23,13 +22,28 @@ mod tests {
             "total": 1,
             "hits" : [
                 {
-                    "url": "/define/metta",
-                    "category": "dictionary"
+                    "url": "/define/metta"
                 }
             ]
         }
         "#;
         let results: SearchResults = serde_json::from_str(json).unwrap();
         assert_eq!(results.hits[0].url, "/define/metta")
+    }
+
+    #[test]
+    fn get_sutta_hit() {
+        let json = r#"
+        {
+            "total": 1,
+            "hits" : [
+                {
+                    "url": "/sa264/en/analayo"
+                }
+            ]
+        }
+        "#;
+        let results: SearchResults = serde_json::from_str(json).unwrap();
+        assert_eq!(results.hits[0].url, "/sa264/en/analayo")
     }
 }
