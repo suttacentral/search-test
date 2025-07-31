@@ -30,5 +30,6 @@ mod tests {
         }
         "#;
         let results: SearchResults = serde_json::from_str(json).unwrap();
+        assert_eq!(results.hits[0].url, "/define/metta")
     }
 }
