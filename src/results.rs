@@ -42,4 +42,10 @@ mod tests {
         let results = with_hits();
         assert!(matches!(results.hits[0], Hit::Dictionary { .. }))
     }
+
+    #[test]
+    fn get_sutta_hit() {
+        let results = with_hits();
+        assert!(matches!(results.hits[1], Hit::Sutta { .. }))
+    }
 }
