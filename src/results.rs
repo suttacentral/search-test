@@ -16,9 +16,9 @@ pub struct SearchResults {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::results;
 
-    fn with_hits() -> SearchResults {
+    #[test]
+    fn finds_dictionary_hit() {
         let json = r#"
         {
             "total": 1,
@@ -29,18 +29,27 @@ mod tests {
         }
         "#
         .to_string();
-        serde_json::from_str(json.as_str()).unwrap()
-    }
 
-    #[test]
-    fn finds_dictionary_hit() {
-        let results = with_hits();
+        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+
         assert!(matches!(results.hits[0], Hit::Dictionary { .. }))
     }
 
     #[test]
     fn finds_sutta_hit() {
-        let results = with_hits();
+        let json = r#"
+        {
+            "total": 1,
+            "hits" : [
+                { "url": "/define/metta", "category": "dictionary" },
+                { "url": "/sa264/en/analayo", "uid": "sa264" }
+            ]
+        }
+        "#
+        .to_string();
+
+        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+
         assert!(matches!(results.hits[1], Hit::Sutta { .. }))
     }
 
