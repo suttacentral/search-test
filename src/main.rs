@@ -46,9 +46,23 @@ impl From<TestCase> for RequestBuilder {
 }
 
 fn main() {
+    let selected_languages = vec![
+        "lzh".to_string(),
+        "en".to_string(),
+        "pgd".to_string(),
+        "kho".to_string(),
+        "pli".to_string(),
+        "pra".to_string(),
+        "san".to_string(),
+        "xct".to_string(),
+        "xto".to_string(),
+        "uig".to_string(),
+    ];
+
     let test_case = TestCase {
-        query: String::from("metta"),
-        selected_languages: vec!["en".to_string(), "pli".to_string()],
+        query: "pacch".to_string(),
+        selected_languages,
+        match_partial: "true".to_string(),
         limit: 10,
         ..Default::default()
     };
@@ -70,6 +84,9 @@ fn main() {
     }
     for suttaplex in results.suttaplex {
         println!("Suttaplex result: {}", suttaplex.uid)
+    }
+    for fuzzy in results.fuzzy_dictionary {
+        println!("Fuzzy dictionary result: {}", fuzzy.url)
     }
 }
 

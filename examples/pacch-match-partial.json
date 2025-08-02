@@ -1,0 +1,6411 @@
+{
+  "total": 4759,
+  "hits": [
+    {
+      "acronym": "AN 2.1–10",
+      "uid": "an2.1-10",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Kammakaraṇavagga",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Kammakaraṇavagga"
+      },
+      "segmented_uid": "an2.10:1.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an2.1-10/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an2.1-10/pli/ms#1.3\" id=\"1.3\"><span class=\"reference\">1.3</span></a>Purimikā ca <strong class=\"highlight\">pacch</strong>imikā ca. <br/>"
+        ]
+      },
+      "root_name": "Kammakaraṇavagga"
+    },
+    {
+      "acronym": "AN 2.280–309",
+      "uid": "an2.280-309",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Vinayapeyyālavagga",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Vinayapeyyālavagga"
+      },
+      "segmented_uid": "an2.280:1.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an2.280-309/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an2.280-309/pli/ms#1.3\" id=\"1.3\"><span class=\"reference\">1.3</span></a>Saṅghasuṭṭhutāya saṅghaphāsutāya … dummaṅkūnaṁ puggalānaṁ niggahāya pesalānaṁ bhikkhūnaṁ phāsuvihārāya … diṭṭhadhammikānaṁ āsavānaṁ saṁvarāya samparāyikānaṁ āsavānaṁ paṭighātāya … diṭṭhadhammikānaṁ verānaṁ saṁvarāya samparāyikānaṁ verānaṁ paṭighātāya … diṭṭhadhammikānaṁ vajjānaṁ saṁvarāya samparāyikānaṁ vajjānaṁ paṭighātāya … diṭṭhadhammikānaṁ bhayānaṁ saṁvarāya samparāyikānaṁ bhayānaṁ paṭighātāya … diṭṭhadhammikānaṁ akusalānaṁ dhammānaṁ saṁvarāya samparāyikānaṁ akusalānaṁ dhammānaṁ paṭighātāya … gihīnaṁ anukampāya pāpicchānaṁ bhikkhūnaṁ pakkhu<strong class=\"highlight\">pacch</strong>edāya … appasannānaṁ pasādāya pasannānaṁ bhiyyobhāvāya … saddhammaṭṭhitiyā vinayānuggahāya. <br/>"
+        ]
+      },
+      "root_name": "Vinayapeyyālavagga"
+    },
+    {
+      "acronym": "AN 2.21–31",
+      "uid": "an2.21-31",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Bālavagga",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Bālavagga"
+      },
+      "segmented_uid": "an2.30:1.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an2.21-31/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an2.21-31/pli/ms#1.3\" id=\"1.3\"><span class=\"reference\">1.3</span></a>Attano ca diṭṭhadhammasukhavihāraṁ sampassamāno <strong class=\"highlight\">pacch</strong>imañca janataṁ anukampamāno. <br/>"
+        ]
+      },
+      "root_name": "Bālavagga"
+    },
+    {
+      "acronym": "AN 2.42–51",
+      "uid": "an2.42-51",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Parisavagga",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Parisavagga"
+      },
+      "segmented_uid": "an2.44:1.6",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an2.42-51/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an2.42-51/pli/ms#1.6\" id=\"1.6\"><span class=\"reference\">1.6</span></a>Tesaṁ <strong class=\"highlight\">pacch</strong>imā janatā diṭṭhānugatiṁ āpajjati. <br/>"
+        ]
+      },
+      "root_name": "Parisavagga"
+    },
+    {
+      "acronym": "AN 3.128",
+      "uid": "an3.128",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Kaṭuviyasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Kaṭuviyasutta"
+      },
+      "segmented_uid": "an3.128:2.4",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.128/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.128/pli/ms#2.4\" id=\"2.4\"><span class=\"reference\">2.4</span></a>Atha kho bhagavā bārāṇasiyaṁ piṇḍāya caritvā <strong class=\"highlight\">pacch</strong>ābhattaṁ piṇḍapātapaṭikkanto bhikkhū āmantesi: <br/>"
+        ]
+      },
+      "root_name": "Kaṭuviyasutta"
+    },
+    {
+      "acronym": "AN 3.16",
+      "uid": "an3.16",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Apaṇṇakasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Apaṇṇakasutta"
+      },
+      "segmented_uid": "an3.16:4.2",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.16/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.16/pli/ms#4.2\" id=\"4.2\"><span class=\"reference\">4.2</span></a>Idha bhikkhave bhikkhu divasaṁ caṅkamena nisajjāya āvaraṇīyehi dhammehi cittaṁ parisodheti rattiyā paṭhamaṁ yāmaṁ caṅkamena nisajjāya āvaraṇīyehi dhammehi cittaṁ parisodheti rattiyā majjhimaṁ yāmaṁ dakkhiṇena passena sīhaseyyaṁ kappeti pāde pādaṁ accādhāya sato sampajāno uṭṭhānasaññaṁ manasi karitvā rattiyā <strong class=\"highlight\">pacch</strong>imaṁ yāmaṁ paccuṭṭhāya caṅkamena nisajjāya āvaraṇīyehi dhammehi cittaṁ parisodheti. <br/>"
+        ]
+      },
+      "root_name": "Apaṇṇakasutta"
+    },
+    {
+      "acronym": "AN 3.63",
+      "uid": "an3.63",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Venāgapurasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Venāgapurasutta"
+      },
+      "segmented_uid": "an3.63:10.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.63/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.63/pli/ms#10.3\" id=\"10.3\"><span class=\"reference\">10.3</span></a>So <strong class=\"highlight\">pacch</strong>ābhattaṁ piṇḍapātapaṭikkanto vanantaññeva pavisāmi. <br/>"
+        ]
+      },
+      "root_name": "Venāgapurasutta"
+    },
+    {
+      "acronym": "AN 3.64",
+      "uid": "an3.64",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Sarabhasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Sarabhasutta"
+      },
+      "segmented_uid": "an3.64:2.1",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.64/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.64/pli/ms#2.1\" id=\"2.1\"><span class=\"reference\">2.1</span></a>Atha kho te bhikkhū rājagahe piṇḍāya caritvā <strong class=\"highlight\">pacch</strong>ābhattaṁ piṇḍapātapaṭikkantā yena bhagavā tenupasaṅkamiṁsu upasaṅkamitvā bhagavantaṁ abhivādetvā ekamantaṁ nisīdiṁsu. Ekamantaṁ nisinnā kho te bhikkhū bhagavantaṁ etadavocuṁ: <br/>"
+        ]
+      },
+      "root_name": "Sarabhasutta"
+    },
+    {
+      "acronym": "AN 3.70",
+      "uid": "an3.70",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Uposathasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Uposathasutta"
+      },
+      "segmented_uid": "an3.70:3.5",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.70/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.70/pli/ms#3.5\" id=\"3.5\"><span class=\"reference\">3.5</span></a>ye <strong class=\"highlight\">pacch</strong>imāya disāya pāṇā paraṁ yojanasataṁ tesu daṇḍaṁ nikkhipāhi <br/>"
+        ]
+      },
+      "root_name": "Uposathasutta"
+    },
+    {
+      "acronym": "AN 3.73",
+      "uid": "an3.73",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Mahānāmasakkasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Mahānāmasakkasutta"
+      },
+      "segmented_uid": "an3.73:1.7",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.73/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.73/pli/ms#1.7\" id=\"1.7\"><span class=\"reference\">1.7</span></a>Samādhi nu kho bhante pubbe <strong class=\"highlight\">pacch</strong>ā ñāṇaṁ <br/>"
+        ]
+      },
+      "root_name": "Mahānāmasakkasutta"
+    },
+    {
+      "acronym": "AN 3.90",
+      "uid": "an3.90",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Dutiyasikkhattayasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Dutiyasikkhattayasutta"
+      },
+      "segmented_uid": "an3.90:6.1",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.90/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.90/pli/ms#6.1\" id=\"6.1\"><span class=\"reference\">6.1</span></a>Yathā pure tathā <strong class=\"highlight\">pacch</strong>ā <br/>"
+        ]
+      },
+      "root_name": "Dutiyasikkhattayasutta"
+    },
+    {
+      "acronym": "AN 3.95",
+      "uid": "an3.95",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Parisāsutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Parisāsutta"
+      },
+      "segmented_uid": "an3.95:2.2",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an3.95/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an3.95/pli/ms#2.2\" id=\"2.2\"><span class=\"reference\">2.2</span></a>Idha bhikkhave yassaṁ parisāyaṁ therā bhikkhū na bāhulikā honti na sāthalikā okkamane nikkhittadhurā paviveke pubbaṅgamā vīriyaṁ ārabhanti appattassa pattiyā anadhigatassa adhigamāya asacchikatassa sacchikiriyāya tesaṁ <strong class=\"highlight\">pacch</strong>imā janatā diṭṭhānugatiṁ āpajjati. <br/>"
+        ]
+      },
+      "root_name": "Parisāsutta"
+    },
+    {
+      "acronym": "AN 4.160",
+      "uid": "an4.160",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Sugatavinayasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Sugatavinayasutta"
+      },
+      "segmented_uid": "an4.160:11.2",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.160/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.160/pli/ms#11.2\" id=\"11.2\"><span class=\"reference\">11.2</span></a>Tesaṁ <strong class=\"highlight\">pacch</strong>imā janatā diṭṭhānugatiṁ āpajjati. <br/>"
+        ]
+      },
+      "root_name": "Sugatavinayasutta"
+    },
+    {
+      "acronym": "AN 4.192",
+      "uid": "an4.192",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Ṭhānasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Ṭhānasutta"
+      },
+      "segmented_uid": "an4.192:4.5",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.192/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.192/pli/ms#4.5\" id=\"4.5\"><span class=\"reference\">4.5</span></a>vokkamati ayamāyasmā purimavohārā <strong class=\"highlight\">pacch</strong>imavohāraṁ <br/>"
+        ]
+      },
+      "root_name": "Ṭhānasutta"
+    },
+    {
+      "acronym": "AN 4.198",
+      "uid": "an4.198",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Attantapasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Attantapasutta"
+      },
+      "segmented_uid": "an4.198:13.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.198/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.198/pli/ms#13.3\" id=\"13.3\"><span class=\"reference\">13.3</span></a>So <strong class=\"highlight\">pacch</strong>ābhattaṁ piṇḍapātapaṭikkanto nisīdati pallaṅkaṁ ābhujitvā ujuṁ kāyaṁ paṇidhāya parimukhaṁ satiṁ upaṭṭhapetvā. <br/>"
+        ]
+      },
+      "root_name": "Attantapasutta"
+    },
+    {
+      "acronym": "AN 4.244",
+      "uid": "an4.244",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Āpattibhayasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Āpattibhayasutta"
+      },
+      "segmented_uid": "an4.244:1.11",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.244/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.244/pli/ms#1.11\" id=\"1.11\"><span class=\"reference\">1.11</span></a>Yatra hi nāma rañño purisā daḷhāya rajjuyā <strong class=\"highlight\">pacch</strong>ābāhaṁ gāḷhabandhanaṁ bandhitvā khuramuṇḍaṁ karitvā kharassarena paṇavena rathikāya rathikaṁ siṅghāṭakena siṅghāṭakaṁ parinetvā dakkhiṇena dvārena nikkhāmetvā dakkhiṇato nagarassa sīsaṁ chindissanti. <br/>"
+        ]
+      },
+      "root_name": "Āpattibhayasutta"
+    },
+    {
+      "acronym": "AN 4.246",
+      "uid": "an4.246",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Seyyāsutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Seyyāsutta"
+      },
+      "segmented_uid": "an4.246:3.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.246/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.246/pli/ms#3.3\" id=\"3.3\"><span class=\"reference\">3.3</span></a>So paṭibujjhitvā purimaṁ kāyaṁ abbhunnāmetvā <strong class=\"highlight\">pacch</strong>imaṁ kāyaṁ anuviloketi. <br/>"
+        ]
+      },
+      "root_name": "Seyyāsutta"
+    },
+    {
+      "acronym": "AN 4.28",
+      "uid": "an4.28",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Ariyavaṁsasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Ariyavaṁsasutta"
+      },
+      "segmented_uid": "an4.28:5.2",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.28/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.28/pli/ms#5.2\" id=\"5.2\"><span class=\"reference\">5.2</span></a><strong class=\"highlight\">pacch</strong>imāya cepi disāya viharati sveva aratiṁ sahati na taṁ arati sahati <br/>"
+        ]
+      },
+      "root_name": "Ariyavaṁsasutta"
+    },
+    {
+      "acronym": "AN 4.34",
+      "uid": "an4.34",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Aggappasādasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Aggappasādasutta"
+      },
+      "segmented_uid": "an4.34:3.1",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.34/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.34/pli/ms#3.1\" id=\"3.1\"><span class=\"reference\">3.1</span></a>Yāvatā bhikkhave dhammā saṅkhatā vā asaṅkhatā vā virāgo tesaṁ aggamakkhāyati yadidaṁ madanimmadano pipāsavinayo ālayasamugghāto vaṭṭu<strong class=\"highlight\">pacch</strong>edo taṇhākkhayo virāgo nirodho nibbānaṁ. <br/>"
+        ]
+      },
+      "root_name": "Aggappasādasutta"
+    },
+    {
+      "acronym": "AN 4.37",
+      "uid": "an4.37",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Aparihāniyasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Aparihāniyasutta"
+      },
+      "segmented_uid": "an4.37:5.5",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.37/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.37/pli/ms#5.5\" id=\"5.5\"><span class=\"reference\">5.5</span></a>rattiyā <strong class=\"highlight\">pacch</strong>imaṁ yāmaṁ paccuṭṭhāya caṅkamena nisajjāya āvaraṇīyehi dhammehi cittaṁ parisodheti. <br/>"
+        ]
+      },
+      "root_name": "Aparihāniyasutta"
+    },
+    {
+      "acronym": "AN 4.45",
+      "uid": "an4.45",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Rohitassasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Rohitassasutta"
+      },
+      "segmented_uid": "an4.45:4.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.45/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.45/pli/ms#4.3\" id=\"4.3\"><span class=\"reference\">4.3</span></a>Tassa mayhaṁ bhante evarūpo padavītihāro ahosi seyyathāpi nāma puratthimā samuddā <strong class=\"highlight\">pacch</strong>imo samuddo. <br/>"
+        ]
+      },
+      "root_name": "Rohitassasutta"
+    },
+    {
+      "acronym": "AN 4.46",
+      "uid": "an4.46",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Dutiyarohitassasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Dutiyarohitassasutta"
+      },
+      "segmented_uid": "an4.46:2.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.46/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.46/pli/ms#2.3\" id=\"2.3\"><span class=\"reference\">2.3</span></a>Tassa mayhaṁ bhante evarūpo padavītihāro ahosi seyyathāpi nāma puratthimā samuddā <strong class=\"highlight\">pacch</strong>imo samuddo. <br/>"
+        ]
+      },
+      "root_name": "Dutiyarohitassasutta"
+    },
+    {
+      "acronym": "AN 4.76",
+      "uid": "an4.76",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Kusinārasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Kusinārasutta"
+      },
+      "segmented_uid": "an4.76:2.1",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an4.76/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an4.76/pli/ms#2.1\" id=\"2.1\"><span class=\"reference\">2.1</span></a>“Siyā kho pana bhikkhave ekabhikkhussapi kaṅkhā vā vimati vā buddhe vā dhamme vā saṅghe vā magge vā paṭipadāya vā pucchatha bhikkhave mā <strong class=\"highlight\">pacch</strong>ā vippaṭisārino ahuvattha: <br/>"
+        ]
+      },
+      "root_name": "Kusinārasutta"
+    },
+    {
+      "acronym": "AN 5.28",
+      "uid": "an5.28",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Pañcaṅgikasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Pañcaṅgikasutta"
+      },
+      "segmented_uid": "an5.28:3.4",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.28/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.28/pli/ms#3.4\" id=\"3.4\"><span class=\"reference\">3.4</span></a>Seyyathāpi bhikkhave udakarahado gambhīro ubbhidodako. Tassa nevassa puratthimāya disāya udakassa āyamukhaṁ na <strong class=\"highlight\">pacch</strong>imāya disāya udakassa āyamukhaṁ na uttarāya disāya udakassa āyamukhaṁ na dakkhiṇāya disāya udakassa āyamukhaṁ devo ca kālena kālaṁ sammā dhāraṁ nānuppaveccheyya. <br/>"
+        ]
+      },
+      "root_name": "Pañcaṅgikasutta"
+    },
+    {
+      "acronym": "AN 5.32",
+      "uid": "an5.32",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Cundīsutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Cundīsutta"
+      },
+      "segmented_uid": "an5.32:5.2",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.32/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.32/pli/ms#5.2\" id=\"5.2\"><span class=\"reference\">5.2</span></a>madanimmadano pipāsavinayo ālayasamugghāto vaṭṭu<strong class=\"highlight\">pacch</strong>edo taṇhākkhayo virāgo nirodho nibbānaṁ. <br/>"
+        ]
+      },
+      "root_name": "Cundīsutta"
+    },
+    {
+      "acronym": "AN 5.33",
+      "uid": "an5.33",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Uggahasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Uggahasutta"
+      },
+      "segmented_uid": "an5.33:4.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.33/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.33/pli/ms#4.3\" id=\"4.3\"><span class=\"reference\">4.3</span></a>‘yassa vo mātāpitaro bhattuno dassanti atthakāmā hitesino anukampakā anukampaṁ upādāya tassa bhavissāma pubbuṭṭhāyiniyo <strong class=\"highlight\">pacch</strong>ānipātiniyo kiṅkārapaṭissāviniyo manāpacāriniyo piyavādiniyo’ti. <br/>"
+        ]
+      },
+      "root_name": "Uggahasutta"
+    },
+    {
+      "acronym": "AN 5.58",
+      "uid": "an5.58",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Licchavikumārakasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Licchavikumārakasutta"
+      },
+      "segmented_uid": "an5.58:1.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.58/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.58/pli/ms#1.3\" id=\"1.3\"><span class=\"reference\">1.3</span></a>Vesāliyaṁ piṇḍāya caritvā <strong class=\"highlight\">pacch</strong>ābhattaṁ piṇḍapātapaṭikkanto mahāvanaṁ ajjhogāhetvā aññatarasmiṁ rukkhamūle divāvihāraṁ nisīdi. <br/>"
+        ]
+      },
+      "root_name": "Licchavikumārakasutta"
+    },
+    {
+      "acronym": "AN 5.73",
+      "uid": "an5.73",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Paṭhamadhammavihārīsutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Paṭhamadhammavihārīsutta"
+      },
+      "segmented_uid": "an5.73:7.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.73/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.73/pli/ms#7.3\" id=\"7.3\"><span class=\"reference\">7.3</span></a>Etāni bhikkhu rukkhamūlāni etāni suññāgārāni. Jhāyatha bhikkhu mā pamādattha mā <strong class=\"highlight\">pacch</strong>ā vippaṭisārino ahuvattha. Ayaṁ vo amhākaṁ anusāsanī”ti. <br/>"
+        ]
+      },
+      "root_name": "Paṭhamadhammavihārīsutta"
+    },
+    {
+      "acronym": "AN 5.74",
+      "uid": "an5.74",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Dutiyadhammavihārīsutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Dutiyadhammavihārīsutta"
+      },
+      "segmented_uid": "an5.74:7.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.74/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.74/pli/ms#7.3\" id=\"7.3\"><span class=\"reference\">7.3</span></a>Etāni bhikkhu rukkhamūlāni etāni suññāgārāni. Jhāyatha bhikkhu mā pamādattha mā <strong class=\"highlight\">pacch</strong>ā vippaṭisārino ahuvattha. Ayaṁ vo amhākaṁ anusāsanī”ti. <br/>"
+        ]
+      },
+      "root_name": "Dutiyadhammavihārīsutta"
+    },
+    {
+      "acronym": "AN 5.76",
+      "uid": "an5.76",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Dutiyayodhājīvasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Dutiyayodhājīvasutta"
+      },
+      "segmented_uid": "an5.76:18.11",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.76/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.76/pli/ms#18.11\" id=\"18.11\"><span class=\"reference\">18.11</span></a>So <strong class=\"highlight\">pacch</strong>ābhattaṁ piṇḍapātapaṭikkanto <br/>"
+        ]
+      },
+      "root_name": "Dutiyayodhājīvasutta"
+    },
+    {
+      "acronym": "AN 5.79",
+      "uid": "an5.79",
+      "lang": "pli",
+      "full_lang": "Pāli",
+      "root_lang": "pli",
+      "name": "Tatiyaanāgatabhayasutta",
+      "volpage": null,
+      "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+      "author_uid": "ms",
+      "author_short": "ms",
+      "is_root": true,
+      "heading": {
+        "title": "Tatiyaanāgatabhayasutta"
+      },
+      "segmented_uid": "an5.79:6.3",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": "an",
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/an5.79/pli/ms",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/an5.79/pli/ms#6.3\" id=\"6.3\"><span class=\"reference\">6.3</span></a>Tesaṁ <strong class=\"highlight\">pacch</strong>imā janatā diṭṭhānugatiṁ āpajjissati. <br/>"
+        ]
+      },
+      "root_name": "Tatiyaanāgatabhayasutta"
+    },
+    {
+      "acronym": null,
+      "uid": "sn-guide-sujato",
+      "lang": "en",
+      "full_lang": "English",
+      "root_lang": null,
+      "name": "sn-guide-sujato",
+      "volpage": null,
+      "author": null,
+      "author_uid": null,
+      "author_short": null,
+      "is_root": false,
+      "heading": {
+        "title": "sn-guide-sujato"
+      },
+      "segmented_uid": "sn-guide-sujato:423",
+      "is_segmented": true,
+      "is_bilara_text": null,
+      "param_lang": "en",
+      "root_uid": null,
+      "is_article": null,
+      "param_query": "pacch",
+      "url": "/sn-guide-sujato",
+      "highlight": {
+        "content": [
+          "<a target=\"_blank\" href=\"/sn-guide-sujato\" id=\"423\"><span class=\"reference\">423</span></a>At a classref hrefsn51.20SN 51.20a we find the most detailed explanation of how these are applied in practice. This sutta brings in a number of practices familiar from elsewhere in the suttas such as the contemplation of the 31 parts of the body. While most of these are straightforward there is a somewhat obscure Pali idiom that begs a little clarification. That is the phrase “as before so after as after so before” i langpi translatenoyathā pure tathā <strong class=\"highlight\">pacch</strong>ā yathā <strong class=\"highlight\">pacch</strong>ā tathā purei called the “perception of continuity” i langpi translateno<strong class=\"highlight\">pacch</strong>āpuresaññāi. Similar phrases are found in several places in the context of meditation a classref hrefthag6.4Thag 6.4a a classref hrefsn47.10SN 47.10a a classref hrefan7.61AN 7.61a a classref hrefan3.90AN 3.90a. In the Vinaya the same phrase is used to emphasize that the status of a mendicant remains unchanged. In meditation it points to the need for constant and consistent effort in maintaining one’s focus. As part of a series of related idioms—as above so below as by day so by night as this is so is that—it indicates how the process of meditation moves from diversity and differentiation towards unity and oneness.<br/>"
+        ]
+      }
+    }
+  ],
+  "suttaplex": [
+    {
+      "acronym": "AN 5.112",
+      "volpages": "PTS AN iii 137",
+      "alt_volpages": null,
+      "uid": "an5.112",
+      "blurb": "Five factors to be observed by a companion who follows on alms-round; this would typically be a novice or junior mendicant.",
+      "difficulty": null,
+      "original_title": "Pacchāsamaṇasutta",
+      "root_lang": "pli",
+      "root_lang_name": "Pāli",
+      "type": "leaf",
+      "from": null,
+      "translated_title": "An Ascetic to Follow Behind on Almsround ",
+      "translations": [
+        {
+          "lang": "de",
+          "lang_name": "Deutsch",
+          "is_root": false,
+          "author": "Sabbamitta",
+          "author_short": "sabbamitta",
+          "author_uid": "sabbamitta",
+          "publication_date": "2019",
+          "id": "an5.112_translation-de-sabbamitta",
+          "segmented": true,
+          "title": "Ein Asket, der beim Almosengang hinterhergeht ",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "en",
+          "lang_name": "English",
+          "is_root": false,
+          "author": "Bhikkhu Sujato",
+          "author_short": "sujato",
+          "author_uid": "sujato",
+          "publication_date": "2018",
+          "id": "an5.112_translation-en-sujato",
+          "segmented": true,
+          "title": "An Ascetic to Follow Behind on Almsround ",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "pli",
+          "lang_name": "Pāli",
+          "is_root": true,
+          "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+          "author_short": "ms",
+          "author_uid": "ms",
+          "publication_date": null,
+          "id": "an5.112_root-pli-ms",
+          "segmented": true,
+          "title": null,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "ru",
+          "lang_name": "Русский",
+          "is_root": false,
+          "author": "SV theravada.ru",
+          "author_short": "sv",
+          "author_uid": "sv",
+          "publication_date": "2025",
+          "id": "an5.112_translation-ru-sv",
+          "segmented": true,
+          "title": "Сутта Монах-прислужник",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "bn",
+          "lang_name": "বাংলা",
+          "is_root": false,
+          "author": "প্রজ্ঞাদর্শী ভিক্ষু",
+          "author_short": "প্রজ্ঞাদর্শী",
+          "author_uid": "pragyadarshi",
+          "publication_date": "2018",
+          "id": "bn_an5.112_pragyadarshi",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "de",
+          "lang_name": "Deutsch",
+          "is_root": false,
+          "author": "Nyānatiloka Thera",
+          "author_short": "Nyanatiloka",
+          "author_uid": "nyanatiloka",
+          "publication_date": "1907",
+          "id": "de_an5.112_nyanatiloka",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "id",
+          "lang_name": "Bahasa Indonesia",
+          "is_root": false,
+          "author": "Indra Anggara",
+          "author_short": "Anggara",
+          "author_uid": "anggara",
+          "publication_date": null,
+          "id": "id_an5.112_anggara",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "jpn",
+          "lang_name": "日本語",
+          "is_root": false,
+          "author": "関西パーリ語実習会",
+          "author_short": "関西パーリ語実習会",
+          "author_uid": "kansai",
+          "publication_date": "2023",
+          "id": "jpn_an5.112_kansai",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "my",
+          "lang_name": "မြန်မာဘာသာ",
+          "is_root": false,
+          "author": "Pitaka Myanmar Translation",
+          "author_short": "PMT",
+          "author_uid": "pmt",
+          "publication_date": null,
+          "id": "my_an5.112_pmt",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "ru",
+          "lang_name": "Русский",
+          "is_root": false,
+          "author": "SV",
+          "author_short": "SV",
+          "author_uid": "sv",
+          "publication_date": "2013",
+          "id": "ru_an5.112_sv",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "si",
+          "lang_name": "සිංහල",
+          "is_root": false,
+          "author": "A.P. de Zoysa",
+          "author_short": "Zoysa",
+          "author_uid": "zoysa",
+          "publication_date": null,
+          "id": "si_an5.112_zoysa",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "th",
+          "lang_name": "ไทย",
+          "is_root": false,
+          "author": "Siam Rath",
+          "author_short": "Siam Rath",
+          "author_uid": "siam_rath",
+          "publication_date": null,
+          "id": "th_an5.112_siam_rath",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "vi",
+          "lang_name": "Tiếng Việt",
+          "is_root": false,
+          "author": "Thích Minh Châu",
+          "author_short": "Minh Châu",
+          "author_uid": "minh_chau",
+          "publication_date": "1980–1981",
+          "id": "vi_an5.112_minh_chau",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "zh",
+          "lang_name": "汉语",
+          "is_root": false,
+          "author": "莊春江",
+          "author_short": "莊春江",
+          "author_uid": "zhuang",
+          "publication_date": null,
+          "id": "zh_an5.112_zhuang",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        }
+      ],
+      "parallel_count": 0,
+      "biblio": null,
+      "priority_author_uid": "sujato",
+      "verseNo": "",
+      "previous": {
+        "name": null,
+        "uid": null
+      },
+      "next": {
+        "name": null,
+        "uid": null
+      }
+    },
+    {
+      "acronym": "AN 5.189",
+      "volpages": "PTS AN iii 220",
+      "alt_volpages": null,
+      "uid": "an5.189",
+      "blurb": "Different reasons why someone might refuse food offered late.",
+      "difficulty": null,
+      "original_title": "Khalupacchābhattikasutta",
+      "root_lang": "pli",
+      "root_lang_name": "Pāli",
+      "type": "leaf",
+      "from": null,
+      "translated_title": "Refusers of Late Food ",
+      "translations": [
+        {
+          "lang": "de",
+          "lang_name": "Deutsch",
+          "is_root": false,
+          "author": "Sabbamitta",
+          "author_short": "sabbamitta",
+          "author_uid": "sabbamitta",
+          "publication_date": "2019",
+          "id": "an5.189_translation-de-sabbamitta",
+          "segmented": true,
+          "title": "Die späteres Essen zurückweisen ",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "en",
+          "lang_name": "English",
+          "is_root": false,
+          "author": "Bhikkhu Sujato",
+          "author_short": "sujato",
+          "author_uid": "sujato",
+          "publication_date": "2018",
+          "id": "an5.189_translation-en-sujato",
+          "segmented": true,
+          "title": "Refusers of Late Food ",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "pli",
+          "lang_name": "Pāli",
+          "is_root": true,
+          "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+          "author_short": "ms",
+          "author_uid": "ms",
+          "publication_date": null,
+          "id": "an5.189_root-pli-ms",
+          "segmented": true,
+          "title": null,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "ru",
+          "lang_name": "Русский",
+          "is_root": false,
+          "author": "SV theravada.ru",
+          "author_short": "sv",
+          "author_uid": "sv",
+          "publication_date": "2025",
+          "id": "an5.189_translation-ru-sv",
+          "segmented": true,
+          "title": "Сутта в „Один Присест“",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "bn",
+          "lang_name": "বাংলা",
+          "is_root": false,
+          "author": "প্রজ্ঞাদর্শী ভিক্ষু",
+          "author_short": "প্রজ্ঞাদর্শী",
+          "author_uid": "pragyadarshi",
+          "publication_date": "2018",
+          "id": "bn_an5.189_pragyadarshi",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "de",
+          "lang_name": "Deutsch",
+          "is_root": false,
+          "author": "Nyānatiloka Thera",
+          "author_short": "Nyanatiloka",
+          "author_uid": "nyanatiloka",
+          "publication_date": "1907",
+          "id": "de_an5.189_nyanatiloka",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "jpn",
+          "lang_name": "日本語",
+          "is_root": false,
+          "author": "関西パーリ語実習会",
+          "author_short": "関西パーリ語実習会",
+          "author_uid": "kansai",
+          "publication_date": "2023",
+          "id": "jpn_an5.189_kansai",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "my",
+          "lang_name": "မြန်မာဘာသာ",
+          "is_root": false,
+          "author": "Pitaka Myanmar Translation",
+          "author_short": "PMT",
+          "author_uid": "pmt",
+          "publication_date": null,
+          "id": "my_an5.189_pmt",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "ru",
+          "lang_name": "Русский",
+          "is_root": false,
+          "author": "SV",
+          "author_short": "SV",
+          "author_uid": "sv",
+          "publication_date": "2014",
+          "id": "ru_an5.189_sv",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "si",
+          "lang_name": "සිංහල",
+          "is_root": false,
+          "author": "A.P. de Zoysa",
+          "author_short": "Zoysa",
+          "author_uid": "zoysa",
+          "publication_date": null,
+          "id": "si_an5.189_zoysa",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "th",
+          "lang_name": "ไทย",
+          "is_root": false,
+          "author": "Siam Rath",
+          "author_short": "Siam Rath",
+          "author_uid": "siam_rath",
+          "publication_date": null,
+          "id": "th_an5.189_siam_rath",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "vi",
+          "lang_name": "Tiếng Việt",
+          "is_root": false,
+          "author": "Thích Minh Châu",
+          "author_short": "Minh Châu",
+          "author_uid": "minh_chau",
+          "publication_date": "1980–1981",
+          "id": "vi_an5.189_minh_chau",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "zh",
+          "lang_name": "汉语",
+          "is_root": false,
+          "author": "莊春江",
+          "author_short": "莊春江",
+          "author_uid": "zhuang",
+          "publication_date": null,
+          "id": "zh_an5.189_zhuang",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        }
+      ],
+      "parallel_count": 0,
+      "biblio": null,
+      "priority_author_uid": "sujato",
+      "verseNo": "",
+      "previous": {
+        "name": null,
+        "uid": null
+      },
+      "next": {
+        "name": null,
+        "uid": null
+      }
+    },
+    {
+      "acronym": "Bu Sk 71",
+      "volpages": " PTS 4.205",
+      "alt_volpages": null,
+      "uid": "pli-tv-bu-vb-sk71",
+      "blurb": null,
+      "difficulty": null,
+      "original_title": "Pacchatogamana",
+      "root_lang": "pli",
+      "root_lang_name": "Pāli",
+      "type": "leaf",
+      "from": null,
+      "translated_title": "71. Walking behind ",
+      "translations": [
+        {
+          "lang": "en",
+          "lang_name": "English",
+          "is_root": false,
+          "author": "Bhikkhu Brahmali",
+          "author_short": "brahmali",
+          "author_uid": "brahmali",
+          "publication_date": "2021",
+          "id": "pli-tv-bu-vb-sk71_translation-en-brahmali",
+          "segmented": true,
+          "title": "71. Walking behind ",
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "pli",
+          "lang_name": "Pāli",
+          "is_root": true,
+          "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+          "author_short": "ms",
+          "author_uid": "ms",
+          "publication_date": null,
+          "id": "pli-tv-bu-vb-sk71_root-pli-ms",
+          "segmented": true,
+          "title": null,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "id",
+          "lang_name": "Bahasa Indonesia",
+          "is_root": false,
+          "author": "Indra Anggara",
+          "author_short": "Anggara",
+          "author_uid": "anggara",
+          "publication_date": null,
+          "id": "id_pli-tv-bu-vb-sk71_anggara",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        },
+        {
+          "lang": "vi",
+          "lang_name": "Tiếng Việt",
+          "is_root": false,
+          "author": "Bhikkhu Indacanda",
+          "author_short": "Indacanda",
+          "author_uid": "indacanda",
+          "publication_date": null,
+          "id": "vi_pli-tv-bu-vb-sk71_indacanda",
+          "segmented": false,
+          "volpage": null,
+          "has_comment": false
+        }
+      ],
+      "parallel_count": 41,
+      "biblio": null,
+      "priority_author_uid": [
+        "brahmali",
+        "sujato"
+      ],
+      "verseNo": "",
+      "previous": {
+        "name": null,
+        "uid": null
+      },
+      "next": {
+        "name": null,
+        "uid": null
+      }
+    }
+  ],
+  "fuzzy_dictionary": [
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. continued, proceeding without cessation"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "anupacchinnā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. continued, proceeding without cessation"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/anupacchinnā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "ind. not after; not later [pacchā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "apacchā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "ind. not after; not later [pacchā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/apacchā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. covered by a net"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "jālapacchannā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. covered by a net"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/jālapacchannā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>severing of the life faculty; cutting off existence</b> [jīvitindriyassa + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "jīvitindriyassupacchedo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>severing of the life faculty; cutting off existence</b> [jīvitindriyassa + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/jīvitindriyassupacchedo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. ascetic who refuses further food []"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattika",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. ascetic who refuses further food []"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattika",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "nt. Aṅguttara Nikāya 5.189 (AN5.189)"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattikasutta",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "nt. Aṅguttara Nikāya 5.189 (AN5.189)"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattikasutta",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. ascetic who refuses further food []"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattikā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. ascetic who refuses further food []"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattikā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. ascetic who refuses further food []"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattikāti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. ascetic who refuses further food []"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattikāti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. who refuses further food"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. who refuses further food"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>breaking up good families; splitting apart households</b> [kula + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "kulupacchedāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>breaking up good families; splitting apart households</b> [kula + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/kulupacchedāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "paccha",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/paccha",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west",
+            "ind. <b>after; afterwards; later; in the future</b>; lit. from behind [pacchā + to]",
+            "ind. <b>behind; backwards</b>; lit. from behind [pacchā + to]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchato",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west",
+              "ind. <b>after; afterwards; later; in the future</b>; lit. from behind [pacchā + to]",
+              "ind. <b>behind; backwards</b>; lit. from behind [pacchā + to]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchato",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "nt. <b>Sekhiya 71</b>; lit. rule about (teaching the Dhamma to someone while) walking behind [pacchato + gamana + sikkhāpada]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchatogamanasikkhāpada",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "nt. <b>Sekhiya 71</b>; lit. rule about (teaching the Dhamma to someone while) walking behind [pacchato + gamana + sikkhāpada]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchatogamanasikkhāpada",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west",
+            "ind. <b>after; afterwards; later; in the future</b>; lit. from behind [pacchā + to]",
+            "ind. <b>behind; backwards</b>; lit. from behind [pacchā + to]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchatopi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west",
+              "ind. <b>after; afterwards; later; in the future</b>; lit. from behind [pacchā + to]",
+              "ind. <b>behind; backwards</b>; lit. from behind [pacchā + to]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchatopi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "sandhi. <b>would just be behind</b> [pacchato + api + assa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchatopissa",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "sandhi. <b>would just be behind</b> [pacchato + api + assa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchatopissa",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchima",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchima",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimakaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimakaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimako",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimako",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimakā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimakā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>(of animals) back of the body; hind-body</b> [pacchima + kāya]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimakāyaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>(of animals) back of the body; hind-body</b> [pacchima + kāya]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimakāyaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>western side; west end</b> [pacchima + anta]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimante",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>western side; west end</b> [pacchima + anta]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimante",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimasmiñca",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimasmiñca",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimasmiṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimasmiṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "nt. <b>last step of a staircase</b> [pacchima + sopāna + kaḷevara]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimasopānakaḷevaraṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "nt. <b>last step of a staircase</b> [pacchima + sopāna + kaḷevara]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimasopānakaḷevaraṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "nt. <b>last step of a staircase</b> [pacchima + sopāna + kaḷevara]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimasopānakaḷevarā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "nt. <b>last step of a staircase</b> [pacchima + sopāna + kaḷevara]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimasopānakaḷevarā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. discussion about the smallest cloth fit for assignment of ownership, etc. [pacchima + vikappanupaga + cīvara + ādi + kathā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimavikappanupagacīvarādikathā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. discussion about the smallest cloth fit for assignment of ownership, etc. [pacchima + vikappanupaga + cīvara + ādi + kathā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimavikappanupagacīvarādikathā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>later way of talking; subsequent mode of communication; later verbal dealings</b> [pacchima + vohāra]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimavohāraṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>later way of talking; subsequent mode of communication; later verbal dealings</b> [pacchima + vohāra]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimavohāraṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimañca",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimañca",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchime",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchime",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimehi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimehi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimehipi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimehipi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]",
+            "ind. <b>to the west (of)</b>; lit. with the west [pacchā + ima + ena]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimena",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]",
+              "ind. <b>to the west (of)</b>; lit. with the west [pacchā + ima + ena]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimena",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]",
+            "ind. <b>to the west (of)</b>; lit. with the west [pacchā + ima + ena]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimenapi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]",
+              "ind. <b>to the west (of)</b>; lit. with the west [pacchā + ima + ena]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimenapi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimikā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimikā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimikāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimikāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimopi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimopi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>facing towards the west; orientated in a westerly direction</b> [pacchima + abhimukha]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimābhimukho",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>facing towards the west; orientated in a westerly direction</b> [pacchima + abhimukha]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimābhimukho",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>facing towards the west; orientated in a westerly direction</b> [pacchima + abhimukha]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimābhimukhā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>facing towards the west; orientated in a westerly direction</b> [pacchima + abhimukha]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimābhimukhā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>wicker basket; hand-basket</b>",
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimāpi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>wicker basket; hand-basket</b>",
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimāpi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "masc. <b>last person; man behind</b> [pacchā + ima]",
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimāyapi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "nt. <b>what was said after; what was stated subsequently</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "masc. <b>last person; man behind</b> [pacchā + ima]",
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimāyapi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimāyaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimāyaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>last; final</b> [pacchā + ima]",
+            "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+            "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+            "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+            "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+            "adj. <b>lowest; bottom</b> [pacchā + ima]",
+            "adj. <b>very last; final</b> [pacchā + ima + ka]",
+            "adj. <b>least; worst</b> [paccha + ima + ka]",
+            "adj. <b>later</b> [paccha + ima + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimāyo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>last; final</b> [pacchā + ima]",
+              "adj. <b>west; western</b>; lit. last; behind [pacchā + ima]",
+              "adj. <b>hindmost; back</b>; lit. last [pacchā + ima]",
+              "adj. <b>least; smallest; minimum</b>; lit. last [pacchā + ima]",
+              "adj. <b>later; future</b>; lit. last [pacchā + ima]",
+              "adj. <b>lowest; bottom</b> [pacchā + ima]",
+              "adj. <b>very last; final</b> [pacchā + ima + ka]",
+              "adj. <b>least; worst</b> [paccha + ima + ka]",
+              "adj. <b>later</b> [paccha + ima + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimāyo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "aor. cut short, broke up, put an end to [pa + √chid]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchindi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "aor. cut short, broke up, put an end to [pa + √chid]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchindi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "aor. cut short, broke up, put an end to [pa + √chid]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchindiṃsu",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "aor. cut short, broke up, put an end to [pa + √chid]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchindiṃsu",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>wicker basket; hand-basket</b>"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchiṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>wicker basket; hand-basket</b>"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchiṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "paccho",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/paccho",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west",
+            "ind. <b>afterwards; later; in the future</b> [paccha + ā]",
+            "ind. <b>behind</b> [paccha + ā]",
+            "ind. <b>western; westward</b> [paccha + ā]",
+            "ind. <b>backwards</b> [paccha + ā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west",
+              "ind. <b>afterwards; later; in the future</b> [paccha + ā]",
+              "ind. <b>behind</b> [paccha + ā]",
+              "ind. <b>western; westward</b> [paccha + ā]",
+              "ind. <b>backwards</b> [paccha + ā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "ind. <b>after eating; after the meal; in the late morning</b> [pacchā + bhatta + aṃ]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhattaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "ind. <b>after eating; after the meal; in the late morning</b> [pacchā + bhatta + aṃ]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhattaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. who, while eating food given only before noon, refuses any extra food after he has accepted his meal; after-food refuser (a practiser of one of the 13 dhutaṅga)"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhattika",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. who, while eating food given only before noon, refuses any extra food after he has accepted his meal; after-food refuser (a practiser of one of the 13 dhutaṅga)"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhattika",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. who, while eating food given only before noon, refuses any extra food after he has accepted his meal; after-food refuser (a practiser of one of the 13 dhutaṅga)"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhattikā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. who, while eating food given only before noon, refuses any extra food after he has accepted his meal; after-food refuser (a practiser of one of the 13 dhutaṅga)"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhattikā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>travelling to the western land; headed west</b> [pacchābhūma + gamika]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhūmagamikā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>travelling to the western land; headed west</b> [pacchābhūma + gamika]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhūmagamikā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>from the western land; living in the west</b> [pacchā + bhūma + ka]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhūmakā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>from the western land; living in the west</b> [pacchā + bhūma + ka]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhūmakā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>western land</b> [pacchā + bhūma]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhūmaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>western land</b> [pacchā + bhūma]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhūmaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>western land</b> [pacchā + bhūma]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhūme",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>western land</b> [pacchā + bhūma]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhūme",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "ind. <b>with hands tied behind one's back</b>; lit. with hands behind [pacchā + bāhā + aṃ]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābāhaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "ind. <b>with hands tied behind one's back</b>; lit. with hands behind [pacchā + bāhā + aṃ]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābāhaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>canopy; covering</b> [pa + √chad + *a]",
+            "masc. chariot rug [pa + √chad]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchādo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>canopy; covering</b> [pa + √chad + *a]",
+              "masc. chariot rug [pa + √chad]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchādo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>born afterwards; born later</b> [pacchā + jāta]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchājāta",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>born afterwards; born later</b> [pacchā + jāta]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchājāta",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>born afterwards; born later</b> [pacchā + jāta]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchājāto",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>born afterwards; born later</b> [pacchā + jāta]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchājāto",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>born afterwards; born later</b> [pacchā + jāta]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchājātā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>born afterwards; born later</b> [pacchā + jāta]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchājātā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>back; behind</b>; lit. rear dam [pacchā + āli]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāliyaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>back; behind</b>; lit. rear dam [pacchā + āli]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāliyaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>heading west; facing westward</b>; lit. behind face [pacchā + mukha]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāmukhaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>heading west; facing westward</b>; lit. behind face [pacchā + mukha]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāmukhaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>heading west; facing westward</b>; lit. behind face [pacchā + mukha]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāmukho",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>heading west; facing westward</b>; lit. behind face [pacchā + mukha]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāmukho",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; slanting westwards</b> [pacchā + ninna]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāninnaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; slanting westwards</b> [pacchā + ninna]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāninnaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; slanting westwards</b> [pacchā + ninna]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāninnā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; slanting westwards</b> [pacchā + ninna]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāninnā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>going to bed after; (comm) sitting down after</b> [pacchā + nipātī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānipātiniyo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>going to bed after; (comm) sitting down after</b> [pacchā + nipātī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānipātiniyo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>going to bed after; (comm) sitting down after</b> [pacchā + nipātī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānipātinī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>going to bed after; (comm) sitting down after</b> [pacchā + nipātī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānipātinī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>going to bed after; (comm) sitting down after</b> [pacchā + nipātī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānipātī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>going to bed after; (comm) sitting down after</b> [pacchā + nipātī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānipātī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutāpinaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānutāpinaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutāpini",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānutāpini",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutāpinī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānutāpinī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutāpinīti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>having remorse later; regretting it afterwards</b> [pacchā + anutāpī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānutāpinīti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; slanting westwards</b> [pacchā + pabbhāra]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpabbhāranti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; slanting westwards</b> [pacchā + pabbhāra]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpabbhāranti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; slanting westwards</b> [pacchā + pabbhāra]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpabbhāraṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; slanting westwards</b> [pacchā + pabbhāra]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpabbhāraṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; slanting westwards</b> [pacchā + pabbhāra]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpabbhārā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; slanting westwards</b> [pacchā + pabbhāra]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpabbhārā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west",
+            "ind. <b>afterwards; later; in the future</b> [paccha + ā]",
+            "ind. <b>behind</b> [paccha + ā]",
+            "ind. <b>western; westward</b> [paccha + ā]",
+            "ind. <b>backwards</b> [paccha + ā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west",
+              "ind. <b>afterwards; later; in the future</b> [paccha + ā]",
+              "ind. <b>behind</b> [paccha + ā]",
+              "ind. <b>western; westward</b> [paccha + ā]",
+              "ind. <b>backwards</b> [paccha + ā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; inclining westwards</b> [pacchā + poṇa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpoṇaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; inclining westwards</b> [pacchā + poṇa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpoṇaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>sloping to the west; inclining westwards</b> [pacchā + poṇa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpoṇā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>sloping to the west; inclining westwards</b> [pacchā + poṇa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpoṇā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "ind. <b>continuously; presently</b>; lit. after and before; in front and behind [pacchā + pure]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpure",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "ind. <b>continuously; presently</b>; lit. after and before; in front and behind [pacchā + pure]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpure",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>continuous perception; steady awareness</b> [pacchāpure + saññā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpuresaññā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>continuous perception; steady awareness</b> [pacchāpure + saññā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpuresaññā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>continuously aware; present and mindful</b>; lit. aware of what is in front and behind [pacchā + pure + saññī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāpuresaññī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>continuously aware; present and mindful</b>; lit. aware of what is in front and behind [pacchā + pure + saññī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāpuresaññī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "nt. Aṅguttara Nikāya 5.112 (AN5.112)"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsamaṇasutta",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "nt. Aṅguttara Nikāya 5.112 (AN5.112)"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsamaṇasutta",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsamaṇaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsamaṇaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsamaṇena",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsamaṇena",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsamaṇenāti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsamaṇenāti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsamaṇo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>monk who walks behind</b>; lit. behind ascetic [pacchā + samaṇa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsamaṇo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "sandhi. <b>afterwards for them; later their</b> [pacchā + esaṃ]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "sandhi. <b>afterwards for them; later their</b> [pacchā + esaṃ]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "sandhi. <b>afterwards for him; later for him</b> [pacchā + assa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāssa",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "sandhi. <b>afterwards for him; later for him</b> [pacchā + assa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāssa",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>last rays of the sun</b>; lit. western sunshine [pacchā + ātapa]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchātape",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>last rays of the sun</b>; lit. western sunshine [pacchā + ātapa]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchātape",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. behind; after; west",
+            "ind. <b>afterwards; later; in the future</b> [paccha + ā]",
+            "ind. <b>behind</b> [paccha + ā]",
+            "ind. <b>western; westward</b> [paccha + ā]",
+            "ind. <b>backwards</b> [paccha + ā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. behind; after; west",
+              "ind. <b>afterwards; later; in the future</b> [paccha + ā]",
+              "ind. <b>behind</b> [paccha + ā]",
+              "ind. <b>western; westward</b> [paccha + ā]",
+              "ind. <b>backwards</b> [paccha + ā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "nt. <b>what should have been said later; what should have been stated afterwards</b> [pacchā + vacanīya]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāvacanīyaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "nt. <b>what should have been said later; what should have been stated afterwards</b> [pacchā + vacanīya]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāvacanīyaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>who has remorse afterwards; who has regret later</b> [pacchā + vippaṭisārī]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāvippaṭisārino",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>who has remorse afterwards; who has regret later</b> [pacchā + vippaṭisārī]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāvippaṭisārino",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>wicker basket; hand-basket</b>"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>wicker basket; hand-basket</b>"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>breaking up a faction</b> [pakkha + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pakkhupacchedāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>breaking up a faction</b> [pakkha + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pakkhupacchedāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>shaded part of the mansion</b> [pāsāda + pacchāyā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pāsādapacchāyāyaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>shaded part of the mansion</b> [pāsāda + pacchāyā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pāsādapacchāyāyaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>severing of life; cutting off of life</b>; lit. cutting off breath [pāṇa + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pāṇupacchedā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>severing of life; cutting off of life</b>; lit. cutting off breath [pāṇa + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pāṇupacchedā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>interest in forms; desire for forms</b> [rūpa + chanda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "rūpacchandaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>interest in forms; desire for forms</b> [rūpa + chanda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/rūpacchandaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>interest in forms; desire for forms</b> [rūpa + chanda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "rūpacchando",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>interest in forms; desire for forms</b> [rūpa + chanda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/rūpacchando",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>with a white canopy</b> [seta + pacchāda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "setapacchādo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>with a white canopy</b> [seta + pacchāda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/setapacchādo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>with a white canopy</b> [seta + pacchāda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "setapacchādoti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>with a white canopy</b> [seta + pacchāda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/setapacchādoti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "adj. <b>with a well washed bedspread; with a very clean quilt; (comm) with a clean canopy without dirt</b> [sudhota + rajas + pacchada]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "sudhotarajapacchadaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "adj. <b>with a well washed bedspread; with a very clean quilt; (comm) with a clean canopy without dirt</b> [sudhota + rajas + pacchada]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/sudhotarajapacchadaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>the last words of the Tathāgata; the final utterance of the Buddha</b> [tathāgata + pacchima + vācā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "tathāgatapacchimavācā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>the last words of the Tathāgata; the final utterance of the Buddha</b> [tathāgata + pacchima + vācā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/tathāgatapacchimavācā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "pr. <b>is cut off; is ended</b> [upa + √chid + ya + ti]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchijjati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "pr. <b>is cut off; is ended</b> [upa + √chid + ya + ti]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/upacchijjati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "pr. <b>severs; cuts off; breaks off; completely stops</b> [upa + √chid + ṃa + ti]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchindati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "pr. <b>severs; cuts off; breaks off; completely stops</b> [upa + √chid + ṃa + ti]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/upacchindati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "pp. <b>cut off; terminated; ended</b> [upa + √chid + na]",
+            "pp. broken off, interrupted [upa + √chid + na]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchinnā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "pp. <b>cut off; terminated; ended</b> [upa + √chid + na]",
+              "pp. broken off, interrupted [upa + √chid + na]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/upacchinnā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "pp. <b>cut off; terminated; ended</b> [upa + √chid + na]",
+            "pp. broken off, interrupted [upa + √chid + na]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchinnāni",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "pp. <b>cut off; terminated; ended</b> [upa + √chid + na]",
+              "pp. broken off, interrupted [upa + √chid + na]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/upacchinnāni",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "pp. <b>cut off; terminated; ended</b> [upa + √chid + na]",
+            "pp. broken off, interrupted [upa + √chid + na]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchinnāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "pp. <b>cut off; terminated; ended</b> [upa + √chid + na]",
+              "pp. broken off, interrupted [upa + √chid + na]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/upacchinnāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>cutting the cycle of existence; breaking the round of rebirth</b> [vaṭṭa + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "vaṭṭupacchedo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>cutting the cycle of existence; breaking the round of rebirth</b> [vaṭṭa + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/vaṭṭupacchedo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>cutting the cycle of existence; breaking the round of rebirth</b> [vaṭṭa + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "vaṭṭupacchedāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>cutting the cycle of existence; breaking the round of rebirth</b> [vaṭṭa + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/vaṭṭupacchedāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "fem. <b>shade of the monastery</b> [vihāra + pacchāyā]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "vihārapacchāyāyaṃ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "fem. <b>shade of the monastery</b> [vihāra + pacchāyā]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/vihārapacchāyāyaṃ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>cutting off thinking; silencing thought</b> [vitakka + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "vitakkupacchedāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>cutting off thinking; silencing thought</b> [vitakka + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/vitakkupacchedāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "dpd",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          [
+            "masc. <b>cutting off food; stopping eating; starvation</b> [āhāra + upaccheda]"
+          ]
+        ],
+        "detail": [
+          {
+            "dictname": "dpd",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "āhārupacchedāya",
+            "word_ascii": null,
+            "text": "",
+            "grammar": null,
+            "definition": [
+              "masc. <b>cutting off food; stopping eating; starvation</b> [āhāra + upaccheda]"
+            ],
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/āhārupacchedāya",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cutting off food; abstinence from food"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "āhārupaccheda",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "masculine",
+            "definition": "cutting off food; abstinence from food",
+            "xr": "āhāra"
+          }
+        ]
+      },
+      "url": "/define/āhārupaccheda",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cuts off; interrupts; destroys; stops"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchindati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "present 3 singular",
+            "definition": "cuts off; interrupts; destroys; stops",
+            "xr": "upacchindati"
+          }
+        ]
+      },
+      "url": "/define/upacchindati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cut off; interrupted; destroyed"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchinna",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "past participle adjective",
+            "definition": "cut off; interrupted; destroyed",
+            "xr": "upacchindati"
+          }
+        ]
+      },
+      "url": "/define/upacchinna",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "throws (something, accusative) to (accusative)"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchubhati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "present 3 singular",
+            "definition": "throws (something, accusative) to (accusative)",
+            "xr": [
+              "upacchubhati",
+              "upacchumbhati"
+            ]
+          }
+        ]
+      },
+      "url": "/define/upacchubhati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "throws (something, accusative) to (accusative)"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "upacchumbhati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "present 3 singular",
+            "definition": "throws (something, accusative) to (accusative)",
+            "xr": "upacchubhati"
+          }
+        ]
+      },
+      "url": "/define/upacchumbhati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "one who refuses further food"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattika",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective (masculine)",
+            "definition": "one who refuses further food",
+            "xr": "khalu"
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattika",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "one who prefers further food"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhattin",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective (masculine)",
+            "definition": "one who prefers further food",
+            "xr": "khalu"
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhattin",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "one who prefers further food"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "khalupacchābhatti",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective (masculine)",
+            "definition": "one who prefers further food",
+            "xr": "khalu"
+          }
+        ]
+      },
+      "url": "/define/khalupacchābhatti",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "covered by a net"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "jālapacchanna",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective",
+            "definition": "covered by a net",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/jālapacchanna",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "from behind; behind"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchato",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "indeclinable",
+            "definition": "from behind; behind",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchato",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "covered with; hidden; wrapped with"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchanna",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "past participle",
+            "definition": "covered with; hidden; wrapped with",
+            "xr": "pacchādeti"
+          }
+        ]
+      },
+      "url": "/define/pacchanna",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "afterwards"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "indeclinable",
+            "definition": "afterwards",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "born or arisen afterwards"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchājāta",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective",
+            "definition": "born or arisen afterwards",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchājāta",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "a cover; chariot rug"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāda",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "masculine",
+            "definition": "a cover; chariot rug",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāda",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "one who retired later than others"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānipātī",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "masculine",
+            "definition": "one who retired later than others",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānipātī",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "feels remorse"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutappati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "pacchā + anu + tap + a",
+            "definition": "feels remorse",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānutappati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "felt remorse"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutappi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "aorist",
+            "definition": "felt remorse",
+            "xr": "pacchānutappati"
+          }
+        ]
+      },
+      "url": "/define/pacchānutappi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "remorse; repentance"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchānutāpa",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "masculine",
+            "definition": "remorse; repentance",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchānutāpa",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "with hand tied behind one’s back"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābāhaṁ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adverb",
+            "definition": "with hand tied behind one’s back",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābāhaṁ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "afternoon"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhattaṁ",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adverb",
+            "definition": "afternoon",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhattaṁ",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "the hind part. (locative) afterwards"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchābhāga",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "masculine",
+            "definition": "the hind part. (locative) afterwards",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchābhāga",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "shaded part; a place in the shade"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāyā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "feminine",
+            "definition": "shaded part; a place in the shade",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāyā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "a junior monk who walks behind a senior on his rounds"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchāsamaṇa",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "masculine",
+            "definition": "a junior monk who walks behind a senior on his rounds",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchāsamaṇa",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "a hand-basket"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "feminine",
+            "definition": "a hand-basket",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "is cut short; is interrupted"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchijjati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "pa + chid + ya",
+            "definition": "is cut short; is interrupted",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchijjati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "interruption; stoppage"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchijjana",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "neuter",
+            "definition": "interruption; stoppage",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchijjana",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "was cut short; was interrupted"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchijji",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "aorist",
+            "definition": "was cut short; was interrupted",
+            "xr": "pacchijjati"
+          }
+        ]
+      },
+      "url": "/define/pacchijji",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "having cut short; having interrupted"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchijjitvā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "absolutive",
+            "definition": "having cut short; having interrupted",
+            "xr": "pacchijjati"
+          }
+        ]
+      },
+      "url": "/define/pacchijjitvā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cuts short; breaks up; puts an end to"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchindati",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "pa + chid + ṁ-a",
+            "definition": "cuts short; breaks up; puts an end to",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchindati",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cut short; broke up; put an end to"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchindi",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "aorist",
+            "definition": "cut short; broke up; put an end to",
+            "xr": "pacchindati"
+          }
+        ]
+      },
+      "url": "/define/pacchindi",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "having cut short; having broken up; having put an end to"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchinditvā",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "absolutive",
+            "definition": "having cut short; having broken up; having put an end to",
+            "xr": "pacchindati"
+          }
+        ]
+      },
+      "url": "/define/pacchinditvā",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cut short; broken up; put an end to"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchinna",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "past participle",
+            "definition": "cut short; broken up; put an end to",
+            "xr": "pacchindati"
+          }
+        ]
+      },
+      "url": "/define/pacchinna",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "latest; hindmost; lowest; western"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchima",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective",
+            "definition": "latest; hindmost; lowest; western",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchima",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "the last moment, the time of dying; the final time"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimo kālo",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "phrase",
+            "definition": "the last moment, the time of dying; the final time",
+            "xr": "kāla"
+          }
+        ]
+      },
+      "url": "/define/pacchimo kālo",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "last; meanest"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchimaka",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective",
+            "definition": "last; meanest",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchimaka",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "cutting off; breaking"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "pacchedana",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "neuter",
+            "definition": "cutting off; breaking",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/pacchedana",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "behind all"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "sabbapacchato",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "indeclinable",
+            "definition": "behind all",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/sabbapacchato",
+      "category": "dictionary"
+    },
+    {
+      "heading": {
+        "division": "ncped",
+        "subhead": "",
+        "title": ""
+      },
+      "highlight": {
+        "content": [
+          "with white covering"
+        ],
+        "detail": [
+          {
+            "dictname": "ncped",
+            "lang_to": "en",
+            "lang_from": "pli",
+            "word": "setapacchāda",
+            "word_ascii": null,
+            "text": "",
+            "grammar": "adjective",
+            "definition": "with white covering",
+            "xr": null
+          }
+        ]
+      },
+      "url": "/define/setapacchāda",
+      "category": "dictionary"
+    }
+  ]
+}

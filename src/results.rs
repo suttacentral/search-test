@@ -13,10 +13,16 @@ pub struct Suttaplex {
 }
 
 #[derive(Deserialize, Debug)]
+pub struct FuzzyDictionary {
+    pub url: String,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct SearchResults {
     pub total: u16,
     pub hits: Vec<Hit>,
     pub suttaplex: Vec<Suttaplex>,
+    pub fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
 #[cfg(test)]
@@ -29,6 +35,7 @@ mod tests {
         {
             "total": 1,
             "suttaplex" : [],
+            "fuzzy_dictionary": [],
             "hits" : [
                 { "url": "/define/metta", "category": "dictionary" },
                 { "url": "/sa264/en/analayo", "uid": "sa264" }
@@ -48,6 +55,7 @@ mod tests {
         {
             "total": 1,
             "suttaplex" : [],
+            "fuzzy_dictionary": [],
             "hits" : [
                 { "url": "/define/metta", "category": "dictionary" },
                 { "url": "/sa264/en/analayo", "uid": "sa264" }
@@ -67,6 +75,7 @@ mod tests {
         {
             "total": 1,
             "suttaplex" : [],
+            "fuzzy_dictionary": [],
             "hits" : [
                 { "url": "/sa264/en/analayo", "uid": "sa264" },
                 { "url": "/snp1.3/en/mills", "uid": "snp1.3" }
@@ -86,6 +95,7 @@ mod tests {
         {
             "total": 1,
             "suttaplex" : [],
+            "fuzzy_dictionary": [],
             "hits" : [
                 { "url": "/define/metta", "category": "dictionary" },
                 { "url": "/sa264/en/analayo", "uid": "sa264" },
@@ -106,6 +116,7 @@ mod tests {
         {
             "total": 1,
             "hits" : [],
+            "fuzzy_dictionary": [],
             "suttaplex" : [
                 { "uid": "an11.15" }
             ]
@@ -115,5 +126,23 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
         assert_eq!(results.suttaplex[0].uid, "an11.15");
+    }
+
+    #[test]
+    fn finds_a_fuzzy_dictionary_result() {
+        let json = r#"
+        {
+            "total": 1,
+            "hits" : [],
+            "suttaplex" : [],
+            "fuzzy_dictionary": [
+                { "url": "/define/anupacchinnā" }
+            ]
+        }
+        "#
+        .to_string();
+
+        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+        assert_eq!(results.fuzzy_dictionary[0].url, "/define/anupacchinnā");
     }
 }
