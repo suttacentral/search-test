@@ -2,7 +2,7 @@ use serde::Deserialize;
 
 #[derive(Deserialize)]
 #[serde(untagged)]
-enum Hit {
+pub enum Hit {
     Dictionary { url: String, category: String },
     Sutta { url: String, uid: String },
 }
@@ -10,7 +10,7 @@ enum Hit {
 #[derive(Deserialize)]
 pub struct SearchResults {
     pub total: u16,
-    hits: Vec<Hit>,
+    pub hits: Vec<Hit>,
 }
 
 #[cfg(test)]

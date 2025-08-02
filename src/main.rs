@@ -1,5 +1,6 @@
 mod results;
 
+use crate::results::Hit;
 use reqwest::blocking::{Client, RequestBuilder};
 use results::SearchResults;
 
@@ -46,7 +47,7 @@ impl From<TestCase> for RequestBuilder {
 
 fn main() {
     let test_case = TestCase {
-        query: String::from("adze"),
+        query: String::from("metta"),
         selected_languages: vec!["en".to_string(), "pli".to_string()],
         ..Default::default()
     };
@@ -54,7 +55,18 @@ fn main() {
     let request = RequestBuilder::from(test_case);
     let response = request.send().unwrap();
     let results: SearchResults = response.json().unwrap();
-    println!("Total = {}", results.total)
+    println!("{} results", results.total);
+
+    for hit in results.hits {
+        match hit {
+            Hit::Dictionary { url, .. } => {
+                println!("Dictionary result: {url}");
+            }
+            Hit::Sutta { url, .. } => {
+                println!("Sutta result: {url}");
+            }
+        }
+    }
 }
 
 #[cfg(test)]
