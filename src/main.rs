@@ -49,6 +49,7 @@ fn main() {
     let test_case = TestCase {
         query: String::from("metta"),
         selected_languages: vec!["en".to_string(), "pli".to_string()],
+        limit: 10,
         ..Default::default()
     };
 
@@ -56,7 +57,7 @@ fn main() {
     let response = request.send().unwrap();
     let results: SearchResults = response.json().unwrap();
     println!("{} results", results.total);
-
+    println!("{} hits", results.hits.len());
     for hit in results.hits {
         match hit {
             Hit::Dictionary { url, .. } => {
