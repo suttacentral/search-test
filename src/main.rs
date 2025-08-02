@@ -68,6 +68,9 @@ fn main() {
             }
         }
     }
+    for suttaplex in results.suttaplex {
+        println!("Suttaplex result: {}", suttaplex.uid)
+    }
 }
 
 #[cfg(test)]
