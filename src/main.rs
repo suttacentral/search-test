@@ -74,11 +74,12 @@ fn main() {
     println!("{} hits", results.hits.len());
     for hit in results.hits {
         match hit {
-            Hit::Dictionary { url, .. } => {
+            Hit::Dictionary { url, category } => {
+                assert_eq!(category, "dictionary");
                 println!("Dictionary result: {url}");
             }
-            Hit::Sutta { url, .. } => {
-                println!("Sutta result: {url}");
+            Hit::Sutta { url, uid } => {
+                println!("Sutta result: {url}, {uid}");
             }
         }
     }
