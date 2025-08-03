@@ -45,7 +45,7 @@ impl From<TestCase> for RequestBuilder {
     }
 }
 
-fn main() {
+fn with_fuzzy_dictionary_result() -> TestCase {
     let selected_languages = vec![
         "lzh".to_string(),
         "en".to_string(),
@@ -59,14 +59,17 @@ fn main() {
         "uig".to_string(),
     ];
 
-    let test_case = TestCase {
+    TestCase {
         query: "pacch".to_string(),
         selected_languages,
         match_partial: "true".to_string(),
         limit: 10,
         ..Default::default()
-    };
+    }
+}
 
+fn main() {
+    let test_case = with_fuzzy_dictionary_result();
     let request = RequestBuilder::from(test_case);
     let response = request.send().unwrap();
     let results: SearchResults = response.json().unwrap();
