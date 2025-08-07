@@ -20,6 +20,7 @@ pub enum Hit {
     },
     Sutta {
         uid: String,
+        lang: String,
         author_uid: String,
     },
 }
@@ -84,6 +85,7 @@ mod tests {
             "hits" : [
                 {
                     "uid": "sa264",
+                    "lang": "en",
                     "author_uid": "analayo"
                 }
             ]
