@@ -1,10 +1,21 @@
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
+pub struct Highlight {
+    foo: String,
+}
+
+#[derive(Deserialize, Debug)]
 #[serde(untagged)]
 pub enum Hit {
-    Dictionary { url: String, category: String },
-    Sutta { url: String, uid: String },
+    Dictionary {
+        highlight: Highlight,
+        category: String,
+    },
+    Sutta {
+        uid: String,
+        author_uid: String,
+    },
 }
 
 #[derive(Deserialize, Debug)]
@@ -37,10 +48,12 @@ mod tests {
             "suttaplex" : [],
             "fuzzy_dictionary": [],
             "hits" : [
-                { "url": "/sa264/en/analayo", "uid": "sa264" },
                 {
                     "url": "/define/metta",
-                    "category": "dictionary"
+                    "category": "dictionary",
+                    "highlight": {
+                        "foo" : "bar"
+                    }
                 }
             ]
         }
@@ -49,7 +62,7 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[1], Hit::Dictionary { .. }))
+        assert!(matches!(results.hits[0], Hit::Dictionary { .. }))
     }
 
     #[test]
@@ -60,8 +73,10 @@ mod tests {
             "suttaplex" : [],
             "fuzzy_dictionary": [],
             "hits" : [
-                { "url": "/define/metta", "category": "dictionary" },
-                { "url": "/sa264/en/analayo", "uid": "sa264" }
+                {
+                    "uid": "sa264",
+                    "author_uid": "analayo"
+                }
             ]
         }
         "#
@@ -69,7 +84,7 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[1], Hit::Sutta { .. }))
+        assert!(matches!(results.hits[0], Hit::Sutta { .. }))
     }
 
     #[test]
@@ -80,8 +95,8 @@ mod tests {
             "suttaplex" : [],
             "fuzzy_dictionary": [],
             "hits" : [
-                { "url": "/sa264/en/analayo", "uid": "sa264" },
-                { "url": "/snp1.3/en/mills", "uid": "snp1.3" }
+                { "uid": "sa264", "author_uid": "analayo" },
+                { "uid": "snp1.3", "author_uid": "mills" }
             ]
         }
         "#
@@ -93,16 +108,21 @@ mod tests {
     }
 
     #[test]
-    fn finds_two_sutta_and_one_dictionary_hit() {
+    fn finds_sutta_and_dictionary_hit() {
         let json = r#"
         {
             "total": 1,
             "suttaplex" : [],
             "fuzzy_dictionary": [],
             "hits" : [
-                { "url": "/define/metta", "category": "dictionary" },
-                { "url": "/sa264/en/analayo", "uid": "sa264" },
-                { "url": "/snp1.3/en/mills", "uid": "snp1.3" }
+                { "uid": "snp1.3", "author_uid": "mills" },
+                {
+                    "url": "/define/metta",
+                    "category": "dictionary",
+                    "highlight": {
+                        "foo" : "bar"
+                    }
+                }
             ]
         }
         "#
@@ -110,7 +130,7 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
 
-        assert_eq!(results.hits.len(), 3);
+        assert_eq!(results.hits.len(), 2);
     }
 
     #[test]
