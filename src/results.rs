@@ -38,7 +38,10 @@ mod tests {
             "fuzzy_dictionary": [],
             "hits" : [
                 { "url": "/sa264/en/analayo", "uid": "sa264" },
-                { "url": "/define/metta", "category": "dictionary" }
+                {
+                    "url": "/define/metta",
+                    "category": "dictionary"
+                }
             ]
         }
         "#
