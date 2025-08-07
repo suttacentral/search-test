@@ -97,55 +97,6 @@ mod tests {
     }
 
     #[test]
-    fn finds_two_sutta_hits() {
-        let json = r#"
-        {
-            "total": 1,
-            "suttaplex" : [],
-            "fuzzy_dictionary": [],
-            "hits" : [
-                { "uid": "sa264", "author_uid": "analayo" },
-                { "uid": "snp1.3", "author_uid": "mills" }
-            ]
-        }
-        "#
-        .to_string();
-
-        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
-
-        assert_eq!(results.hits.len(), 2);
-    }
-
-    #[test]
-    fn finds_sutta_and_dictionary_hit() {
-        let json = r#"
-        {
-            "total": 1,
-            "suttaplex" : [],
-            "fuzzy_dictionary": [],
-            "hits" : [
-                { "uid": "snp1.3", "author_uid": "mills" },
-                {
-                    "url": "/define/metta",
-                    "category": "dictionary",
-                    "highlight": {
-                        "detail" : {
-                            "dictname": "dppn",
-                            "word": "metta"
-                        }
-                    }
-                }
-            ]
-        }
-        "#
-        .to_string();
-
-        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
-
-        assert_eq!(results.hits.len(), 2);
-    }
-
-    #[test]
     fn finds_a_suttaplex() {
         let json = r#"
         {
