@@ -1,8 +1,14 @@
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
+pub struct Detail {
+    dictname: String,
+    word: String,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Highlight {
-    foo: String,
+    detail: Detail,
 }
 
 #[derive(Deserialize, Debug)]
@@ -52,7 +58,10 @@ mod tests {
                     "url": "/define/metta",
                     "category": "dictionary",
                     "highlight": {
-                        "foo" : "bar"
+                        "detail" : {
+                            "dictname": "dppn",
+                            "word": "metta"
+                        }
                     }
                 }
             ]
@@ -62,7 +71,7 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[0], Hit::Dictionary { .. }))
+        assert!(matches!(results.hits[0], Hit::Dictionary { .. }));
     }
 
     #[test]
@@ -84,7 +93,7 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[0], Hit::Sutta { .. }))
+        assert!(matches!(results.hits[0], Hit::Sutta { .. }));
     }
 
     #[test]
@@ -120,7 +129,10 @@ mod tests {
                     "url": "/define/metta",
                     "category": "dictionary",
                     "highlight": {
-                        "foo" : "bar"
+                        "detail" : {
+                            "dictname": "dppn",
+                            "word": "metta"
+                        }
                     }
                 }
             ]
