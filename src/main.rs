@@ -1,6 +1,7 @@
 mod results;
 
 use crate::results::Hit;
+use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
 use results::SearchResults;
 
@@ -72,24 +73,33 @@ fn main() {
     let test_case = with_fuzzy_dictionary_result();
     let request = RequestBuilder::from(test_case);
     let response = request.send().unwrap();
-    let results: SearchResults = response.json().unwrap();
-    println!("{} results", results.total);
-    println!("{} hits", results.hits.len());
-    for hit in results.hits {
-        match hit {
-            Hit::Dictionary { .. } => {
-                println!("Dictionary result");
+    let results: Result<SearchResults, Error> = response.json();
+
+    match results {
+        Ok(parsed_results) => {
+            println!("{} results", parsed_results.total);
+            println!("{} hits", parsed_results.hits.len());
+            for hit in parsed_results.hits {
+                match hit {
+                    Hit::Dictionary { .. } => {
+                        println!("Dictionary result");
+                    }
+                    Hit::Sutta { .. } => {
+                        println!("Sutta result");
+                    }
+                }
             }
-            Hit::Sutta { .. } => {
-                println!("Sutta result");
+            for suttaplex in parsed_results.suttaplex {
+                println!("Suttaplex result: {}", suttaplex.uid)
+            }
+            for fuzzy in parsed_results.fuzzy_dictionary {
+                println!("Fuzzy dictionary result: {}", fuzzy.url)
             }
         }
-    }
-    for suttaplex in results.suttaplex {
-        println!("Suttaplex result: {}", suttaplex.uid)
-    }
-    for fuzzy in results.fuzzy_dictionary {
-        println!("Fuzzy dictionary result: {}", fuzzy.url)
+        Err(error) => {
+            println!("An error occurred parsing response.");
+            println!("{error:?}");
+        }
     }
 }
 
