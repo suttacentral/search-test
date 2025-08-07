@@ -37,8 +37,8 @@ mod tests {
             "suttaplex" : [],
             "fuzzy_dictionary": [],
             "hits" : [
-                { "url": "/define/metta", "category": "dictionary" },
-                { "url": "/sa264/en/analayo", "uid": "sa264" }
+                { "url": "/sa264/en/analayo", "uid": "sa264" },
+                { "url": "/define/metta", "category": "dictionary" }
             ]
         }
         "#
@@ -46,7 +46,7 @@ mod tests {
 
         let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[0], Hit::Dictionary { .. }))
+        assert!(matches!(results.hits[1], Hit::Dictionary { .. }))
     }
 
     #[test]
