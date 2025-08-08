@@ -1,4 +1,6 @@
 use serde::Deserialize;
+use std::fmt;
+use std::fmt::Display;
 
 #[derive(Deserialize, Debug)]
 pub struct Detail {
@@ -25,6 +27,19 @@ pub enum Hit {
         author_uid: Option<String>,
         url: String,
     },
+}
+
+impl Display for Hit {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Hit::Dictionary { url, .. } => {
+                write!(f, "Dictionary hit: {url}")
+            }
+            Hit::Text { url, .. } => {
+                write!(f, "Text hit {url}")
+            }
+        }
+    }
 }
 
 #[derive(Deserialize, Debug)]

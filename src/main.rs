@@ -1,6 +1,5 @@
 mod results;
 
-use crate::results::Hit;
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
 use results::SearchResults;
@@ -80,14 +79,7 @@ fn main() {
             println!("{} results", parsed_results.total);
             println!("{} hits", parsed_results.hits.len());
             for hit in parsed_results.hits {
-                match hit {
-                    Hit::Dictionary { .. } => {
-                        println!("Dictionary result");
-                    }
-                    Hit::Text { uid, .. } => {
-                        println!("Text result: {uid}");
-                    }
-                }
+                println!("{hit}");
             }
             for suttaplex in parsed_results.suttaplex {
                 println!("Suttaplex result: {}", suttaplex.uid)
