@@ -101,6 +101,22 @@ mod tests {
     }
 
     #[test]
+    fn parse_licensing() {
+        let json = r#"
+        {
+            "uid": "licensing",
+            "lang": "en",
+            "author_uid": null
+        }
+        "#
+        .to_string();
+
+        let licensing_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
+
+        assert!(matches!(licensing_hit, Hit::Sutta { .. }));
+    }
+
+    #[test]
     fn finds_a_suttaplex() {
         let json = r#"
         {
