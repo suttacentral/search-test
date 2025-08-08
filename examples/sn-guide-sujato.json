@@ -1,0 +1,34 @@
+{
+    "total": 1,
+    "hits": [
+        {
+            "acronym": null,
+            "uid": "sn-guide-sujato",
+            "lang": "en",
+            "full_lang": "English",
+            "root_lang": null,
+            "name": "sn-guide-sujato",
+            "volpage": null,
+            "author": null,
+            "author_uid": null,
+            "author_short": null,
+            "is_root": false,
+            "heading": {
+                "title": "The Linked Discourses: the blueprint for Buddhist philosophy"
+            },
+            "segmented_uid": null,
+            "is_segmented": false,
+            "is_bilara_text": true,
+            "param_lang": "en",
+            "root_uid": null,
+            "is_article": true,
+            "param_query": "sn-guide-sujato",
+            "url": "/sn-guide-sujato",
+            "highlight": {
+                "content": []
+            }
+        }
+    ],
+    "suttaplex": [],
+    "fuzzy_dictionary": []
+}

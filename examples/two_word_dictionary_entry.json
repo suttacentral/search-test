@@ -1,0 +1,64 @@
+{
+    "total": 1,
+    "hits": [
+        {
+            "heading": {
+                "division": "ncped",
+                "subhead": "",
+                "title": ""
+            },
+            "highlight": {
+                "content": [
+                    ""
+                ],
+                "detail": [
+                    {
+                        "dictname": "ncped",
+                        "lang_to": "en",
+                        "lang_from": "pli",
+                        "word": "pacchimo kālo",
+                        "word_ascii": null,
+                        "text": "",
+                        "grammar": "phrase",
+                        "definition": "the last moment, the time of dying; the final time",
+                        "xr": "kāla"
+                    }
+                ]
+            },
+            "url": "/define/pacchimo kālo",
+            "category": "dictionary"
+        },
+        {
+            "acronym": "Thag 16.10",
+            "uid": "thag16.10",
+            "lang": "pli",
+            "full_lang": "Pāli",
+            "root_lang": "pli",
+            "name": "Pārāpariyattheragāthā",
+            "volpage": null,
+            "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+            "author_uid": "ms",
+            "author_short": "ms",
+            "is_root": true,
+            "heading": {
+                "title": "Pārāpariyattheragāthā"
+            },
+            "segmented_uid": null,
+            "is_segmented": false,
+            "is_bilara_text": true,
+            "param_lang": "en",
+            "root_uid": "thag",
+            "is_article": false,
+            "param_query": "pacchimo kālo",
+            "url": "/thag16.10/pli/ms",
+            "highlight": {
+                "content": [
+                    "<a target=\"_blank\" href=\"/thag16.10/pli/ms#28.3\" id=\"28.3\"><span class=\"reference\">28.3</span></a> Kiñcāpi <strong class=\"highlight\">pacchimo kālo</strong> <br/>"
+                ]
+            },
+            "root_name": "Pārāpariyattheragāthā"
+        }
+    ],
+    "suttaplex": [],
+    "fuzzy_dictionary": []
+}

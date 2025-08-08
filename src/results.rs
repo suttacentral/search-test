@@ -21,7 +21,7 @@ pub enum Hit {
     Sutta {
         uid: String,
         lang: String,
-        author_uid: String,
+        author_uid: Option<String>,
     },
 }
 
@@ -48,54 +48,56 @@ mod tests {
     use super::*;
 
     #[test]
-    fn finds_dictionary_hit() {
+    fn parse_dictionary_hit() {
         let json = r#"
         {
-            "total": 1,
-            "suttaplex" : [],
-            "fuzzy_dictionary": [],
-            "hits" : [
-                {
-                    "url": "/define/metta",
-                    "category": "dictionary",
-                    "highlight": {
-                        "detail" : {
-                            "dictname": "dppn",
-                            "word": "metta"
-                        }
-                    }
+            "url": "/define/metta",
+            "category": "dictionary",
+            "highlight": {
+                "detail" : {
+                    "dictname": "dppn",
+                    "word": "metta"
                 }
-            ]
+            }
         }
         "#
         .to_string();
 
-        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+        let dictionary_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[0], Hit::Dictionary { .. }));
+        assert!(matches!(dictionary_hit, Hit::Dictionary { .. }));
     }
 
     #[test]
-    fn finds_sutta_hit() {
+    fn parse_sutta_hit() {
         let json = r#"
         {
-            "total": 1,
-            "suttaplex" : [],
-            "fuzzy_dictionary": [],
-            "hits" : [
-                {
-                    "uid": "sa264",
-                    "lang": "en",
-                    "author_uid": "analayo"
-                }
-            ]
+            "uid": "sa264",
+            "lang": "en",
+            "author_uid": "analayo"
         }
         "#
         .to_string();
 
-        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+        let sutta_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(results.hits[0], Hit::Sutta { .. }));
+        assert!(matches!(sutta_hit, Hit::Sutta { .. }));
+    }
+
+    #[test]
+    fn parse_guide() {
+        let json = r#"
+        {
+            "uid": "sn-guide-sujato",
+            "lang": "en",
+            "author_uid": null
+        }
+        "#
+        .to_string();
+
+        let guide_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
+
+        assert!(matches!(guide_hit, Hit::Sutta { .. }));
     }
 
     #[test]

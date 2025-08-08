@@ -1,0 +1,93 @@
+{
+    "total": 3,
+    "hits": [
+        {
+            "acronym": null,
+            "uid": "footer",
+            "lang": "en",
+            "full_lang": "English",
+            "root_lang": null,
+            "name": "footer",
+            "volpage": null,
+            "author": null,
+            "author_uid": null,
+            "author_short": null,
+            "is_root": false,
+            "heading": {
+                "title": "Useful things"
+            },
+            "segmented_uid": null,
+            "is_segmented": false,
+            "is_bilara_text": true,
+            "param_lang": "en",
+            "root_uid": null,
+            "is_article": true,
+            "param_query": "licensing",
+            "url": "/footer",
+            "highlight": {
+                "content": [
+                    "<a target=\"_blank\" href=\"/footer\" id=\"<strong class=\"highlight\">licensing</strong>\"><span class=\"reference\"><strong class=\"highlight\">licensing</strong></span></a> <strong class=\"highlight\">licensing</strong><br/>",
+                    "<a target=\"_blank\" href=\"/footer\" id=\"<strong class=\"highlight\">Licensing</strong>\"><span class=\"reference\"><strong class=\"highlight\">Licensing</strong></span></a> <strong class=\"highlight\">Licensing</strong><br/>"
+                ]
+            }
+        },
+        {
+            "acronym": null,
+            "uid": "licensing",
+            "lang": "en",
+            "full_lang": "English",
+            "root_lang": null,
+            "name": "licensing",
+            "volpage": null,
+            "author": null,
+            "author_uid": null,
+            "author_short": null,
+            "is_root": false,
+            "heading": {
+                "title": "Licensing"
+            },
+            "segmented_uid": null,
+            "is_segmented": false,
+            "is_bilara_text": true,
+            "param_lang": "en",
+            "root_uid": null,
+            "is_article": true,
+            "param_query": "licensing",
+            "url": "/licensing",
+            "highlight": {
+                "content": [
+                    "<a target=\"_blank\" href=\"/<strong class=\"highlight\">Licensing</strong>\" id=\"1\"><span class=\"reference\">1</span></a> <strong class=\"highlight\">Licensing</strong><br/>"
+                ]
+            }
+        },
+        {
+            "acronym": null,
+            "uid": "publication",
+            "lang": "en",
+            "full_lang": "English",
+            "root_lang": null,
+            "name": "publication",
+            "volpage": null,
+            "author": null,
+            "author_uid": null,
+            "author_short": null,
+            "is_root": false,
+            "heading": {
+                "title": "Publication details"
+            },
+            "segmented_uid": null,
+            "is_segmented": false,
+            "is_bilara_text": true,
+            "param_lang": "en",
+            "root_uid": null,
+            "is_article": true,
+            "param_query": "licensing",
+            "url": "/publication",
+            "highlight": {
+                "content": []
+            }
+        }
+    ],
+    "suttaplex": [],
+    "fuzzy_dictionary": []
+}
