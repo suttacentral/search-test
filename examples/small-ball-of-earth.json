@@ -1,0 +1,39 @@
+{
+    "total": 1,
+    "hits": [
+        {
+            "acronym": "SA 264",
+            "uid": "sa264",
+            "lang": "en",
+            "full_lang": "English",
+            "root_lang": "lzh",
+            "name": "",
+            "volpage": null,
+            "author": "Bhikkhu Anālayo",
+            "author_uid": "analayo",
+            "author_short": "Anālayo",
+            "is_root": false,
+            "heading": {
+                "title": "",
+                "division": "Saṁyuktāgama",
+                "subhead": []
+            },
+            "segmented_uid": null,
+            "is_segmented": false,
+            "is_bilara_text": null,
+            "param_lang": "en",
+            "root_uid": "sa",
+            "is_article": null,
+            "param_query": "small ball of earth",
+            "url": "/sa264/en/analayo",
+            "highlight": {
+                "content": [
+                    "At that time the Blessed One took in his hand a <strong class=\"highlight\">small ball of earth</strong> and said to the monk: “Do you see the ball of earth in my hand”<br/>"
+                ]
+            },
+            "root_name": "小土塼"
+        }
+    ],
+    "suttaplex": [],
+    "fuzzy_dictionary": []
+}

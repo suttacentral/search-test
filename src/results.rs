@@ -17,11 +17,13 @@ pub enum Hit {
     Dictionary {
         highlight: Highlight,
         category: String,
+        url: String,
     },
-    Sutta {
+    Text {
         uid: String,
         lang: String,
         author_uid: Option<String>,
+        url: String,
     },
 }
 
@@ -51,21 +53,27 @@ mod tests {
     fn parse_dictionary_hit() {
         let json = r#"
         {
-            "url": "/define/metta",
             "category": "dictionary",
             "highlight": {
                 "detail" : {
                     "dictname": "dppn",
                     "word": "metta"
                 }
-            }
+            },
+            "url": "/define/metta"
         }
         "#
         .to_string();
 
         let dictionary_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
-
-        assert!(matches!(dictionary_hit, Hit::Dictionary { .. }));
+        match dictionary_hit {
+            Hit::Dictionary { url, .. } => {
+                assert_eq!(url, "/define/metta");
+            }
+            _ => {
+                panic!("Expected dictionary hit")
+            }
+        }
     }
 
     #[test]
@@ -74,14 +82,15 @@ mod tests {
         {
             "uid": "sa264",
             "lang": "en",
-            "author_uid": "analayo"
+            "author_uid": "analayo",
+            "url": "/sa264/en/analayo"
         }
         "#
         .to_string();
 
         let sutta_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(sutta_hit, Hit::Sutta { .. }));
+        assert!(matches!(sutta_hit, Hit::Text { .. }));
     }
 
     #[test]
@@ -90,14 +99,15 @@ mod tests {
         {
             "uid": "sn-guide-sujato",
             "lang": "en",
-            "author_uid": null
+            "author_uid": null,
+            "url": "/sn-guide-sujato"
         }
         "#
         .to_string();
 
         let guide_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(guide_hit, Hit::Sutta { .. }));
+        assert!(matches!(guide_hit, Hit::Text { .. }));
     }
 
     #[test]
@@ -106,14 +116,15 @@ mod tests {
         {
             "uid": "licensing",
             "lang": "en",
-            "author_uid": null
+            "author_uid": null,
+            "url": "/licensing"
         }
         "#
         .to_string();
 
         let licensing_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(licensing_hit, Hit::Sutta { .. }));
+        assert!(matches!(licensing_hit, Hit::Text { .. }));
     }
 
     #[test]

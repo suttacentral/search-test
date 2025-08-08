@@ -84,8 +84,8 @@ fn main() {
                     Hit::Dictionary { .. } => {
                         println!("Dictionary result");
                     }
-                    Hit::Sutta { uid, .. } => {
-                        println!("Sutta result: {uid}");
+                    Hit::Text { uid, .. } => {
+                        println!("Text result: {uid}");
                     }
                 }
             }
