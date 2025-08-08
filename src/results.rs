@@ -65,15 +65,11 @@ mod tests {
         "#
         .to_string();
 
-        let dictionary_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
-        match dictionary_hit {
-            Hit::Dictionary { url, .. } => {
-                assert_eq!(url, "/define/metta");
-            }
-            _ => {
-                panic!("Expected dictionary hit")
-            }
-        }
+        if let Hit::Dictionary { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
+            assert_eq!(url, "/define/metta");
+        } else {
+            panic!("Wrong hit variant");
+        };
     }
 
     #[test]
@@ -88,9 +84,11 @@ mod tests {
         "#
         .to_string();
 
-        let sutta_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
-
-        assert!(matches!(sutta_hit, Hit::Text { .. }));
+        if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
+            assert_eq!(url, "/sa264/en/analayo");
+        } else {
+            panic!("Wrong hit variant");
+        };
     }
 
     #[test]
@@ -107,7 +105,11 @@ mod tests {
 
         let guide_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(guide_hit, Hit::Text { .. }));
+        if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
+            assert_eq!(url, "/sn-guide-sujato");
+        } else {
+            panic!("Wrong hit variant");
+        };
     }
 
     #[test]
@@ -124,7 +126,11 @@ mod tests {
 
         let licensing_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
-        assert!(matches!(licensing_hit, Hit::Text { .. }));
+        if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
+            assert_eq!(url, "/licensing");
+        } else {
+            panic!("Wrong hit variant");
+        };
     }
 
     #[test]
