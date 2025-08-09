@@ -1,0 +1,34 @@
+# Test cases for search in development environment.
+
+settings:
+    endpoint: "http://localhost/api/search/instant"
+    limit: 50
+    client_language: "en"
+    restrict: "all"
+    selected-languages: [ "lzh", "en", "pgd", "kho", "pli", "pra", "san", "xct", "xto", "uig" ]
+    match-partial: false
+
+test-cases:
+    -   description: "Search for the metta sutta in English and Pali"
+        query: "metta"
+        selected-languages: [ "pli", "en" ]
+        match-partial: false
+
+    -   description: "Has multiple dictionary results."
+        query: "pacch"
+        match-partial: true
+
+    -   description: "Dictionary entry with two words"
+        query: "pacchimo kālo"
+        selected-languages: [ "pli" ]
+        match-partial: false
+
+    -   description: "Guide to The Linked Discourses"
+        query: "sn-guide-sujato"
+        selected-languages: [ "en" ]
+        match-partial: false
+
+    -   description: "Static pages for licensing"
+        query: "licensing"
+        selected-languages: [ "en" ]
+        match-partial: false
