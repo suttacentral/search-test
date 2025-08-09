@@ -12,7 +12,6 @@ test-cases:
     -   description: "Search for the metta sutta in English and Pali"
         query: "metta"
         selected-languages: [ "pli", "en" ]
-        match-partial: false
 
     -   description: "Has multiple dictionary results."
         query: "pacch"
@@ -21,14 +20,11 @@ test-cases:
     -   description: "Dictionary entry with two words"
         query: "pacchimo kālo"
         selected-languages: [ "pli" ]
-        match-partial: false
 
     -   description: "Guide to The Linked Discourses"
         query: "sn-guide-sujato"
         selected-languages: [ "en" ]
-        match-partial: false
 
     -   description: "Static pages for licensing"
         query: "licensing"
         selected-languages: [ "en" ]
-        match-partial: false
