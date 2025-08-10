@@ -1,4 +1,5 @@
 mod results;
+mod spec;
 
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
