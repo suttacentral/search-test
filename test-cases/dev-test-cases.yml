@@ -8,23 +8,22 @@ settings:
     selected-languages: [ "lzh", "en", "pgd", "kho", "pli", "pra", "san", "xct", "xto", "uig" ]
     match-partial: false
 
-test-cases:
-    -   description: "Search for the metta sutta in English and Pali"
-        query: "metta"
-        selected-languages: [ "pli", "en" ]
-
-    -   description: "Has multiple dictionary results."
-        query: "pacch"
-        match-partial: true
-
-    -   description: "Dictionary entry with two words"
-        query: "pacchimo kālo"
-        selected-languages: [ "pli" ]
-
-    -   description: "Guide to The Linked Discourses"
-        query: "sn-guide-sujato"
-        selected-languages: [ "en" ]
-
-    -   description: "Static pages for licensing"
-        query: "licensing"
-        selected-languages: [ "en" ]
+description: "Search for the metta sutta in English and Pali"
+query: "metta"
+selected-languages: [ "pli", "en" ]
+---
+description: "Has multiple dictionary results."
+query: "pacch"
+match-partial: true
+---
+description: "Dictionary entry with two words"
+query: "pacchimo kālo"
+selected-languages: [ "pli" ]
+---
+description: "Guide to The Linked Discourses"
+query: "sn-guide-sujato"
+selected-languages: [ "en" ]
+---
+description: "Static pages for licensing"
+query: "licensing"
+selected-languages: [ "en" ]
