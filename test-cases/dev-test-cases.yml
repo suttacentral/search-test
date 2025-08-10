@@ -3,7 +3,7 @@
 settings:
     endpoint: "http://localhost/api/search/instant"
     limit: 50
-    client_language: "en"
+    site_language: "en"
     restrict: "all"
     selected-languages: [ "lzh", "en", "pgd", "kho", "pli", "pra", "san", "xct", "xto", "uig" ]
     match-partial: false

@@ -8,7 +8,7 @@ struct TestCase {
     url: String,
     query: String,
     limit: u16,
-    uri_language: String,
+    site_language: String,
     restrict: String,
     match_partial: String,
     selected_languages: Vec<String>,
@@ -20,7 +20,7 @@ impl Default for TestCase {
             query: String::new(),
             url: "http://localhost/api/search/instant".to_string(),
             limit: 1,
-            uri_language: "en".to_string(),
+            site_language: "en".to_string(),
             restrict: "all".to_string(),
             match_partial: "false".to_string(),
             selected_languages: vec!["en".to_string()],
@@ -33,7 +33,7 @@ impl From<TestCase> for RequestBuilder {
         let params = vec![
             ("limit", value.limit.to_string()),
             ("query", value.query),
-            ("language", value.uri_language),
+            ("language", value.site_language),
             ("restrict", value.restrict),
             ("matchpartial", value.match_partial),
         ];
