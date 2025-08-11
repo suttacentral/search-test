@@ -27,8 +27,13 @@ impl SettingsBuilder {
     pub fn build(self) -> String {
         let mut output = String::new();
         writeln!(&mut output, "settings: ").expect("Building failed.");
+
         if let Some(endpoint) = self.endpoint {
             writeln!(&mut output, "    endpoint: \"{endpoint}\"").expect("Building failed.");
+        }
+
+        if let Some(limit) = self.limit {
+            writeln!(&mut output, "    limit: {limit}").expect("Building failed.");
         }
         output
     }
