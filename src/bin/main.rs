@@ -1,9 +1,6 @@
-mod results;
-mod spec;
-
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
-use results::SearchResults;
+use search_test::results::SearchResults;
 
 struct TestCase {
     url: String,
