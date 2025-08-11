@@ -1,11 +1,17 @@
+use std::fmt::Write as _;
+
 #[derive(Default)]
 pub struct SettingsBuilder {
     endpoint: Option<String>,
+    limit: Option<usize>,
 }
 
 impl SettingsBuilder {
     pub fn new() -> SettingsBuilder {
-        SettingsBuilder { endpoint: None }
+        SettingsBuilder {
+            endpoint: None,
+            limit: None,
+        }
     }
 
     pub fn endpoint(mut self, endpoint: String) -> SettingsBuilder {
@@ -13,28 +19,17 @@ impl SettingsBuilder {
         self
     }
 
-    pub fn build(self) -> String {
-        let mut output = String::from("settings:\n");
-        output.push_str("    endpoint: \"http://localhost/api/search/instant\"");
-        output
+    pub fn limit(mut self, limit: usize) -> SettingsBuilder {
+        self.limit = Some(limit);
+        self
     }
-}
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    static ENDPOINT: &str = "http://localhost/api/search/instant";
-
-    #[test]
-    fn create_builder_with_endpoint() {
-        let settings: String = SettingsBuilder::new()
-            .endpoint(String::from(ENDPOINT))
-            .build();
-
-        let mut expected = String::new();
-        expected.push_str("settings:\n");
-        expected.push_str("    endpoint: \"http://localhost/api/search/instant\"");
-        assert_eq!(settings, expected);
+    pub fn build(self) -> String {
+        let mut output = String::new();
+        writeln!(&mut output, "settings: ").expect("Building failed.");
+        if let Some(endpoint) = self.endpoint {
+            writeln!(&mut output, "    endpoint: \"{endpoint}\"").expect("Building failed.");
+        }
+        output
     }
 }
