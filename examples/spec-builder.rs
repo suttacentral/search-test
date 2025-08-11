@@ -4,6 +4,7 @@ fn main() {
     let settings: String = SettingsBuilder::new()
         .endpoint(String::from("http://localhost/api/search/instant"))
         .limit(50)
+        .site_language(String::from("en"))
         .build();
     println!("{settings}");
 }

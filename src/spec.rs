@@ -4,6 +4,7 @@ use std::fmt::Write as _;
 pub struct SettingsBuilder {
     endpoint: Option<String>,
     limit: Option<usize>,
+    site_language: Option<String>,
 }
 
 impl SettingsBuilder {
@@ -11,6 +12,7 @@ impl SettingsBuilder {
         SettingsBuilder {
             endpoint: None,
             limit: None,
+            site_language: None,
         }
     }
 
@@ -24,6 +26,11 @@ impl SettingsBuilder {
         self
     }
 
+    pub fn site_language(mut self, site_language: String) -> SettingsBuilder {
+        self.site_language = Some(site_language);
+        self
+    }
+
     pub fn build(self) -> String {
         let mut output = String::new();
         writeln!(&mut output, "settings: ").expect("Building failed.");
@@ -34,6 +41,11 @@ impl SettingsBuilder {
 
         if let Some(limit) = self.limit {
             writeln!(&mut output, "    limit: {limit}").expect("Building failed.");
+        }
+
+        if let Some(site_language) = self.site_language {
+            writeln!(&mut output, "    site-language: \"{site_language}\"")
+                .expect("Building failed.")
         }
         output
     }
