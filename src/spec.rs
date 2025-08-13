@@ -18,8 +18,8 @@ impl SettingsBuilder {
         }
     }
 
-    pub fn endpoint(mut self, endpoint: String) -> SettingsBuilder {
-        self.endpoint = Some(endpoint);
+    pub fn endpoint(mut self, endpoint: &str) -> SettingsBuilder {
+        self.endpoint = Some(String::from(endpoint));
         self
     }
 
@@ -28,32 +28,30 @@ impl SettingsBuilder {
         self
     }
 
-    pub fn site_language(mut self, site_language: String) -> SettingsBuilder {
-        self.site_language = Some(site_language);
+    pub fn site_language(mut self, site_language: &str) -> SettingsBuilder {
+        self.site_language = Some(String::from(site_language));
         self
     }
 
-    pub fn restrict(mut self, restrict: String) -> SettingsBuilder {
-        self.restrict = Some(restrict);
+    pub fn restrict(mut self, restrict: &str) -> SettingsBuilder {
+        self.restrict = Some(String::from(restrict));
         self
     }
 
     pub fn build(self) -> String {
         let mut output = String::new();
         writeln!(&mut output, "settings: ").unwrap();
-
         if let Some(endpoint) = self.endpoint {
-            writeln!(&mut output, "    endpoint: \"{endpoint}\"").expect("Building failed.");
+            writeln!(&mut output, "    endpoint: \"{endpoint}\"").unwrap();
         }
         if let Some(limit) = self.limit {
-            writeln!(&mut output, "    limit: {limit}").expect("Building failed.");
+            writeln!(&mut output, "    limit: {limit}").unwrap();
         }
         if let Some(site_language) = self.site_language {
-            writeln!(&mut output, "    site-language: \"{site_language}\"")
-                .expect("Building failed.")
+            writeln!(&mut output, "    site-language: \"{site_language}\"").unwrap();
         }
         if let Some(restrict) = self.restrict {
-            writeln!(&mut output, "    restrict: \"{restrict}\"").expect("Building failed")
+            writeln!(&mut output, "    restrict: \"{restrict}\"").unwrap();
         }
         output
     }

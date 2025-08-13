@@ -2,10 +2,10 @@ use search_test::spec::SettingsBuilder;
 
 fn main() {
     let settings: String = SettingsBuilder::new()
-        .endpoint(String::from("http://localhost/api/search/instant"))
+        .endpoint("http://localhost/api/search/instant")
         .limit(50)
-        .site_language(String::from("en"))
-        .restrict(String::from("all"))
+        .site_language("en")
+        .restrict("all")
         .build();
     println!("{settings}");
 }
