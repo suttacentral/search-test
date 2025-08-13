@@ -5,6 +5,7 @@ fn main() {
         .endpoint(String::from("http://localhost/api/search/instant"))
         .limit(50)
         .site_language(String::from("en"))
+        .restrict(String::from("all"))
         .build();
     println!("{settings}");
 }

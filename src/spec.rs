@@ -5,6 +5,7 @@ pub struct SettingsBuilder {
     endpoint: Option<String>,
     limit: Option<usize>,
     site_language: Option<String>,
+    restrict: Option<String>,
 }
 
 impl SettingsBuilder {
@@ -13,6 +14,7 @@ impl SettingsBuilder {
             endpoint: None,
             limit: None,
             site_language: None,
+            restrict: None,
         }
     }
 
@@ -31,21 +33,27 @@ impl SettingsBuilder {
         self
     }
 
+    pub fn restrict(mut self, restrict: String) -> SettingsBuilder {
+        self.restrict = Some(restrict);
+        self
+    }
+
     pub fn build(self) -> String {
         let mut output = String::new();
-        writeln!(&mut output, "settings: ").expect("Building failed.");
+        writeln!(&mut output, "settings: ").unwrap();
 
         if let Some(endpoint) = self.endpoint {
             writeln!(&mut output, "    endpoint: \"{endpoint}\"").expect("Building failed.");
         }
-
         if let Some(limit) = self.limit {
             writeln!(&mut output, "    limit: {limit}").expect("Building failed.");
         }
-
         if let Some(site_language) = self.site_language {
             writeln!(&mut output, "    site-language: \"{site_language}\"")
                 .expect("Building failed.")
+        }
+        if let Some(restrict) = self.restrict {
+            writeln!(&mut output, "    restrict: \"{restrict}\"").expect("Building failed")
         }
         output
     }
