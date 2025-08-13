@@ -7,6 +7,7 @@ pub struct SettingsBuilder {
     site_language: Option<String>,
     restrict: Option<String>,
     selected_languages: Option<String>,
+    match_partial: Option<bool>,
 }
 
 impl SettingsBuilder {
@@ -17,6 +18,7 @@ impl SettingsBuilder {
             site_language: None,
             restrict: None,
             selected_languages: None,
+            match_partial: None,
         }
     }
 
@@ -53,6 +55,11 @@ impl SettingsBuilder {
         self
     }
 
+    pub fn match_partial(mut self, match_partial: bool) -> SettingsBuilder {
+        self.match_partial = Some(match_partial);
+        self
+    }
+
     pub fn build(self) -> String {
         let mut output = String::new();
         writeln!(&mut output, "settings: ").unwrap();
@@ -70,6 +77,9 @@ impl SettingsBuilder {
         }
         if let Some(selected_languages) = self.selected_languages {
             writeln!(&mut output, "    selected-languages: {selected_languages}").unwrap();
+        }
+        if let Some(match_partial) = self.match_partial {
+            writeln!(&mut output, "    match-partial: {match_partial}").unwrap();
         }
         output
     }
