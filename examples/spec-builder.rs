@@ -1,4 +1,4 @@
-use search_test::spec::SettingsBuilder;
+use search_test::builders::SettingsBuilder;
 
 fn main() {
     let settings: String = SettingsBuilder::new()
