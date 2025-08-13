@@ -6,6 +6,9 @@ fn main() {
         .limit(50)
         .site_language("en")
         .restrict("all")
+        .selected_languages(vec![
+            "lzh", "en", "pgd", "kho", "pli", "pra", "san", "xct", "xto", "uig",
+        ])
         .build();
     println!("{settings}");
 }

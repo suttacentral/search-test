@@ -6,6 +6,7 @@ pub struct SettingsBuilder {
     limit: Option<usize>,
     site_language: Option<String>,
     restrict: Option<String>,
+    selected_languages: Option<String>,
 }
 
 impl SettingsBuilder {
@@ -15,6 +16,7 @@ impl SettingsBuilder {
             limit: None,
             site_language: None,
             restrict: None,
+            selected_languages: None,
         }
     }
 
@@ -38,6 +40,19 @@ impl SettingsBuilder {
         self
     }
 
+    pub fn selected_languages(mut self, selected_languages: Vec<&str>) -> SettingsBuilder {
+        let quoted_with_commas = selected_languages
+            .into_iter()
+            .map(|s| format!("\"{s}\""))
+            .collect::<Vec<String>>()
+            .join(", ");
+
+        let bracketed = format!("[ {quoted_with_commas} ]");
+
+        self.selected_languages = Some(bracketed);
+        self
+    }
+
     pub fn build(self) -> String {
         let mut output = String::new();
         writeln!(&mut output, "settings: ").unwrap();
@@ -52,6 +67,9 @@ impl SettingsBuilder {
         }
         if let Some(restrict) = self.restrict {
             writeln!(&mut output, "    restrict: \"{restrict}\"").unwrap();
+        }
+        if let Some(selected_languages) = self.selected_languages {
+            writeln!(&mut output, "    selected-languages: {selected_languages}").unwrap();
         }
         output
     }
