@@ -16,7 +16,11 @@ impl TryFrom<&Yaml<'_>> for Settings {
 
     fn try_from(yaml: &Yaml) -> Result<Self> {
         let settings = &yaml["settings"];
-        let endpoint = settings["endpoint"].as_str().unwrap().to_string();
+
+        let endpoint = settings["endpoint"]
+            .as_str()
+            .context("Missing endpoint setting")?
+            .to_string();
 
         Ok(Settings {
             endpoint,
@@ -62,6 +66,13 @@ impl TryFrom<&str> for TestSuite {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn can_get_endpoint() {
+        let yaml = SettingsBuilder::new().endpoint("http://abc").build();
+        let suite = TestSuite::try_from(yaml.as_str());
+        assert_eq!(suite.unwrap().settings.endpoint, "http://abc");
+    }
 
     #[test]
     fn can_parse_settings() {
