@@ -1,7 +1,10 @@
 use crate::builders::SettingsBuilder;
 use anyhow::{Context, Result, anyhow};
-use saphyr::{LoadableYamlNode, Yaml};
+use saphyr::{LoadableYamlNode, Scalar, Yaml};
+use serde::Deserialize;
+use std::borrow::Cow;
 
+#[derive(Debug)]
 pub struct Settings {
     endpoint: String,
     limit: usize,
@@ -15,30 +18,38 @@ impl TryFrom<&Yaml<'_>> for Settings {
     type Error = anyhow::Error;
 
     fn try_from(yaml: &Yaml) -> Result<Self> {
-        let settings = &yaml["settings"];
+        if let Yaml::Mapping(settings) = &yaml["settings"] {
+            let endpoint_key = &Yaml::Value(Scalar::String(Cow::from("endpoint")));
 
-        let endpoint = settings["endpoint"]
-            .as_str()
-            .context("Missing endpoint setting")?
-            .to_string();
+            let endpoint = settings
+                .get(endpoint_key)
+                .context("Missing endpoint")?
+                .as_str()
+                .context("Endpoint not a string")?
+                .to_string();
 
-        Ok(Settings {
-            endpoint,
-            limit: 50,
-            site_language: "en".to_string(),
-            restrict: "all".to_string(),
-            selected_languages: vec!["en".to_string()],
-            match_partial: false,
-        })
+            Ok(Settings {
+                endpoint,
+                limit: 50,
+                site_language: "en".to_string(),
+                restrict: "all".to_string(),
+                selected_languages: vec!["en".to_string()],
+                match_partial: false,
+            })
+        } else {
+            Err(anyhow!("Settings is not a mapping"))
+        }
     }
 }
 
+#[derive(Debug)]
 pub struct TestCase {
     description: Option<String>,
     query: String,
     selected_languages: Option<Vec<String>>,
 }
 
+#[derive(Debug)]
 pub struct TestSuite {
     settings: Settings,
     test_cases: Vec<TestCase>,
@@ -72,6 +83,13 @@ mod tests {
         let yaml = SettingsBuilder::new().endpoint("http://abc").build();
         let suite = TestSuite::try_from(yaml.as_str());
         assert_eq!(suite.unwrap().settings.endpoint, "http://abc");
+    }
+
+    #[test]
+    fn missing_endpoint_is_error() {
+        let yaml = SettingsBuilder::new().limit(50).build();
+        let suite = TestSuite::try_from(yaml.as_str());
+        assert!(suite.is_err())
     }
 
     #[test]
