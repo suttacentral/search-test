@@ -1,5 +1,5 @@
 use crate::builders::SettingsBuilder;
-use anyhow::{Result, anyhow};
+use anyhow::{Context, Result, anyhow};
 use saphyr::{LoadableYamlNode, Yaml};
 
 pub struct Settings {
@@ -9,6 +9,21 @@ pub struct Settings {
     restrict: String,
     selected_languages: Vec<String>,
     match_partial: bool,
+}
+
+impl TryFrom<&Yaml<'_>> for Settings {
+    type Error = anyhow::Error;
+
+    fn try_from(value: &Yaml) -> Result<Self> {
+        Ok(Settings {
+            endpoint: "http://localhost/api/search/instant".to_string(),
+            limit: 50,
+            site_language: "en".to_string(),
+            restrict: "all".to_string(),
+            selected_languages: vec!["en".to_string()],
+            match_partial: false,
+        })
+    }
 }
 
 pub struct TestCase {
@@ -26,16 +41,9 @@ impl TryFrom<&str> for TestSuite {
     type Error = anyhow::Error;
 
     fn try_from(value: &str) -> Result<Self> {
-        let docs = Yaml::load_from_str(value)?;
-
-        let settings = Settings {
-            endpoint: "http://localhost/api/search/instant".to_string(),
-            limit: 50,
-            site_language: "en".to_string(),
-            restrict: "all".to_string(),
-            selected_languages: vec!["en".to_string()],
-            match_partial: false,
-        };
+        let docs = Yaml::load_from_str(value).context("Could not parse YAML")?;
+        let settings_doc = &docs[0];
+        let settings = Settings::try_from(settings_doc).context("Error getting settings.")?;
 
         let test_cases = vec![TestCase {
             description: Some("Search for the metta sutta in English and Pali".to_string()),
