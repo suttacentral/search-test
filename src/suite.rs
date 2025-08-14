@@ -14,7 +14,9 @@ pub struct Settings {
 impl TryFrom<&Yaml<'_>> for Settings {
     type Error = anyhow::Error;
 
-    fn try_from(value: &Yaml) -> Result<Self> {
+    fn try_from(yaml: &Yaml) -> Result<Self> {
+        let settings_map = &yaml["settings"].as_mapping().unwrap();
+
         Ok(Settings {
             endpoint: "http://localhost/api/search/instant".to_string(),
             limit: 50,
@@ -42,9 +44,7 @@ impl TryFrom<&str> for TestSuite {
 
     fn try_from(value: &str) -> Result<Self> {
         let docs = Yaml::load_from_str(value).context("Could not parse YAML")?;
-        let settings_doc = &docs[0];
-        let settings = Settings::try_from(settings_doc).context("Error getting settings.")?;
-
+        let settings = Settings::try_from(&docs[0]).context("Error getting settings.")?;
         let test_cases = vec![TestCase {
             description: Some("Search for the metta sutta in English and Pali".to_string()),
             query: "metta".to_string(),

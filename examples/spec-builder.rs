@@ -1,4 +1,7 @@
+use saphyr::Yaml::Value;
+use saphyr::{LoadableYamlNode, Scalar, Yaml};
 use search_test::builders::SettingsBuilder;
+use std::borrow::Cow;
 
 fn main() {
     let settings: String = SettingsBuilder::new()
@@ -11,5 +14,21 @@ fn main() {
         ])
         .match_partial(true)
         .build();
-    println!("{settings}");
+
+    let docs = Yaml::load_from_str(settings.as_str()).unwrap();
+
+    let settings_map = &docs[0]["settings"];
+    // dbg!(settings_map);
+
+    match settings_map {
+        Yaml::Mapping(mapping) => {
+            let key = Yaml::Value(Scalar::String(Cow::from("endpoint")));
+            let endpoint_value = &mapping.get(&key);
+            let endpoint = endpoint_value.unwrap().as_str().unwrap();
+            println!("Endpoint: {endpoint}")
+        }
+        _ => {
+            println!("Not a mapping");
+        }
+    }
 }
