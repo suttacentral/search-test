@@ -15,10 +15,11 @@ impl TryFrom<&Yaml<'_>> for Settings {
     type Error = anyhow::Error;
 
     fn try_from(yaml: &Yaml) -> Result<Self> {
-        let settings_map = &yaml["settings"].as_mapping().unwrap();
+        let settings = &yaml["settings"];
+        let endpoint = settings["endpoint"].as_str().unwrap().to_string();
 
         Ok(Settings {
-            endpoint: "http://localhost/api/search/instant".to_string(),
+            endpoint,
             limit: 50,
             site_language: "en".to_string(),
             restrict: "all".to_string(),

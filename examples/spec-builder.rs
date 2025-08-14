@@ -18,6 +18,9 @@ fn main() {
     let docs = Yaml::load_from_str(settings.as_str()).unwrap();
 
     let settings_map = &docs[0]["settings"];
+    let endpoint = &settings_map["endpoint"];
+    let endpoint_value = endpoint.as_str().unwrap();
+    println!("Endpoint 1: {endpoint_value}");
     // dbg!(settings_map);
 
     match settings_map {
@@ -25,7 +28,7 @@ fn main() {
             let key = Yaml::Value(Scalar::String(Cow::from("endpoint")));
             let endpoint_value = &mapping.get(&key);
             let endpoint = endpoint_value.unwrap().as_str().unwrap();
-            println!("Endpoint: {endpoint}")
+            println!("Endpoint: 2: {endpoint}")
         }
         _ => {
             println!("Not a mapping");
