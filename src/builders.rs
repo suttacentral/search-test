@@ -83,4 +83,28 @@ impl SettingsBuilder {
         }
         output
     }
+
+    pub fn toml_text(self) -> String {
+        let mut output = String::new();
+        writeln!(&mut output, "[settings]").unwrap();
+        if let Some(endpoint) = self.endpoint {
+            writeln!(&mut output, "endpoint = \"{endpoint}\"").unwrap();
+        }
+        if let Some(limit) = self.limit {
+            writeln!(&mut output, "limit = {limit}").unwrap();
+        }
+        if let Some(site_language) = self.site_language {
+            writeln!(&mut output, "site-language = \"{site_language}\"").unwrap();
+        }
+        if let Some(restrict) = self.restrict {
+            writeln!(&mut output, "restrict = \"{restrict}\"").unwrap();
+        }
+        if let Some(selected_languages) = self.selected_languages {
+            writeln!(&mut output, "selected-languages = {selected_languages}").unwrap();
+        }
+        if let Some(match_partial) = self.match_partial {
+            writeln!(&mut output, "match-partial = {match_partial}").unwrap();
+        }
+        output
+    }
 }

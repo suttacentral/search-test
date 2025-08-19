@@ -10,7 +10,7 @@ fn main() {
             "lzh", "en", "pgd", "kho", "pli", "pra", "san", "xct", "xto", "uig",
         ])
         .match_partial(true)
-        .yaml_text();
+        .toml_text();
 
     println!("{settings}");
 }
