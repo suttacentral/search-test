@@ -2,7 +2,7 @@ use anyhow::Context;
 use saphyr::LoadableYamlNode;
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 pub struct Settings {
     endpoint: String,
@@ -13,7 +13,7 @@ pub struct Settings {
     match_partial: bool,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 pub struct TestCase {
     description: Option<String>,
@@ -21,7 +21,7 @@ pub struct TestCase {
     selected_languages: Option<Vec<String>>,
 }
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case")]
 pub struct TestSuite {
     settings: Settings,
@@ -47,9 +47,15 @@ mod tests {
         )
         .unwrap();
 
-        assert_eq!(
-            suite.settings.endpoint,
-            "http://localhost/api/search/instant"
-        );
+        let expected = Settings {
+            endpoint: "http://localhost/api/search/instant".to_string(),
+            limit: 50,
+            site_language: "en".to_string(),
+            restrict: "all".to_string(),
+            selected_languages: vec!["en".to_string(), "pli".to_string()],
+            match_partial: false,
+        };
+
+        assert_eq!(suite.settings, expected);
     }
 }
