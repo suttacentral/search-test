@@ -80,14 +80,14 @@ mod tests {
 
     #[test]
     fn can_get_endpoint() {
-        let yaml = SettingsBuilder::new().endpoint("http://abc").build();
+        let yaml = SettingsBuilder::new().endpoint("http://abc").yaml_text();
         let suite = TestSuite::try_from(yaml.as_str());
         assert_eq!(suite.unwrap().settings.endpoint, "http://abc");
     }
 
     #[test]
     fn missing_endpoint_is_error() {
-        let yaml = SettingsBuilder::new().limit(50).build();
+        let yaml = SettingsBuilder::new().limit(50).yaml_text();
         let suite = TestSuite::try_from(yaml.as_str());
         assert!(suite.is_err())
     }
@@ -103,7 +103,7 @@ mod tests {
                 "lzh", "en", "pgd", "kho", "pli", "pra", "san", "xct", "xto", "uig",
             ])
             .match_partial(true)
-            .build();
+            .yaml_text();
 
         let docs = Yaml::load_from_str(yaml.as_str()).unwrap();
         assert_eq!(docs.len(), 1);
@@ -119,7 +119,7 @@ mod tests {
             .restrict("all")
             .selected_languages(vec!["en", "pli"])
             .match_partial(true)
-            .build();
+            .yaml_text();
 
         let suite = TestSuite::try_from(yaml.as_str()).unwrap();
         assert_eq!(

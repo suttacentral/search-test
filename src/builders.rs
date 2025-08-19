@@ -60,7 +60,7 @@ impl SettingsBuilder {
         self
     }
 
-    pub fn build(self) -> String {
+    pub fn yaml_text(self) -> String {
         let mut output = String::new();
         writeln!(&mut output, "settings: ").unwrap();
         if let Some(endpoint) = self.endpoint {
