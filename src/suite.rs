@@ -33,7 +33,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn can_parse_all_settings() {
+    fn suite_with_one_test_case() {
         let suite: TestSuite = toml::from_str(
             r#"
             [settings]
@@ -43,19 +43,26 @@ mod tests {
             restrict = "all"
             selected-languages = ["en", "pli"]
             match-partial = false
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+            selected-languages = ["pli", "en"]
         "#,
         )
         .unwrap();
 
-        let expected = Settings {
-            endpoint: "http://localhost/api/search/instant".to_string(),
-            limit: 50,
-            site_language: "en".to_string(),
-            restrict: "all".to_string(),
-            selected_languages: vec!["en".to_string(), "pli".to_string()],
-            match_partial: false,
+        let expected = TestSuite {
+            settings: Settings {
+                endpoint: "http://localhost/api/search/instant".to_string(),
+                limit: 50,
+                site_language: "en".to_string(),
+                restrict: "all".to_string(),
+                selected_languages: vec!["en".to_string(), "pli".to_string()],
+                match_partial: false,
+            },
         };
 
-        assert_eq!(suite.settings, expected);
+        assert_eq!(suite, expected);
     }
 }
