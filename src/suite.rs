@@ -2,7 +2,7 @@ use anyhow::{Context, Error};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case")]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Settings {
     endpoint: String,
     limit: usize,
@@ -13,7 +13,7 @@ pub struct Settings {
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case")]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct TestCase {
     description: Option<String>,
     query: String,
@@ -21,7 +21,7 @@ pub struct TestCase {
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case")]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct TestSuite {
     settings: Settings,
     #[serde[rename = "test-case"]]
@@ -137,6 +137,32 @@ mod tests {
 
         match suite {
             Err(error) => assert_eq!(error.message(), "missing field `query`"),
+            Ok(_) => panic!("Did not get expected error."),
+        }
+    }
+
+    #[test]
+    fn unknown_field_gives_an_error() {
+        let suite = toml::from_str::<TestSuite>(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+            extra-field = "This causes an error"
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+            selected-languages = ["pli", "en"]
+        "#,
+        );
+
+        match suite {
+            Err(error) => assert!(error.message().starts_with("unknown field")),
             Ok(_) => panic!("Did not get expected error."),
         }
     }
