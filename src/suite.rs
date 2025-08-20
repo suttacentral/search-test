@@ -1,5 +1,4 @@
 use anyhow::{Context, Error};
-use saphyr::LoadableYamlNode;
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
