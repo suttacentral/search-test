@@ -1,31 +1,30 @@
-use anyhow::{Context, Error};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Settings {
-    endpoint: String,
-    limit: usize,
-    site_language: String,
-    restrict: String,
-    selected_languages: Vec<String>,
-    match_partial: bool,
+    pub endpoint: String,
+    pub limit: usize,
+    pub site_language: String,
+    pub restrict: String,
+    pub selected_languages: Vec<String>,
+    pub match_partial: bool,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct TestCase {
-    description: Option<String>,
-    query: String,
-    selected_languages: Option<Vec<String>>,
+    pub description: Option<String>,
+    pub query: String,
+    pub selected_languages: Option<Vec<String>>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct TestSuite {
-    settings: Settings,
+    pub settings: Settings,
     #[serde[rename = "test-case"]]
-    test_cases: Vec<TestCase>,
+    pub test_cases: Vec<TestCase>,
 }
 
 #[cfg(test)]
