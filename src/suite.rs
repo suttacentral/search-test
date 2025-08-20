@@ -1,4 +1,4 @@
-use anyhow::Context;
+use anyhow::{Context, Error};
 use saphyr::LoadableYamlNode;
 use serde::Deserialize;
 
@@ -34,7 +34,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn suite_with_one_test_case() {
+    fn complete_settings_one_test_case() {
         let suite: TestSuite = toml::from_str(
             r#"
             [settings]
@@ -70,5 +70,25 @@ mod tests {
         };
 
         assert_eq!(suite, expected);
+    }
+
+    #[test]
+    fn no_test_cases_gives_an_error() {
+        let suite = toml::from_str::<TestSuite>(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+        "#,
+        );
+
+        match suite {
+            Err(error) => assert_eq!(error.message(), "missing field `test-case`"),
+            Ok(_) => panic!("Did not get expected error."),
+        }
     }
 }
