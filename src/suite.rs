@@ -73,7 +73,7 @@ mod tests {
     }
 
     #[test]
-    fn no_test_cases_gives_an_error() {
+    fn missing_test_cases_gives_an_error() {
         let suite = toml::from_str::<TestSuite>(
             r#"
             [settings]
@@ -88,6 +88,56 @@ mod tests {
 
         match suite {
             Err(error) => assert_eq!(error.message(), "missing field `test-case`"),
+            Ok(_) => panic!("Did not get expected error."),
+        }
+    }
+
+    #[test]
+    fn missing_setting_gives_an_error() {
+        let suite = toml::from_str::<TestSuite>(
+            r#"
+            [settings]
+            # endpoint = "http://localhost/api/search/instant"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+            selected-languages = ["pli", "en"]
+        "#,
+        );
+
+        match suite {
+            Err(error) => assert_eq!(error.message(), "missing field `endpoint`"),
+            Ok(_) => panic!("Did not get expected error."),
+        }
+    }
+
+    #[test]
+    fn missing_query_gives_an_error() {
+        let suite = toml::from_str::<TestSuite>(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            # query = "metta"
+            selected-languages = ["pli", "en"]
+        "#,
+        );
+
+        match suite {
+            Err(error) => assert_eq!(error.message(), "missing field `query`"),
             Ok(_) => panic!("Did not get expected error."),
         }
     }
