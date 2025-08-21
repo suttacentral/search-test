@@ -19,8 +19,8 @@ pub struct Defaults {
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct TestCase {
-    pub query: String,
+pub struct TestDetailsProvided {
+    pub query: Option<String>,
     pub description: Option<String>,
     pub limit: Option<usize>,
     pub site_language: Option<String>,
@@ -35,7 +35,7 @@ pub struct TestSuite {
     pub settings: Settings,
     pub defaults: Defaults,
     #[serde[rename = "test-case"]]
-    pub test_cases: Vec<TestCase>,
+    pub test_cases: Vec<TestDetailsProvided>,
 }
 
 #[cfg(test)]
@@ -77,9 +77,9 @@ mod tests {
                 selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
                 match_partial: Some(false),
             },
-            test_cases: vec![TestCase {
+            test_cases: vec![TestDetailsProvided {
                 description: Some("Search for the metta sutta in English and Pali".to_string()),
-                query: "metta".to_string(),
+                query: Some("metta".to_string()),
                 selected_languages: Some(vec!["pli".to_string(), "en".to_string()]),
                 limit: None,
                 site_language: None,
