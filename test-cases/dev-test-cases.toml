@@ -1,5 +1,8 @@
 [settings]
 endpoint = "http://localhost/api/search/instant"
+delay = 3000
+
+[defaults]
 limit = 50
 site-language = "en"
 restrict = "all"
