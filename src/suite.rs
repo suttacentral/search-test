@@ -62,7 +62,12 @@ impl TestCase {
             .clone()
             .context("Test case is missing query")?;
 
-        let site_language = provided.site_language.clone().unwrap_or("en".to_string());
+        let site_language = provided.site_language.clone().unwrap_or(
+            defaults
+                .site_language
+                .clone()
+                .context("Test case is missing site_language and no default is provided")?,
+        );
 
         Ok(TestCase {
             description,
