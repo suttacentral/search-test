@@ -92,6 +92,28 @@ impl TestCase {
 mod tests {
     use super::*;
 
+    fn example_defaults() -> Defaults {
+        Defaults {
+            limit: Some(50),
+            site_language: Some("en".to_string()),
+            restrict: Some("all".to_string()),
+            selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
+            match_partial: Some(false),
+        }
+    }
+
+    fn example_test_case() -> TestCase {
+        TestCase {
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
+            site_language: "en".to_string(),
+            selected_languages: vec!["en".to_string()],
+            match_partial: false,
+            limit: 50,
+            restrict: "all".to_string(),
+        }
+    }
+
     #[test]
     fn can_parse_specification() {
         let suite: TestSuite = toml::from_str(
@@ -143,14 +165,6 @@ mod tests {
 
     #[test]
     fn can_combine_provided_details_with_defaults_to_get_test_case() {
-        let defaults = Defaults {
-            limit: Some(50),
-            site_language: Some("en".to_string()),
-            restrict: Some("all".to_string()),
-            selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
-            match_partial: Some(false),
-        };
-
         let details = DetailsProvided {
             description: Some("Search in English only.".to_string()),
             query: Some("metta".to_string()),
@@ -161,19 +175,9 @@ mod tests {
             restrict: None,
         };
 
-        let test_case = TestCase::combine(&defaults, &details).unwrap();
+        let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
 
-        let expected = TestCase {
-            description: "Search in English only.".to_string(),
-            query: "metta".to_string(),
-            site_language: "en".to_string(),
-            selected_languages: vec!["en".to_string()],
-            match_partial: false,
-            limit: 50,
-            restrict: "all".to_string(),
-        };
-
-        assert_eq!(test_case, expected);
+        assert_eq!(test_case, example_test_case());
     }
 
     #[test]
@@ -192,16 +196,6 @@ mod tests {
 
         let test_case = TestCase::combine(&defaults, &details).unwrap();
 
-        let expected = TestCase {
-            description: "Search in English only.".to_string(),
-            query: "metta".to_string(),
-            site_language: "en".to_string(),
-            selected_languages: vec!["en".to_string()],
-            match_partial: false,
-            limit: 50,
-            restrict: "all".to_string(),
-        };
-
-        assert_eq!(test_case, expected);
+        assert_eq!(test_case, example_test_case());
     }
 }
