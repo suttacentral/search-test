@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{Context, Result};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -52,8 +52,13 @@ pub struct TestCase {
 
 impl TestCase {
     fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
+        let description = provided
+            .description
+            .clone()
+            .context("Missing description")?;
+
         Ok(TestCase {
-            description: "Search in English only.".to_string(),
+            description,
             query: "metta".to_string(),
             site_language: "en".to_string(),
             selected_languages: vec!["en".to_string()],
