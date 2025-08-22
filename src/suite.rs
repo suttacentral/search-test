@@ -1,4 +1,4 @@
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, anyhow};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -8,7 +8,7 @@ pub struct Settings {
     pub delay: usize,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Defaults {
     pub limit: Option<usize>,
@@ -51,7 +51,19 @@ pub struct TestCase {
 }
 
 impl TestCase {
-    fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
+    fn site_language(provided: &Option<String>, default: &Option<String>) -> Result<String> {
+        if let Some(site_language) = provided {
+            return Ok(site_language.clone());
+        };
+        if let Some(site_language) = default {
+            return Ok(site_language.clone());
+        };
+        Err(anyhow!(
+            "Test case missing site-language and no default provided."
+        ))
+    }
+
+    pub fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
         let description = provided
             .description
             .clone()
@@ -62,12 +74,7 @@ impl TestCase {
             .clone()
             .context("Test case is missing query")?;
 
-        let site_language = provided.site_language.clone().unwrap_or(
-            defaults
-                .site_language
-                .clone()
-                .context("Test case is missing site_language and no default is provided")?,
-        );
+        let site_language = Self::site_language(&provided.site_language, &defaults.site_language)?;
 
         Ok(TestCase {
             description,
@@ -154,7 +161,7 @@ mod tests {
             restrict: None,
         };
 
-        let complete = TestCase::combine(&defaults, &details).unwrap();
+        let test_case = TestCase::combine(&defaults, &details).unwrap();
 
         let expected = TestCase {
             description: "Search in English only.".to_string(),
@@ -166,6 +173,35 @@ mod tests {
             restrict: "all".to_string(),
         };
 
-        assert_eq!(complete, expected);
+        assert_eq!(test_case, expected);
+    }
+
+    #[test]
+    fn can_combine_missing_defaults() {
+        let defaults = Defaults::default();
+
+        let details = DetailsProvided {
+            description: Some("Search in English only.".to_string()),
+            query: Some("metta".to_string()),
+            site_language: Some("en".to_string()),
+            selected_languages: Some(vec!["en".to_string()]),
+            match_partial: Some(false),
+            limit: Some(1),
+            restrict: Some("all".to_string()),
+        };
+
+        let test_case = TestCase::combine(&defaults, &details).unwrap();
+
+        let expected = TestCase {
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
+            site_language: "en".to_string(),
+            selected_languages: vec!["en".to_string()],
+            match_partial: false,
+            limit: 50,
+            restrict: "all".to_string(),
+        };
+
+        assert_eq!(test_case, expected);
     }
 }
