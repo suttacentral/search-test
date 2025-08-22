@@ -198,4 +198,29 @@ mod tests {
 
         assert_eq!(test_case, example_test_case());
     }
+
+    #[test]
+    fn error_when_both_are_missing_site_language() {
+        let defaults = Defaults {
+            site_language: None,
+            ..example_defaults()
+        };
+
+        let details = DetailsProvided {
+            description: Some("Search in English only.".to_string()),
+            query: Some("metta".to_string()),
+            site_language: None,
+            selected_languages: Some(vec!["en".to_string()]),
+            match_partial: Some(false),
+            limit: Some(1),
+            restrict: Some("all".to_string()),
+        };
+
+        if let Err(error) = TestCase::combine(&defaults, &details) {
+            assert_eq!(
+                error.to_string(),
+                "Test case missing site-language and no default provided."
+            );
+        }
+    }
 }
