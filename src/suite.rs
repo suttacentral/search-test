@@ -62,10 +62,12 @@ impl TestCase {
             .clone()
             .context("Test case is missing query")?;
 
+        let site_language = provided.site_language.clone().unwrap_or("en".to_string());
+
         Ok(TestCase {
             description,
             query,
-            site_language: "en".to_string(),
+            site_language,
             selected_languages: vec!["en".to_string()],
             match_partial: false,
             limit: 50,
