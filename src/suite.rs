@@ -55,11 +55,16 @@ impl TestCase {
         let description = provided
             .description
             .clone()
-            .context("Missing description")?;
+            .context("Test case is missing description")?;
+
+        let query = provided
+            .query
+            .clone()
+            .context("Test case is missing query")?;
 
         Ok(TestCase {
             description,
-            query: "metta".to_string(),
+            query,
             site_language: "en".to_string(),
             selected_languages: vec!["en".to_string()],
             match_partial: false,
