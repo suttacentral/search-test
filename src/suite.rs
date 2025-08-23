@@ -51,15 +51,6 @@ pub struct TestCase {
 }
 
 impl TestCase {
-    fn site_language(provided: &Option<String>, default: &Option<String>) -> Result<String> {
-        [provided, default]
-            .into_iter()
-            .find(|x| x.is_some())
-            .context("Test case missing site-language and no default provided.")?
-            .clone()
-            .context("Uh oh, we found it but didn't find it.")
-    }
-
     pub fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
         let description = provided
             .description
@@ -71,7 +62,12 @@ impl TestCase {
             .clone()
             .context("Test case is missing query")?;
 
-        let site_language = Self::site_language(&provided.site_language, &defaults.site_language)?;
+        let site_language = [&provided.site_language, &defaults.site_language]
+            .into_iter()
+            .find(|x| x.is_some())
+            .context("Test case missing site-language and no default provided.")?
+            .clone()
+            .unwrap();
 
         Ok(TestCase {
             description,
