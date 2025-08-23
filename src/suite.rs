@@ -34,7 +34,7 @@ pub struct DetailsProvided {
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct TestSuite {
     pub settings: Settings,
-    pub defaults: Defaults,
+    pub defaults: Defaults, // Todo: Make optional and use default.
     #[serde[rename = "test-case"]]
     pub test_cases: Vec<DetailsProvided>,
 }
@@ -52,15 +52,13 @@ pub struct TestCase {
 
 impl TestCase {
     fn site_language(provided: &Option<String>, default: &Option<String>) -> Result<String> {
-        if let Some(site_language) = provided {
-            return Ok(site_language.clone());
-        };
-        if let Some(site_language) = default {
-            return Ok(site_language.clone());
-        };
-        Err(anyhow!(
-            "Test case missing site-language and no default provided."
-        ))
+        let found = [provided, default]
+            .into_iter()
+            .find(|x| x.is_some())
+            .context("Test case missing site-language and no default provided.")?
+            .clone();
+
+        Ok(found.unwrap())
     }
 
     pub fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
@@ -206,6 +204,7 @@ mod tests {
             ..example_defaults()
         };
 
+        // Todo: extract example and use struct update syntax.
         let details = DetailsProvided {
             description: Some("Search in English only.".to_string()),
             query: Some("metta".to_string()),
