@@ -52,13 +52,12 @@ pub struct TestCase {
 
 impl TestCase {
     fn site_language(provided: &Option<String>, default: &Option<String>) -> Result<String> {
-        let found = [provided, default]
+        [provided, default]
             .into_iter()
             .find(|x| x.is_some())
             .context("Test case missing site-language and no default provided.")?
-            .clone();
-
-        Ok(found.unwrap())
+            .clone()
+            .context("Uh oh, we found it but didn't find it.")
     }
 
     pub fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
