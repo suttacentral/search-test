@@ -69,11 +69,18 @@ impl TestCase {
             .clone()
             .unwrap();
 
+        let selected_languages = [&provided.selected_languages, &defaults.selected_languages]
+            .into_iter()
+            .find(|x| x.is_some())
+            .context("Test case missing site-language and no default provided.")?
+            .clone()
+            .unwrap();
+
         Ok(TestCase {
             description,
             query,
             site_language,
-            selected_languages: vec!["en".to_string()],
+            selected_languages,
             match_partial: false,
             limit: 50,
             restrict: "all".to_string(),
@@ -199,7 +206,6 @@ mod tests {
             ..example_defaults()
         };
 
-        // Todo: extract example and use struct update syntax.
         let details = DetailsProvided {
             description: Some("Search in English only.".to_string()),
             query: Some("metta".to_string()),
