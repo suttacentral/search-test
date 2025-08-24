@@ -72,14 +72,27 @@ impl TestCase {
         let selected_languages = [&provided.selected_languages, &defaults.selected_languages]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing site-language and no default provided.")?
+            .context("Test case missing selected-languages and no default provided.")?
             .clone()
             .unwrap();
 
         let match_partial = [&provided.match_partial, &defaults.match_partial]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing site-language and no default provided.")?
+            .context("Test case missing match_partial and no default provided.")?
+            .unwrap();
+
+        let limit = [&provided.limit, &defaults.limit]
+            .into_iter()
+            .find(|x| x.is_some())
+            .context("Test case missing limit and no default provided.")?
+            .unwrap();
+
+        let restrict = [&provided.restrict, &defaults.restrict]
+            .into_iter()
+            .find(|x| x.is_some())
+            .context("Test case missing restrict and no default provided.")?
+            .clone()
             .unwrap();
 
         Ok(TestCase {
@@ -88,8 +101,8 @@ impl TestCase {
             site_language,
             selected_languages,
             match_partial,
-            limit: 50,
-            restrict: "all".to_string(),
+            limit,
+            restrict,
         })
     }
 }
@@ -196,7 +209,7 @@ mod tests {
             site_language: Some("en".to_string()),
             selected_languages: Some(vec!["en".to_string()]),
             match_partial: Some(false),
-            limit: Some(1),
+            limit: Some(50),
             restrict: Some("all".to_string()),
         };
 
@@ -218,7 +231,7 @@ mod tests {
             site_language: None,
             selected_languages: Some(vec!["en".to_string()]),
             match_partial: Some(false),
-            limit: Some(1),
+            limit: Some(50),
             restrict: Some("all".to_string()),
         };
 
