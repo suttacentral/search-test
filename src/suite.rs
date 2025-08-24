@@ -297,6 +297,21 @@ mod tests {
     }
 
     #[test]
+    fn combine_gives_error_when_selected_languages_missing() {
+        let missing_limit = DetailsProvided {
+            selected_languages: None,
+            ..complete_details()
+        };
+
+        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case missing selected-languages and no default provided."
+        );
+    }
+
+    #[test]
     fn combine_gives_error_when_limit_missing() {
         let missing_limit = DetailsProvided {
             limit: None,
