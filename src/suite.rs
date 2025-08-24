@@ -196,6 +196,43 @@ mod tests {
     }
 
     #[test]
+    fn defaults_are_all_none_when_using_default_method() {
+        assert_eq!(
+            Defaults {
+                limit: None,
+                site_language: None,
+                restrict: None,
+                selected_languages: None,
+                match_partial: None,
+            },
+            Defaults::default()
+        );
+    }
+
+    #[test]
+    fn defaults_are_all_none_if_table_missing() {
+        let suite: TestSuite = toml::from_str(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 3000
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+        "#,
+        )
+        .unwrap();
+
+        assert_eq!(suite.defaults, Defaults::default());
+    }
+
+    #[test]
     fn can_combine_provided_details_with_defaults_to_get_test_case() {
         let details = DetailsProvided {
             description: Some("Search in English only.".to_string()),
@@ -242,43 +279,6 @@ mod tests {
                 "Test case missing site-language and no default provided."
             );
         }
-    }
-
-    #[test]
-    fn defaults_are_all_none_when_using_default_method() {
-        assert_eq!(
-            Defaults {
-                limit: None,
-                site_language: None,
-                restrict: None,
-                selected_languages: None,
-                match_partial: None,
-            },
-            Defaults::default()
-        );
-    }
-
-    #[test]
-    fn defaults_are_all_none_if_table_missing() {
-        let suite: TestSuite = toml::from_str(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-            delay = 3000
-
-            [[test-case]]
-            description = "Search for the metta sutta in English and Pali"
-            query = "metta"
-            limit = 50
-            site-language = "en"
-            restrict = "all"
-            selected-languages = ["en", "pli"]
-            match-partial = false
-        "#,
-        )
-        .unwrap();
-
-        assert_eq!(suite.defaults, Defaults::default());
     }
 
     #[test]
