@@ -80,7 +80,7 @@ impl TestCase {
         let match_partial = [&provided.match_partial, &defaults.match_partial]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing match_partial and no default provided.")?
+            .context("Test case missing match-partial and no default provided.")?
             .unwrap();
 
         let limit = [&provided.limit, &defaults.limit]
@@ -308,6 +308,21 @@ mod tests {
         assert_eq!(
             error.to_string(),
             "Test case missing selected-languages and no default provided."
+        );
+    }
+
+    #[test]
+    fn combine_gives_error_when_match_partial_missing() {
+        let missing_limit = DetailsProvided {
+            match_partial: None,
+            ..complete_details()
+        };
+
+        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case missing match-partial and no default provided."
         );
     }
 
