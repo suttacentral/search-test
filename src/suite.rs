@@ -76,12 +76,18 @@ impl TestCase {
             .clone()
             .unwrap();
 
+        let match_partial = [&provided.match_partial, &defaults.match_partial]
+            .into_iter()
+            .find(|x| x.is_some())
+            .context("Test case missing site-language and no default provided.")?
+            .unwrap();
+
         Ok(TestCase {
             description,
             query,
             site_language,
             selected_languages,
-            match_partial: false,
+            match_partial,
             limit: 50,
             restrict: "all".to_string(),
         })
