@@ -1,4 +1,4 @@
-use anyhow::{Context, Result, anyhow};
+use anyhow::{Context, Result};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -134,6 +134,18 @@ mod tests {
         }
     }
 
+    fn complete_details() -> DetailsProvided {
+        DetailsProvided {
+            description: Some("Search in English only.".to_string()),
+            query: Some("metta".to_string()),
+            site_language: Some("en".to_string()),
+            selected_languages: Some(vec!["en".to_string()]),
+            match_partial: Some(false),
+            limit: Some(50),
+            restrict: Some("all".to_string()),
+        }
+    }
+
     #[test]
     fn can_parse_specification() {
         let suite: TestSuite = toml::from_str(
@@ -203,19 +215,7 @@ mod tests {
     #[test]
     fn can_combine_missing_defaults() {
         let defaults = Defaults::default();
-
-        let details = DetailsProvided {
-            description: Some("Search in English only.".to_string()),
-            query: Some("metta".to_string()),
-            site_language: Some("en".to_string()),
-            selected_languages: Some(vec!["en".to_string()]),
-            match_partial: Some(false),
-            limit: Some(50),
-            restrict: Some("all".to_string()),
-        };
-
-        let test_case = TestCase::combine(&defaults, &details).unwrap();
-
+        let test_case = TestCase::combine(&defaults, &complete_details()).unwrap();
         assert_eq!(test_case, example_test_case());
     }
 
@@ -279,5 +279,20 @@ mod tests {
         .unwrap();
 
         assert_eq!(suite.defaults, Defaults::default());
+    }
+
+    #[test]
+    fn combine_gives_error_limit_missing() {
+        let missing_limit = DetailsProvided {
+            limit: None,
+            ..complete_details()
+        };
+
+        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case missing limit and no default provided."
+        );
     }
 }
