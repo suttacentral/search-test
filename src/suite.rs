@@ -283,12 +283,12 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_site_language_missing() {
-        let missing_limit = DetailsProvided {
+        let missing = DetailsProvided {
             site_language: None,
             ..complete_details()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -298,12 +298,12 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_selected_languages_missing() {
-        let missing_limit = DetailsProvided {
+        let missing = DetailsProvided {
             selected_languages: None,
             ..complete_details()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -313,12 +313,12 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_match_partial_missing() {
-        let missing_limit = DetailsProvided {
+        let missing = DetailsProvided {
             match_partial: None,
             ..complete_details()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -328,16 +328,31 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_limit_missing() {
-        let missing_limit = DetailsProvided {
+        let missing = DetailsProvided {
             limit: None,
             ..complete_details()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing_limit).unwrap_err();
+        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
             "Test case missing limit and no default provided."
+        );
+    }
+
+    #[test]
+    fn combine_gives_error_when_restrict_missing() {
+        let missing = DetailsProvided {
+            restrict: None,
+            ..complete_details()
+        };
+
+        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case missing restrict and no default provided."
         );
     }
 }
