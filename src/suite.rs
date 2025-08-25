@@ -40,6 +40,12 @@ pub struct TestSuite {
     test_cases: Vec<DetailsProvided>,
 }
 
+impl TestSuite {
+    pub fn load_from_string(source: &str) -> Result<TestSuite> {
+        toml::from_str(source).context("Failed to parse TOML.")
+    }
+}
+
 #[derive(Debug, Deserialize, PartialEq)]
 pub struct TestCase {
     pub query: String,
@@ -52,7 +58,7 @@ pub struct TestCase {
 }
 
 impl TestCase {
-    pub fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
+    fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
         let description = provided
             .description
             .clone()
@@ -148,7 +154,7 @@ mod tests {
 
     #[test]
     fn can_parse_specification() {
-        let suite: TestSuite = toml::from_str(
+        let suite = TestSuite::load_from_string(
             r#"
             [settings]
             endpoint = "http://localhost/api/search/instant"
@@ -196,6 +202,12 @@ mod tests {
     }
 
     #[test]
+    fn error_when_not_valid_toml() {
+        let error = TestSuite::load_from_string("This is not TOML").unwrap_err();
+        assert_eq!(error.to_string(), "Failed to parse TOML.")
+    }
+
+    #[test]
     fn defaults_are_all_none_when_using_default_method() {
         assert_eq!(
             Defaults {
@@ -211,7 +223,7 @@ mod tests {
 
     #[test]
     fn defaults_are_all_none_if_table_missing() {
-        let suite: TestSuite = toml::from_str(
+        let suite = TestSuite::load_from_string(
             r#"
             [settings]
             endpoint = "http://localhost/api/search/instant"
