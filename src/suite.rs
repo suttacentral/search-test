@@ -3,41 +3,41 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct Settings {
-    pub endpoint: String,
-    pub delay: usize,
+struct Settings {
+    endpoint: String,
+    delay: usize,
 }
 
 #[derive(Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct Defaults {
-    pub limit: Option<usize>,
-    pub site_language: Option<String>,
-    pub restrict: Option<String>,
-    pub selected_languages: Option<Vec<String>>,
-    pub match_partial: Option<bool>,
+struct Defaults {
+    limit: Option<usize>,
+    site_language: Option<String>,
+    restrict: Option<String>,
+    selected_languages: Option<Vec<String>>,
+    match_partial: Option<bool>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct DetailsProvided {
-    pub query: Option<String>,
-    pub description: Option<String>,
-    pub limit: Option<usize>,
-    pub site_language: Option<String>,
-    pub restrict: Option<String>,
-    pub selected_languages: Option<Vec<String>>,
-    pub match_partial: Option<bool>,
+struct DetailsProvided {
+    query: Option<String>,
+    description: Option<String>,
+    limit: Option<usize>,
+    site_language: Option<String>,
+    restrict: Option<String>,
+    selected_languages: Option<Vec<String>>,
+    match_partial: Option<bool>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct TestSuite {
-    pub settings: Settings,
+    settings: Settings,
     #[serde(default)]
-    pub defaults: Defaults,
+    defaults: Defaults,
     #[serde[rename = "test-case"]]
-    pub test_cases: Vec<DetailsProvided>,
+    test_cases: Vec<DetailsProvided>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
