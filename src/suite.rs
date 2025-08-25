@@ -5,6 +5,7 @@ use serde::Deserialize;
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct Settings {
     endpoint: String,
+    #[serde(default)]
     delay: usize,
 }
 
@@ -434,5 +435,22 @@ mod tests {
 
         assert_eq!(suite.endpoint(), "http://localhost/api/search/instant");
         assert_eq!(suite.delay(), 3000);
+    }
+
+    #[test]
+    fn missing_delay_defaults_to_zero() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+        "#,
+        )
+        .unwrap();
+
+        assert_eq!(suite.delay(), 0);
     }
 }
