@@ -37,13 +37,7 @@ pub struct TestSuite {
     #[serde(default)]
     defaults: Defaults,
     #[serde[rename = "test-case"]]
-    test_cases: Vec<DetailsProvided>,
-}
-
-impl TestSuite {
-    pub fn load_from_string(source: &str) -> Result<TestSuite> {
-        toml::from_str(source).context("Failed to parse TOML.")
-    }
+    test_details: Vec<DetailsProvided>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -111,6 +105,19 @@ impl TestCase {
             limit,
             restrict,
         })
+    }
+}
+
+impl TestSuite {
+    pub fn load_from_string(source: &str) -> Result<TestSuite> {
+        toml::from_str(source).context("Failed to parse TOML.")
+    }
+
+    pub fn test_cases(&self) -> Result<Vec<TestCase>> {
+        self.test_details
+            .iter()
+            .map(|details| TestCase::combine(&self.defaults, details))
+            .collect()
     }
 }
 
@@ -187,7 +194,7 @@ mod tests {
                 selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
                 match_partial: Some(false),
             },
-            test_cases: vec![DetailsProvided {
+            test_details: vec![DetailsProvided {
                 description: Some("Search for the metta sutta in English and Pali".to_string()),
                 query: Some("metta".to_string()),
                 selected_languages: Some(vec!["pli".to_string(), "en".to_string()]),
@@ -366,5 +373,39 @@ mod tests {
             error.to_string(),
             "Test case missing restrict and no default provided."
         );
+    }
+
+    #[test]
+    fn suite_generates_test_cases() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 3000
+
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+
+            [[test-case]]
+            description = "Has multiple dictionary results."
+            query = "pacch"
+            match-partial = true
+        "#,
+        )
+        .unwrap();
+
+        let metta = &suite.test_cases().unwrap()[0];
+        assert_eq!(metta.query, "metta");
+
+        let pacch = &suite.test_cases().unwrap()[1];
+        assert_eq!(pacch.query, "pacch");
     }
 }
