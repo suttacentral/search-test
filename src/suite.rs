@@ -113,6 +113,14 @@ impl TestSuite {
         toml::from_str(source).context("Failed to parse TOML.")
     }
 
+    pub fn endpoint(&self) -> String {
+        self.settings.endpoint.clone()
+    }
+
+    pub fn delay(&self) -> usize {
+        self.settings.delay
+    }
+
     pub fn test_cases(&self) -> Result<Vec<TestCase>> {
         self.test_details
             .iter()
@@ -407,5 +415,24 @@ mod tests {
 
         let pacch = &suite.test_cases().unwrap()[1];
         assert_eq!(pacch.query, "pacch");
+    }
+
+    #[test]
+    fn suite_provides_global_settings() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 3000
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+        "#,
+        )
+        .unwrap();
+
+        assert_eq!(suite.endpoint(), "http://localhost/api/search/instant");
+        assert_eq!(suite.delay(), 3000);
     }
 }
