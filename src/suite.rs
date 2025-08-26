@@ -21,6 +21,18 @@ struct Defaults {
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
+struct SuttaHitAssertion {
+    top: String,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
+struct Assertions {
+    sutta_hits: SuttaHitAssertion,
+}
+
+#[derive(Debug, Deserialize, PartialEq)]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct DetailsProvided {
     query: Option<String>,
     description: Option<String>,
@@ -29,6 +41,7 @@ struct DetailsProvided {
     restrict: Option<String>,
     selected_languages: Option<Vec<String>>,
     match_partial: Option<bool>,
+    assert: Option<Assertions>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -165,6 +178,7 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
+            assert: None,
         }
     }
 
@@ -211,6 +225,7 @@ mod tests {
                 site_language: None,
                 restrict: None,
                 match_partial: None,
+                assert: None,
             }],
         };
 
@@ -270,6 +285,7 @@ mod tests {
             match_partial: Some(false),
             limit: None,
             restrict: None,
+            assert: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -299,6 +315,7 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
+            assert: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
@@ -452,5 +469,24 @@ mod tests {
         .unwrap();
 
         assert_eq!(suite.delay(), 0);
+    }
+
+    #[test]
+    fn can_have_assertion() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+            assert.sutta-hits.top = "/kp9/pli/ms"
+        "#,
+        )
+        .unwrap();
+
+        let assertions = &suite.test_details[0].assert.as_ref().unwrap();
+        assert_eq!(assertions.sutta_hits.top, "/kp9/pli/ms");
     }
 }

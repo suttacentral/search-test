@@ -13,7 +13,7 @@ match-partial = false
 description = "Search for the metta sutta in English and Pali"
 query = "metta"
 selected-languages = ["pli", "en"]
-hits.suttas.top_result = "/kp9/pli/ms"
+assert.sutta-hits.top = "/kp9/pli/ms"
 
 [[test-case]]
 description = "Has multiple dictionary results."
