@@ -19,13 +19,13 @@ struct Defaults {
     match_partial: Option<bool>,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct SuttaHitAssertion {
     top: String,
 }
 
-#[derive(Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct Assertions {
     sutta_hits: SuttaHitAssertion,
@@ -112,6 +112,8 @@ impl TestCase {
             .clone()
             .unwrap();
 
+        let assertions = provided.assertions.clone();
+
         Ok(TestCase {
             description,
             query,
@@ -120,7 +122,7 @@ impl TestCase {
             match_partial,
             limit,
             restrict,
-            assertions: None,
+            assertions,
         })
     }
 }
@@ -482,6 +484,13 @@ mod tests {
             [settings]
             endpoint = "http://localhost/api/search/instant"
 
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+            
             [[test-case]]
             description = "Search for the metta sutta in English and Pali"
             query = "metta"
@@ -489,8 +498,8 @@ mod tests {
         "#,
         )
         .unwrap();
-
-        let assertions = &suite.test_details[0].assertions.as_ref().unwrap();
+        let test_case = &suite.test_cases().unwrap()[0];
+        let assertions = test_case.assertions.clone().unwrap();
         assert_eq!(assertions.sutta_hits.top, "/kp9/pli/ms");
     }
 }
