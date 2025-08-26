@@ -1,4 +1,4 @@
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, anyhow};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -129,7 +129,8 @@ impl TestCase {
 
 impl TestSuite {
     pub fn load_from_string(source: &str) -> Result<TestSuite> {
-        toml::from_str(source).context("Failed to parse TOML.")
+        let mut suite = toml::from_str::<TestSuite>(source).context("Failed to parse TOML.");
+        suite
     }
 
     pub fn endpoint(&self) -> String {
@@ -140,7 +141,7 @@ impl TestSuite {
         self.settings.delay
     }
 
-    pub fn test_cases(&self) -> Result<Vec<TestCase>> {
+    pub fn test_case_generator(&self) -> Result<Vec<TestCase>> {
         self.test_details
             .iter()
             .map(|details| TestCase::combine(&self.defaults, details))
@@ -434,10 +435,10 @@ mod tests {
         )
         .unwrap();
 
-        let metta = &suite.test_cases().unwrap()[0];
+        let metta = &suite.test_case_generator().unwrap()[0];
         assert_eq!(metta.query, "metta");
 
-        let pacch = &suite.test_cases().unwrap()[1];
+        let pacch = &suite.test_case_generator().unwrap()[1];
         assert_eq!(pacch.query, "pacch");
     }
 
@@ -498,7 +499,7 @@ mod tests {
         "#,
         )
         .unwrap();
-        let test_case = &suite.test_cases().unwrap()[0];
+        let test_case = &suite.test_case_generator().unwrap()[0];
         let assertions = test_case.assertions.clone().unwrap();
         assert_eq!(assertions.sutta_hits.top, "/kp9/pli/ms");
     }
