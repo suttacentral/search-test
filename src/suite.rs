@@ -41,7 +41,8 @@ struct DetailsProvided {
     restrict: Option<String>,
     selected_languages: Option<Vec<String>>,
     match_partial: Option<bool>,
-    assert: Option<Assertions>,
+    #[serde(rename = "assert")]
+    assertions: Option<Assertions>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -63,6 +64,7 @@ pub struct TestCase {
     pub restrict: String,
     pub selected_languages: Vec<String>,
     pub match_partial: bool,
+    pub assertions: Option<Assertions>,
 }
 
 impl TestCase {
@@ -118,6 +120,7 @@ impl TestCase {
             match_partial,
             limit,
             restrict,
+            assertions: None,
         })
     }
 }
@@ -166,6 +169,7 @@ mod tests {
             match_partial: false,
             limit: 50,
             restrict: "all".to_string(),
+            assertions: None,
         }
     }
 
@@ -178,7 +182,7 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
-            assert: None,
+            assertions: None,
         }
     }
 
@@ -225,7 +229,7 @@ mod tests {
                 site_language: None,
                 restrict: None,
                 match_partial: None,
-                assert: None,
+                assertions: None,
             }],
         };
 
@@ -285,7 +289,7 @@ mod tests {
             match_partial: Some(false),
             limit: None,
             restrict: None,
-            assert: None,
+            assertions: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -315,7 +319,7 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
-            assert: None,
+            assertions: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
@@ -486,7 +490,7 @@ mod tests {
         )
         .unwrap();
 
-        let assertions = &suite.test_details[0].assert.as_ref().unwrap();
+        let assertions = &suite.test_details[0].assertions.as_ref().unwrap();
         assert_eq!(assertions.sutta_hits.top, "/kp9/pli/ms");
     }
 }
