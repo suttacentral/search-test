@@ -1,6 +1,9 @@
+pub mod results;
+pub mod suite;
+
+use crate::results::SearchResults;
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
-use search_test::results::SearchResults;
 
 struct TestCase {
     url: String,
