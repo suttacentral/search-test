@@ -141,7 +141,7 @@ impl TestSuite {
         self.settings.delay
     }
 
-    pub fn test_case_generator(&self) -> Result<Vec<TestCase>> {
+    pub fn test_cases(&self) -> Result<Vec<TestCase>> {
         self.test_details
             .iter()
             .map(|details| TestCase::combine(&self.defaults, details))
@@ -435,10 +435,10 @@ mod tests {
         )
         .unwrap();
 
-        let metta = &suite.test_case_generator().unwrap()[0];
+        let metta = &suite.test_cases().unwrap()[0];
         assert_eq!(metta.query, "metta");
 
-        let pacch = &suite.test_case_generator().unwrap()[1];
+        let pacch = &suite.test_cases().unwrap()[1];
         assert_eq!(pacch.query, "pacch");
     }
 
@@ -499,7 +499,7 @@ mod tests {
         "#,
         )
         .unwrap();
-        let test_case = &suite.test_case_generator().unwrap()[0];
+        let test_case = &suite.test_cases().unwrap()[0];
         let assertions = test_case.assertions.clone().unwrap();
         assert_eq!(assertions.sutta_hits.top, "/kp9/pli/ms");
     }
