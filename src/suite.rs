@@ -27,7 +27,7 @@ struct SuttaHitAssertion {
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-struct Assertions {
+pub struct Assertions {
     sutta_hits: SuttaHitAssertion,
 }
 
@@ -129,8 +129,7 @@ impl TestCase {
 
 impl TestSuite {
     pub fn load_from_string(source: &str) -> Result<TestSuite> {
-        let mut suite = toml::from_str::<TestSuite>(source).context("Failed to parse TOML.");
-        suite
+        toml::from_str::<TestSuite>(source).context("Failed to parse TOML.")
     }
 
     pub fn endpoint(&self) -> String {
