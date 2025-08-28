@@ -2,6 +2,7 @@ pub mod results;
 pub mod suite;
 
 use crate::results::SearchResults;
+use crate::suite::TestSuite;
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
 
@@ -69,6 +70,21 @@ fn with_fuzzy_dictionary_result() -> TestCase {
     }
 }
 
+fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder {
+    let params = vec![
+        ("limit", test_case.limit.to_string()),
+        ("query", test_case.query),
+        ("language", test_case.site_language),
+        ("restrict", test_case.restrict),
+        ("matchpartial", test_case.match_partial.to_string()),
+    ];
+
+    Client::new()
+        .post(endpoint.as_str())
+        .query(&params)
+        .json(&test_case.selected_languages)
+}
+
 fn main() {
     let test_case = with_fuzzy_dictionary_result();
     let request = RequestBuilder::from(test_case);
@@ -99,46 +115,44 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use reqwest::Url;
-    use reqwest::blocking::{Body, Request};
+    use crate::suite::TestSuite;
 
-    #[test]
-    fn search_request_has_correct_url() {
-        let test_case = TestCase {
-            query: String::from("adze"),
-            selected_languages: vec!["en".to_string(), "pli".to_string()],
-            ..Default::default()
-        };
+    fn test_suite() -> TestSuite {
+        TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
 
-        let request = RequestBuilder::from(test_case).build().unwrap();
-
-        assert_eq!(
-            request.url().as_str(),
-            "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false"
-        );
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "adze"
+            limit = 1
+            site-language = "en"
+            restrict = "all"
+            match-partial=false
+            selected-languages = ["en", "pli"]
+        "#,
+        )
+        .unwrap()
     }
 
     #[test]
-    fn search_request_has_correct_body() {
-        let test_case = TestCase {
-            query: String::from("adze"),
-            selected_languages: vec!["en".to_string(), "pli".to_string()],
-            ..Default::default()
-        };
+    fn builds_correct_url() {
+        let suite = test_suite();
+        let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
+        let request = build_request(suite.endpoint(), test_case).build().unwrap();
+        let expected = "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false";
+        let actual = request.url().to_string();
+        assert_eq!(actual, expected);
+    }
 
-        let request = RequestBuilder::from(test_case).build().unwrap();
-
+    #[test]
+    fn has_correct_body() {
+        let suite = test_suite();
+        let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
+        let request = build_request(suite.endpoint(), test_case).build().unwrap();
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
-    }
-
-    #[test]
-    fn create_request_without_client() {
-        let params = vec![("teeth", "pointy"), ("venom", "deadly")];
-        let url = Url::parse_with_params("http://reptiles.com", params).unwrap();
-        let mut request = Request::new(reqwest::Method::POST, url);
-        let body = request.body_mut();
-        *body = Some(Body::from("The body content".to_string()));
     }
 }
