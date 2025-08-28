@@ -70,6 +70,25 @@ fn with_fuzzy_dictionary_result() -> TestCase {
     }
 }
 
+fn test_suite() -> TestSuite {
+    TestSuite::load_from_string(
+        r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "adze"
+            limit = 1
+            site-language = "en"
+            restrict = "all"
+            match-partial=false
+            selected-languages = ["en", "pli"]
+        "#,
+    )
+    .unwrap()
+}
+
 fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder {
     let params = vec![
         ("limit", test_case.limit.to_string()),
@@ -86,6 +105,7 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
 }
 
 fn main() {
+    let test_suite = test_suite();
     let test_case = with_fuzzy_dictionary_result();
     let request = RequestBuilder::from(test_case);
     let response = request.send().unwrap();
@@ -115,26 +135,6 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::suite::TestSuite;
-
-    fn test_suite() -> TestSuite {
-        TestSuite::load_from_string(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-
-            [[test-case]]
-            description = "Search for the metta sutta in English and Pali"
-            query = "adze"
-            limit = 1
-            site-language = "en"
-            restrict = "all"
-            match-partial=false
-            selected-languages = ["en", "pli"]
-        "#,
-        )
-        .unwrap()
-    }
 
     #[test]
     fn builds_correct_url() {
