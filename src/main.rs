@@ -42,7 +42,7 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
 
 fn main() {
     let suite = test_suite();
-    let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
+    let test_case = suite.test_cases().unwrap().first().unwrap().clone();
     let request = build_request(suite.endpoint(), test_case);
     let response = request.send().unwrap();
     let results: Result<SearchResults, Error> = response.json();
