@@ -6,70 +6,6 @@ use crate::suite::TestSuite;
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
 
-struct TestCase {
-    url: String,
-    query: String,
-    limit: u16,
-    site_language: String,
-    restrict: String,
-    match_partial: String,
-    selected_languages: Vec<String>,
-}
-
-impl Default for TestCase {
-    fn default() -> Self {
-        TestCase {
-            query: String::new(),
-            url: "http://localhost/api/search/instant".to_string(),
-            limit: 1,
-            site_language: "en".to_string(),
-            restrict: "all".to_string(),
-            match_partial: "false".to_string(),
-            selected_languages: vec!["en".to_string()],
-        }
-    }
-}
-
-impl From<TestCase> for RequestBuilder {
-    fn from(value: TestCase) -> RequestBuilder {
-        let params = vec![
-            ("limit", value.limit.to_string()),
-            ("query", value.query),
-            ("language", value.site_language),
-            ("restrict", value.restrict),
-            ("matchpartial", value.match_partial),
-        ];
-
-        Client::new()
-            .post(value.url.as_str())
-            .query(&params)
-            .json(&value.selected_languages)
-    }
-}
-
-fn with_fuzzy_dictionary_result() -> TestCase {
-    let selected_languages = vec![
-        "lzh".to_string(),
-        "en".to_string(),
-        "pgd".to_string(),
-        "kho".to_string(),
-        "pli".to_string(),
-        "pra".to_string(),
-        "san".to_string(),
-        "xct".to_string(),
-        "xto".to_string(),
-        "uig".to_string(),
-    ];
-
-    TestCase {
-        query: "pacch".to_string(),
-        selected_languages,
-        match_partial: "true".to_string(),
-        limit: 10,
-        ..Default::default()
-    }
-}
-
 fn test_suite() -> TestSuite {
     TestSuite::load_from_string(
         r#"
@@ -105,9 +41,9 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
 }
 
 fn main() {
-    let test_suite = test_suite();
-    let test_case = with_fuzzy_dictionary_result();
-    let request = RequestBuilder::from(test_case);
+    let suite = test_suite();
+    let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
+    let request = build_request(suite.endpoint(), test_case);
     let response = request.send().unwrap();
     let results: Result<SearchResults, Error> = response.json();
 
