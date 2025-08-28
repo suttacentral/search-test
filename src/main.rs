@@ -9,17 +9,19 @@ use reqwest::blocking::{Client, RequestBuilder};
 fn test_suite() -> TestSuite {
     TestSuite::load_from_string(
         r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
+        [settings]
+        endpoint = "http://localhost/api/search/instant"
 
-            [[test-case]]
-            description = "Search for the metta sutta in English and Pali"
-            query = "adze"
-            limit = 1
-            site-language = "en"
-            restrict = "all"
-            match-partial=false
-            selected-languages = ["en", "pli"]
+        [defaults]
+        limit = 1
+        site-language = "en"
+        restrict = "all"
+        match-partial=false
+        selected-languages = ["en", "pli"]
+
+        [[test-case]]
+        description = "The Simile of the Adze"
+        query = "adze"
         "#,
     )
     .unwrap()
@@ -42,28 +44,31 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
 
 fn main() {
     let suite = test_suite();
-    let test_case = suite.test_cases().unwrap().first().unwrap().clone();
-    let request = build_request(suite.endpoint(), test_case);
-    let response = request.send().unwrap();
-    let results: Result<SearchResults, Error> = response.json();
+    let test_cases = suite.test_cases().unwrap();
 
-    match results {
-        Ok(parsed_results) => {
-            println!("{} results", parsed_results.total);
-            println!("{} hits", parsed_results.hits.len());
-            for hit in parsed_results.hits {
-                println!("{hit}");
+    for test_case in test_cases {
+        let request = build_request(suite.endpoint(), test_case);
+        let response = request.send().unwrap();
+        let results: Result<SearchResults, Error> = response.json();
+
+        match results {
+            Ok(parsed_results) => {
+                println!("{} results", parsed_results.total);
+                println!("{} hits", parsed_results.hits.len());
+                for hit in parsed_results.hits {
+                    println!("{hit}");
+                }
+                for suttaplex in parsed_results.suttaplex {
+                    println!("Suttaplex result: {}", suttaplex.uid)
+                }
+                for fuzzy in parsed_results.fuzzy_dictionary {
+                    println!("Fuzzy dictionary result: {}", fuzzy.url)
+                }
             }
-            for suttaplex in parsed_results.suttaplex {
-                println!("Suttaplex result: {}", suttaplex.uid)
+            Err(error) => {
+                println!("An error occurred parsing response.");
+                println!("{error:?}");
             }
-            for fuzzy in parsed_results.fuzzy_dictionary {
-                println!("Fuzzy dictionary result: {}", fuzzy.url)
-            }
-        }
-        Err(error) => {
-            println!("An error occurred parsing response.");
-            println!("{error:?}");
         }
     }
 }
