@@ -47,8 +47,8 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
 
 impl Display for SearchResults {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(f, "{} results", self.total);
-        writeln!(f, "{} hits", self.hits.len());
+        writeln!(f, "{} results", self.total)?;
+        writeln!(f, "{} hits", self.hits.len())?;
         for hit in &self.hits {
             writeln!(f, "{hit}")?;
         }
