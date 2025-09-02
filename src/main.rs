@@ -9,7 +9,7 @@ use reqwest::blocking::{Client, RequestBuilder};
 use std::fmt;
 use std::fmt::Display;
 
-fn test_suite() -> TestSuite {
+fn test_suite() -> Result<TestSuite> {
     TestSuite::load_from_string(
         r#"
         [settings]
@@ -27,7 +27,6 @@ fn test_suite() -> TestSuite {
         query = "adze"
         "#,
     )
-    .unwrap()
 }
 
 fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder {
@@ -63,7 +62,7 @@ impl Display for SearchResults {
 }
 
 fn main() {
-    let suite = test_suite();
+    let suite = test_suite().unwrap();
     let test_cases = suite.test_cases().unwrap();
 
     for test_case in test_cases {
@@ -87,7 +86,7 @@ mod tests {
 
     #[test]
     fn builds_correct_url() {
-        let suite = test_suite();
+        let suite = test_suite().unwrap();
         let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
         let request = build_request(suite.endpoint(), test_case).build().unwrap();
         let expected = "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false";
@@ -97,7 +96,7 @@ mod tests {
 
     #[test]
     fn has_correct_body() {
-        let suite = test_suite();
+        let suite = test_suite().unwrap();
         let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
         let request = build_request(suite.endpoint(), test_case).build().unwrap();
         let body = request.body().unwrap().as_bytes().unwrap();
