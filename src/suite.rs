@@ -71,7 +71,6 @@ impl TestCase {
     fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
         let description = provided.description.clone();
         let query = provided.query.clone();
-
         let site_language = [&provided.site_language, &defaults.site_language]
             .into_iter()
             .find(|x| x.is_some())
@@ -84,26 +83,36 @@ impl TestCase {
         let selected_languages = [&provided.selected_languages, &defaults.selected_languages]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing selected-languages and no default provided.")?
+            .with_context(|| {
+                format!(
+                    "Test case `{description}` missing selected-languages and no default provided."
+                )
+            })?
             .clone()
             .unwrap();
 
         let match_partial = [&provided.match_partial, &defaults.match_partial]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing match-partial and no default provided.")?
+            .with_context(|| {
+                format!("Test case `{description}` missing match-partial and no default provided.")
+            })?
             .unwrap();
 
         let limit = [&provided.limit, &defaults.limit]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing limit and no default provided.")?
+            .with_context(|| {
+                format!("Test case `{description}` missing limit and no default provided.")
+            })?
             .unwrap();
 
         let restrict = [&provided.restrict, &defaults.restrict]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing restrict and no default provided.")?
+            .with_context(|| {
+                format!("Test case `{description}` missing restrict and no default provided.")
+            })?
             .clone()
             .unwrap();
 
@@ -395,7 +404,7 @@ mod tests {
 
         assert_eq!(
             error.to_string(),
-            "Test case missing selected-languages and no default provided."
+            "Test case `Search in English only.` missing selected-languages and no default provided."
         );
     }
 
@@ -410,7 +419,7 @@ mod tests {
 
         assert_eq!(
             error.to_string(),
-            "Test case missing match-partial and no default provided."
+            "Test case `Search in English only.` missing match-partial and no default provided."
         );
     }
 
@@ -425,7 +434,7 @@ mod tests {
 
         assert_eq!(
             error.to_string(),
-            "Test case missing limit and no default provided."
+            "Test case `Search in English only.` missing limit and no default provided."
         );
     }
 
@@ -440,7 +449,7 @@ mod tests {
 
         assert_eq!(
             error.to_string(),
-            "Test case missing restrict and no default provided."
+            "Test case `Search in English only.` missing restrict and no default provided."
         );
     }
 

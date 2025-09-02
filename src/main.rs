@@ -137,7 +137,7 @@ mod tests {
         let error = run_tests(no_limit).unwrap_err();
         assert_eq!(
             error.to_string(),
-            "Test case missing limit and no default provided."
+            "Test case `The Simile of the Adze` missing limit and no default provided."
         );
     }
 }
