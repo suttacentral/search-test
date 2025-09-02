@@ -3,6 +3,7 @@ pub mod suite;
 
 use crate::results::SearchResults;
 use crate::suite::TestSuite;
+use anyhow::{Context, Result};
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
 
@@ -40,6 +41,11 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
         .post(endpoint.as_str())
         .query(&params)
         .json(&test_case.selected_languages)
+}
+
+fn run_tests() -> Result<SearchResults> {
+    let suite = TestSuite::load_from_string("Not TOML")?;
+    todo!()
 }
 
 fn main() {
@@ -95,5 +101,11 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
+    }
+
+    #[test]
+    fn running_tests_with_malformed_toml_gives_error() {
+        let error = run_tests().unwrap_err();
+        assert_eq!(error.to_string(), "Failed to parse TOML.");
     }
 }
