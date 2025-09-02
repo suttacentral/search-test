@@ -75,7 +75,9 @@ impl TestCase {
         let site_language = [&provided.site_language, &defaults.site_language]
             .into_iter()
             .find(|x| x.is_some())
-            .context("Test case missing site-language and no default provided.")?
+            .with_context(|| {
+                format!("Test case `{description}` missing site-language and no default provided.")
+            })?
             .clone()
             .unwrap();
 
@@ -362,7 +364,7 @@ mod tests {
         if let Err(error) = TestCase::combine(&defaults, &details) {
             assert_eq!(
                 error.to_string(),
-                "Test case missing site-language and no default provided."
+                "Test case `Search in English only.` missing site-language and no default provided."
             );
         }
     }
@@ -378,7 +380,7 @@ mod tests {
 
         assert_eq!(
             error.to_string(),
-            "Test case missing site-language and no default provided."
+            "Test case `Search in English only.` missing site-language and no default provided."
         );
     }
 
