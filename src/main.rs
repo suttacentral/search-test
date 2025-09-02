@@ -62,12 +62,6 @@ impl Display for SearchResults {
     }
 }
 
-fn run_tests(toml: &str) -> Result<SearchResults> {
-    let suite = TestSuite::load_from_string(toml)?;
-    let test_cases = suite.test_cases()?;
-    todo!()
-}
-
 fn main() {
     let suite = test_suite();
     let test_cases = suite.test_cases().unwrap();
@@ -109,35 +103,5 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
-    }
-
-    #[test]
-    fn running_tests_with_malformed_toml_gives_error() {
-        let error = run_tests("This is not TOML").unwrap_err();
-        assert_eq!(error.to_string(), "Failed to parse TOML.");
-    }
-
-    #[test]
-    fn running_invalid_test_gives_error() {
-        let no_limit = r#"
-        [settings]
-        endpoint = "http://localhost/api/search/instant"
-
-        [defaults]
-        site-language = "en"
-        restrict = "all"
-        match-partial=false
-        selected-languages = ["en", "pli"]
-
-        [[test-case]]
-        description = "The Simile of the Adze"
-        query = "adze"
-        "#;
-
-        let error = run_tests(no_limit).unwrap_err();
-        assert_eq!(
-            error.to_string(),
-            "Test case `The Simile of the Adze` missing limit and no default provided."
-        );
     }
 }
