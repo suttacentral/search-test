@@ -43,8 +43,9 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
         .json(&test_case.selected_languages)
 }
 
-fn run_tests() -> Result<SearchResults> {
-    let suite = TestSuite::load_from_string("Not TOML")?;
+fn run_tests(toml: &str) -> Result<SearchResults> {
+    let suite = TestSuite::load_from_string(toml)?;
+    let test_cases = suite.test_cases()?;
     todo!()
 }
 
@@ -105,7 +106,31 @@ mod tests {
 
     #[test]
     fn running_tests_with_malformed_toml_gives_error() {
-        let error = run_tests().unwrap_err();
+        let error = run_tests("This is not TOML").unwrap_err();
         assert_eq!(error.to_string(), "Failed to parse TOML.");
+    }
+
+    #[test]
+    fn running_invalid_test_gives_error() {
+        let no_limit = r#"
+        [settings]
+        endpoint = "http://localhost/api/search/instant"
+
+        [defaults]
+        site-language = "en"
+        restrict = "all"
+        match-partial=false
+        selected-languages = ["en", "pli"]
+
+        [[test-case]]
+        description = "The Simile of the Adze"
+        query = "adze"
+        "#;
+
+        let error = run_tests(no_limit).unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "Test case missing limit and no default provided."
+        );
     }
 }
