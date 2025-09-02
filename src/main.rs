@@ -6,6 +6,8 @@ use crate::suite::TestSuite;
 use anyhow::{Context, Result};
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
+use std::fmt;
+use std::fmt::Display;
 
 fn test_suite() -> TestSuite {
     TestSuite::load_from_string(
@@ -59,7 +61,7 @@ fn main() {
         let results: Result<SearchResults, Error> = response.json();
 
         match results {
-            Ok(parsed_results) => print_results(parsed_results),
+            Ok(parsed_results) => println!("{parsed_results}"),
             Err(error) => {
                 println!("An error occurred parsing response.");
                 println!("{error:?}");
@@ -68,17 +70,20 @@ fn main() {
     }
 }
 
-fn print_results(parsed_results: SearchResults) {
-    println!("{} results", parsed_results.total);
-    println!("{} hits", parsed_results.hits.len());
-    for hit in parsed_results.hits {
-        println!("{hit}");
-    }
-    for suttaplex in parsed_results.suttaplex {
-        println!("Suttaplex result: {}", suttaplex.uid)
-    }
-    for fuzzy in parsed_results.fuzzy_dictionary {
-        println!("Fuzzy dictionary result: {}", fuzzy.url)
+impl Display for SearchResults {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "{} results", self.total);
+        writeln!(f, "{} hits", self.hits.len());
+        for hit in &self.hits {
+            writeln!(f, "{hit}")?;
+        }
+        for suttaplex in &self.suttaplex {
+            writeln!(f, "Suttaplex result: {}", suttaplex.uid)?;
+        }
+        for fuzzy in &self.fuzzy_dictionary {
+            writeln!(f, "Fuzzy dictionary result: {}", fuzzy.url)?;
+        }
+        Ok(())
     }
 }
 
