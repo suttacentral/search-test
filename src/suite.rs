@@ -34,8 +34,8 @@ pub struct Assertions {
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct DetailsProvided {
-    query: Option<String>,
-    description: Option<String>,
+    query: String,
+    description: String,
     limit: Option<usize>,
     site_language: Option<String>,
     restrict: Option<String>,
@@ -69,15 +69,8 @@ pub struct TestCase {
 
 impl TestCase {
     fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
-        let description = provided
-            .description
-            .clone()
-            .context("Test case is missing description")?;
-
-        let query = provided
-            .query
-            .clone()
-            .context("Test case is missing query")?;
+        let description = provided.description.clone();
+        let query = provided.query.clone();
 
         let site_language = [&provided.site_language, &defaults.site_language]
             .into_iter()
@@ -177,8 +170,8 @@ mod tests {
 
     fn complete_details() -> DetailsProvided {
         DetailsProvided {
-            description: Some("Search in English only.".to_string()),
-            query: Some("metta".to_string()),
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
             site_language: Some("en".to_string()),
             selected_languages: Some(vec!["en".to_string()]),
             match_partial: Some(false),
@@ -224,8 +217,8 @@ mod tests {
                 match_partial: Some(false),
             },
             test_details: vec![DetailsProvided {
-                description: Some("Search for the metta sutta in English and Pali".to_string()),
-                query: Some("metta".to_string()),
+                description: "Search for the metta sutta in English and Pali".to_string(),
+                query: "metta".to_string(),
                 selected_languages: Some(vec!["pli".to_string(), "en".to_string()]),
                 limit: None,
                 site_language: None,
@@ -282,10 +275,52 @@ mod tests {
     }
 
     #[test]
+    fn missing_description_is_parse_error() {
+        let error = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 3000
+
+            [[test-case]]
+            query = "metta"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+        "#,
+        )
+        .unwrap_err();
+        assert_eq!(error.to_string(), "Failed to parse TOML.");
+    }
+
+    #[test]
+    fn missing_query_is_parse_error() {
+        let error = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 3000
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+        "#,
+        )
+        .unwrap_err();
+        assert_eq!(error.to_string(), "Failed to parse TOML.");
+    }
+
+    #[test]
     fn can_combine_provided_details_with_defaults_to_get_test_case() {
         let details = DetailsProvided {
-            description: Some("Search in English only.".to_string()),
-            query: Some("metta".to_string()),
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
             site_language: Some("en".to_string()),
             selected_languages: Some(vec!["en".to_string()]),
             match_partial: Some(false),
@@ -314,8 +349,8 @@ mod tests {
         };
 
         let details = DetailsProvided {
-            description: Some("Search in English only.".to_string()),
-            query: Some("metta".to_string()),
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
             site_language: None,
             selected_languages: Some(vec!["en".to_string()]),
             match_partial: Some(false),
