@@ -45,6 +45,23 @@ fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder
         .json(&test_case.selected_languages)
 }
 
+impl Display for SearchResults {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "{} results", self.total);
+        writeln!(f, "{} hits", self.hits.len());
+        for hit in &self.hits {
+            writeln!(f, "{hit}")?;
+        }
+        for suttaplex in &self.suttaplex {
+            writeln!(f, "Suttaplex result: {}", suttaplex.uid)?;
+        }
+        for fuzzy in &self.fuzzy_dictionary {
+            writeln!(f, "Fuzzy dictionary result: {}", fuzzy.url)?;
+        }
+        Ok(())
+    }
+}
+
 fn run_tests(toml: &str) -> Result<SearchResults> {
     let suite = TestSuite::load_from_string(toml)?;
     let test_cases = suite.test_cases()?;
@@ -67,23 +84,6 @@ fn main() {
                 println!("{error:?}");
             }
         }
-    }
-}
-
-impl Display for SearchResults {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(f, "{} results", self.total);
-        writeln!(f, "{} hits", self.hits.len());
-        for hit in &self.hits {
-            writeln!(f, "{hit}")?;
-        }
-        for suttaplex in &self.suttaplex {
-            writeln!(f, "Suttaplex result: {}", suttaplex.uid)?;
-        }
-        for fuzzy in &self.fuzzy_dictionary {
-            writeln!(f, "Fuzzy dictionary result: {}", fuzzy.url)?;
-        }
-        Ok(())
     }
 }
 
