@@ -59,24 +59,26 @@ fn main() {
         let results: Result<SearchResults, Error> = response.json();
 
         match results {
-            Ok(parsed_results) => {
-                println!("{} results", parsed_results.total);
-                println!("{} hits", parsed_results.hits.len());
-                for hit in parsed_results.hits {
-                    println!("{hit}");
-                }
-                for suttaplex in parsed_results.suttaplex {
-                    println!("Suttaplex result: {}", suttaplex.uid)
-                }
-                for fuzzy in parsed_results.fuzzy_dictionary {
-                    println!("Fuzzy dictionary result: {}", fuzzy.url)
-                }
-            }
+            Ok(parsed_results) => print_results(parsed_results),
             Err(error) => {
                 println!("An error occurred parsing response.");
                 println!("{error:?}");
             }
         }
+    }
+}
+
+fn print_results(parsed_results: SearchResults) {
+    println!("{} results", parsed_results.total);
+    println!("{} hits", parsed_results.hits.len());
+    for hit in parsed_results.hits {
+        println!("{hit}");
+    }
+    for suttaplex in parsed_results.suttaplex {
+        println!("Suttaplex result: {}", suttaplex.uid)
+    }
+    for fuzzy in parsed_results.fuzzy_dictionary {
+        println!("Fuzzy dictionary result: {}", fuzzy.url)
     }
 }
 
