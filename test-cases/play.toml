@@ -1,0 +1,13 @@
+[settings]
+endpoint = "http://localhost/api/search/instant"
+
+[defaults]
+limit = 1
+site-language = "en"
+restrict = "all"
+match-partial = false
+selected-languages = ["en", "pli"]
+
+[[test-case]]
+description = "The Simile of the Adze"
+query = "adze"

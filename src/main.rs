@@ -9,26 +9,6 @@ use reqwest::blocking::{Client, RequestBuilder};
 use std::fmt;
 use std::fmt::Display;
 
-fn test_suite() -> Result<TestSuite> {
-    TestSuite::load_from_string(
-        r#"
-        [settings]
-        endpoint = "http://localhost/api/search/instant"
-
-        [defaults]
-        limit = 1
-        site-language = "en"
-        restrict = "all"
-        match-partial=false
-        selected-languages = ["en", "pli"]
-
-        [[test-case]]
-        description = "The Simile of the Adze"
-        query = "adze"
-        "#,
-    )
-}
-
 fn build_request(endpoint: String, test_case: arrange::TestCase) -> RequestBuilder {
     let params = vec![
         ("limit", test_case.limit.to_string()),
@@ -62,7 +42,8 @@ impl Display for SearchResults {
 }
 
 fn main() {
-    let suite = test_suite().unwrap();
+    let toml = std::fs::read_to_string("test-cases/play.toml").unwrap();
+    let suite = TestSuite::load_from_string(toml.as_str()).unwrap();
     let test_cases = suite.test_cases().unwrap();
 
     for test_case in test_cases {
@@ -83,6 +64,26 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn test_suite() -> Result<TestSuite> {
+        TestSuite::load_from_string(
+            r#"
+        [settings]
+        endpoint = "http://localhost/api/search/instant"
+
+        [defaults]
+        limit = 1
+        site-language = "en"
+        restrict = "all"
+        match-partial=false
+        selected-languages = ["en", "pli"]
+
+        [[test-case]]
+        description = "The Simile of the Adze"
+        query = "adze"
+        "#,
+        )
+    }
 
     #[test]
     fn builds_correct_url() {
