@@ -1,8 +1,8 @@
 pub mod arrange;
-pub mod results;
+pub mod act;
 
 use crate::arrange::TestSuite;
-use crate::results::SearchResults;
+use crate::act::SearchResults;
 use anyhow::{Context, Result};
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
