@@ -1,8 +1,8 @@
+pub mod arrange;
 pub mod results;
-pub mod suite;
 
+use crate::arrange::TestSuite;
 use crate::results::SearchResults;
-use crate::suite::TestSuite;
 use anyhow::{Context, Result};
 use reqwest::Error;
 use reqwest::blocking::{Client, RequestBuilder};
@@ -29,7 +29,7 @@ fn test_suite() -> Result<TestSuite> {
     )
 }
 
-fn build_request(endpoint: String, test_case: suite::TestCase) -> RequestBuilder {
+fn build_request(endpoint: String, test_case: arrange::TestCase) -> RequestBuilder {
     let params = vec![
         ("limit", test_case.limit.to_string()),
         ("query", test_case.query),
