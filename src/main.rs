@@ -29,34 +29,54 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use crate::act::SearchResponse;
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
 
     fn test_case() -> TestCase {
         let assertions = Assertions {
             sutta_hits: SuttaHitAssertion {
-                top: String::from("/an7.71/en/sujato"),
+                top: String::from("/mn1/en/bodhi"),
             },
         };
 
         TestCase {
-            query: String::from("adze"),
-            description: String::from("The Simile of the Adze"),
+            query: String::from("mn1"),
+            description: String::from("Find with uid mn1"),
             limit: 1,
             site_language: String::from("en"),
             restrict: String::from("all"),
-            selected_languages: vec![String::from("en"), String::from("pli")],
+            selected_languages: vec![String::from("en")],
             match_partial: false,
             assertions: Some(assertions),
         }
     }
 
+    fn search_response() -> SearchResponse {
+        let json = r#"
+        {
+            "total": 1,
+            "hits" : [
+                {
+                    "uid": "mn1",
+                    "lang": "en",
+                    "author_uid": "bodhi",
+                    "url": "/mn1/en/bodhi"
+                }
+            ],
+            "suttaplex" : [],
+            "fuzzy_dictionary": []
+        }
+        "#;
+
+        SearchResponse::from_json(json).unwrap()
+    }
+
     #[test]
     fn can_assert_top_sutta_hit() {
-        // let test_case = test_case();
-        // let text_hit = text_hit();
-        // let actual = text_hit.url_path();
-        // let expected = test_case.assertions.unwrap().sutta_hits.top;
-        // assert_eq!(expected, actual);
+        let test_case = test_case();
+        let search_response = search_response();
+        let test_case_url = test_case.assertions.unwrap().sutta_hits.top;
+        let response_url = search_response.text_hit_urls()[0].clone();
+        assert_eq!(test_case_url, response_url);
     }
 }
