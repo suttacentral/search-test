@@ -31,6 +31,15 @@ pub enum Hit {
     },
 }
 
+impl Hit {
+    fn url_path(&self) -> String {
+        match self {
+            Hit::Text { url, .. } => url.clone(),
+            Hit::Dictionary { url, .. } => todo!(),
+        }
+    }
+}
+
 impl Display for Hit {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
@@ -257,5 +266,17 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
+    }
+
+    #[test]
+    fn get_text_hit_path() {
+        let text_hit = Hit::Text {
+            uid: String::from("sa264"),
+            lang: String::from("en"),
+            author_uid: Some(String::from("analayo")),
+            url: String::from("/sa264/en/analayo"),
+        };
+
+        assert_eq!(text_hit.url_path(), "/sa264/en/analayo");
     }
 }
