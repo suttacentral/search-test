@@ -226,7 +226,7 @@ mod tests {
         "#;
 
         let response = SearchResponse::from_json(json).unwrap();
-        assert_eq!(response.suttaplex[0].uid, "an11.15");
+        assert_eq!(response.suttaplex_uids()[0], "an11.15");
     }
 
     #[test]
@@ -243,7 +243,7 @@ mod tests {
         "#;
 
         let response = SearchResponse::from_json(json).unwrap();
-        assert_eq!(response.fuzzy_dictionary[0].url, "/define/anupacchinnā");
+        assert_eq!(response.fuzzy_dictionary_urls()[0], "/define/anupacchinnā");
     }
 
     fn test_suite() -> anyhow::Result<TestSuite> {
