@@ -5,21 +5,9 @@ use std::fmt;
 use std::fmt::Display;
 
 #[derive(Deserialize, Debug)]
-pub struct Detail {
-    dictname: String,
-    word: String,
-}
-
-#[derive(Deserialize, Debug)]
-pub struct Highlight {
-    detail: Detail,
-}
-
-#[derive(Deserialize, Debug)]
 #[serde(untagged)]
-pub enum Hit {
+enum Hit {
     Dictionary {
-        highlight: Highlight,
         category: String,
         url: String,
     },
@@ -32,7 +20,7 @@ pub enum Hit {
 }
 
 impl Hit {
-    pub fn url_path(&self) -> String {
+    fn url_path(&self) -> String {
         match self {
             Hit::Text { url, .. } => url.clone(),
             Hit::Dictionary { url, .. } => url.clone(),
@@ -54,21 +42,21 @@ impl Display for Hit {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Suttaplex {
-    pub uid: String,
+struct Suttaplex {
+    uid: String,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct FuzzyDictionary {
-    pub url: String,
+struct FuzzyDictionary {
+    url: String,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SearchResponse {
     pub total: u16,
-    pub hits: Vec<Hit>,
-    pub suttaplex: Vec<Suttaplex>,
-    pub fuzzy_dictionary: Vec<FuzzyDictionary>,
+    hits: Vec<Hit>,
+    suttaplex: Vec<Suttaplex>,
+    fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
 impl SearchResponse {
@@ -311,12 +299,6 @@ mod tests {
     fn dictionary_hit(word: &str, url: &str) -> Hit {
         Hit::Dictionary {
             category: String::from("dictionary"),
-            highlight: Highlight {
-                detail: Detail {
-                    dictname: String::from("dppn"),
-                    word: String::from(word),
-                },
-            },
             url: String::from(url),
         }
     }
