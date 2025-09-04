@@ -91,18 +91,29 @@ impl SearchResponse {
         }
         text_hits
     }
+
+    pub fn suttaplex_uids(&self) -> Vec<String> {
+        self.suttaplex.iter().map(|s| s.uid.clone()).collect()
+    }
 }
 
 impl Display for SearchResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "{} results", self.total)?;
         writeln!(f, "{} hits", self.hits.len())?;
-        for hit in &self.hits {
-            writeln!(f, "{hit}")?;
-        }
-        for suttaplex in &self.suttaplex {
-            writeln!(f, "Suttaplex result: {}", suttaplex.uid)?;
-        }
+
+        self.dictionary_hits()
+            .iter()
+            .try_for_each(|hit| writeln!(f, "Dictionary hit: {hit}"))?;
+
+        self.text_hits()
+            .iter()
+            .try_for_each(|hit| writeln!(f, "Text hit: {hit}"))?;
+
+        self.suttaplex_uids()
+            .iter()
+            .try_for_each(|uid| writeln!(f, "Suttaplex hit: {uid}"))?;
+
         for fuzzy in &self.fuzzy_dictionary {
             writeln!(f, "Fuzzy dictionary result: {}", fuzzy.url)?;
         }
@@ -360,5 +371,31 @@ mod tests {
             String::from("/mn1/en/bodhi"),
         ];
         assert_eq!(expected, response.text_hits());
+    }
+
+    #[test]
+    fn list_suttaplex_hits() {
+        let response = SearchResponse {
+            total: 0,
+            hits: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            suttaplex: vec![
+                Suttaplex {
+                    uid: String::from("mn1"),
+                },
+                Suttaplex {
+                    uid: String::from("mn2"),
+                },
+                Suttaplex {
+                    uid: String::from("mn3"),
+                },
+            ],
+        };
+        let expected = vec![
+            String::from("mn1"),
+            String::from("mn2"),
+            String::from("mn3"),
+        ];
+        assert_eq!(expected, response.suttaplex_uids());
     }
 }
