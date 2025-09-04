@@ -293,15 +293,18 @@ mod tests {
         }
     }
 
+    fn text_hit(uid: &str, lang: &str, author: &str) -> Hit {
+        Hit::Text {
+            uid: String::from(uid),
+            lang: String::from(lang),
+            author_uid: Some(String::from(author)),
+            url: format!("/{uid}/{lang}/{author}"),
+        }
+    }
+
     #[test]
     fn get_text_hit_path() {
-        let hit = Hit::Text {
-            uid: String::from("sa264"),
-            lang: String::from("en"),
-            author_uid: Some(String::from("analayo")),
-            url: String::from("/sa264/en/analayo"),
-        };
-
+        let hit = text_hit("sa264", "en", "analayo");
         assert_eq!(hit.url_path(), "/sa264/en/analayo");
     }
 
@@ -320,6 +323,7 @@ mod tests {
             hits: vec![
                 dictionary_hit("metta", "/define/metta"),
                 dictionary_hit("dosa", "/define/dosa"),
+                text_hit("sa264", "en", "analayo"),
                 dictionary_hit("brahma", "/define/brahma"),
             ],
         };
