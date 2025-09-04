@@ -280,18 +280,6 @@ mod tests {
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 
-    #[test]
-    fn get_text_hit_path() {
-        let hit = Hit::Text {
-            uid: String::from("sa264"),
-            lang: String::from("en"),
-            author_uid: Some(String::from("analayo")),
-            url: String::from("/sa264/en/analayo"),
-        };
-
-        assert_eq!(hit.url_path(), "/sa264/en/analayo");
-    }
-
     fn dictionary_hit(word: &str, url: &str) -> Hit {
         Hit::Dictionary {
             category: String::from("dictionary"),
@@ -303,6 +291,18 @@ mod tests {
             },
             url: String::from(url),
         }
+    }
+
+    #[test]
+    fn get_text_hit_path() {
+        let hit = Hit::Text {
+            uid: String::from("sa264"),
+            lang: String::from("en"),
+            author_uid: Some(String::from("analayo")),
+            url: String::from("/sa264/en/analayo"),
+        };
+
+        assert_eq!(hit.url_path(), "/sa264/en/analayo");
     }
 
     #[test]
