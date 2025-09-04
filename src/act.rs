@@ -60,6 +60,23 @@ pub struct SearchResults {
     pub fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
+impl Display for SearchResults {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        writeln!(f, "{} results", self.total)?;
+        writeln!(f, "{} hits", self.hits.len())?;
+        for hit in &self.hits {
+            writeln!(f, "{hit}")?;
+        }
+        for suttaplex in &self.suttaplex {
+            writeln!(f, "Suttaplex result: {}", suttaplex.uid)?;
+        }
+        for fuzzy in &self.fuzzy_dictionary {
+            writeln!(f, "Fuzzy dictionary result: {}", fuzzy.url)?;
+        }
+        Ok(())
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
