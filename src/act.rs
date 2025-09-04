@@ -64,14 +64,14 @@ pub struct FuzzyDictionary {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct SearchResults {
+pub struct SearchResponse {
     pub total: u16,
     pub hits: Vec<Hit>,
     pub suttaplex: Vec<Suttaplex>,
     pub fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
-impl Display for SearchResults {
+impl Display for SearchResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "{} results", self.total)?;
         writeln!(f, "{} hits", self.hits.len())?;
@@ -206,7 +206,7 @@ mod tests {
         "#
         .to_string();
 
-        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+        let results: SearchResponse = serde_json::from_str(json.as_str()).unwrap();
         assert_eq!(results.suttaplex[0].uid, "an11.15");
     }
 
@@ -224,7 +224,7 @@ mod tests {
         "#
         .to_string();
 
-        let results: SearchResults = serde_json::from_str(json.as_str()).unwrap();
+        let results: SearchResponse = serde_json::from_str(json.as_str()).unwrap();
         assert_eq!(results.fuzzy_dictionary[0].url, "/define/anupacchinnā");
     }
 

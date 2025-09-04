@@ -1,7 +1,7 @@
 pub mod act;
 pub mod arrange;
 
-use crate::act::{SearchResults, build_request};
+use crate::act::{SearchResponse, build_request};
 use crate::arrange::TestSuite;
 use anyhow::{Context, Result};
 use reqwest::Error;
@@ -15,7 +15,7 @@ fn main() {
     for test_case in test_cases {
         let request = build_request(suite.endpoint(), test_case);
         let response = request.send().unwrap();
-        let results: Result<SearchResults, Error> = response.json();
+        let results: Result<SearchResponse, Error> = response.json();
 
         match results {
             Ok(parsed_results) => println!("{parsed_results}"),
