@@ -72,7 +72,7 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn dictionary_hits(&self) -> Vec<String> {
+    pub fn dictionary_hit_urls(&self) -> Vec<String> {
         let mut dict_hits: Vec<String> = Vec::new();
         for hit in &self.hits {
             if let Hit::Dictionary { .. } = hit {
@@ -82,7 +82,7 @@ impl SearchResponse {
         dict_hits
     }
 
-    pub fn text_hits(&self) -> Vec<String> {
+    pub fn text_hit_urls(&self) -> Vec<String> {
         let mut text_hits: Vec<String> = Vec::new();
         for hit in &self.hits {
             if let Hit::Text { .. } = hit {
@@ -102,11 +102,11 @@ impl Display for SearchResponse {
         writeln!(f, "{} results", self.total)?;
         writeln!(f, "{} hits", self.hits.len())?;
 
-        self.dictionary_hits()
+        self.dictionary_hit_urls()
             .iter()
             .try_for_each(|hit| writeln!(f, "Dictionary hit: {hit}"))?;
 
-        self.text_hits()
+        self.text_hit_urls()
             .iter()
             .try_for_each(|hit| writeln!(f, "Text hit: {hit}"))?;
 
@@ -360,7 +360,7 @@ mod tests {
             String::from("/define/brahma"),
         ];
 
-        assert_eq!(expected, response.dictionary_hits());
+        assert_eq!(expected, response.dictionary_hit_urls());
     }
 
     #[test]
@@ -370,7 +370,7 @@ mod tests {
             String::from("/sa264/en/analayo"),
             String::from("/mn1/en/bodhi"),
         ];
-        assert_eq!(expected, response.text_hits());
+        assert_eq!(expected, response.text_hit_urls());
     }
 
     #[test]
