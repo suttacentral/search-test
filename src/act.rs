@@ -32,10 +32,10 @@ pub enum Hit {
 }
 
 impl Hit {
-    fn url_path(&self) -> String {
+    pub fn url_path(&self) -> String {
         match self {
             Hit::Text { url, .. } => url.clone(),
-            Hit::Dictionary { url, .. } => todo!(),
+            Hit::Dictionary { url, .. } => url.clone(),
         }
     }
 }
@@ -132,7 +132,7 @@ mod tests {
     }
 
     #[test]
-    fn parse_sutta_hit() {
+    fn parse_text_hit() {
         let json = r#"
         {
             "uid": "sa264",
@@ -270,13 +270,29 @@ mod tests {
 
     #[test]
     fn get_text_hit_path() {
-        let text_hit = Hit::Text {
+        let hit = Hit::Text {
             uid: String::from("sa264"),
             lang: String::from("en"),
             author_uid: Some(String::from("analayo")),
             url: String::from("/sa264/en/analayo"),
         };
 
-        assert_eq!(text_hit.url_path(), "/sa264/en/analayo");
+        assert_eq!(hit.url_path(), "/sa264/en/analayo");
+    }
+
+    #[test]
+    fn get_dictionary_hit_path() {
+        let hit = Hit::Dictionary {
+            category: String::from("dictionary"),
+            highlight: Highlight {
+                detail: Detail {
+                    dictname: String::from("dppn"),
+                    word: String::from("metta"),
+                },
+            },
+            url: String::from("/define/metta"),
+        };
+
+        assert_eq!(hit.url_path(), ("/define/metta"));
     }
 }
