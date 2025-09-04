@@ -1,4 +1,5 @@
 use crate::arrange;
+use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
 use std::fmt;
@@ -76,6 +77,10 @@ impl SearchResponse {
             .iter()
             .map(|d| d.url.clone())
             .collect()
+    }
+
+    pub fn parse_json(json: &str) -> Result<Self> {
+        serde_json::from_str(json).context("Failed to parse JSON.")
     }
 }
 
@@ -218,11 +223,10 @@ mod tests {
                 { "uid": "an11.15" }
             ]
         }
-        "#
-        .to_string();
+        "#;
 
-        let results: SearchResponse = serde_json::from_str(json.as_str()).unwrap();
-        assert_eq!(results.suttaplex[0].uid, "an11.15");
+        let response = SearchResponse::parse_json(json).unwrap();
+        assert_eq!(response.suttaplex[0].uid, "an11.15");
     }
 
     #[test]
