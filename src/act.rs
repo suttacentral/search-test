@@ -75,9 +75,8 @@ impl SearchResponse {
     pub fn dictionary_hits(&self) -> Vec<String> {
         let mut dict_hits: Vec<String> = Vec::new();
         for hit in &self.hits {
-            match hit {
-                Hit::Dictionary { .. } => dict_hits.push(hit.url_path()),
-                _ => (),
+            if let Hit::Dictionary { .. } = hit {
+                dict_hits.push(hit.url_path());
             }
         }
         dict_hits
