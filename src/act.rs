@@ -81,6 +81,16 @@ impl SearchResponse {
         }
         dict_hits
     }
+
+    pub fn text_hits(&self) -> Vec<String> {
+        let mut text_hits: Vec<String> = Vec::new();
+        for hit in &self.hits {
+            if let Hit::Text { .. } = hit {
+                text_hits.push(hit.url_path());
+            }
+        }
+        text_hits
+    }
 }
 
 impl Display for SearchResponse {
@@ -314,9 +324,8 @@ mod tests {
         assert_eq!(hit.url_path(), "/define/metta");
     }
 
-    #[test]
-    fn get_all_paths_for_dictionary_hits_from_search_response() {
-        let response = SearchResponse {
+    fn search_response_with_mixed_hits() -> SearchResponse {
+        SearchResponse {
             total: 0,
             suttaplex: Vec::new(),
             fuzzy_dictionary: Vec::new(),
@@ -325,13 +334,31 @@ mod tests {
                 dictionary_hit("dosa", "/define/dosa"),
                 text_hit("sa264", "en", "analayo"),
                 dictionary_hit("brahma", "/define/brahma"),
+                text_hit("mn1", "en", "bodhi"),
             ],
-        };
+        }
+    }
+
+    #[test]
+    fn list_dictionary_hits() {
+        let response = search_response_with_mixed_hits();
+
         let expected = vec![
             String::from("/define/metta"),
             String::from("/define/dosa"),
             String::from("/define/brahma"),
         ];
+
         assert_eq!(expected, response.dictionary_hits());
+    }
+
+    #[test]
+    fn list_text_hits() {
+        let response = search_response_with_mixed_hits();
+        let expected = vec![
+            String::from("/sa264/en/analayo"),
+            String::from("/mn1/en/bodhi"),
+        ];
+        assert_eq!(expected, response.text_hits());
     }
 }
