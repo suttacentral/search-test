@@ -240,11 +240,10 @@ mod tests {
                 { "url": "/define/anupacchinnā" }
             ]
         }
-        "#
-        .to_string();
+        "#;
 
-        let results: SearchResponse = serde_json::from_str(json.as_str()).unwrap();
-        assert_eq!(results.fuzzy_dictionary[0].url, "/define/anupacchinnā");
+        let response = SearchResponse::from_json(json).unwrap();
+        assert_eq!(response.fuzzy_dictionary[0].url, "/define/anupacchinnā");
     }
 
     fn test_suite() -> anyhow::Result<TestSuite> {
