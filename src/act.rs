@@ -100,7 +100,6 @@ impl SearchResponse {
 impl Display for SearchResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "{} results", self.total)?;
-        writeln!(f, "{} hits", self.hits.len())?;
 
         self.dictionary_hit_urls()
             .iter()
