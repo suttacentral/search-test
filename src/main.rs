@@ -30,31 +30,43 @@ fn main() {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::act::Hit;
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
 
     fn test_case() -> TestCase {
         let assertions = Assertions {
             sutta_hits: SuttaHitAssertion {
-                top: String::from("/kp9/pli/ms"),
+                top: String::from("/an7.71/en/sujato"),
             },
         };
 
         TestCase {
-            query: String::from("metta"),
-            description: String::from("Get the metta"),
+            query: String::from("adze"),
+            description: String::from("The Simile of the Adze"),
             limit: 1,
             site_language: String::from("en"),
             restrict: String::from("all"),
-            selected_languages: vec![String::from("en")],
+            selected_languages: vec![String::from("en"), String::from("pli")],
             match_partial: false,
             assertions: Some(assertions),
+        }
+    }
+
+    fn text_hit() -> Hit {
+        Hit::Text {
+            uid: String::from("an7.71"),
+            lang: String::from("en"),
+            author_uid: Some(String::from("analayo")),
+            url: String::from("/an7.71/en/sujato"),
         }
     }
 
     #[test]
     fn can_assert_top_sutta_hit() {
         let test_case = test_case();
+        let text_hit = text_hit();
+        let actual = text_hit.url_path();
         let expected = test_case.assertions.unwrap().sutta_hits.top;
-        assert_eq!(expected, "/kp9/pli/ms");
+        assert_eq!(expected, actual);
     }
 }
