@@ -71,6 +71,19 @@ pub struct SearchResponse {
     pub fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
+impl SearchResponse {
+    pub fn dictionary_hits(&self) -> Vec<String> {
+        let mut dict_hits: Vec<String> = Vec::new();
+        for hit in &self.hits {
+            match hit {
+                Hit::Dictionary { .. } => dict_hits.push(hit.url_path()),
+                _ => (),
+            }
+        }
+        dict_hits
+    }
+}
+
 impl Display for SearchResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "{} results", self.total)?;
@@ -280,19 +293,42 @@ mod tests {
         assert_eq!(hit.url_path(), "/sa264/en/analayo");
     }
 
-    #[test]
-    fn get_dictionary_hit_path() {
-        let hit = Hit::Dictionary {
+    fn dictionary_hit(word: &str, url: &str) -> Hit {
+        Hit::Dictionary {
             category: String::from("dictionary"),
             highlight: Highlight {
                 detail: Detail {
                     dictname: String::from("dppn"),
-                    word: String::from("metta"),
+                    word: String::from(word),
                 },
             },
-            url: String::from("/define/metta"),
-        };
+            url: String::from(url),
+        }
+    }
 
-        assert_eq!(hit.url_path(), ("/define/metta"));
+    #[test]
+    fn get_dictionary_hit_path() {
+        let hit = dictionary_hit("metta", "/define/metta");
+        assert_eq!(hit.url_path(), "/define/metta");
+    }
+
+    #[test]
+    fn get_all_paths_for_dictionary_hits_from_search_response() {
+        let response = SearchResponse {
+            total: 0,
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            hits: vec![
+                dictionary_hit("metta", "/define/metta"),
+                dictionary_hit("dosa", "/define/dosa"),
+                dictionary_hit("brahma", "/define/brahma"),
+            ],
+        };
+        let expected = vec![
+            String::from("/define/metta"),
+            String::from("/define/dosa"),
+            String::from("/define/brahma"),
+        ];
+        assert_eq!(expected, response.dictionary_hits());
     }
 }
