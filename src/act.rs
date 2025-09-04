@@ -95,6 +95,13 @@ impl SearchResponse {
     pub fn suttaplex_uids(&self) -> Vec<String> {
         self.suttaplex.iter().map(|s| s.uid.clone()).collect()
     }
+
+    pub fn fuzzy_dictionary_urls(&self) -> Vec<String> {
+        self.fuzzy_dictionary
+            .iter()
+            .map(|d| d.url.clone())
+            .collect()
+    }
 }
 
 impl Display for SearchResponse {
@@ -350,7 +357,7 @@ mod tests {
     }
 
     #[test]
-    fn list_dictionary_hits() {
+    fn list_dictionary_urls() {
         let response = search_response_with_mixed_hits();
 
         let expected = vec![
@@ -363,7 +370,7 @@ mod tests {
     }
 
     #[test]
-    fn list_text_hits() {
+    fn list_text_urls() {
         let response = search_response_with_mixed_hits();
         let expected = vec![
             String::from("/sa264/en/analayo"),
@@ -373,7 +380,7 @@ mod tests {
     }
 
     #[test]
-    fn list_suttaplex_hits() {
+    fn list_suttaplex_uids() {
         let response = SearchResponse {
             total: 0,
             hits: Vec::new(),
@@ -396,5 +403,33 @@ mod tests {
             String::from("mn3"),
         ];
         assert_eq!(expected, response.suttaplex_uids());
+    }
+
+    #[test]
+    fn list_fuzzy_dictionary_urls() {
+        let response = SearchResponse {
+            total: 0,
+            hits: Vec::new(),
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: vec![
+                FuzzyDictionary {
+                    url: String::from("/define/metta"),
+                },
+                FuzzyDictionary {
+                    url: String::from("/define/dosa"),
+                },
+                FuzzyDictionary {
+                    url: String::from("/define/brahma"),
+                },
+            ],
+        };
+
+        let expected = vec![
+            String::from("/define/metta"),
+            String::from("/define/dosa"),
+            String::from("/define/brahma"),
+        ];
+
+        assert_eq!(expected, response.fuzzy_dictionary_urls());
     }
 }
