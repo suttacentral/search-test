@@ -28,4 +28,33 @@ fn main() {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+    use super::*;
+    use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
+
+    fn test_case() -> TestCase {
+        let assertions = Assertions {
+            sutta_hits: SuttaHitAssertion {
+                top: String::from("/kp9/pli/ms"),
+            },
+        };
+
+        TestCase {
+            query: String::from("metta"),
+            description: String::from("Get the metta"),
+            limit: 1,
+            site_language: String::from("en"),
+            restrict: String::from("all"),
+            selected_languages: vec![String::from("en")],
+            match_partial: false,
+            assertions: Some(assertions),
+        }
+    }
+
+    #[test]
+    fn can_assert_top_sutta_hit() {
+        let test_case = test_case();
+        let expected = test_case.assertions.unwrap().sutta_hits.top;
+        assert_eq!(expected, "/kp9/pli/ms");
+    }
+}

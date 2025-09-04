@@ -21,14 +21,14 @@ struct Defaults {
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-struct SuttaHitAssertion {
-    top: String,
+pub struct SuttaHitAssertion {
+    pub top: String,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Assertions {
-    sutta_hits: SuttaHitAssertion,
+    pub sutta_hits: SuttaHitAssertion,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
