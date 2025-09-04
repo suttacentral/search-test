@@ -110,19 +110,20 @@ impl Display for SearchResponse {
 
         self.dictionary_hit_urls()
             .iter()
-            .try_for_each(|hit| writeln!(f, "Dictionary hit: {hit}"))?;
+            .try_for_each(|url| writeln!(f, "Dictionary hit: {url}"))?;
+
+        self.fuzzy_dictionary_urls()
+            .iter()
+            .try_for_each(|url| writeln!(f, "Fuzzy dictionary hit: {url}"))?;
 
         self.text_hit_urls()
             .iter()
-            .try_for_each(|hit| writeln!(f, "Text hit: {hit}"))?;
+            .try_for_each(|url| writeln!(f, "Text hit: {url}"))?;
 
         self.suttaplex_uids()
             .iter()
             .try_for_each(|uid| writeln!(f, "Suttaplex hit: {uid}"))?;
 
-        for fuzzy in &self.fuzzy_dictionary {
-            writeln!(f, "Fuzzy dictionary result: {}", fuzzy.url)?;
-        }
         Ok(())
     }
 }
