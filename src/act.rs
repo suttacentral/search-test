@@ -28,19 +28,6 @@ impl Hit {
     }
 }
 
-impl Display for Hit {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Hit::Dictionary { url, .. } => {
-                write!(f, "Dictionary hit: {url}")
-            }
-            Hit::Text { url, .. } => {
-                write!(f, "Text hit {url}")
-            }
-        }
-    }
-}
-
 #[derive(Deserialize, Debug)]
 struct Suttaplex {
     uid: String,
