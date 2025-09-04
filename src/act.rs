@@ -79,7 +79,7 @@ impl SearchResponse {
             .collect()
     }
 
-    pub fn parse_json(json: &str) -> Result<Self> {
+    pub fn from_json(json: &str) -> Result<Self> {
         serde_json::from_str(json).context("Failed to parse JSON.")
     }
 }
@@ -225,7 +225,7 @@ mod tests {
         }
         "#;
 
-        let response = SearchResponse::parse_json(json).unwrap();
+        let response = SearchResponse::from_json(json).unwrap();
         assert_eq!(response.suttaplex[0].uid, "an11.15");
     }
 
