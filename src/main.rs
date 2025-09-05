@@ -37,7 +37,7 @@ mod tests {
     fn test_case() -> TestCase {
         let assertions = Assertions {
             sutta_hits: SuttaHitAssertion {
-                top: String::from("/mn1/en/bodhi"),
+                top: SuttacentralUrl::from("/mn1/en/bodhi"),
             },
         };
 
@@ -77,8 +77,7 @@ mod tests {
     fn can_assert_top_sutta_hit() {
         let test_case = test_case();
         let search_response = search_response();
-        let test_case_url = test_case.assertions.unwrap().sutta_hits.top.clone();
-        let top_hit = search_response.text_hits()[0].clone();
-        assert_eq!(SuttacentralUrl::from(test_case_url.as_str()), top_hit);
+        let test_case_url = test_case.assertions.unwrap().sutta_hits.top;
+        assert_eq!(test_case_url, search_response.text_hits()[0]);
     }
 }
