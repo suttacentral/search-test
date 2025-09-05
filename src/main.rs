@@ -78,7 +78,7 @@ mod tests {
         let test_case = test_case();
         let search_response = search_response();
         let test_case_url = test_case.assertions.unwrap().sutta_hits.top.clone();
-        let top_hit = search_response.text_hit()[0].clone();
+        let top_hit = search_response.text_hits()[0].clone();
         assert_eq!(SuttacentralUrl::from(test_case_url.as_str()), top_hit);
     }
 }

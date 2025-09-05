@@ -37,7 +37,7 @@ struct Suttaplex {
 
 #[derive(Deserialize, Debug)]
 struct FuzzyDictionary {
-    url: String,
+    url: SuttacentralUrl,
 }
 
 #[derive(Deserialize, Debug)]
@@ -59,7 +59,7 @@ impl SearchResponse {
         dict_hits
     }
 
-    pub fn text_hit(&self) -> Vec<SuttacentralUrl> {
+    pub fn text_hits(&self) -> Vec<SuttacentralUrl> {
         let mut text_hits: Vec<SuttacentralUrl> = Vec::new();
         for hit in &self.hits {
             if let Hit::Text { .. } = hit {
@@ -73,7 +73,7 @@ impl SearchResponse {
         self.suttaplex.iter().map(|s| s.uid.clone()).collect()
     }
 
-    pub fn fuzzy_dictionary_urls(&self) -> Vec<String> {
+    pub fn fuzzy_dictionary_hits(&self) -> Vec<SuttacentralUrl> {
         self.fuzzy_dictionary
             .iter()
             .map(|d| d.url.clone())
@@ -93,11 +93,11 @@ impl Display for SearchResponse {
             .iter()
             .try_for_each(|url| writeln!(f, "Dictionary hit: {url}"))?;
 
-        self.fuzzy_dictionary_urls()
+        self.fuzzy_dictionary_hits()
             .iter()
             .try_for_each(|url| writeln!(f, "Fuzzy dictionary hit: {url}"))?;
 
-        self.text_hit()
+        self.text_hits()
             .iter()
             .try_for_each(|url| writeln!(f, "Text hit: {url}"))?;
 
@@ -244,7 +244,10 @@ mod tests {
         "#;
 
         let response = SearchResponse::from_json(json).unwrap();
-        assert_eq!(response.fuzzy_dictionary_urls()[0], "/define/anupacchinnā");
+        assert_eq!(
+            response.fuzzy_dictionary_hits()[0],
+            SuttacentralUrl::from("/define/anupacchinnā")
+        );
     }
 
     fn test_suite() -> anyhow::Result<TestSuite> {
@@ -332,7 +335,7 @@ mod tests {
     }
 
     #[test]
-    fn list_dictionary_urls() {
+    fn list_dictionary_hits() {
         let response = search_response_with_mixed_hits();
 
         let expected = vec![
@@ -345,17 +348,17 @@ mod tests {
     }
 
     #[test]
-    fn list_text_urls() {
+    fn list_text_hits() {
         let response = search_response_with_mixed_hits();
         let expected = vec![
             SuttacentralUrl::from("/sa264/en/analayo"),
             SuttacentralUrl::from("/mn1/en/bodhi"),
         ];
-        assert_eq!(expected, response.text_hit());
+        assert_eq!(expected, response.text_hits());
     }
 
     #[test]
-    fn list_suttaplex_uids() {
+    fn list_suttaplexes() {
         let response = SearchResponse {
             total: 0,
             hits: Vec::new(),
@@ -381,30 +384,30 @@ mod tests {
     }
 
     #[test]
-    fn list_fuzzy_dictionary_urls() {
+    fn list_fuzzy_dictionary_hits() {
         let response = SearchResponse {
             total: 0,
             hits: Vec::new(),
             suttaplex: Vec::new(),
             fuzzy_dictionary: vec![
                 FuzzyDictionary {
-                    url: String::from("/define/metta"),
+                    url: SuttacentralUrl::from("/define/metta"),
                 },
                 FuzzyDictionary {
-                    url: String::from("/define/dosa"),
+                    url: SuttacentralUrl::from("/define/dosa"),
                 },
                 FuzzyDictionary {
-                    url: String::from("/define/brahma"),
+                    url: SuttacentralUrl::from("/define/brahma"),
                 },
             ],
         };
 
         let expected = vec![
-            String::from("/define/metta"),
-            String::from("/define/dosa"),
-            String::from("/define/brahma"),
+            SuttacentralUrl::from("/define/metta"),
+            SuttacentralUrl::from("/define/dosa"),
+            SuttacentralUrl::from("/define/brahma"),
         ];
 
-        assert_eq!(expected, response.fuzzy_dictionary_urls());
+        assert_eq!(expected, response.fuzzy_dictionary_hits());
     }
 }
