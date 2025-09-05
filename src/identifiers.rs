@@ -13,6 +13,21 @@ impl Display for SuttacentralUrl {
 
 impl From<&str> for SuttacentralUrl {
     fn from(value: &str) -> Self {
-        Self(value.to_string())
+        Self(String::from(value))
+    }
+}
+
+#[derive(Clone, Deserialize, Debug, PartialEq)]
+pub struct SuttaplexUid(String);
+
+impl Display for SuttaplexUid {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl From<&str> for SuttaplexUid {
+    fn from(value: &str) -> Self {
+        Self(String::from(value))
     }
 }
