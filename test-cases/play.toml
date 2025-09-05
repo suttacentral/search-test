@@ -9,5 +9,6 @@ match-partial = false
 selected-languages = ["en", "pli"]
 
 [[test-case]]
-description = "The Simile of the Adze"
-query = "adze"
+description = "Has multiple dictionary results."
+query = "pacch"
+match-partial = true

@@ -29,7 +29,7 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use crate::act::SearchResponse;
+    use crate::act::{SearchResponse, SuttacentralUrl};
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
 
     fn test_case() -> TestCase {
@@ -75,8 +75,8 @@ mod tests {
     fn can_assert_top_sutta_hit() {
         let test_case = test_case();
         let search_response = search_response();
-        let test_case_url = test_case.assertions.unwrap().sutta_hits.top;
-        let response_url = search_response.text_hit_urls()[0].clone();
-        assert_eq!(test_case_url, response_url);
+        let test_case_url = test_case.assertions.unwrap().sutta_hits.top.clone();
+        let top_hit = search_response.text_hit()[0].clone();
+        assert_eq!(SuttacentralUrl::from(test_case_url.as_str()), top_hit);
     }
 }

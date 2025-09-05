@@ -3,25 +3,41 @@ use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
 use std::fmt;
-use std::fmt::Display;
+use std::fmt::{Display, Formatter};
+
+#[derive(Clone, Deserialize, Debug, PartialEq)]
+pub struct SuttacentralUrl(String);
+
+impl Display for SuttacentralUrl {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+impl From<&str> for SuttacentralUrl {
+    fn from(value: &str) -> Self {
+        Self(value.to_string())
+    }
+}
 
 #[derive(Deserialize, Debug)]
 #[serde(untagged)]
 enum Hit {
     Dictionary {
         category: String,
-        url: String,
+
+        url: SuttacentralUrl,
     },
     Text {
         uid: String,
         lang: String,
         author_uid: Option<String>,
-        url: String,
+        url: SuttacentralUrl,
     },
 }
 
 impl Hit {
-    fn url_path(&self) -> String {
+    fn url_path(&self) -> SuttacentralUrl {
         match self {
             Hit::Text { url, .. } => url.clone(),
             Hit::Dictionary { url, .. } => url.clone(),
@@ -48,8 +64,8 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn dictionary_hit_urls(&self) -> Vec<String> {
-        let mut dict_hits: Vec<String> = Vec::new();
+    pub fn dictionary_hits(&self) -> Vec<SuttacentralUrl> {
+        let mut dict_hits: Vec<SuttacentralUrl> = Vec::new();
         for hit in &self.hits {
             if let Hit::Dictionary { .. } = hit {
                 dict_hits.push(hit.url_path());
@@ -58,8 +74,8 @@ impl SearchResponse {
         dict_hits
     }
 
-    pub fn text_hit_urls(&self) -> Vec<String> {
-        let mut text_hits: Vec<String> = Vec::new();
+    pub fn text_hit(&self) -> Vec<SuttacentralUrl> {
+        let mut text_hits: Vec<SuttacentralUrl> = Vec::new();
         for hit in &self.hits {
             if let Hit::Text { .. } = hit {
                 text_hits.push(hit.url_path());
@@ -88,7 +104,7 @@ impl Display for SearchResponse {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         writeln!(f, "{} results", self.total)?;
 
-        self.dictionary_hit_urls()
+        self.dictionary_hits()
             .iter()
             .try_for_each(|url| writeln!(f, "Dictionary hit: {url}"))?;
 
@@ -96,7 +112,7 @@ impl Display for SearchResponse {
             .iter()
             .try_for_each(|url| writeln!(f, "Fuzzy dictionary hit: {url}"))?;
 
-        self.text_hit_urls()
+        self.text_hit()
             .iter()
             .try_for_each(|url| writeln!(f, "Text hit: {url}"))?;
 
@@ -145,7 +161,7 @@ mod tests {
         .to_string();
 
         if let Hit::Dictionary { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
-            assert_eq!(url, "/define/metta");
+            assert_eq!(url, SuttacentralUrl::from("/define/metta"));
         } else {
             panic!("Wrong hit variant");
         };
@@ -164,7 +180,7 @@ mod tests {
         .to_string();
 
         if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
-            assert_eq!(url, "/sa264/en/analayo");
+            assert_eq!(url, SuttacentralUrl::from("/sa264/en/analayo"));
         } else {
             panic!("Wrong hit variant");
         };
@@ -185,7 +201,7 @@ mod tests {
         let guide_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
         if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
-            assert_eq!(url, "/sn-guide-sujato");
+            assert_eq!(url, SuttacentralUrl::from("/sn-guide-sujato"));
         } else {
             panic!("Wrong hit variant");
         };
@@ -206,7 +222,7 @@ mod tests {
         let licensing_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
 
         if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
-            assert_eq!(url, "/licensing");
+            assert_eq!(url, SuttacentralUrl::from("/licensing"));
         } else {
             panic!("Wrong hit variant");
         };
@@ -289,29 +305,30 @@ mod tests {
     fn dictionary_hit(word: &str, url: &str) -> Hit {
         Hit::Dictionary {
             category: String::from("dictionary"),
-            url: String::from(url),
+            url: SuttacentralUrl::from(url),
         }
     }
 
     fn text_hit(uid: &str, lang: &str, author: &str) -> Hit {
+        let url = format!("/{uid}/{lang}/{author}");
         Hit::Text {
             uid: String::from(uid),
             lang: String::from(lang),
             author_uid: Some(String::from(author)),
-            url: format!("/{uid}/{lang}/{author}"),
+            url: SuttacentralUrl::from(url.as_str()),
         }
     }
 
     #[test]
     fn get_text_hit_path() {
         let hit = text_hit("sa264", "en", "analayo");
-        assert_eq!(hit.url_path(), "/sa264/en/analayo");
+        assert_eq!(hit.url_path(), SuttacentralUrl::from("/sa264/en/analayo"));
     }
 
     #[test]
     fn get_dictionary_hit_path() {
         let hit = dictionary_hit("metta", "/define/metta");
-        assert_eq!(hit.url_path(), "/define/metta");
+        assert_eq!(hit.url_path(), SuttacentralUrl::from("/define/metta"));
     }
 
     fn search_response_with_mixed_hits() -> SearchResponse {
@@ -334,22 +351,22 @@ mod tests {
         let response = search_response_with_mixed_hits();
 
         let expected = vec![
-            String::from("/define/metta"),
-            String::from("/define/dosa"),
-            String::from("/define/brahma"),
+            SuttacentralUrl::from("/define/metta"),
+            SuttacentralUrl::from("/define/dosa"),
+            SuttacentralUrl::from("/define/brahma"),
         ];
 
-        assert_eq!(expected, response.dictionary_hit_urls());
+        assert_eq!(expected, response.dictionary_hits());
     }
 
     #[test]
     fn list_text_urls() {
         let response = search_response_with_mixed_hits();
         let expected = vec![
-            String::from("/sa264/en/analayo"),
-            String::from("/mn1/en/bodhi"),
+            SuttacentralUrl::from("/sa264/en/analayo"),
+            SuttacentralUrl::from("/mn1/en/bodhi"),
         ];
-        assert_eq!(expected, response.text_hit_urls());
+        assert_eq!(expected, response.text_hit());
     }
 
     #[test]
