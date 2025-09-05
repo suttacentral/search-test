@@ -3,7 +3,7 @@ pub mod arrange;
 mod identifiers;
 
 use crate::act::{SearchResponse, build_request};
-use crate::arrange::TestSuite;
+use crate::arrange::{TestCase, TestSuite};
 use anyhow::{Context, Result};
 use reqwest::Error;
 use std::fmt::Display;
@@ -28,10 +28,15 @@ fn main() {
     }
 }
 
+fn assert_top_sutta_hit(test_case: TestCase, response: SearchResponse) -> bool {
+    test_case.assertions.unwrap().sutta_hits.top == response.text_hits()[0]
+}
+
 #[cfg(test)]
 mod tests {
     use crate::act::SearchResponse;
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
+    use crate::assert_top_sutta_hit;
     use crate::identifiers::SuttacentralUrl;
 
     fn test_case() -> TestCase {
@@ -77,7 +82,6 @@ mod tests {
     fn can_assert_top_sutta_hit() {
         let test_case = test_case();
         let search_response = search_response();
-        let test_case_url = test_case.assertions.unwrap().sutta_hits.top;
-        assert_eq!(test_case_url, search_response.text_hits()[0]);
+        assert!(assert_top_sutta_hit(test_case, search_response))
     }
 }
