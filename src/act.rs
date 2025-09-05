@@ -1,5 +1,5 @@
 use crate::arrange;
-use crate::identifiers::SuttacentralUrl;
+use crate::identifiers::{SuttacentralUrl, SuttaplexUid};
 use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
@@ -32,7 +32,7 @@ impl Hit {
 
 #[derive(Deserialize, Debug)]
 struct Suttaplex {
-    uid: String,
+    uid: SuttaplexUid,
 }
 
 #[derive(Deserialize, Debug)]
@@ -69,7 +69,7 @@ impl SearchResponse {
         text_hits
     }
 
-    pub fn suttaplex_uids(&self) -> Vec<String> {
+    pub fn suttaplexes(&self) -> Vec<SuttaplexUid> {
         self.suttaplex.iter().map(|s| s.uid.clone()).collect()
     }
 
@@ -101,7 +101,7 @@ impl Display for SearchResponse {
             .iter()
             .try_for_each(|url| writeln!(f, "Text hit: {url}"))?;
 
-        self.suttaplex_uids()
+        self.suttaplexes()
             .iter()
             .try_for_each(|uid| writeln!(f, "Suttaplex hit: {uid}"))?;
 
@@ -227,7 +227,7 @@ mod tests {
         "#;
 
         let response = SearchResponse::from_json(json).unwrap();
-        assert_eq!(response.suttaplex_uids()[0], "an11.15");
+        assert_eq!(response.suttaplexes()[0], SuttaplexUid::from("an11.15"));
     }
 
     #[test]
@@ -362,22 +362,22 @@ mod tests {
             fuzzy_dictionary: Vec::new(),
             suttaplex: vec![
                 Suttaplex {
-                    uid: String::from("mn1"),
+                    uid: SuttaplexUid::from("mn1"),
                 },
                 Suttaplex {
-                    uid: String::from("mn2"),
+                    uid: SuttaplexUid::from("mn2"),
                 },
                 Suttaplex {
-                    uid: String::from("mn3"),
+                    uid: SuttaplexUid::from("mn3"),
                 },
             ],
         };
         let expected = vec![
-            String::from("mn1"),
-            String::from("mn2"),
-            String::from("mn3"),
+            SuttaplexUid::from("mn1"),
+            SuttaplexUid::from("mn2"),
+            SuttaplexUid::from("mn3"),
         ];
-        assert_eq!(expected, response.suttaplex_uids());
+        assert_eq!(expected, response.suttaplexes());
     }
 
     #[test]
