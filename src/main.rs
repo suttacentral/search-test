@@ -1,5 +1,6 @@
 pub mod act;
 pub mod arrange;
+mod identifiers;
 
 use crate::act::{SearchResponse, build_request};
 use crate::arrange::TestSuite;
@@ -29,8 +30,9 @@ fn main() {
 
 #[cfg(test)]
 mod tests {
-    use crate::act::{SearchResponse, SuttacentralUrl};
+    use crate::act::SearchResponse;
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
+    use crate::identifiers::SuttacentralUrl;
 
     fn test_case() -> TestCase {
         let assertions = Assertions {

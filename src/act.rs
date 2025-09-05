@@ -1,24 +1,10 @@
 use crate::arrange;
+use crate::identifiers::SuttacentralUrl;
 use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
 use std::fmt;
-use std::fmt::{Display, Formatter};
-
-#[derive(Clone, Deserialize, Debug, PartialEq)]
-pub struct SuttacentralUrl(String);
-
-impl Display for SuttacentralUrl {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{}", self.0)
-    }
-}
-
-impl From<&str> for SuttacentralUrl {
-    fn from(value: &str) -> Self {
-        Self(value.to_string())
-    }
-}
+use std::fmt::Display;
 
 #[derive(Deserialize, Debug)]
 #[serde(untagged)]
