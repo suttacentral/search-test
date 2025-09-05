@@ -129,6 +129,14 @@ mod tests {
     use super::*;
     use crate::arrange::TestSuite;
 
+    impl From<&str> for Suttaplex {
+        fn from(value: &str) -> Self {
+            Self {
+                uid: SuttaplexUid::from(value),
+            }
+        }
+    }
+
     #[test]
     fn parse_dictionary_hit() {
         let json = r#"
@@ -364,17 +372,12 @@ mod tests {
             hits: Vec::new(),
             fuzzy_dictionary: Vec::new(),
             suttaplex: vec![
-                Suttaplex {
-                    uid: SuttaplexUid::from("mn1"),
-                },
-                Suttaplex {
-                    uid: SuttaplexUid::from("mn2"),
-                },
-                Suttaplex {
-                    uid: SuttaplexUid::from("mn3"),
-                },
+                Suttaplex::from("mn1"),
+                Suttaplex::from("mn2"),
+                Suttaplex::from("mn3"),
             ],
         };
+
         let expected = vec![
             SuttaplexUid::from("mn1"),
             SuttaplexUid::from("mn2"),
