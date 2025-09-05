@@ -11,7 +11,6 @@ use std::fmt::Display;
 enum Hit {
     Dictionary {
         category: String,
-
         url: SuttacentralUrl,
     },
     Text {
