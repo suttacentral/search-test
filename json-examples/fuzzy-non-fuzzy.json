@@ -1,0 +1,98 @@
+{
+    "total": 1,
+    "hits": [
+        {
+            "heading": {
+                "division": "dpd",
+                "subhead": "",
+                "title": ""
+            },
+            "highlight": {
+                "content": [
+                    ""
+                ],
+                "detail": [
+                    {
+                        "dictname": "dpd",
+                        "lang_to": "en",
+                        "lang_from": "pli",
+                        "word": "anupacchinnā",
+                        "word_ascii": null,
+                        "text": "",
+                        "grammar": null,
+                        "definition": [
+                            "adj. continued, proceeding without cessation"
+                        ],
+                        "xr": null
+                    }
+                ]
+            },
+            "url": "/define/anupacchinnā",
+            "category": "dictionary"
+        },
+        {
+            "acronym": "Kd 7",
+            "uid": "pli-tv-kd7",
+            "lang": "pli",
+            "full_lang": "Pāli",
+            "root_lang": "pli",
+            "name": "Kathinakkhandhaka",
+            "volpage": null,
+            "author": "Mahāsaṅgīti Tipiṭaka Buddhavasse 2500",
+            "author_uid": "ms",
+            "author_short": "ms",
+            "is_root": true,
+            "heading": {
+                "title": "Kathinakkhandhaka"
+            },
+            "segmented_uid": "pli-tv-kd7:13.1.8",
+            "is_segmented": true,
+            "is_bilara_text": null,
+            "param_lang": "en",
+            "root_uid": "pli-tv-kd",
+            "is_article": null,
+            "param_query": "anupacchinnā",
+            "url": "/pli-tv-kd7/pli/ms",
+            "highlight": {
+                "content": [
+                    "<a target=\"_blank\" href=\"/pli-tv-kd7/pli/ms#13.1.8\" id=\"13.1.8\"><span class=\"reference\">13.1.8</span></a>Idha bhikkhave bhikkhuno cīvaraṁ akataṁ vā hoti vippakataṁ vā cīvarāsā vā <strong class=\"highlight\">anupacchinnā</strong>. <br/>"
+                ]
+            },
+            "root_name": "Kathinakkhandhaka"
+        }
+    ],
+    "suttaplex": [],
+    "fuzzy_dictionary": [
+        {
+            "heading": {
+                "division": "dpd",
+                "subhead": "",
+                "title": ""
+            },
+            "highlight": {
+                "content": [
+                    [
+                        "adj. continued, proceeding without cessation"
+                    ]
+                ],
+                "detail": [
+                    {
+                        "dictname": "dpd",
+                        "lang_to": "en",
+                        "lang_from": "pli",
+                        "word": "anupacchinnā",
+                        "word_ascii": null,
+                        "text": "",
+                        "grammar": null,
+                        "definition": [
+                            "adj. continued, proceeding without cessation"
+                        ],
+                        "xr": null
+                    }
+                ]
+            },
+            "url": "/define/anupacchinnā",
+            "category": "dictionary"
+        }
+    ]
+}
