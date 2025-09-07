@@ -40,11 +40,23 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn rank(&self, id: SearchResultIdentifier) -> Option<usize> {
-        match id {
-            SearchResultIdentifier::Text { url } => self.text_hits().iter().position(|x| x == &url),
-            _ => None,
+    pub fn rank(&self, result_id: SearchResultIdentifier) -> Option<usize> {
+        let mut counter: usize = 1;
+        let mut result = None;
+        match result_id {
+            SearchResultIdentifier::Text { url: url_to_rank } => {
+                for hit in &self.hits {
+                    if let Hit::Text { url: hit_url, .. } = hit {
+                        if &url_to_rank == hit_url {
+                            result = Some(counter);
+                        }
+                        counter += 1;
+                    }
+                }
+            }
+            _ => result = None,
         }
+        result
     }
 
     pub fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
@@ -416,6 +428,6 @@ mod tests {
         let top_ranked = SearchResultIdentifier::Text {
             url: TextUrl::from("/sa264/en/analayo"),
         };
-        assert_eq!(response.rank(top_ranked), Some(0))
+        assert_eq!(response.rank(top_ranked), Some(1))
     }
 }
