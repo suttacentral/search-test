@@ -37,12 +37,12 @@ mod tests {
     use crate::act::SearchResponse;
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
     use crate::assert_top_sutta_hit;
-    use crate::identifiers::SuttacentralUrl;
+    use crate::identifiers::TextUrl;
 
     fn test_case() -> TestCase {
         let assertions = Assertions {
             sutta_hits: SuttaHitAssertion {
-                top: SuttacentralUrl::from("/mn1/en/bodhi"),
+                top: TextUrl::from("/mn1/en/bodhi"),
             },
         };
 

@@ -1,4 +1,4 @@
-use crate::identifiers::SuttacentralUrl;
+use crate::identifiers::TextUrl;
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -23,7 +23,7 @@ struct Defaults {
 #[derive(Clone, Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct SuttaHitAssertion {
-    pub top: SuttacentralUrl,
+    pub top: TextUrl,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
@@ -542,9 +542,6 @@ mod tests {
         .unwrap();
         let test_case = &suite.test_cases().unwrap()[0];
         let assertions = test_case.assertions.clone().unwrap();
-        assert_eq!(
-            assertions.sutta_hits.top,
-            SuttacentralUrl::from("/kp9/pli/ms")
-        );
+        assert_eq!(assertions.sutta_hits.top, TextUrl::from("/kp9/pli/ms"));
     }
 }
