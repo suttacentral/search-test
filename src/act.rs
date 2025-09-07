@@ -1,5 +1,5 @@
 use crate::arrange;
-use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultIdentifier, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
@@ -40,6 +40,13 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
+    pub fn rank(&self, id: SearchResultIdentifier) -> Option<u8> {
+        match id {
+            SearchResultIdentifier::Text { url } => Some(1),
+            _ => None,
+        }
+    }
+
     pub fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
         let mut dict_hits: Vec<DictionaryUrl> = Vec::new();
         for hit in &self.hits {
@@ -119,6 +126,7 @@ pub fn build_request(endpoint: String, test_case: arrange::TestCase) -> RequestB
 mod tests {
     use super::*;
     use crate::arrange::TestSuite;
+    use crate::identifiers::SearchResultIdentifier;
 
     impl From<&str> for Suttaplex {
         fn from(value: &str) -> Self {
@@ -391,5 +399,23 @@ mod tests {
         ];
 
         assert_eq!(expected, response.fuzzy_dictionary_hits());
+    }
+
+    #[test]
+    fn get_rank_of_text_hit() {
+        let response = SearchResponse {
+            total: 0,
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            hits: vec![
+                text_hit("sa264", "en", "analayo"),
+                text_hit("mn1", "en", "bodhi"),
+            ],
+        };
+
+        let top_ranked = SearchResultIdentifier::Text {
+            url: TextUrl::from("/sa264/en/analayo"),
+        };
+        assert_eq!(response.rank(top_ranked), Some(1))
     }
 }

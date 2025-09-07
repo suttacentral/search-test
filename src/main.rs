@@ -1,6 +1,5 @@
 pub mod act;
 pub mod arrange;
-pub mod assert;
 pub mod identifiers;
 
 use crate::act::{SearchResponse, build_request};
