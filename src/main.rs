@@ -1,6 +1,7 @@
 pub mod act;
 pub mod arrange;
-mod identifiers;
+pub mod assert;
+pub mod identifiers;
 
 use crate::act::{SearchResponse, build_request};
 use crate::arrange::{TestCase, TestSuite};
