@@ -40,9 +40,9 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn rank(&self, id: SearchResultIdentifier) -> Option<u8> {
+    pub fn rank(&self, id: SearchResultIdentifier) -> Option<usize> {
         match id {
-            SearchResultIdentifier::Text { url } => Some(1),
+            SearchResultIdentifier::Text { url } => self.text_hits().iter().position(|x| x == &url),
             _ => None,
         }
     }
@@ -416,6 +416,6 @@ mod tests {
         let top_ranked = SearchResultIdentifier::Text {
             url: TextUrl::from("/sa264/en/analayo"),
         };
-        assert_eq!(response.rank(top_ranked), Some(1))
+        assert_eq!(response.rank(top_ranked), Some(0))
     }
 }
