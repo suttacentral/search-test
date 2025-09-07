@@ -28,7 +28,7 @@ struct Suttaplex {
 
 #[derive(Deserialize, Debug)]
 struct FuzzyDictionary {
-    url: TextUrl,
+    url: DictionaryUrl,
 }
 
 #[derive(Deserialize, Debug)]
@@ -64,7 +64,7 @@ impl SearchResponse {
         self.suttaplex.iter().map(|s| s.uid.clone()).collect()
     }
 
-    pub fn fuzzy_dictionary_hits(&self) -> Vec<TextUrl> {
+    pub fn fuzzy_dictionary_hits(&self) -> Vec<DictionaryUrl> {
         self.fuzzy_dictionary
             .iter()
             .map(|d| d.url.clone())
@@ -245,7 +245,7 @@ mod tests {
         let response = SearchResponse::from_json(json).unwrap();
         assert_eq!(
             response.fuzzy_dictionary_hits()[0],
-            TextUrl::from("/define/anupacchinnā")
+            DictionaryUrl::from("/define/anupacchinnā")
         );
     }
 
@@ -373,21 +373,21 @@ mod tests {
             suttaplex: Vec::new(),
             fuzzy_dictionary: vec![
                 FuzzyDictionary {
-                    url: TextUrl::from("/define/metta"),
+                    url: DictionaryUrl::from("/define/metta"),
                 },
                 FuzzyDictionary {
-                    url: TextUrl::from("/define/dosa"),
+                    url: DictionaryUrl::from("/define/dosa"),
                 },
                 FuzzyDictionary {
-                    url: TextUrl::from("/define/brahma"),
+                    url: DictionaryUrl::from("/define/brahma"),
                 },
             ],
         };
 
         let expected = vec![
-            TextUrl::from("/define/metta"),
-            TextUrl::from("/define/dosa"),
-            TextUrl::from("/define/brahma"),
+            DictionaryUrl::from("/define/metta"),
+            DictionaryUrl::from("/define/dosa"),
+            DictionaryUrl::from("/define/brahma"),
         ];
 
         assert_eq!(expected, response.fuzzy_dictionary_hits());
