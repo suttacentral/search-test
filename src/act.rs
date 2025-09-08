@@ -131,7 +131,8 @@ impl Display for SearchResponse {
             .iter()
             .try_for_each(|url| writeln!(f, "Fuzzy dictionary hit: {url}"))?;
 
-        self.text_hits().try_for_each(|hit| writeln!(f, "{hit}"))?;
+        self.text_hits()
+            .try_for_each(|hit| writeln!(f, "Text hit {hit}"))?;
 
         self.suttaplexes()
             .iter()
