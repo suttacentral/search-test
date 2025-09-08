@@ -354,9 +354,9 @@ mod tests {
             hits: vec![
                 dictionary_hit("metta", "/define/metta"),
                 dictionary_hit("dosa", "/define/dosa"),
-                text_hit("sa264", "en", "analayo"),
+                Hit::text_from_parts("sa264", "en", "analayo"),
                 dictionary_hit("brahma", "/define/brahma"),
-                text_hit("mn1", "en", "bodhi"),
+                Hit::text_from_parts("mn1", "en", "bodhi"),
             ],
         }
     }
