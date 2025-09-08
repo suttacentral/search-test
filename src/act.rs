@@ -6,7 +6,7 @@ use serde::Deserialize;
 use std::fmt;
 use std::fmt::Display;
 
-#[derive(Deserialize, Debug)]
+#[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
 enum Hit {
     Dictionary {
@@ -429,5 +429,23 @@ mod tests {
             url: TextUrl::from("/sa264/en/analayo"),
         };
         assert_eq!(response.rank(top_ranked), Some(1))
+    }
+
+    #[test]
+    fn use_matches_macro_to_filter_text_hits() {
+        let response = search_response_with_mixed_hits();
+        let filtered_hits = response
+            .hits
+            .iter()
+            .filter(|x| matches!(x, Hit::Text { .. }))
+            .cloned()
+            .collect::<Vec<Hit>>();
+
+        let expected = vec![
+            text_hit("sa264", "en", "analayo"),
+            text_hit("mn1", "en", "bodhi"),
+        ];
+
+        assert_eq!(filtered_hits, expected);
     }
 }
