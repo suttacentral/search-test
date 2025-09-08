@@ -31,17 +31,6 @@ impl Display for Hit {
 }
 
 impl Hit {
-    fn text_from_parts(uid: &str, lang: &str, author: &str) -> Hit {
-        let url = format!("/{uid}/{lang}/{author}");
-
-        Hit::Text {
-            uid: String::from(uid),
-            lang: String::from(lang),
-            author_uid: Some(String::from(author)),
-            url: TextUrl::from(url.as_str()),
-        }
-    }
-
     fn text_url(&self) -> Option<TextUrl> {
         if let Hit::Text { url, .. } = self {
             Some(url.clone())
@@ -167,6 +156,19 @@ mod tests {
         fn from(value: &str) -> Self {
             Self {
                 uid: SuttaplexUid::from(value),
+            }
+        }
+    }
+
+    impl Hit {
+        fn text_from_parts(uid: &str, lang: &str, author: &str) -> Hit {
+            let url = format!("/{uid}/{lang}/{author}");
+
+            Hit::Text {
+                uid: String::from(uid),
+                lang: String::from(lang),
+                author_uid: Some(String::from(author)),
+                url: TextUrl::from(url.as_str()),
             }
         }
     }
