@@ -41,6 +41,14 @@ impl Hit {
             url: TextUrl::from(url.as_str()),
         }
     }
+
+    fn text_url(&self) -> Option<TextUrl> {
+        if let Hit::Text { url, .. } = self {
+            Some(url.clone())
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(Deserialize, Debug)]
@@ -81,24 +89,8 @@ impl SearchResponse {
         result
     }
 
-    fn text_hit_url(hit: &Hit) -> Option<TextUrl> {
-        if let Hit::Text { url, .. } = hit {
-            Some(url.clone())
-        } else {
-            None
-        }
-    }
-
-    fn text_hit_urls(&self) -> impl Iterator<Item = TextUrl> {
-        self.hits.iter().filter_map(Self::text_hit_url)
-    }
-
-    fn text_hits(&self) -> Vec<Hit> {
-        self.hits
-            .iter()
-            .filter(|x| matches!(x, Hit::Text { .. }))
-            .cloned()
-            .collect::<Vec<Hit>>()
+    fn text_hits(&self) -> impl Iterator<Item = TextUrl> {
+        self.hits.iter().filter_map(|h| h.text_url())
     }
 
     fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
@@ -139,9 +131,7 @@ impl Display for SearchResponse {
             .iter()
             .try_for_each(|url| writeln!(f, "Fuzzy dictionary hit: {url}"))?;
 
-        self.text_hits()
-            .iter()
-            .try_for_each(|hit| writeln!(f, "{hit}"))?;
+        self.text_hits().try_for_each(|hit| writeln!(f, "{hit}"))?;
 
         self.suttaplexes()
             .iter()
@@ -379,11 +369,14 @@ mod tests {
     #[test]
     fn list_text_hits() {
         let response = search_response_with_mixed_hits();
+
         let expected = vec![
-            Hit::text_from_parts("sa264", "en", "analayo"),
-            Hit::text_from_parts("mn1", "en", "bodhi"),
+            TextUrl::from("/sa264/en/analayo"),
+            TextUrl::from("/mn1/en/bodhi"),
         ];
-        assert_eq!(expected, response.text_hits());
+
+        let actual = response.text_hits().collect::<Vec<_>>();
+        assert_eq!(expected, actual);
     }
 
     #[test]
@@ -451,34 +444,5 @@ mod tests {
             url: TextUrl::from("/sa264/en/analayo"),
         };
         assert_eq!(response.rank(top_ranked), Some(1))
-    }
-
-    #[test]
-    fn use_matches_macro_to_filter_text_hits() {
-        let response = search_response_with_mixed_hits();
-        let filtered_hits = response
-            .hits
-            .iter()
-            .filter(|x| matches!(x, Hit::Text { .. }))
-            .cloned()
-            .collect::<Vec<Hit>>();
-
-        let expected = vec![
-            Hit::text_from_parts("sa264", "en", "analayo"),
-            Hit::text_from_parts("mn1", "en", "bodhi"),
-        ];
-
-        assert_eq!(filtered_hits, expected);
-    }
-
-    #[test]
-    fn list_text_urls() {
-        let response = search_response_with_mixed_hits();
-        let urls: Vec<TextUrl> = response.text_hit_urls().collect();
-        let expected = vec![
-            TextUrl::from("/sa264/en/analayo"),
-            TextUrl::from("/mn1/en/bodhi"),
-        ];
-        assert_eq!(urls, expected);
     }
 }
