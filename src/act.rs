@@ -81,6 +81,18 @@ impl SearchResponse {
         result
     }
 
+    fn text_hit_url(hit: &Hit) -> Option<TextUrl> {
+        if let Hit::Text { url, .. } = hit {
+            Some(url.clone())
+        } else {
+            None
+        }
+    }
+
+    fn text_hit_urls(&self) -> impl Iterator<Item = TextUrl> {
+        self.hits.iter().filter_map(Self::text_hit_url)
+    }
+
     fn text_hits(&self) -> Vec<Hit> {
         self.hits
             .iter()
@@ -457,5 +469,16 @@ mod tests {
         ];
 
         assert_eq!(filtered_hits, expected);
+    }
+
+    #[test]
+    fn list_text_urls() {
+        let response = search_response_with_mixed_hits();
+        let urls: Vec<TextUrl> = response.text_hit_urls().collect();
+        let expected = vec![
+            TextUrl::from("/sa264/en/analayo"),
+            TextUrl::from("/mn1/en/bodhi"),
+        ];
+        assert_eq!(urls, expected);
     }
 }
