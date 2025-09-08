@@ -336,16 +336,6 @@ mod tests {
         }
     }
 
-    fn text_hit(uid: &str, lang: &str, author: &str) -> Hit {
-        let url = format!("/{uid}/{lang}/{author}");
-        Hit::Text {
-            uid: String::from(uid),
-            lang: String::from(lang),
-            author_uid: Some(String::from(author)),
-            url: TextUrl::from(url.as_str()),
-        }
-    }
-
     fn search_response_with_mixed_hits() -> SearchResponse {
         SearchResponse {
             total: 0,
@@ -378,8 +368,8 @@ mod tests {
     fn list_text_hits() {
         let response = search_response_with_mixed_hits();
         let expected = vec![
-            text_hit("sa264", "en", "analayo"),
-            text_hit("mn1", "en", "bodhi"),
+            Hit::text_from_parts("sa264", "en", "analayo"),
+            Hit::text_from_parts("mn1", "en", "bodhi"),
         ];
         assert_eq!(expected, response.text_hits());
     }
@@ -440,8 +430,8 @@ mod tests {
             suttaplex: Vec::new(),
             fuzzy_dictionary: Vec::new(),
             hits: vec![
-                text_hit("sa264", "en", "analayo"),
-                text_hit("mn1", "en", "bodhi"),
+                Hit::text_from_parts("sa264", "en", "analayo"),
+                Hit::text_from_parts("mn1", "en", "bodhi"),
             ],
         };
 
@@ -462,8 +452,8 @@ mod tests {
             .collect::<Vec<Hit>>();
 
         let expected = vec![
-            text_hit("sa264", "en", "analayo"),
-            text_hit("mn1", "en", "bodhi"),
+            Hit::text_from_parts("sa264", "en", "analayo"),
+            Hit::text_from_parts("mn1", "en", "bodhi"),
         ];
 
         assert_eq!(filtered_hits, expected);
