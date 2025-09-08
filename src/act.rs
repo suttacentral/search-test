@@ -59,20 +59,20 @@ impl SearchResponse {
         result
     }
 
-    pub fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
-        let mut dict_hits: Vec<DictionaryUrl> = Vec::new();
+    pub fn text_hits(&self) -> Vec<TextUrl> {
+        let mut dict_hits: Vec<TextUrl> = Vec::new();
         for hit in &self.hits {
-            if let Hit::Dictionary { url, .. } = hit {
+            if let Hit::Text { url, .. } = hit {
                 dict_hits.push(url.clone());
             }
         }
         dict_hits
     }
 
-    pub fn text_hits(&self) -> Vec<TextUrl> {
-        let mut dict_hits: Vec<TextUrl> = Vec::new();
+    pub fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
+        let mut dict_hits: Vec<DictionaryUrl> = Vec::new();
         for hit in &self.hits {
-            if let Hit::Text { url, .. } = hit {
+            if let Hit::Dictionary { url, .. } = hit {
                 dict_hits.push(url.clone());
             }
         }
