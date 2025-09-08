@@ -28,15 +28,10 @@ fn main() {
     }
 }
 
-fn assert_top_sutta_hit(test_case: TestCase, response: SearchResponse) -> bool {
-    test_case.assertions.unwrap().sutta_hits.top == response.text_hits()[0]
-}
-
 #[cfg(test)]
 mod tests {
     use crate::act::SearchResponse;
     use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
-    use crate::assert_top_sutta_hit;
     use crate::identifiers::TextUrl;
 
     fn test_case() -> TestCase {
@@ -76,12 +71,5 @@ mod tests {
         "#;
 
         SearchResponse::from_json(json).unwrap()
-    }
-
-    #[test]
-    fn can_assert_top_sutta_hit() {
-        let test_case = test_case();
-        let search_response = search_response();
-        assert!(assert_top_sutta_hit(test_case, search_response))
     }
 }

@@ -21,6 +21,28 @@ enum Hit {
     },
 }
 
+impl Display for Hit {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            Hit::Text { url, .. } => write!(f, "Text hit: {url}"),
+            Hit::Dictionary { url, .. } => write!(f, "Dictionary hit: {url}"),
+        }
+    }
+}
+
+impl Hit {
+    fn text_from_parts(uid: &str, lang: &str, author: &str) -> Hit {
+        let url = format!("/{uid}/{lang}/{author}");
+
+        Hit::Text {
+            uid: String::from(uid),
+            lang: String::from(lang),
+            author_uid: Some(String::from(author)),
+            url: TextUrl::from(url.as_str()),
+        }
+    }
+}
+
 #[derive(Deserialize, Debug)]
 struct Suttaplex {
     uid: SuttaplexUid,
@@ -59,17 +81,15 @@ impl SearchResponse {
         result
     }
 
-    pub fn text_hits(&self) -> Vec<TextUrl> {
-        let mut dict_hits: Vec<TextUrl> = Vec::new();
-        for hit in &self.hits {
-            if let Hit::Text { url, .. } = hit {
-                dict_hits.push(url.clone());
-            }
-        }
-        dict_hits
+    fn text_hits(&self) -> Vec<Hit> {
+        self.hits
+            .iter()
+            .filter(|x| matches!(x, Hit::Text { .. }))
+            .cloned()
+            .collect::<Vec<Hit>>()
     }
 
-    pub fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
+    fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
         let mut dict_hits: Vec<DictionaryUrl> = Vec::new();
         for hit in &self.hits {
             if let Hit::Dictionary { url, .. } = hit {
@@ -79,11 +99,11 @@ impl SearchResponse {
         dict_hits
     }
 
-    pub fn suttaplexes(&self) -> Vec<SuttaplexUid> {
+    fn suttaplexes(&self) -> Vec<SuttaplexUid> {
         self.suttaplex.iter().map(|s| s.uid.clone()).collect()
     }
 
-    pub fn fuzzy_dictionary_hits(&self) -> Vec<DictionaryUrl> {
+    fn fuzzy_dictionary_hits(&self) -> Vec<DictionaryUrl> {
         self.fuzzy_dictionary
             .iter()
             .map(|d| d.url.clone())
@@ -109,7 +129,7 @@ impl Display for SearchResponse {
 
         self.text_hits()
             .iter()
-            .try_for_each(|url| writeln!(f, "Text hit: {url}"))?;
+            .try_for_each(|hit| writeln!(f, "{hit}"))?;
 
         self.suttaplexes()
             .iter()
@@ -358,8 +378,8 @@ mod tests {
     fn list_text_hits() {
         let response = search_response_with_mixed_hits();
         let expected = vec![
-            TextUrl::from("/sa264/en/analayo"),
-            TextUrl::from("/mn1/en/bodhi"),
+            text_hit("sa264", "en", "analayo"),
+            text_hit("mn1", "en", "bodhi"),
         ];
         assert_eq!(expected, response.text_hits());
     }
