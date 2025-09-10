@@ -73,6 +73,12 @@ impl SearchResponse {
             .map(|position| position + 1)
     }
 
+    pub fn rank_dictionary(&self, url: DictionaryUrl) -> Option<usize> {
+        self.dictionary_hits()
+            .position(|h| h == url)
+            .map(|position| position + 1)
+    }
+
     fn text_hits(&self) -> impl Iterator<Item = TextUrl> {
         self.hits.iter().filter_map(|h| h.text_url())
     }
@@ -161,6 +167,7 @@ mod tests {
 
         fn new_dictionary(word: &str) -> Hit {
             let url = format!("/define/{word}");
+
             Hit::Dictionary {
                 category: String::from("dictionary"),
                 url: DictionaryUrl::from(url.as_str()),
@@ -428,6 +435,7 @@ mod tests {
             fuzzy_dictionary: Vec::new(),
             hits: vec![
                 Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_dictionary("metta"),
                 Hit::new_text("mn2", "en", "bodhi"),
             ],
         };
@@ -444,13 +452,17 @@ mod tests {
             suttaplex: Vec::new(),
             fuzzy_dictionary: Vec::new(),
             hits: vec![
+                Hit::new_dictionary("metta"),
                 Hit::new_text("mn1", "en", "bodhi"),
-                Hit::new_text("mn2", "en", "bodhi"),
+                Hit::new_dictionary("dosa"),
             ],
         };
+        let first = DictionaryUrl::from("/define/metta");
+        let second = DictionaryUrl::from("/define/dosa");
+        let missing = DictionaryUrl::from("/define/brahma");
 
-        assert_eq!(response.rank_text(TextUrl::from("/mn1/en/bodhi")), Some(1));
-        assert_eq!(response.rank_text(TextUrl::from("/mn2/en/bodhi")), Some(2));
-        assert_eq!(response.rank_text(TextUrl::from("/mn1/fr/bodhi")), None);
+        assert_eq!(response.rank_dictionary(first), Some(1));
+        assert_eq!(response.rank_dictionary(second), Some(2));
+        assert_eq!(response.rank_dictionary(missing), None);
     }
 }
