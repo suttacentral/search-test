@@ -148,7 +148,7 @@ mod tests {
     }
 
     impl Hit {
-        fn text_from_parts(uid: &str, lang: &str, author: &str) -> Hit {
+        fn new_text(uid: &str, lang: &str, author: &str) -> Hit {
             let url = format!("/{uid}/{lang}/{author}");
 
             Hit::Text {
@@ -156,6 +156,14 @@ mod tests {
                 lang: String::from(lang),
                 author_uid: Some(String::from(author)),
                 url: TextUrl::from(url.as_str()),
+            }
+        }
+
+        fn new_dictionary(word: &str) -> Hit {
+            let url = format!("/define/{word}");
+            Hit::Dictionary {
+                category: String::from("dictionary"),
+                url: DictionaryUrl::from(url.as_str()),
             }
         }
     }
@@ -321,24 +329,17 @@ mod tests {
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 
-    fn dictionary_hit(word: &str, url: &str) -> Hit {
-        Hit::Dictionary {
-            category: String::from("dictionary"),
-            url: DictionaryUrl::from(url),
-        }
-    }
-
     fn search_response_with_mixed_hits() -> SearchResponse {
         SearchResponse {
             total: 0,
             suttaplex: Vec::new(),
             fuzzy_dictionary: Vec::new(),
             hits: vec![
-                dictionary_hit("metta", "/define/metta"),
-                dictionary_hit("dosa", "/define/dosa"),
-                Hit::text_from_parts("sa264", "en", "analayo"),
-                dictionary_hit("brahma", "/define/brahma"),
-                Hit::text_from_parts("mn1", "en", "bodhi"),
+                Hit::new_dictionary("metta"),
+                Hit::new_dictionary("dosa"),
+                Hit::new_text("sa264", "en", "analayo"),
+                Hit::new_dictionary("brahma"),
+                Hit::new_text("mn1", "en", "bodhi"),
             ],
         }
     }
@@ -426,8 +427,25 @@ mod tests {
             suttaplex: Vec::new(),
             fuzzy_dictionary: Vec::new(),
             hits: vec![
-                Hit::text_from_parts("mn1", "en", "bodhi"),
-                Hit::text_from_parts("mn2", "en", "bodhi"),
+                Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_text("mn2", "en", "bodhi"),
+            ],
+        };
+
+        assert_eq!(response.rank_text(TextUrl::from("/mn1/en/bodhi")), Some(1));
+        assert_eq!(response.rank_text(TextUrl::from("/mn2/en/bodhi")), Some(2));
+        assert_eq!(response.rank_text(TextUrl::from("/mn1/fr/bodhi")), None);
+    }
+
+    #[test]
+    fn rank_dictionary_hits() {
+        let response = SearchResponse {
+            total: 0,
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            hits: vec![
+                Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_text("mn2", "en", "bodhi"),
             ],
         };
 
