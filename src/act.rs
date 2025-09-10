@@ -38,6 +38,14 @@ impl Hit {
             None
         }
     }
+
+    fn dictionary_url(&self) -> Option<DictionaryUrl> {
+        if let Hit::Dictionary { url, .. } = self {
+            Some(url.clone())
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(Deserialize, Debug)]
@@ -64,6 +72,7 @@ impl SearchResponse {
         let mut result = None;
         match result_id {
             SearchResultIdentifier::Text { url: url_to_rank } => {
+                // TODO: Use text_hits() here with position()
                 for hit in &self.hits {
                     if let Hit::Text { url: hit_url, .. } = hit {
                         if &url_to_rank == hit_url {
@@ -82,14 +91,8 @@ impl SearchResponse {
         self.hits.iter().filter_map(|h| h.text_url())
     }
 
-    fn dictionary_hits(&self) -> Vec<DictionaryUrl> {
-        let mut dict_hits: Vec<DictionaryUrl> = Vec::new();
-        for hit in &self.hits {
-            if let Hit::Dictionary { url, .. } = hit {
-                dict_hits.push(url.clone());
-            }
-        }
-        dict_hits
+    fn dictionary_hits(&self) -> impl Iterator<Item = DictionaryUrl> {
+        self.hits.iter().filter_map(|h| h.dictionary_url())
     }
 
     fn suttaplexes(&self) -> Vec<SuttaplexUid> {
@@ -113,7 +116,6 @@ impl Display for SearchResponse {
         writeln!(f, "{} results", self.total)?;
 
         self.dictionary_hits()
-            .iter()
             .try_for_each(|url| writeln!(f, "Dictionary hit: {url}"))?;
 
         self.fuzzy_dictionary_hits()
@@ -366,7 +368,8 @@ mod tests {
             DictionaryUrl::from("/define/brahma"),
         ];
 
-        assert_eq!(expected, response.dictionary_hits());
+        let actual = response.dictionary_hits().collect::<Vec<_>>();
+        assert_eq!(expected, actual);
     }
 
     #[test]
