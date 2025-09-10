@@ -95,15 +95,15 @@ impl SearchResponse {
         self.hits.iter().filter_map(|h| h.dictionary_url())
     }
 
-    fn suttaplexes(&self) -> Vec<SuttaplexUid> {
-        self.suttaplex.iter().map(|s| s.uid.clone()).collect()
-    }
-
     fn fuzzy_dictionary_hits(&self) -> Vec<DictionaryUrl> {
         self.fuzzy_dictionary
             .iter()
             .map(|d| d.url.clone())
             .collect()
+    }
+
+    fn suttaplexes(&self) -> Vec<SuttaplexUid> {
+        self.suttaplex.iter().map(|s| s.uid.clone()).collect()
     }
 
     pub fn from_json(json: &str) -> Result<Self> {
