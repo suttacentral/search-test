@@ -75,6 +75,7 @@ impl SearchResponse {
 
     pub fn rank_dictionary(&self, url: DictionaryUrl) -> Option<usize> {
         self.dictionary_hits()
+            .chain(self.fuzzy_dictionary_hits())
             .position(|h| h == url)
             .map(|position| position + 1)
     }
@@ -450,19 +451,23 @@ mod tests {
         let response = SearchResponse {
             total: 0,
             suttaplex: Vec::new(),
-            fuzzy_dictionary: Vec::new(),
+            fuzzy_dictionary: vec![FuzzyDictionary {
+                url: DictionaryUrl::from("/define/nibbana"),
+            }],
             hits: vec![
                 Hit::new_dictionary("metta"),
                 Hit::new_text("mn1", "en", "bodhi"),
                 Hit::new_dictionary("dosa"),
             ],
         };
-        let first = DictionaryUrl::from("/define/metta");
-        let second = DictionaryUrl::from("/define/dosa");
-        let missing = DictionaryUrl::from("/define/brahma");
+        let metta = DictionaryUrl::from("/define/metta");
+        let dosa = DictionaryUrl::from("/define/dosa");
+        let nibbana = DictionaryUrl::from("/define/nibbana");
+        let brahma = DictionaryUrl::from("/define/brahma");
 
-        assert_eq!(response.rank_dictionary(first), Some(1));
-        assert_eq!(response.rank_dictionary(second), Some(2));
-        assert_eq!(response.rank_dictionary(missing), None);
+        assert_eq!(response.rank_dictionary(metta), Some(1));
+        assert_eq!(response.rank_dictionary(dosa), Some(2));
+        assert_eq!(response.rank_dictionary(nibbana), Some(3));
+        assert_eq!(response.rank_dictionary(brahma), None);
     }
 }
