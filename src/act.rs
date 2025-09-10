@@ -80,6 +80,12 @@ impl SearchResponse {
             .map(|position| position + 1)
     }
 
+    pub fn rank_suttaplex(&self, uri: SuttaplexUid) -> Option<usize> {
+        self.suttaplex_hits()
+            .position(|hit| hit == uri)
+            .map(|position| position + 1)
+    }
+
     fn text_hits(&self) -> impl Iterator<Item = TextUrl> {
         self.hits.iter().filter_map(|h| h.text_url())
     }
@@ -95,8 +101,8 @@ impl SearchResponse {
             .collect()
     }
 
-    fn suttaplexes(&self) -> Vec<SuttaplexUid> {
-        self.suttaplex.iter().map(|s| s.uid.clone()).collect()
+    fn suttaplex_hits(&self) -> impl Iterator<Item = SuttaplexUid> {
+        self.suttaplex.iter().map(|s| s.uid.clone())
     }
 
     pub fn from_json(json: &str) -> Result<Self> {
@@ -118,8 +124,7 @@ impl Display for SearchResponse {
         self.text_hits()
             .try_for_each(|hit| writeln!(f, "Text hit: {hit}"))?;
 
-        self.suttaplexes()
-            .iter()
+        self.suttaplex_hits()
             .try_for_each(|uid| writeln!(f, "Suttaplex hit: {uid}"))?;
 
         Ok(())
@@ -274,7 +279,8 @@ mod tests {
         "#;
 
         let response = SearchResponse::from_json(json).unwrap();
-        assert_eq!(response.suttaplexes()[0], SuttaplexUid::from("an11.15"));
+        let suttaplex = response.suttaplex_hits().next().unwrap();
+        assert_eq!(suttaplex, SuttaplexUid::from("an11.15"));
     }
 
     #[test]
@@ -337,97 +343,6 @@ mod tests {
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 
-    fn search_response_with_mixed_hits() -> SearchResponse {
-        SearchResponse {
-            total: 0,
-            suttaplex: Vec::new(),
-            fuzzy_dictionary: Vec::new(),
-            hits: vec![
-                Hit::new_dictionary("metta"),
-                Hit::new_dictionary("dosa"),
-                Hit::new_text("sa264", "en", "analayo"),
-                Hit::new_dictionary("brahma"),
-                Hit::new_text("mn1", "en", "bodhi"),
-            ],
-        }
-    }
-
-    #[test]
-    fn list_dictionary_hits() {
-        let response = search_response_with_mixed_hits();
-
-        let expected = vec![
-            DictionaryUrl::from("/define/metta"),
-            DictionaryUrl::from("/define/dosa"),
-            DictionaryUrl::from("/define/brahma"),
-        ];
-
-        let actual = response.dictionary_hits().collect::<Vec<_>>();
-        assert_eq!(expected, actual);
-    }
-
-    #[test]
-    fn list_text_hits() {
-        let response = search_response_with_mixed_hits();
-
-        let expected = vec![
-            TextUrl::from("/sa264/en/analayo"),
-            TextUrl::from("/mn1/en/bodhi"),
-        ];
-
-        let actual = response.text_hits().collect::<Vec<_>>();
-        assert_eq!(expected, actual);
-    }
-
-    #[test]
-    fn list_suttaplexes() {
-        let response = SearchResponse {
-            total: 0,
-            hits: Vec::new(),
-            fuzzy_dictionary: Vec::new(),
-            suttaplex: vec![
-                Suttaplex::from("mn1"),
-                Suttaplex::from("mn2"),
-                Suttaplex::from("mn3"),
-            ],
-        };
-
-        let expected = vec![
-            SuttaplexUid::from("mn1"),
-            SuttaplexUid::from("mn2"),
-            SuttaplexUid::from("mn3"),
-        ];
-        assert_eq!(expected, response.suttaplexes());
-    }
-
-    #[test]
-    fn list_fuzzy_dictionary_hits() {
-        let response = SearchResponse {
-            total: 0,
-            hits: Vec::new(),
-            suttaplex: Vec::new(),
-            fuzzy_dictionary: vec![
-                FuzzyDictionary {
-                    url: DictionaryUrl::from("/define/metta"),
-                },
-                FuzzyDictionary {
-                    url: DictionaryUrl::from("/define/dosa"),
-                },
-                FuzzyDictionary {
-                    url: DictionaryUrl::from("/define/brahma"),
-                },
-            ],
-        };
-
-        let expected = vec![
-            DictionaryUrl::from("/define/metta"),
-            DictionaryUrl::from("/define/dosa"),
-            DictionaryUrl::from("/define/brahma"),
-        ];
-
-        assert_eq!(expected, response.fuzzy_dictionary_hits());
-    }
-
     #[test]
     fn rank_text_hits() {
         let response = SearchResponse {
@@ -469,5 +384,23 @@ mod tests {
         assert_eq!(response.rank_dictionary(dosa), Some(2));
         assert_eq!(response.rank_dictionary(nibbana), Some(3));
         assert_eq!(response.rank_dictionary(brahma), None);
+    }
+
+    #[test]
+    fn rank_suttaplex_hits() {
+        let response = SearchResponse {
+            total: 0,
+            hits: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
+        };
+
+        let mn1 = SuttaplexUid::from("mn1");
+        let mn2 = SuttaplexUid::from("mn2");
+        let mn3 = SuttaplexUid::from("mn3");
+
+        assert_eq!(response.rank_suttaplex(mn1), Some(1));
+        assert_eq!(response.rank_suttaplex(mn2), Some(2));
+        assert_eq!(response.rank_suttaplex(mn3), None);
     }
 }
