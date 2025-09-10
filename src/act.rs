@@ -94,11 +94,8 @@ impl SearchResponse {
         self.hits.iter().filter_map(|h| h.dictionary_url())
     }
 
-    fn fuzzy_dictionary_hits(&self) -> Vec<DictionaryUrl> {
-        self.fuzzy_dictionary
-            .iter()
-            .map(|d| d.url.clone())
-            .collect()
+    fn fuzzy_dictionary_hits(&self) -> impl Iterator<Item = DictionaryUrl> {
+        self.fuzzy_dictionary.iter().map(|d| d.url.clone())
     }
 
     fn suttaplex_hits(&self) -> impl Iterator<Item = SuttaplexUid> {
@@ -118,7 +115,6 @@ impl Display for SearchResponse {
             .try_for_each(|url| writeln!(f, "Dictionary hit: {url}"))?;
 
         self.fuzzy_dictionary_hits()
-            .iter()
             .try_for_each(|url| writeln!(f, "Fuzzy dictionary hit: {url}"))?;
 
         self.text_hits()
@@ -298,7 +294,7 @@ mod tests {
 
         let response = SearchResponse::from_json(json).unwrap();
         assert_eq!(
-            response.fuzzy_dictionary_hits()[0],
+            response.fuzzy_dictionary_hits().next().unwrap(),
             DictionaryUrl::from("/define/anupacchinnā")
         );
     }
