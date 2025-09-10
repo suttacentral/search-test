@@ -426,16 +426,13 @@ mod tests {
             suttaplex: Vec::new(),
             fuzzy_dictionary: Vec::new(),
             hits: vec![
-                Hit::text_from_parts("sa264", "en", "analayo"),
                 Hit::text_from_parts("mn1", "en", "bodhi"),
+                Hit::text_from_parts("mn2", "en", "bodhi"),
             ],
         };
 
-        assert_eq!(
-            response.rank_text(TextUrl::from("/sa264/en/analayo")),
-            Some(1)
-        );
-        assert_eq!(response.rank_text(TextUrl::from("/mn1/en/bodhi")), Some(2));
+        assert_eq!(response.rank_text(TextUrl::from("/mn1/en/bodhi")), Some(1));
+        assert_eq!(response.rank_text(TextUrl::from("/mn2/en/bodhi")), Some(2));
         assert_eq!(response.rank_text(TextUrl::from("/mn1/fr/bodhi")), None);
     }
 }
