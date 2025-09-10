@@ -67,17 +67,10 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn rank(&self, result_id: SearchResultIdentifier) -> Option<usize> {
-        let mut result = None;
-        match result_id {
-            SearchResultIdentifier::Text { url } => {
-                if let Some(position) = self.text_hits().position(|h| h == url) {
-                    result = Some(position + 1);
-                }
-            }
-            _ => result = None,
-        }
-        result
+    pub fn rank(&self, url: TextUrl) -> Option<usize> {
+        self.text_hits()
+            .position(|h| h == url)
+            .map(|position| position + 1)
     }
 
     fn text_hits(&self) -> impl Iterator<Item = TextUrl> {
@@ -428,7 +421,7 @@ mod tests {
     }
 
     #[test]
-    fn get_rank_of_text_hit() {
+    fn rank_text_hits() {
         let response = SearchResponse {
             total: 0,
             suttaplex: Vec::new(),
@@ -439,9 +432,8 @@ mod tests {
             ],
         };
 
-        let top_ranked = SearchResultIdentifier::Text {
-            url: TextUrl::from("/sa264/en/analayo"),
-        };
-        assert_eq!(response.rank(top_ranked), Some(1))
+        assert_eq!(response.rank(TextUrl::from("/sa264/en/analayo")), Some(1));
+        assert_eq!(response.rank(TextUrl::from("/mn1/en/bodhi")), Some(2));
+        assert_eq!(response.rank(TextUrl::from("/mn1/fr/bodhi")), None);
     }
 }
