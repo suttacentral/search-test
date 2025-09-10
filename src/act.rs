@@ -1,5 +1,5 @@
 use crate::arrange;
-use crate::identifiers::{DictionaryUrl, SearchResultIdentifier, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
@@ -67,7 +67,7 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn rank(&self, url: TextUrl) -> Option<usize> {
+    pub fn rank_text(&self, url: TextUrl) -> Option<usize> {
         self.text_hits()
             .position(|h| h == url)
             .map(|position| position + 1)
@@ -138,7 +138,6 @@ pub fn build_request(endpoint: String, test_case: arrange::TestCase) -> RequestB
 mod tests {
     use super::*;
     use crate::arrange::TestSuite;
-    use crate::identifiers::SearchResultIdentifier;
 
     impl From<&str> for Suttaplex {
         fn from(value: &str) -> Self {
@@ -432,8 +431,11 @@ mod tests {
             ],
         };
 
-        assert_eq!(response.rank(TextUrl::from("/sa264/en/analayo")), Some(1));
-        assert_eq!(response.rank(TextUrl::from("/mn1/en/bodhi")), Some(2));
-        assert_eq!(response.rank(TextUrl::from("/mn1/fr/bodhi")), None);
+        assert_eq!(
+            response.rank_text(TextUrl::from("/sa264/en/analayo")),
+            Some(1)
+        );
+        assert_eq!(response.rank_text(TextUrl::from("/mn1/en/bodhi")), Some(2));
+        assert_eq!(response.rank_text(TextUrl::from("/mn1/fr/bodhi")), None);
     }
 }
