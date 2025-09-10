@@ -68,18 +68,11 @@ pub struct SearchResponse {
 
 impl SearchResponse {
     pub fn rank(&self, result_id: SearchResultIdentifier) -> Option<usize> {
-        let mut counter: usize = 1;
         let mut result = None;
         match result_id {
-            SearchResultIdentifier::Text { url: url_to_rank } => {
-                // TODO: Use text_hits() here with position()
-                for hit in &self.hits {
-                    if let Hit::Text { url: hit_url, .. } = hit {
-                        if &url_to_rank == hit_url {
-                            result = Some(counter);
-                        }
-                        counter += 1;
-                    }
+            SearchResultIdentifier::Text { url } => {
+                if let Some(position) = self.text_hits().position(|h| h == url) {
+                    result = Some(position + 1);
                 }
             }
             _ => result = None,
