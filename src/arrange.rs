@@ -136,6 +136,7 @@ impl TestSuite {
         self.settings.endpoint.clone()
     }
 
+    #[allow(unused)]
     pub fn delay(&self) -> usize {
         self.settings.delay
     }

@@ -47,6 +47,7 @@ impl From<&str> for SuttaplexUid {
     }
 }
 
+#[allow(unused)]
 pub enum SearchResult {
     Text { url: TextUrl },
     Dictionary { url: DictionaryUrl },

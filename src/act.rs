@@ -64,6 +64,7 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
+    #[allow(unused)]
     pub fn rank(&self, result: SearchResult) -> Option<usize> {
         match result {
             SearchResult::Text { url } => self.rank_text(url),
