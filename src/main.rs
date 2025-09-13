@@ -1,5 +1,6 @@
 mod act;
 mod arrange;
+mod hits;
 mod identifiers;
 mod request;
 
