@@ -1,5 +1,4 @@
 use crate::identifiers::{DictionaryUrl, SearchResult, SuttaplexUid, TextUrl};
-use anyhow::{Context, Result};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::Display;
@@ -65,10 +64,6 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
-    pub fn from_json(json: &str) -> Result<Self> {
-        serde_json::from_str(json).context("Failed to parse JSON.")
-    }
-
     pub fn rank(&self, result: SearchResult) -> Option<usize> {
         match result {
             SearchResult::Text { url } => self.rank_text(url),
@@ -136,6 +131,7 @@ impl Display for SearchResponse {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use anyhow::Context;
 
     impl From<&str> for Suttaplex {
         fn from(value: &str) -> Self {
@@ -260,7 +256,9 @@ mod tests {
         }
         "#;
 
-        let response = SearchResponse::from_json(json).unwrap();
+        let response: SearchResponse = serde_json::from_str(json)
+            .context("Failed to parse JSON.")
+            .unwrap();
         let suttaplex = response.suttaplex_hits().next().unwrap();
         assert_eq!(suttaplex, SuttaplexUid::from("an11.15"));
     }
@@ -278,7 +276,9 @@ mod tests {
         }
         "#;
 
-        let response = SearchResponse::from_json(json).unwrap();
+        let response: SearchResponse = serde_json::from_str(json)
+            .context("Failed to parse JSON.")
+            .unwrap();
         assert_eq!(
             response.fuzzy_dictionary_hits().next().unwrap(),
             DictionaryUrl::from("/define/anupacchinnā")
