@@ -50,5 +50,5 @@ impl From<&str> for SuttaplexUid {
 pub enum SearchResult {
     Text { url: TextUrl },
     Dictionary { url: DictionaryUrl },
-    Suttaplex { uri: SuttaplexUid },
+    Suttaplex { uid: SuttaplexUid },
 }

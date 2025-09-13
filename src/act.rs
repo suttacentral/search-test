@@ -71,7 +71,7 @@ impl SearchResponse {
         match result {
             SearchResult::Text { url } => self.rank_text(url),
             SearchResult::Dictionary { url } => self.rank_dictionary(url),
-            _ => None,
+            SearchResult::Suttaplex { uid } => self.rank_suttaplex(uid),
         }
     }
 
@@ -414,12 +414,18 @@ mod tests {
             suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
         };
 
-        let mn1 = SuttaplexUid::from("mn1");
-        let mn2 = SuttaplexUid::from("mn2");
-        let mn3 = SuttaplexUid::from("mn3");
+        let mn1 = SearchResult::Suttaplex {
+            uid: SuttaplexUid::from("mn1"),
+        };
+        let mn2 = SearchResult::Suttaplex {
+            uid: SuttaplexUid::from("mn2"),
+        };
+        let mn3 = SearchResult::Suttaplex {
+            uid: SuttaplexUid::from("mn3"),
+        };
 
-        assert_eq!(response.rank_suttaplex(mn1), Some(1));
-        assert_eq!(response.rank_suttaplex(mn2), Some(2));
-        assert_eq!(response.rank_suttaplex(mn3), None);
+        assert_eq!(response.rank(mn1), Some(1));
+        assert_eq!(response.rank(mn2), Some(2));
+        assert_eq!(response.rank(mn3), None);
     }
 }
