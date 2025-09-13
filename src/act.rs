@@ -1,5 +1,5 @@
 use crate::arrange;
-use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResult, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
 use serde::Deserialize;
@@ -67,6 +67,13 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
+    pub fn rank(&self, result: SearchResult) -> Option<usize> {
+        match result {
+            SearchResult::Text { url } => self.rank_text(url),
+            _ => None,
+        }
+    }
+
     pub fn rank_text(&self, url: TextUrl) -> Option<usize> {
         self.text_hits()
             .position(|h| h == url)
@@ -349,10 +356,19 @@ mod tests {
                 Hit::new_text("mn2", "en", "bodhi"),
             ],
         };
+        let mn1 = SearchResult::Text {
+            url: TextUrl::from("/mn1/en/bodhi"),
+        };
+        let mn2 = SearchResult::Text {
+            url: TextUrl::from("/mn2/en/bodhi"),
+        };
+        let missing = SearchResult::Text {
+            url: TextUrl::from("/mn1/fr/bodhi"),
+        };
 
-        assert_eq!(response.rank_text(TextUrl::from("/mn1/en/bodhi")), Some(1));
-        assert_eq!(response.rank_text(TextUrl::from("/mn2/en/bodhi")), Some(2));
-        assert_eq!(response.rank_text(TextUrl::from("/mn1/fr/bodhi")), None);
+        assert_eq!(response.rank(mn1), Some(1));
+        assert_eq!(response.rank(mn2), Some(2));
+        assert_eq!(response.rank(missing), None);
     }
 
     #[test]

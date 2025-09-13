@@ -46,3 +46,9 @@ impl From<&str> for SuttaplexUid {
         Self(String::from(value))
     }
 }
+
+pub enum SearchResult {
+    Text { url: TextUrl },
+    Dictionary { url: DictionaryUrl },
+    Suttaplex { uri: SuttaplexUid },
+}
