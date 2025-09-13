@@ -1,6 +1,6 @@
-pub mod act;
-pub mod arrange;
-pub mod identifiers;
+mod act;
+mod arrange;
+mod identifiers;
 
 use crate::act::{SearchResponse, build_request};
 use crate::arrange::{TestCase, TestSuite};
