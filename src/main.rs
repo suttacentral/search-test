@@ -1,12 +1,13 @@
 mod act;
 mod arrange;
 mod identifiers;
+mod request;
 
-use crate::act::{SearchResponse, build_request};
-use crate::arrange::{TestCase, TestSuite};
-use anyhow::{Context, Result};
+use crate::act::SearchResponse;
+use crate::arrange::TestSuite;
+use crate::request::build;
+use anyhow::Result;
 use reqwest::Error;
-use std::fmt::Display;
 
 fn main() {
     let toml = std::fs::read_to_string("test-cases/play.toml").unwrap();
@@ -14,7 +15,7 @@ fn main() {
     let test_cases = suite.test_cases().unwrap();
 
     for test_case in test_cases {
-        let request = build_request(suite.endpoint(), test_case);
+        let request = build(suite.endpoint(), test_case);
         let response = request.send().unwrap();
         let results: Result<SearchResponse, Error> = response.json();
 
@@ -25,51 +26,5 @@ fn main() {
                 println!("{error:?}");
             }
         }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::act::SearchResponse;
-    use crate::arrange::{Assertions, SuttaHitAssertion, TestCase};
-    use crate::identifiers::TextUrl;
-
-    fn test_case() -> TestCase {
-        let assertions = Assertions {
-            sutta_hits: SuttaHitAssertion {
-                top: TextUrl::from("/mn1/en/bodhi"),
-            },
-        };
-
-        TestCase {
-            query: String::from("mn1"),
-            description: String::from("Find with uid mn1"),
-            limit: 1,
-            site_language: String::from("en"),
-            restrict: String::from("all"),
-            selected_languages: vec![String::from("en")],
-            match_partial: false,
-            assertions: Some(assertions),
-        }
-    }
-
-    fn search_response() -> SearchResponse {
-        let json = r#"
-        {
-            "total": 1,
-            "hits" : [
-                {
-                    "uid": "mn1",
-                    "lang": "en",
-                    "author_uid": "bodhi",
-                    "url": "/mn1/en/bodhi"
-                }
-            ],
-            "suttaplex" : [],
-            "fuzzy_dictionary": []
-        }
-        "#;
-
-        SearchResponse::from_json(json).unwrap()
     }
 }
