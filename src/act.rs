@@ -70,6 +70,7 @@ impl SearchResponse {
     pub fn rank(&self, result: SearchResult) -> Option<usize> {
         match result {
             SearchResult::Text { url } => self.rank_text(url),
+            SearchResult::Dictionary { url } => self.rank_dictionary(url),
             _ => None,
         }
     }
@@ -385,15 +386,23 @@ mod tests {
                 Hit::new_dictionary("dosa"),
             ],
         };
-        let metta = DictionaryUrl::from("/define/metta");
-        let dosa = DictionaryUrl::from("/define/dosa");
-        let nibbana = DictionaryUrl::from("/define/nibbana");
-        let brahma = DictionaryUrl::from("/define/brahma");
+        let metta = SearchResult::Dictionary {
+            url: DictionaryUrl::from("/define/metta"),
+        };
+        let dosa = SearchResult::Dictionary {
+            url: DictionaryUrl::from("/define/dosa"),
+        };
+        let nibbana = SearchResult::Dictionary {
+            url: DictionaryUrl::from("/define/nibbana"),
+        };
+        let brahma = SearchResult::Dictionary {
+            url: DictionaryUrl::from("/define/brahma"),
+        };
 
-        assert_eq!(response.rank_dictionary(metta), Some(1));
-        assert_eq!(response.rank_dictionary(dosa), Some(2));
-        assert_eq!(response.rank_dictionary(nibbana), Some(3));
-        assert_eq!(response.rank_dictionary(brahma), None);
+        assert_eq!(response.rank(metta), Some(1));
+        assert_eq!(response.rank(dosa), Some(2));
+        assert_eq!(response.rank(nibbana), Some(3));
+        assert_eq!(response.rank(brahma), None);
     }
 
     #[test]
