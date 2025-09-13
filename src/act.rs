@@ -252,8 +252,6 @@ mod tests {
         "#
         .to_string();
 
-        let licensing_hit: Hit = serde_json::from_str(json.as_str()).unwrap();
-
         if let Hit::Text { url, .. } = serde_json::from_str(json.as_str()).unwrap() {
             assert_eq!(url, TextUrl::from("/licensing"));
         } else {
