@@ -67,6 +67,10 @@ pub struct SearchResponse {
 }
 
 impl SearchResponse {
+    pub fn from_json(json: &str) -> Result<Self> {
+        serde_json::from_str(json).context("Failed to parse JSON.")
+    }
+
     pub fn rank(&self, result: SearchResult) -> Option<usize> {
         match result {
             SearchResult::Text { url } => self.rank_text(url),
@@ -108,10 +112,6 @@ impl SearchResponse {
 
     fn suttaplex_hits(&self) -> impl Iterator<Item = SuttaplexUid> {
         self.suttaplex.iter().map(|s| s.uid.clone())
-    }
-
-    pub fn from_json(json: &str) -> Result<Self> {
-        serde_json::from_str(json).context("Failed to parse JSON.")
     }
 }
 
