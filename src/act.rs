@@ -75,20 +75,20 @@ impl SearchResponse {
         }
     }
 
-    pub fn rank_text(&self, url: TextUrl) -> Option<usize> {
+    fn rank_text(&self, url: TextUrl) -> Option<usize> {
         self.text_hits()
             .position(|h| h == url)
             .map(|position| position + 1)
     }
 
-    pub fn rank_dictionary(&self, url: DictionaryUrl) -> Option<usize> {
+    fn rank_dictionary(&self, url: DictionaryUrl) -> Option<usize> {
         self.dictionary_hits()
             .chain(self.fuzzy_dictionary_hits())
             .position(|h| h == url)
             .map(|position| position + 1)
     }
 
-    pub fn rank_suttaplex(&self, uri: SuttaplexUid) -> Option<usize> {
+    fn rank_suttaplex(&self, uri: SuttaplexUid) -> Option<usize> {
         self.suttaplex_hits()
             .position(|hit| hit == uri)
             .map(|position| position + 1)
