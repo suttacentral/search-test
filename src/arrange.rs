@@ -48,7 +48,7 @@ pub struct TestSuite {
     test_details: Vec<DetailsProvided>,
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct TestCase {
     pub query: String,
     pub description: String,
