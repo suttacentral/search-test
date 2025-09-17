@@ -48,7 +48,7 @@ impl From<&str> for SuttaplexUid {
 }
 
 #[allow(unused)]
-pub enum SearchResult {
+pub enum SearchResultKey {
     Text { url: TextUrl },
     Dictionary { url: DictionaryUrl },
     Suttaplex { uid: SuttaplexUid },

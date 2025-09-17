@@ -1,4 +1,4 @@
-use crate::identifiers::{DictionaryUrl, SearchResult, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::Display;
@@ -65,11 +65,11 @@ pub struct SearchResponse {
 
 impl SearchResponse {
     #[allow(unused)]
-    pub fn rank(&self, result: SearchResult) -> Option<usize> {
+    pub fn rank(&self, result: SearchResultKey) -> Option<usize> {
         match result {
-            SearchResult::Text { url } => self.rank_text(url),
-            SearchResult::Dictionary { url } => self.rank_dictionary(url),
-            SearchResult::Suttaplex { uid } => self.rank_suttaplex(uid),
+            SearchResultKey::Text { url } => self.rank_text(url),
+            SearchResultKey::Dictionary { url } => self.rank_dictionary(url),
+            SearchResultKey::Suttaplex { uid } => self.rank_suttaplex(uid),
         }
     }
 
@@ -298,13 +298,13 @@ mod tests {
                 Hit::new_text("mn2", "en", "bodhi"),
             ],
         };
-        let mn1 = SearchResult::Text {
+        let mn1 = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
         };
-        let mn2 = SearchResult::Text {
+        let mn2 = SearchResultKey::Text {
             url: TextUrl::from("/mn2/en/bodhi"),
         };
-        let missing = SearchResult::Text {
+        let missing = SearchResultKey::Text {
             url: TextUrl::from("/mn1/fr/bodhi"),
         };
 
@@ -327,16 +327,16 @@ mod tests {
                 Hit::new_dictionary("dosa"),
             ],
         };
-        let metta = SearchResult::Dictionary {
+        let metta = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/metta"),
         };
-        let dosa = SearchResult::Dictionary {
+        let dosa = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/dosa"),
         };
-        let nibbana = SearchResult::Dictionary {
+        let nibbana = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/nibbana"),
         };
-        let brahma = SearchResult::Dictionary {
+        let brahma = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/brahma"),
         };
 
@@ -355,13 +355,13 @@ mod tests {
             suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
         };
 
-        let mn1 = SearchResult::Suttaplex {
+        let mn1 = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),
         };
-        let mn2 = SearchResult::Suttaplex {
+        let mn2 = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn2"),
         };
-        let mn3 = SearchResult::Suttaplex {
+        let mn3 = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn3"),
         };
 
