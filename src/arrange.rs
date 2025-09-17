@@ -26,12 +26,6 @@ pub struct SuttaHitAssertion {
     pub top: TextUrl,
 }
 
-#[derive(Clone, Debug, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct Assertions {
-    pub sutta_hits: SuttaHitAssertion,
-}
-
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 struct DetailsProvided {
@@ -42,8 +36,6 @@ struct DetailsProvided {
     restrict: Option<String>,
     selected_languages: Option<Vec<String>>,
     match_partial: Option<bool>,
-    #[serde(rename = "assert")]
-    assertions: Option<Assertions>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -65,7 +57,6 @@ pub struct TestCase {
     pub restrict: String,
     pub selected_languages: Vec<String>,
     pub match_partial: bool,
-    pub assertions: Option<Assertions>,
 }
 
 impl TestCase {
@@ -112,8 +103,6 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let assertions = provided.assertions.clone();
-
         Ok(TestCase {
             description,
             query,
@@ -122,7 +111,6 @@ impl TestCase {
             match_partial,
             limit,
             restrict,
-            assertions,
         })
     }
 }
@@ -172,7 +160,6 @@ mod tests {
             match_partial: false,
             limit: 50,
             restrict: "all".to_string(),
-            assertions: None,
         }
     }
 
@@ -185,7 +172,6 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
-            assertions: None,
         }
     }
 
@@ -232,7 +218,6 @@ mod tests {
                 site_language: None,
                 restrict: None,
                 match_partial: None,
-                assertions: None,
             }],
         };
 
@@ -334,7 +319,6 @@ mod tests {
             match_partial: Some(false),
             limit: None,
             restrict: None,
-            assertions: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -364,7 +348,6 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
-            assertions: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
@@ -518,31 +501,5 @@ mod tests {
         .unwrap();
 
         assert_eq!(suite.delay(), 0);
-    }
-
-    #[test]
-    fn can_have_assertion() {
-        let suite = TestSuite::load_from_string(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-
-            [defaults]
-            limit = 50
-            site-language = "en"
-            restrict = "all"
-            selected-languages = ["en", "pli"]
-            match-partial = false
-            
-            [[test-case]]
-            description = "Search for the metta sutta in English and Pali"
-            query = "metta"
-            assert.sutta-hits.top = "/kp9/pli/ms"
-        "#,
-        )
-        .unwrap();
-        let test_case = &suite.test_cases().unwrap()[0];
-        let assertions = test_case.assertions.clone().unwrap();
-        assert_eq!(assertions.sutta_hits.top, TextUrl::from("/kp9/pli/ms"));
     }
 }
