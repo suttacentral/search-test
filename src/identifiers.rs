@@ -1,3 +1,4 @@
+use anyhow::Result;
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::{Display, Formatter};
@@ -52,4 +53,42 @@ pub enum SearchResultKey {
     Text { url: TextUrl },
     Dictionary { url: DictionaryUrl },
     Suttaplex { uid: SuttaplexUid },
+}
+
+impl SearchResultKey {
+    fn from_one_of(
+        suttaplex: Option<SuttaplexUid>,
+        sutta: Option<TextUrl>,
+        dictionary: Option<DictionaryUrl>,
+    ) -> Result<Option<SearchResultKey>> {
+        if let Some(uid) = suttaplex {
+            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
+        };
+        if let Some(url) = sutta {
+            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
+        };
+        if let Some(url) = dictionary {
+            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
+        };
+        Ok(None)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_key_from_suttaplex() {
+        let suttaplex = Some(SuttaplexUid::from("mn1"));
+        let key = SearchResultKey::from_one_of(suttaplex, None, None)
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            key,
+            SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1")
+            }
+        );
+    }
 }
