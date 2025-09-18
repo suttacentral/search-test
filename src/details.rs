@@ -99,4 +99,38 @@ mod tests {
             }
         );
     }
+
+    #[test]
+    fn get_key_from_sutta() {
+        let expects_suttaplex = DetailsProvided {
+            query: String::from("query"),
+            description: String::from("description"),
+            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+            ..Default::default()
+        };
+
+        assert_eq!(
+            expects_suttaplex.search_key().unwrap().unwrap(),
+            SearchResultKey::Text {
+                url: TextUrl::from("/mn1/en/bodhi"),
+            }
+        );
+    }
+
+    #[test]
+    fn get_key_from_dictionary() {
+        let expects_suttaplex = DetailsProvided {
+            query: String::from("query"),
+            description: String::from("description"),
+            expected_dictionary: Some(DictionaryUrl::from("/define/metta")),
+            ..Default::default()
+        };
+
+        assert_eq!(
+            expects_suttaplex.search_key().unwrap().unwrap(),
+            SearchResultKey::Dictionary {
+                url: DictionaryUrl::from("/define/metta"),
+            }
+        );
+    }
 }
