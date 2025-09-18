@@ -91,4 +91,18 @@ mod tests {
             }
         );
     }
+
+    #[test]
+    fn get_key_from_sutta() {
+        let sutta = Some(TextUrl::from("mn1"));
+        let key = SearchResultKey::from_one_of(None, sutta, None)
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            key,
+            SearchResultKey::Text {
+                url: TextUrl::from("mn1")
+            }
+        );
+    }
 }
