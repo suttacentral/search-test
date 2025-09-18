@@ -1,6 +1,7 @@
 mod act;
 mod arrange;
 mod defaults;
+mod details;
 mod identifiers;
 mod request;
 
