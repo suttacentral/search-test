@@ -1,4 +1,4 @@
-use crate::identifiers::{SuttaplexUid, TextUrl};
+use crate::identifiers::{SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -58,6 +58,7 @@ pub struct TestCase {
     pub restrict: String,
     pub selected_languages: Vec<String>,
     pub match_partial: bool,
+    pub expected_result: Option<SearchResultKey>,
 }
 
 impl TestCase {
@@ -104,6 +105,8 @@ impl TestCase {
             .clone()
             .unwrap();
 
+        let expected_result = Self::get_expected_result(&provided.expected_suttaplex);
+
         Ok(TestCase {
             description,
             query,
@@ -112,7 +115,14 @@ impl TestCase {
             match_partial,
             limit,
             restrict,
+            expected_result,
         })
+    }
+
+    fn get_expected_result(suttaplex: &Option<SuttaplexUid>) -> Option<SearchResultKey> {
+        suttaplex
+            .as_ref()
+            .map(|uid| SearchResultKey::Suttaplex { uid: uid.clone() })
     }
 }
 
@@ -161,6 +171,7 @@ mod tests {
             match_partial: false,
             limit: 50,
             restrict: "all".to_string(),
+            expected_result: None,
         }
     }
 
@@ -506,5 +517,21 @@ mod tests {
         .unwrap();
 
         assert_eq!(suite.delay(), 0);
+    }
+
+    #[test]
+    fn test_case_has_expected_suttaplex() {
+        let defaults = example_defaults();
+        let details = DetailsProvided {
+            expected_suttaplex: Some(SuttaplexUid::from("mn1")),
+            ..all_details_but_expected()
+        };
+        let test_case = TestCase::combine(&defaults, &details).unwrap();
+
+        let key = Some(SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn1"),
+        });
+
+        assert_eq!(test_case.expected_result, key);
     }
 }
