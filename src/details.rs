@@ -1,4 +1,5 @@
-use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
+use anyhow::{Result, anyhow};
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
@@ -17,7 +18,7 @@ pub struct DetailsProvided {
 }
 
 impl DetailsProvided {
-    fn count_expected(self) -> u8 {
+    fn count_expected(&self) -> usize {
         let mut option_count = 0;
 
         if self.expected_suttaplex.is_some() {
@@ -30,6 +31,22 @@ impl DetailsProvided {
             option_count += 1
         };
         option_count
+    }
+
+    fn search_key(&self) -> Result<Option<SearchResultKey>> {
+        if self.count_expected() > 1 {
+            return Err(anyhow!("More than one search result key specified."));
+        };
+        if let Some(uid) = self.expected_suttaplex.clone() {
+            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
+        };
+        if let Some(url) = self.expected_sutta.clone() {
+            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
+        };
+        if let Some(url) = self.expected_dictionary.clone() {
+            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
+        };
+        Ok(None)
     }
 }
 
@@ -64,5 +81,22 @@ mod tests {
         assert_eq!(one.count_expected(), 1);
         assert_eq!(two.count_expected(), 2);
         assert_eq!(three.count_expected(), 3);
+    }
+
+    #[test]
+    fn get_key_from_suttaplex() {
+        let expects_suttaplex = DetailsProvided {
+            query: String::from("query"),
+            description: String::from("description"),
+            expected_suttaplex: Some(SuttaplexUid::from("mn1")),
+            ..Default::default()
+        };
+
+        assert_eq!(
+            expects_suttaplex.search_key().unwrap().unwrap(),
+            SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            }
+        );
     }
 }
