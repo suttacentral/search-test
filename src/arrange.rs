@@ -107,7 +107,7 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected_result = Self::get_expected_result(
+        let expected_result = SearchResultKey::from_one_of(
             &provided.expected_suttaplex,
             &provided.expected_sutta,
             &provided.expected_dictionary,
@@ -123,23 +123,6 @@ impl TestCase {
             restrict,
             expected_result,
         })
-    }
-
-    fn get_expected_result(
-        suttaplex: &Option<SuttaplexUid>,
-        sutta: &Option<TextUrl>,
-        dictionary: &Option<DictionaryUrl>,
-    ) -> Result<Option<SearchResultKey>> {
-        if let Some(uid) = suttaplex {
-            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
-        };
-        if let Some(url) = sutta {
-            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
-        };
-        if let Some(url) = dictionary {
-            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
-        };
-        Ok(None)
     }
 }
 
@@ -545,58 +528,32 @@ mod tests {
     }
 
     #[test]
-    fn test_case_has_expected_suttaplex() {
-        let defaults = example_defaults();
-        let details = DetailsProvided {
-            expected_suttaplex: Some(SuttaplexUid::from("mn1")),
-            ..all_details_but_expected()
-        };
-        let test_case = TestCase::combine(&defaults, &details).unwrap();
+    fn test_case_has_search_key() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Find a suttaplex"
+            query = "mn1"
+            expected-suttaplex = "mn1"
+        "#,
+        )
+        .unwrap();
 
         let key = Some(SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),
         });
 
+        let test_case = &suite.test_cases().unwrap()[0];
         assert_eq!(test_case.expected_result, key);
-    }
-
-    #[test]
-    fn test_case_has_expected_sutta() {
-        let defaults = example_defaults();
-        let details = DetailsProvided {
-            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
-            ..all_details_but_expected()
-        };
-        let test_case = TestCase::combine(&defaults, &details).unwrap();
-
-        let key = Some(SearchResultKey::Text {
-            url: TextUrl::from("/mn1/en/bodhi"),
-        });
-
-        assert_eq!(test_case.expected_result, key);
-    }
-
-    #[test]
-    fn test_case_has_expected_dictionary() {
-        let defaults = example_defaults();
-        let details = DetailsProvided {
-            expected_dictionary: Some(DictionaryUrl::from("/define/metta")),
-            ..all_details_but_expected()
-        };
-        let test_case = TestCase::combine(&defaults, &details).unwrap();
-
-        let key = Some(SearchResultKey::Dictionary {
-            url: DictionaryUrl::from("/define/metta"),
-        });
-
-        assert_eq!(test_case.expected_result, key);
-    }
-
-    #[test]
-    fn only_one_expected_result_per_test_case() {
-        let suttaplex = Some(SuttaplexUid::from("mn1"));
-        let sutta = Some(TextUrl::from("/mn1/en/bodhi"));
-        let dictionary = Some(DictionaryUrl::from("/define/metta"));
-        let key = TestCase::get_expected_result(&suttaplex, &sutta, &None);
     }
 }

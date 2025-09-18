@@ -56,10 +56,10 @@ pub enum SearchResultKey {
 }
 
 impl SearchResultKey {
-    fn from_one_of(
-        suttaplex: Option<SuttaplexUid>,
-        sutta: Option<TextUrl>,
-        dictionary: Option<DictionaryUrl>,
+    pub fn from_one_of(
+        suttaplex: &Option<SuttaplexUid>,
+        sutta: &Option<TextUrl>,
+        dictionary: &Option<DictionaryUrl>,
     ) -> Result<Option<SearchResultKey>> {
         if let Some(uid) = suttaplex {
             return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
@@ -81,7 +81,7 @@ mod tests {
     #[test]
     fn get_key_from_suttaplex() {
         let suttaplex = Some(SuttaplexUid::from("mn1"));
-        let key = SearchResultKey::from_one_of(suttaplex, None, None)
+        let key = SearchResultKey::from_one_of(&suttaplex, &None, &None)
             .unwrap()
             .unwrap();
         assert_eq!(
@@ -94,15 +94,37 @@ mod tests {
 
     #[test]
     fn get_key_from_sutta() {
-        let sutta = Some(TextUrl::from("mn1"));
-        let key = SearchResultKey::from_one_of(None, sutta, None)
+        let sutta = Some(TextUrl::from("/mn1/en/bodhi"));
+        let key = SearchResultKey::from_one_of(&None, &sutta, &None)
             .unwrap()
             .unwrap();
         assert_eq!(
             key,
             SearchResultKey::Text {
-                url: TextUrl::from("mn1")
+                url: TextUrl::from("/mn1/en/bodhi")
             }
+        );
+    }
+
+    #[test]
+    fn get_key_from_dictionary() {
+        let dictionary = Some(DictionaryUrl::from("/define/metta"));
+        let key = SearchResultKey::from_one_of(&None, &None, &dictionary)
+            .unwrap()
+            .unwrap();
+        assert_eq!(
+            key,
+            SearchResultKey::Dictionary {
+                url: DictionaryUrl::from("/define/metta")
+            }
+        );
+    }
+
+    #[test]
+    fn no_key() {
+        assert_eq!(
+            SearchResultKey::from_one_of(&None, &None, &None).unwrap(),
+            None
         );
     }
 }
