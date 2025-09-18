@@ -15,6 +15,7 @@ pub struct DetailsProvided {
     pub expected_suttaplex: Option<SuttaplexUid>,
     pub expected_sutta: Option<TextUrl>,
     pub expected_dictionary: Option<DictionaryUrl>,
+    pub min_rank: Option<usize>,
 }
 
 impl DetailsProvided {

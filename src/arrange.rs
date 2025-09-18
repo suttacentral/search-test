@@ -38,6 +38,7 @@ pub struct TestCase {
     pub selected_languages: Vec<String>,
     pub match_partial: bool,
     pub expected_result: Option<SearchResultKey>,
+    pub min_rank: Option<usize>,
 }
 
 impl TestCase {
@@ -84,8 +85,6 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected_result = provided.search_key()?;
-
         Ok(TestCase {
             description,
             query,
@@ -94,7 +93,8 @@ impl TestCase {
             match_partial,
             limit,
             restrict,
-            expected_result,
+            expected_result: provided.search_key()?,
+            min_rank: provided.min_rank,
         })
     }
 }
@@ -145,6 +145,7 @@ mod tests {
             limit: 50,
             restrict: "all".to_string(),
             expected_result: None,
+            min_rank: None,
         }
     }
 
@@ -160,6 +161,7 @@ mod tests {
             expected_suttaplex: None,
             expected_sutta: None,
             expected_dictionary: None,
+            min_rank: None,
         }
     }
 
@@ -209,6 +211,7 @@ mod tests {
                 expected_suttaplex: None,
                 expected_sutta: None,
                 expected_dictionary: None,
+                min_rank: None,
             }],
         };
 
@@ -299,6 +302,7 @@ mod tests {
             expected_suttaplex: None,
             expected_sutta: None,
             expected_dictionary: None,
+            min_rank: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -331,6 +335,7 @@ mod tests {
             expected_suttaplex: None,
             expected_sutta: None,
             expected_dictionary: None,
+            min_rank: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
