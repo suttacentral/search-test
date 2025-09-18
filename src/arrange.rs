@@ -37,6 +37,7 @@ struct DetailsProvided {
     selected_languages: Option<Vec<String>>,
     match_partial: Option<bool>,
     expected_suttaplex: Option<SuttaplexUid>,
+    expected_sutta: Option<TextUrl>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -105,7 +106,8 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected_result = Self::get_expected_result(&provided.expected_suttaplex);
+        let expected_result =
+            Self::get_expected_result(&provided.expected_suttaplex, &provided.expected_sutta);
 
         Ok(TestCase {
             description,
@@ -119,10 +121,17 @@ impl TestCase {
         })
     }
 
-    fn get_expected_result(suttaplex: &Option<SuttaplexUid>) -> Option<SearchResultKey> {
-        suttaplex
-            .as_ref()
-            .map(|uid| SearchResultKey::Suttaplex { uid: uid.clone() })
+    fn get_expected_result(
+        suttaplex: &Option<SuttaplexUid>,
+        sutta: &Option<TextUrl>,
+    ) -> Option<SearchResultKey> {
+        if let Some(uid) = suttaplex {
+            return Some(SearchResultKey::Suttaplex { uid: uid.clone() });
+        };
+        if let Some(url) = sutta {
+            return Some(SearchResultKey::Text { url: url.clone() });
+        };
+        None
     }
 }
 
@@ -185,6 +194,7 @@ mod tests {
             limit: Some(50),
             restrict: Some("all".to_string()),
             expected_suttaplex: None,
+            expected_sutta: None,
         }
     }
 
@@ -232,6 +242,7 @@ mod tests {
                 restrict: None,
                 match_partial: None,
                 expected_suttaplex: None,
+                expected_sutta: None,
             }],
         };
 
@@ -334,6 +345,7 @@ mod tests {
             limit: None,
             restrict: None,
             expected_suttaplex: None,
+            expected_sutta: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -364,6 +376,7 @@ mod tests {
             limit: Some(50),
             restrict: Some("all".to_string()),
             expected_suttaplex: None,
+            expected_sutta: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
@@ -530,6 +543,22 @@ mod tests {
 
         let key = Some(SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),
+        });
+
+        assert_eq!(test_case.expected_result, key);
+    }
+
+    #[test]
+    fn test_case_has_expected_sutta() {
+        let defaults = example_defaults();
+        let details = DetailsProvided {
+            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+            ..all_details_but_expected()
+        };
+        let test_case = TestCase::combine(&defaults, &details).unwrap();
+
+        let key = Some(SearchResultKey::Text {
+            url: TextUrl::from("/mn1/en/bodhi"),
         });
 
         assert_eq!(test_case.expected_result, key);
