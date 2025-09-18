@@ -84,11 +84,7 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected_result = SearchResultKey::from_one_of(
-            &provided.expected_suttaplex,
-            &provided.expected_sutta,
-            &provided.expected_dictionary,
-        )?;
+        let expected_result = provided.search_key()?;
 
         Ok(TestCase {
             description,

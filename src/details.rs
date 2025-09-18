@@ -18,22 +18,7 @@ pub struct DetailsProvided {
 }
 
 impl DetailsProvided {
-    fn count_expected(&self) -> usize {
-        let mut option_count = 0;
-
-        if self.expected_suttaplex.is_some() {
-            option_count += 1
-        };
-        if self.expected_sutta.is_some() {
-            option_count += 1
-        };
-        if self.expected_dictionary.is_some() {
-            option_count += 1
-        };
-        option_count
-    }
-
-    fn search_key(&self) -> Result<Option<SearchResultKey>> {
+    pub fn search_key(&self) -> Result<Option<SearchResultKey>> {
         if self.count_expected() > 1 {
             return Err(anyhow!("More than one search result key specified."));
         };
@@ -47,6 +32,21 @@ impl DetailsProvided {
             return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
         };
         Ok(None)
+    }
+
+    fn count_expected(&self) -> usize {
+        let mut option_count = 0;
+
+        if self.expected_suttaplex.is_some() {
+            option_count += 1
+        };
+        if self.expected_sutta.is_some() {
+            option_count += 1
+        };
+        if self.expected_dictionary.is_some() {
+            option_count += 1
+        };
+        option_count
     }
 }
 
