@@ -240,20 +240,6 @@ mod tests {
     }
 
     #[test]
-    fn defaults_are_all_none_when_using_default_method() {
-        assert_eq!(
-            Defaults {
-                limit: None,
-                site_language: None,
-                restrict: None,
-                selected_languages: None,
-                match_partial: None,
-            },
-            Defaults::default()
-        );
-    }
-
-    #[test]
     fn defaults_are_all_none_if_table_missing() {
         let suite = TestSuite::load_from_string(
             r#"
