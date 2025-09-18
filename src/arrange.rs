@@ -1,4 +1,4 @@
-use crate::identifiers::{SearchResultKey, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -38,6 +38,7 @@ struct DetailsProvided {
     match_partial: Option<bool>,
     expected_suttaplex: Option<SuttaplexUid>,
     expected_sutta: Option<TextUrl>,
+    expected_dictionary: Option<DictionaryUrl>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -106,8 +107,11 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected_result =
-            Self::get_expected_result(&provided.expected_suttaplex, &provided.expected_sutta);
+        let expected_result = Self::get_expected_result(
+            &provided.expected_suttaplex,
+            &provided.expected_sutta,
+            &provided.expected_dictionary,
+        );
 
         Ok(TestCase {
             description,
@@ -124,12 +128,16 @@ impl TestCase {
     fn get_expected_result(
         suttaplex: &Option<SuttaplexUid>,
         sutta: &Option<TextUrl>,
+        dictionary: &Option<DictionaryUrl>,
     ) -> Option<SearchResultKey> {
         if let Some(uid) = suttaplex {
             return Some(SearchResultKey::Suttaplex { uid: uid.clone() });
         };
         if let Some(url) = sutta {
             return Some(SearchResultKey::Text { url: url.clone() });
+        };
+        if let Some(url) = dictionary {
+            return Some(SearchResultKey::Dictionary { url: url.clone() });
         };
         None
     }
@@ -195,6 +203,7 @@ mod tests {
             restrict: Some("all".to_string()),
             expected_suttaplex: None,
             expected_sutta: None,
+            expected_dictionary: None,
         }
     }
 
@@ -243,6 +252,7 @@ mod tests {
                 match_partial: None,
                 expected_suttaplex: None,
                 expected_sutta: None,
+                expected_dictionary: None,
             }],
         };
 
@@ -346,6 +356,7 @@ mod tests {
             restrict: None,
             expected_suttaplex: None,
             expected_sutta: None,
+            expected_dictionary: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -377,6 +388,7 @@ mod tests {
             restrict: Some("all".to_string()),
             expected_suttaplex: None,
             expected_sutta: None,
+            expected_dictionary: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
@@ -559,6 +571,22 @@ mod tests {
 
         let key = Some(SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
+        });
+
+        assert_eq!(test_case.expected_result, key);
+    }
+
+    #[test]
+    fn test_case_has_expected_dictionary() {
+        let defaults = example_defaults();
+        let details = DetailsProvided {
+            expected_dictionary: Some(DictionaryUrl::from("/define/metta")),
+            ..all_details_but_expected()
+        };
+        let test_case = TestCase::combine(&defaults, &details).unwrap();
+
+        let key = Some(SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/metta"),
         });
 
         assert_eq!(test_case.expected_result, key);
