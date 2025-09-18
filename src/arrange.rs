@@ -111,7 +111,7 @@ impl TestCase {
             &provided.expected_suttaplex,
             &provided.expected_sutta,
             &provided.expected_dictionary,
-        );
+        )?;
 
         Ok(TestCase {
             description,
@@ -129,17 +129,17 @@ impl TestCase {
         suttaplex: &Option<SuttaplexUid>,
         sutta: &Option<TextUrl>,
         dictionary: &Option<DictionaryUrl>,
-    ) -> Option<SearchResultKey> {
+    ) -> Result<Option<SearchResultKey>> {
         if let Some(uid) = suttaplex {
-            return Some(SearchResultKey::Suttaplex { uid: uid.clone() });
+            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
         };
         if let Some(url) = sutta {
-            return Some(SearchResultKey::Text { url: url.clone() });
+            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
         };
         if let Some(url) = dictionary {
-            return Some(SearchResultKey::Dictionary { url: url.clone() });
+            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
         };
-        None
+        Ok(None)
     }
 }
 
@@ -590,5 +590,13 @@ mod tests {
         });
 
         assert_eq!(test_case.expected_result, key);
+    }
+
+    #[test]
+    fn only_one_expected_result_per_test_case() {
+        let suttaplex = Some(SuttaplexUid::from("mn1"));
+        let sutta = Some(TextUrl::from("/mn1/en/bodhi"));
+        let dictionary = Some(DictionaryUrl::from("/define/metta"));
+        let key = TestCase::get_expected_result(&suttaplex, &sutta, &None);
     }
 }
