@@ -1,3 +1,4 @@
+use crate::defaults::Defaults;
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
@@ -8,16 +9,6 @@ struct Settings {
     endpoint: String,
     #[serde(default)]
     delay: usize,
-}
-
-#[derive(Debug, Default, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case", deny_unknown_fields)]
-struct Defaults {
-    limit: Option<usize>,
-    site_language: Option<String>,
-    restrict: Option<String>,
-    selected_languages: Option<Vec<String>>,
-    match_partial: Option<bool>,
 }
 
 #[derive(Clone, Debug, Deserialize, PartialEq)]
