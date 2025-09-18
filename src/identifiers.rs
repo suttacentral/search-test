@@ -1,4 +1,4 @@
-use anyhow::Result;
+use anyhow::{Result, anyhow};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::{Display, Formatter};
@@ -61,6 +61,22 @@ impl SearchResultKey {
         sutta: &Option<TextUrl>,
         dictionary: &Option<DictionaryUrl>,
     ) -> Result<Option<SearchResultKey>> {
+        let mut option_count = 0;
+
+        if suttaplex.is_some() {
+            option_count += 1
+        };
+        if sutta.is_some() {
+            option_count += 1
+        };
+        if dictionary.is_some() {
+            option_count += 1
+        };
+
+        if option_count > 1 {
+            return Err(anyhow!("More than one search result key specified."));
+        };
+
         if let Some(uid) = suttaplex {
             return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
         };
@@ -126,5 +142,17 @@ mod tests {
             SearchResultKey::from_one_of(&None, &None, &None).unwrap(),
             None
         );
+    }
+
+    #[test]
+    fn error_for_more_than_one_option() {
+        let suttaplex = Some(SuttaplexUid::from("mn1"));
+        let sutta = Some(TextUrl::from("/mn1/en/bodhi"));
+        let dictionary = Some(DictionaryUrl::from("/define/metta"));
+
+        let _ = SearchResultKey::from_one_of(&suttaplex, &sutta, &dictionary).unwrap_err();
+        let _ = SearchResultKey::from_one_of(&suttaplex, &sutta, &None).unwrap_err();
+        let _ = SearchResultKey::from_one_of(&suttaplex, &None, &dictionary).unwrap_err();
+        let _ = SearchResultKey::from_one_of(&None, &sutta, &dictionary).unwrap_err();
     }
 }
