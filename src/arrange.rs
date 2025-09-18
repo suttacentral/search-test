@@ -1,4 +1,4 @@
-use crate::identifiers::TextUrl;
+use crate::identifiers::{SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -36,6 +36,7 @@ struct DetailsProvided {
     restrict: Option<String>,
     selected_languages: Option<Vec<String>>,
     match_partial: Option<bool>,
+    expected_suttaplex: Option<SuttaplexUid>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -163,7 +164,7 @@ mod tests {
         }
     }
 
-    fn complete_details() -> DetailsProvided {
+    fn all_details_but_expected() -> DetailsProvided {
         DetailsProvided {
             description: "Search in English only.".to_string(),
             query: "metta".to_string(),
@@ -172,6 +173,7 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
+            expected_suttaplex: None,
         }
     }
 
@@ -218,6 +220,7 @@ mod tests {
                 site_language: None,
                 restrict: None,
                 match_partial: None,
+                expected_suttaplex: None,
             }],
         };
 
@@ -319,6 +322,7 @@ mod tests {
             match_partial: Some(false),
             limit: None,
             restrict: None,
+            expected_suttaplex: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -329,7 +333,7 @@ mod tests {
     #[test]
     fn can_combine_missing_defaults() {
         let defaults = Defaults::default();
-        let test_case = TestCase::combine(&defaults, &complete_details()).unwrap();
+        let test_case = TestCase::combine(&defaults, &all_details_but_expected()).unwrap();
         assert_eq!(test_case, example_test_case());
     }
 
@@ -348,6 +352,7 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
+            expected_suttaplex: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
@@ -362,7 +367,7 @@ mod tests {
     fn combine_gives_error_when_site_language_missing() {
         let missing = DetailsProvided {
             site_language: None,
-            ..complete_details()
+            ..all_details_but_expected()
         };
 
         let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
@@ -377,7 +382,7 @@ mod tests {
     fn combine_gives_error_when_selected_languages_missing() {
         let missing = DetailsProvided {
             selected_languages: None,
-            ..complete_details()
+            ..all_details_but_expected()
         };
 
         let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
@@ -392,7 +397,7 @@ mod tests {
     fn combine_gives_error_when_match_partial_missing() {
         let missing = DetailsProvided {
             match_partial: None,
-            ..complete_details()
+            ..all_details_but_expected()
         };
 
         let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
@@ -407,7 +412,7 @@ mod tests {
     fn combine_gives_error_when_limit_missing() {
         let missing = DetailsProvided {
             limit: None,
-            ..complete_details()
+            ..all_details_but_expected()
         };
 
         let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
@@ -422,7 +427,7 @@ mod tests {
     fn combine_gives_error_when_restrict_missing() {
         let missing = DetailsProvided {
             restrict: None,
-            ..complete_details()
+            ..all_details_but_expected()
         };
 
         let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
