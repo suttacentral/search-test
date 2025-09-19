@@ -5,11 +5,11 @@ use serde::Deserialize;
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Expected {
-    pub suttaplex: Option<SuttaplexUid>,
-    pub sutta: Option<TextUrl>,
-    pub dictionary: Option<DictionaryUrl>,
-    pub other: Option<TextUrl>,
-    pub min_rank: Option<usize>,
+    suttaplex: Option<SuttaplexUid>,
+    sutta: Option<TextUrl>,
+    dictionary: Option<DictionaryUrl>,
+    other: Option<TextUrl>,
+    min_rank: Option<usize>,
 }
 
 impl Expected {

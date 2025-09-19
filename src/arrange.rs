@@ -140,6 +140,7 @@ impl TestSuite {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::identifiers::SearchResultKey;
 
     fn example_defaults() -> Defaults {
         Defaults {
@@ -515,7 +516,7 @@ mod tests {
     }
 
     #[test]
-    fn test_case_has_nested_expected() {
+    fn test_case_gets_search_key() {
         let suite = TestSuite::load_from_string(
             r#"
             [settings]
@@ -538,10 +539,12 @@ mod tests {
         .unwrap();
 
         let test_case = suite.test_cases().unwrap()[0].clone();
-        let expected = test_case.expected.unwrap().clone();
-        let suttaplex = expected.suttaplex.unwrap().clone();
-        assert_eq!(suttaplex, SuttaplexUid::from("mn1"));
-        let min_rank = expected.min_rank.unwrap();
-        assert_eq!(min_rank, 3);
+        let key = test_case.expected.unwrap().search_key().unwrap().unwrap();
+        assert_eq!(
+            key,
+            SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1")
+            }
+        )
     }
 }
