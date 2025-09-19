@@ -10,7 +10,8 @@ enum SubKey {
 
 #[derive(Deserialize, Serialize)]
 struct Table {
-    key: SubKey,
+    key: Option<SubKey>,
+    other_key: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -23,6 +24,7 @@ fn a_only() {
     let toml = r#"
      [table]
      key.a = "Super"
+     other_key = "Glue"
      "#;
 
     let table = toml::from_str::<Document>(toml).unwrap();
@@ -33,6 +35,17 @@ fn b_only() {
     let toml = r#"
      [table]
      key.b = "Super"
+     other_key = "Glue"
+     "#;
+
+    let table = toml::from_str::<Document>(toml).unwrap();
+}
+
+#[test]
+fn neither() {
+    let toml = r#"
+     [table]
+     other_key = "Glue"
      "#;
 
     let table = toml::from_str::<Document>(toml).unwrap();
