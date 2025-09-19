@@ -21,7 +21,7 @@ pub struct DetailsProvided {
 impl DetailsProvided {
     pub fn search_key(&self) -> Result<Option<SearchResultKey>> {
         if self.count_expected() > 1 {
-            return Err(anyhow!("More than one search result key specified."));
+            return Err(anyhow!("More than one expected result specified."));
         };
         if let Some(uid) = self.expected_suttaplex.clone() {
             return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
@@ -44,6 +44,14 @@ impl DetailsProvided {
         .into_iter()
         .filter(|x| *x)
         .count()
+    }
+
+    pub fn min_rank(&self) -> Result<Option<usize>> {
+        match self.count_expected() {
+            0 => Err(anyhow!("min-rank must be accompanied by expected result")),
+            1 => Ok(self.min_rank),
+            _ => Err(anyhow!("More than one expected result specified.")),
+        }
     }
 }
 
@@ -132,14 +140,15 @@ mod tests {
     }
 
     #[test]
-    fn min_rank_not_allowed_if_expect_missing() {
+    fn min_allowed_if_expect_present() {
         let details = DetailsProvided {
             query: String::from("query"),
             description: String::from("description"),
-            min_rank: Some(1),
+            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+            min_rank: Some(36),
             ..Default::default()
         };
 
-        // TODO...
+        assert_eq!(details.min_rank().unwrap().unwrap(), 36);
     }
 }

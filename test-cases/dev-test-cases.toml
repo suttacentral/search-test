@@ -23,7 +23,7 @@ selected-languages = ["pli"]
 description = "Guide to The Linked Discourses"
 query = "sn guide"
 selected-languages = ["en"]
-expected-guide = "sn-guide-sujato"
+expected-other = "sn-guide-sujato"
 min-rank = 1
 
 [[test-case]]
