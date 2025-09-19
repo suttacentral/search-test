@@ -12,10 +12,10 @@ pub struct DetailsProvided {
     pub restrict: Option<String>,
     pub selected_languages: Option<Vec<String>>,
     pub match_partial: Option<bool>,
-    pub expected_suttaplex: Option<SuttaplexUid>,
-    pub expected_sutta: Option<TextUrl>,
-    pub expected_dictionary: Option<DictionaryUrl>,
-    pub min_rank: Option<usize>,
+    expected_suttaplex: Option<SuttaplexUid>,
+    expected_sutta: Option<TextUrl>,
+    expected_dictionary: Option<DictionaryUrl>,
+    min_rank: Option<usize>,
 }
 
 impl DetailsProvided {
