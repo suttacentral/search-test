@@ -160,15 +160,13 @@ mod tests {
 
     #[test]
     fn get_key_from_sutta() {
-        let expects_sutta = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
-            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+        let expected = Expected {
+            sutta: Some(TextUrl::from("/mn1/en/bodhi")),
             ..Default::default()
         };
 
         assert_eq!(
-            expects_sutta.search_key().unwrap().unwrap(),
+            expected.search_key().unwrap().unwrap(),
             SearchResultKey::Text {
                 url: TextUrl::from("/mn1/en/bodhi"),
             }
@@ -177,15 +175,13 @@ mod tests {
 
     #[test]
     fn get_key_from_dictionary() {
-        let expects_dictionary = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
-            expected_dictionary: Some(DictionaryUrl::from("/define/metta")),
+        let expected = Expected {
+            dictionary: Some(DictionaryUrl::from("/define/metta")),
             ..Default::default()
         };
 
         assert_eq!(
-            expects_dictionary.search_key().unwrap().unwrap(),
+            expected.search_key().unwrap().unwrap(),
             SearchResultKey::Dictionary {
                 url: DictionaryUrl::from("/define/metta"),
             }
@@ -194,15 +190,13 @@ mod tests {
 
     #[test]
     fn get_key_from_other() {
-        let expects_other = DetailsProvided {
-            query: String::from("licensing"),
-            description: String::from("description"),
-            expected_other: Some(TextUrl::from("/licensing")),
+        let expected = Expected {
+            other: Some(TextUrl::from("/licensing")),
             ..Default::default()
         };
 
         assert_eq!(
-            expects_other.search_key().unwrap().unwrap(),
+            expected.search_key().unwrap().unwrap(),
             SearchResultKey::Text {
                 url: TextUrl::from("/licensing"),
             }
