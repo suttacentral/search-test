@@ -144,7 +144,19 @@ mod tests {
     }
 
     #[test]
-    fn min_allowed_if_expect_present() {
+    fn min_rank_may_be_missing_when_expect_present() {
+        let details = DetailsProvided {
+            query: String::from("query"),
+            description: String::from("description"),
+            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+            min_rank: None,
+            ..Default::default()
+        };
+        assert!(details.min_rank().unwrap().is_none());
+    }
+
+    #[test]
+    fn min_rank_allowed_if_expect_present() {
         let details = DetailsProvided {
             query: String::from("query"),
             description: String::from("description"),
@@ -154,5 +166,19 @@ mod tests {
         };
 
         assert_eq!(details.min_rank().unwrap().unwrap(), 36);
+    }
+
+    #[test]
+    fn min_rank_not_allowed_if_expect_missing() {
+        let details = DetailsProvided {
+            query: String::from("query"),
+            description: String::from("description"),
+            min_rank: Some(36),
+            ..Default::default()
+        };
+        assert_eq!(
+            details.min_rank().unwrap_err().to_string(),
+            "min-rank must be accompanied by expected result"
+        );
     }
 }
