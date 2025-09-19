@@ -36,18 +36,14 @@ impl DetailsProvided {
     }
 
     fn count_expected(&self) -> usize {
-        let mut option_count = 0;
-
-        if self.expected_suttaplex.is_some() {
-            option_count += 1
-        };
-        if self.expected_sutta.is_some() {
-            option_count += 1
-        };
-        if self.expected_dictionary.is_some() {
-            option_count += 1
-        };
-        option_count
+        [
+            self.expected_suttaplex.is_some(),
+            self.expected_sutta.is_some(),
+            self.expected_dictionary.is_some(),
+        ]
+        .into_iter()
+        .filter(|x| *x)
+        .count()
     }
 }
 
@@ -103,7 +99,7 @@ mod tests {
 
     #[test]
     fn get_key_from_sutta() {
-        let expects_suttaplex = DetailsProvided {
+        let expects_sutta = DetailsProvided {
             query: String::from("query"),
             description: String::from("description"),
             expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
@@ -111,7 +107,7 @@ mod tests {
         };
 
         assert_eq!(
-            expects_suttaplex.search_key().unwrap().unwrap(),
+            expects_sutta.search_key().unwrap().unwrap(),
             SearchResultKey::Text {
                 url: TextUrl::from("/mn1/en/bodhi"),
             }
@@ -120,7 +116,7 @@ mod tests {
 
     #[test]
     fn get_key_from_dictionary() {
-        let expects_suttaplex = DetailsProvided {
+        let expects_dictionary = DetailsProvided {
             query: String::from("query"),
             description: String::from("description"),
             expected_dictionary: Some(DictionaryUrl::from("/define/metta")),
@@ -128,10 +124,22 @@ mod tests {
         };
 
         assert_eq!(
-            expects_suttaplex.search_key().unwrap().unwrap(),
+            expects_dictionary.search_key().unwrap().unwrap(),
             SearchResultKey::Dictionary {
                 url: DictionaryUrl::from("/define/metta"),
             }
         );
+    }
+
+    #[test]
+    fn min_rank_not_allowed_if_expect_missing() {
+        let details = DetailsProvided {
+            query: String::from("query"),
+            description: String::from("description"),
+            min_rank: Some(1),
+            ..Default::default()
+        };
+
+        // TODO...
     }
 }
