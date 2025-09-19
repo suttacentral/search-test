@@ -6,7 +6,43 @@ use serde::Deserialize;
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Expected {
     pub suttaplex: Option<SuttaplexUid>,
+    pub sutta: Option<TextUrl>,
+    pub dictionary: Option<DictionaryUrl>,
+    pub other: Option<TextUrl>,
     pub min_rank: Option<usize>,
+}
+
+impl Expected {
+    pub fn search_key(&self) -> Result<Option<SearchResultKey>> {
+        if self.count_expected() > 1 {
+            return Err(anyhow!("More than one expected result specified."));
+        };
+        if let Some(uid) = self.suttaplex.clone() {
+            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
+        };
+        if let Some(url) = self.sutta.clone() {
+            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
+        };
+        if let Some(url) = self.dictionary.clone() {
+            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
+        };
+        if let Some(url) = self.other.clone() {
+            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
+        };
+        Ok(None)
+    }
+
+    fn count_expected(&self) -> usize {
+        [
+            self.suttaplex.is_some(),
+            self.sutta.is_some(),
+            self.dictionary.is_some(),
+            self.other.is_some(),
+        ]
+        .into_iter()
+        .filter(|x| *x)
+        .count()
+    }
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
@@ -78,24 +114,26 @@ mod tests {
 
     #[test]
     fn count_expected() {
-        let zero = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
-            ..Default::default()
+        let zero = Expected {
+            suttaplex: None,
+            sutta: None,
+            dictionary: None,
+            other: None,
+            min_rank: None,
         };
 
-        let one = DetailsProvided {
-            expected_suttaplex: Some(SuttaplexUid::from("mn1")),
+        let one = Expected {
+            suttaplex: Some(SuttaplexUid::from("mn1")),
             ..zero.clone()
         };
 
-        let two = DetailsProvided {
-            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+        let two = Expected {
+            sutta: Some(TextUrl::from("/mn1/en/bodhi")),
             ..one.clone()
         };
 
-        let three = DetailsProvided {
-            expected_dictionary: Some(DictionaryUrl::from("/define/metta")),
+        let three = Expected {
+            dictionary: Some(DictionaryUrl::from("/define/metta")),
             ..two.clone()
         };
 
@@ -107,15 +145,13 @@ mod tests {
 
     #[test]
     fn get_key_from_suttaplex() {
-        let expects_suttaplex = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
-            expected_suttaplex: Some(SuttaplexUid::from("mn1")),
+        let expected = Expected {
+            suttaplex: Some(SuttaplexUid::from("mn1")),
             ..Default::default()
         };
 
         assert_eq!(
-            expects_suttaplex.search_key().unwrap().unwrap(),
+            expected.search_key().unwrap().unwrap(),
             SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
             }
