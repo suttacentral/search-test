@@ -12,10 +12,10 @@ pub struct DetailsProvided {
     pub restrict: Option<String>,
     pub selected_languages: Option<Vec<String>>,
     pub match_partial: Option<bool>,
-    expected_suttaplex: Option<SuttaplexUid>,
-    expected_sutta: Option<TextUrl>,
-    expected_dictionary: Option<DictionaryUrl>,
-    min_rank: Option<usize>,
+    pub expected_suttaplex: Option<SuttaplexUid>,
+    pub expected_sutta: Option<TextUrl>,
+    pub expected_dictionary: Option<DictionaryUrl>,
+    pub min_rank: Option<usize>,
 }
 
 impl DetailsProvided {
@@ -47,6 +47,10 @@ impl DetailsProvided {
     }
 
     pub fn min_rank(&self) -> Result<Option<usize>> {
+        if self.min_rank.is_none() {
+            return Ok(None);
+        };
+
         match self.count_expected() {
             0 => Err(anyhow!("min-rank must be accompanied by expected result")),
             1 => Ok(self.min_rank),

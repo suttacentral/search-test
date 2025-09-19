@@ -94,7 +94,7 @@ impl TestCase {
             limit,
             restrict,
             expected_result: provided.search_key()?,
-            min_rank: provided.min_rank,
+            min_rank: provided.min_rank()?,
         })
     }
 }
