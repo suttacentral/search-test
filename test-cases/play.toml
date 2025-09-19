@@ -12,3 +12,5 @@ selected-languages = ["en", "pli"]
 description = "Has multiple dictionary results."
 query = "pacch"
 match-partial = true
+expected.suttaplex = "mn1"
+expected.min-rank = 3

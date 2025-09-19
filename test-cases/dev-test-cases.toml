@@ -30,23 +30,23 @@ min-rank = 1
 description = "Static pages for licensing"
 query = "licensing"
 selected-languages = ["en"]
-expected-other = "licensing"
+expected.other = "licensing"
 
 [[test-case]]
 description = "Search with UID is top suttaplex result"
 query = "mn1"
-expected-suttaplex = "mn1"
-min-rank = 1
+expected.suttaplex = "mn1"
+expected.min-rank = 1
 
 [[test-case]]
 description = "Metta Sutta in Pali or English"
 query = "metta"
 selected-languages = ["pli", "en"]
-expected-sutta = "/snp1.8/en/sujato"
+expected.sutta = "/snp1.8/en/sujato"
 
 [[test-case]]
 description = "Metta in dictionary"
 query = "metta"
 selected-languages = ["pli", "en"]
-expected-dictionary = "/define/metta"
-min-rank = 1
+expected.dictionary = "/define/metta"
+expected.min-rank = 1
