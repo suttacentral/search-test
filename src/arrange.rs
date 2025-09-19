@@ -163,6 +163,7 @@ mod tests {
             expected_dictionary: None,
             expected_other: None,
             min_rank: None,
+            expected: None,
         }
     }
 
@@ -214,6 +215,7 @@ mod tests {
                 expected_dictionary: None,
                 expected_other: None,
                 min_rank: None,
+                expected: None,
             }],
         };
 
@@ -306,6 +308,7 @@ mod tests {
             expected_dictionary: None,
             expected_other: None,
             min_rank: None,
+            expected: None,
         };
 
         let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
@@ -340,6 +343,7 @@ mod tests {
             expected_dictionary: None,
             expected_other: None,
             min_rank: None,
+            expected: None,
         };
 
         if let Err(error) = TestCase::combine(&defaults, &details) {
