@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
 use crate::expected::Expected;
-use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
+use crate::identifiers::{SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -28,11 +28,6 @@ pub struct DetailsProvided {
     pub restrict: Option<String>,
     pub selected_languages: Option<Vec<String>>,
     pub match_partial: Option<bool>,
-    pub expected_suttaplex: Option<SuttaplexUid>,
-    pub expected_sutta: Option<TextUrl>,
-    pub expected_dictionary: Option<DictionaryUrl>,
-    pub expected_other: Option<TextUrl>,
-    pub min_rank: Option<usize>,
     pub expected: Option<Expected>,
 }
 
@@ -174,11 +169,6 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
-            expected_suttaplex: None,
-            expected_sutta: None,
-            expected_dictionary: None,
-            expected_other: None,
-            min_rank: None,
             expected: None,
         }
     }
@@ -226,11 +216,6 @@ mod tests {
                 site_language: None,
                 restrict: None,
                 match_partial: None,
-                expected_suttaplex: None,
-                expected_sutta: None,
-                expected_dictionary: None,
-                expected_other: None,
-                min_rank: None,
                 expected: None,
             }],
         };
@@ -319,11 +304,6 @@ mod tests {
             match_partial: Some(false),
             limit: None,
             restrict: None,
-            expected_suttaplex: None,
-            expected_sutta: None,
-            expected_dictionary: None,
-            expected_other: None,
-            min_rank: None,
             expected: None,
         };
 
@@ -354,11 +334,6 @@ mod tests {
             match_partial: Some(false),
             limit: Some(50),
             restrict: Some("all".to_string()),
-            expected_suttaplex: None,
-            expected_sutta: None,
-            expected_dictionary: None,
-            expected_other: None,
-            min_rank: None,
             expected: None,
         };
 
