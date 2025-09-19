@@ -1,5 +1,5 @@
 use crate::defaults::Defaults;
-use crate::details::Expected;
+use crate::expected::Expected;
 use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
