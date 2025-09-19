@@ -43,6 +43,18 @@ impl Expected {
         .filter(|x| *x)
         .count()
     }
+
+    pub fn min_rank(&self) -> Result<Option<usize>> {
+        if self.min_rank.is_none() {
+            return Ok(None);
+        };
+
+        match self.count_expected() {
+            0 => Err(anyhow!("min-rank must be accompanied by expected result")),
+            1 => Ok(self.min_rank),
+            _ => Err(anyhow!("More than one expected result specified.")),
+        }
+    }
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
@@ -205,22 +217,17 @@ mod tests {
 
     #[test]
     fn min_rank_may_be_missing_when_expect_present() {
-        let details = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
-            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+        let expected = Expected {
             min_rank: None,
             ..Default::default()
         };
-        assert!(details.min_rank().unwrap().is_none());
+        assert!(expected.min_rank().unwrap().is_none());
     }
 
     #[test]
     fn min_rank_allowed_if_expect_present() {
-        let details = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
-            expected_sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+        let details = Expected {
+            sutta: Some(TextUrl::from("/mn1/en/bodhi")),
             min_rank: Some(36),
             ..Default::default()
         };
@@ -230,9 +237,7 @@ mod tests {
 
     #[test]
     fn min_rank_not_allowed_if_expect_missing() {
-        let details = DetailsProvided {
-            query: String::from("query"),
-            description: String::from("description"),
+        let details = Expected {
             min_rank: Some(36),
             ..Default::default()
         };
