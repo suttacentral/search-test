@@ -1,5 +1,5 @@
 use crate::defaults::Defaults;
-use crate::details::DetailsProvided;
+use crate::details::{DetailsProvided, Expected};
 use crate::identifiers::{SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
@@ -39,6 +39,7 @@ pub struct TestCase {
     pub match_partial: bool,
     pub expected_result: Option<SearchResultKey>,
     pub min_rank: Option<usize>,
+    pub expected: Option<Expected>,
 }
 
 impl TestCase {
@@ -95,6 +96,7 @@ impl TestCase {
             restrict,
             expected_result: provided.search_key()?,
             min_rank: provided.min_rank()?,
+            expected: provided.expected.clone(),
         })
     }
 }
@@ -146,6 +148,7 @@ mod tests {
             restrict: "all".to_string(),
             expected_result: None,
             min_rank: None,
+            expected: None,
         }
     }
 
@@ -527,5 +530,33 @@ mod tests {
 
         let test_case = &suite.test_cases().unwrap()[0];
         assert_eq!(test_case.expected_result, key);
+    }
+
+    #[test]
+    fn test_case_has_nested_expected() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Find a suttaplex"
+            query = "mn1"
+            expected.suttaplex = "mn1"
+        "#,
+        )
+        .unwrap();
+
+        let test_case = suite.test_cases().unwrap()[0].clone();
+        let expected = test_case.expected.unwrap().clone();
+        let suttaplex = expected.suttaplex.unwrap().clone();
+        assert_eq!(suttaplex, SuttaplexUid::from("mn1"))
     }
 }

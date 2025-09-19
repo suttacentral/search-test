@@ -5,7 +5,7 @@ use serde::Deserialize;
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Expected {
-    expected_suttaplex: Option<SuttaplexUid>,
+    pub suttaplex: Option<SuttaplexUid>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
