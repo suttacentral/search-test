@@ -161,6 +161,7 @@ mod tests {
             expected_suttaplex: None,
             expected_sutta: None,
             expected_dictionary: None,
+            expected_other: None,
             min_rank: None,
         }
     }
@@ -211,6 +212,7 @@ mod tests {
                 expected_suttaplex: None,
                 expected_sutta: None,
                 expected_dictionary: None,
+                expected_other: None,
                 min_rank: None,
             }],
         };
@@ -302,6 +304,7 @@ mod tests {
             expected_suttaplex: None,
             expected_sutta: None,
             expected_dictionary: None,
+            expected_other: None,
             min_rank: None,
         };
 
@@ -335,6 +338,7 @@ mod tests {
             expected_suttaplex: None,
             expected_sutta: None,
             expected_dictionary: None,
+            expected_other: None,
             min_rank: None,
         };
 

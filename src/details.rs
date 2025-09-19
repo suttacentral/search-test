@@ -15,6 +15,7 @@ pub struct DetailsProvided {
     pub expected_suttaplex: Option<SuttaplexUid>,
     pub expected_sutta: Option<TextUrl>,
     pub expected_dictionary: Option<DictionaryUrl>,
+    pub expected_other: Option<TextUrl>,
     pub min_rank: Option<usize>,
 }
 
@@ -32,6 +33,9 @@ impl DetailsProvided {
         if let Some(url) = self.expected_dictionary.clone() {
             return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
         };
+        if let Some(url) = self.expected_other.clone() {
+            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
+        };
         Ok(None)
     }
 
@@ -40,6 +44,7 @@ impl DetailsProvided {
             self.expected_suttaplex.is_some(),
             self.expected_sutta.is_some(),
             self.expected_dictionary.is_some(),
+            self.expected_other.is_some(),
         ]
         .into_iter()
         .filter(|x| *x)
@@ -139,6 +144,23 @@ mod tests {
             expects_dictionary.search_key().unwrap().unwrap(),
             SearchResultKey::Dictionary {
                 url: DictionaryUrl::from("/define/metta"),
+            }
+        );
+    }
+
+    #[test]
+    fn get_key_from_other() {
+        let expects_other = DetailsProvided {
+            query: String::from("licensing"),
+            description: String::from("description"),
+            expected_other: Some(TextUrl::from("/licensing")),
+            ..Default::default()
+        };
+
+        assert_eq!(
+            expects_other.search_key().unwrap().unwrap(),
+            SearchResultKey::Text {
+                url: TextUrl::from("/licensing"),
             }
         );
     }
