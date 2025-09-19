@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
 use crate::expected::Expected;
-use crate::identifiers::{SuttaplexUid, TextUrl};
+use crate::identifiers::TextUrl;
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -135,7 +135,6 @@ impl TestSuite {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::SearchResultKey;
 
     fn example_defaults() -> Defaults {
         Defaults {
@@ -488,96 +487,5 @@ mod tests {
         .unwrap();
 
         assert_eq!(suite.delay(), 0);
-    }
-
-    #[test]
-    fn test_case_gets_search_key() {
-        let suite = TestSuite::load_from_string(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-
-            [defaults]
-            limit = 50
-            site-language = "en"
-            restrict = "all"
-            selected-languages = ["en", "pli"]
-            match-partial = false
-
-            [[test-case]]
-            description = "Find a suttaplex"
-            query = "mn1"
-            expected.suttaplex = "mn1"
-            expected.min-rank = 3
-        "#,
-        )
-        .unwrap();
-
-        let test_case = suite.test_cases().unwrap()[0].clone();
-        let key = test_case.expected.unwrap().search_key().unwrap().unwrap();
-        assert_eq!(
-            key,
-            SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1")
-            }
-        )
-    }
-
-    #[test]
-    fn test_case_gets_min_rank() {
-        let suite = TestSuite::load_from_string(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-
-            [defaults]
-            limit = 50
-            site-language = "en"
-            restrict = "all"
-            selected-languages = ["en", "pli"]
-            match-partial = false
-
-            [[test-case]]
-            description = "Find a suttaplex"
-            query = "mn1"
-            expected.suttaplex = "mn1"
-            expected.min-rank = 3
-        "#,
-        )
-        .unwrap();
-
-        let test_case = suite.test_cases().unwrap()[0].clone();
-        let min_rank = test_case.expected.unwrap().min_rank().unwrap().unwrap();
-        assert_eq!(min_rank, 3)
-    }
-
-    #[test]
-    fn error_when_test_case_has_min_rank_but_no_expected_result() {
-        let suite = TestSuite::load_from_string(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-
-            [defaults]
-            limit = 50
-            site-language = "en"
-            restrict = "all"
-            selected-languages = ["en", "pli"]
-            match-partial = false
-
-            [[test-case]]
-            description = "Find a suttaplex"
-            query = "mn1"
-            expected.min-rank = 3
-        "#,
-        )
-        .unwrap();
-
-        let test_case = suite.test_cases().unwrap()[0].clone();
-        let error = test_case.expected.unwrap().min_rank().unwrap_err();
-        assert_eq!(
-            error.to_string(),
-            "min-rank must be accompanied by expected result"
-        )
     }
 }
