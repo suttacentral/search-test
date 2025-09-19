@@ -2,8 +2,9 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Deserialize, Serialize)]
 #[serde(rename_all = "lowercase")]
+#[serde(untagged)]
 enum SubKey {
-    A { x: String },
+    A { a: String },
 }
 
 #[derive(Deserialize, Serialize)]
@@ -20,7 +21,7 @@ struct Document {
 fn a_only() {
     let toml = r#"
      [table]
-     key.a.x = "Super"
+     key.a = "Super"
      "#;
 
     let table = toml::from_str::<Document>(toml).unwrap();
