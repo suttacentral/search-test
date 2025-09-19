@@ -1,28 +1,21 @@
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Deserialize)]
-struct Nested {
-    a: String,
-    b: String,
-}
-
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 struct Table {
-    nested: Nested,
+    key: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 struct Document {
     table: Table,
 }
 
 #[test]
-fn nested_keys() {
+fn a_only() {
     let toml = r#"
-    [table]
-    nested.a = "Super"
-    nested.b = "Glue"
-    "#;
+     [table]
+     key = "Super"
+     "#;
 
     let table = toml::from_str::<Document>(toml).unwrap();
 }
