@@ -75,51 +75,6 @@ pub struct DetailsProvided {
     pub expected: Option<Expected>,
 }
 
-impl DetailsProvided {
-    pub fn search_key(&self) -> Result<Option<SearchResultKey>> {
-        if self.count_expected() > 1 {
-            return Err(anyhow!("More than one expected result specified."));
-        };
-        if let Some(uid) = self.expected_suttaplex.clone() {
-            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
-        };
-        if let Some(url) = self.expected_sutta.clone() {
-            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
-        };
-        if let Some(url) = self.expected_dictionary.clone() {
-            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
-        };
-        if let Some(url) = self.expected_other.clone() {
-            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
-        };
-        Ok(None)
-    }
-
-    fn count_expected(&self) -> usize {
-        [
-            self.expected_suttaplex.is_some(),
-            self.expected_sutta.is_some(),
-            self.expected_dictionary.is_some(),
-            self.expected_other.is_some(),
-        ]
-        .into_iter()
-        .filter(|x| *x)
-        .count()
-    }
-
-    pub fn min_rank(&self) -> Result<Option<usize>> {
-        if self.min_rank.is_none() {
-            return Ok(None);
-        };
-
-        match self.count_expected() {
-            0 => Err(anyhow!("min-rank must be accompanied by expected result")),
-            1 => Ok(self.min_rank),
-            _ => Err(anyhow!("More than one expected result specified.")),
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

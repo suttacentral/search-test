@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
 use crate::details::{DetailsProvided, Expected};
-use crate::identifiers::{SearchResultKey, SuttaplexUid, TextUrl};
+use crate::identifiers::{SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -37,8 +37,6 @@ pub struct TestCase {
     pub restrict: String,
     pub selected_languages: Vec<String>,
     pub match_partial: bool,
-    pub expected_result: Option<SearchResultKey>,
-    pub min_rank: Option<usize>,
     pub expected: Option<Expected>,
 }
 
@@ -94,8 +92,6 @@ impl TestCase {
             match_partial,
             limit,
             restrict,
-            expected_result: provided.search_key()?,
-            min_rank: provided.min_rank()?,
             expected: provided.expected.clone(),
         })
     }
@@ -146,8 +142,6 @@ mod tests {
             match_partial: false,
             limit: 50,
             restrict: "all".to_string(),
-            expected_result: None,
-            min_rank: None,
             expected: None,
         }
     }
@@ -500,36 +494,6 @@ mod tests {
         .unwrap();
 
         assert_eq!(suite.delay(), 0);
-    }
-
-    #[test]
-    fn test_case_has_search_key() {
-        let suite = TestSuite::load_from_string(
-            r#"
-            [settings]
-            endpoint = "http://localhost/api/search/instant"
-
-            [defaults]
-            limit = 50
-            site-language = "en"
-            restrict = "all"
-            selected-languages = ["en", "pli"]
-            match-partial = false
-
-            [[test-case]]
-            description = "Find a suttaplex"
-            query = "mn1"
-            expected-suttaplex = "mn1"
-        "#,
-        )
-        .unwrap();
-
-        let key = Some(SearchResultKey::Suttaplex {
-            uid: SuttaplexUid::from("mn1"),
-        });
-
-        let test_case = &suite.test_cases().unwrap()[0];
-        assert_eq!(test_case.expected_result, key);
     }
 
     #[test]
