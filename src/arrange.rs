@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
-use crate::details::{DetailsProvided, Expected};
-use crate::identifiers::{SuttaplexUid, TextUrl};
+use crate::details::Expected;
+use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -16,6 +16,24 @@ struct Settings {
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct SuttaHitAssertion {
     pub top: TextUrl,
+}
+
+#[derive(Clone, Debug, Default, Deserialize, PartialEq)]
+#[serde(rename_all = "kebab-case", deny_unknown_fields)]
+pub struct DetailsProvided {
+    pub query: String,
+    pub description: String,
+    pub limit: Option<usize>,
+    pub site_language: Option<String>,
+    pub restrict: Option<String>,
+    pub selected_languages: Option<Vec<String>>,
+    pub match_partial: Option<bool>,
+    pub expected_suttaplex: Option<SuttaplexUid>,
+    pub expected_sutta: Option<TextUrl>,
+    pub expected_dictionary: Option<DictionaryUrl>,
+    pub expected_other: Option<TextUrl>,
+    pub min_rank: Option<usize>,
+    pub expected: Option<Expected>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
