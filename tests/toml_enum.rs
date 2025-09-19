@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 #[serde(untagged)]
 enum SubKey {
     A { a: String },
+    B { b: String },
 }
 
 #[derive(Deserialize, Serialize)]
@@ -22,6 +23,16 @@ fn a_only() {
     let toml = r#"
      [table]
      key.a = "Super"
+     "#;
+
+    let table = toml::from_str::<Document>(toml).unwrap();
+}
+
+#[test]
+fn b_only() {
+    let toml = r#"
+     [table]
+     key.b = "Super"
      "#;
 
     let table = toml::from_str::<Document>(toml).unwrap();
