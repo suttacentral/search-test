@@ -512,7 +512,7 @@ mod tests {
             [[test-case]]
             description = "Find a suttaplex"
             query = "mn1"
-            expected-suttaplex = "mn1"
+            expected.suttaplex = "mn1"
         "#,
         )
         .unwrap();
