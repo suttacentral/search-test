@@ -6,6 +6,7 @@ use serde::Deserialize;
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct Expected {
     pub suttaplex: Option<SuttaplexUid>,
+    pub min_rank: Option<usize>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]

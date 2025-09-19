@@ -550,6 +550,7 @@ mod tests {
             description = "Find a suttaplex"
             query = "mn1"
             expected.suttaplex = "mn1"
+            expected.min-rank = 3
         "#,
         )
         .unwrap();
@@ -557,6 +558,8 @@ mod tests {
         let test_case = suite.test_cases().unwrap()[0].clone();
         let expected = test_case.expected.unwrap().clone();
         let suttaplex = expected.suttaplex.unwrap().clone();
-        assert_eq!(suttaplex, SuttaplexUid::from("mn1"))
+        assert_eq!(suttaplex, SuttaplexUid::from("mn1"));
+        let min_rank = expected.min_rank.unwrap();
+        assert_eq!(min_rank, 3);
     }
 }
