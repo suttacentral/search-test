@@ -4,16 +4,6 @@ use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct Expected {
-    pub expected_suttaplex: Option<SuttaplexUid>,
-    pub expected_sutta: Option<TextUrl>,
-    pub expected_dictionary: Option<DictionaryUrl>,
-    pub expected_other: Option<TextUrl>,
-    pub min_rank: Option<usize>,
-}
-
-#[derive(Clone, Debug, Default, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case", deny_unknown_fields)]
 pub struct DetailsProvided {
     pub query: String,
     pub description: String,
@@ -22,7 +12,11 @@ pub struct DetailsProvided {
     pub restrict: Option<String>,
     pub selected_languages: Option<Vec<String>>,
     pub match_partial: Option<bool>,
-    pub expected: Expected,
+    pub expected_suttaplex: Option<SuttaplexUid>,
+    pub expected_sutta: Option<TextUrl>,
+    pub expected_dictionary: Option<DictionaryUrl>,
+    pub expected_other: Option<TextUrl>,
+    pub min_rank: Option<usize>,
 }
 
 impl DetailsProvided {
