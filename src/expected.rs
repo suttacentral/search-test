@@ -66,10 +66,10 @@ pub enum Expected {
     },
 }
 
-impl TryFrom<ExpectedDetails> for Expected {
+impl TryFrom<&ExpectedDetails> for Expected {
     type Error = anyhow::Error;
 
-    fn try_from(details: ExpectedDetails) -> Result<Self> {
+    fn try_from(details: &ExpectedDetails) -> Result<Self> {
         if details.count_expected() > 1 {
             return Err(anyhow!("more than one expected result provided"));
         }
@@ -98,7 +98,7 @@ mod tests {
             ..ExpectedDetails::default()
         };
 
-        let error = Expected::try_from(details).unwrap_err();
+        let error = Expected::try_from(&details).unwrap_err();
         assert_eq!(
             error.to_string(),
             "min-rank set but there is no expected result"
@@ -113,7 +113,7 @@ mod tests {
             ..ExpectedDetails::default()
         };
 
-        let error = Expected::try_from(details).unwrap_err();
+        let error = Expected::try_from(&details).unwrap_err();
         assert_eq!(error.to_string(), "more than one expected result provided");
     }
 
@@ -124,7 +124,7 @@ mod tests {
             ..ExpectedDetails::default()
         };
 
-        let expected = Expected::try_from(details).unwrap();
+        let expected = Expected::try_from(&details).unwrap();
         assert_eq!(
             expected,
             Expected::Unranked {
@@ -143,7 +143,7 @@ mod tests {
             ..ExpectedDetails::default()
         };
 
-        let expected = Expected::try_from(details).unwrap();
+        let expected = Expected::try_from(&details).unwrap();
         assert_eq!(
             expected,
             Expected::Ranked {
