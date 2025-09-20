@@ -255,7 +255,7 @@ mod tests {
     }
 
     #[test]
-    fn test_case_gets_search_key() {
+    fn expected_provided() {
         let suite = TestSuite::load_from_string(
             r#"
             [settings]
@@ -291,7 +291,7 @@ mod tests {
     }
 
     #[test]
-    fn test_expected_is_none_when_missing() {
+    fn expected_not_provided() {
         let suite = TestSuite::load_from_string(
             r#"
             [settings]
