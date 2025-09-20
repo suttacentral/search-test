@@ -58,6 +58,15 @@ impl TestCase {
         format!("Test case `{description}` missing `{key}` and no default provided.")
     }
 
+    fn expected(provided: &DetailsProvided) -> Result<Option<Expected>> {
+        let mut expected = None;
+
+        if let Some(details) = &provided.expected {
+            expected = Some(Expected::try_from(details)?);
+        }
+        Ok(expected)
+    }
+
     fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
         let description = provided.description.clone();
         let query = provided.query.clone();
@@ -97,11 +106,7 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let mut expected = None;
-
-        if let Some(details) = &provided.expected {
-            expected = Some(Expected::try_from(details)?);
-        }
+        let expected = Self::expected(&provided)?;
 
         Ok(TestCase {
             description,
