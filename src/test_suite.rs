@@ -21,7 +21,7 @@ pub struct SuttaHitAssertion {
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct DetailsProvided {
+pub struct TestCaseDetails {
     pub query: String,
     pub description: String,
     pub limit: Option<usize>,
@@ -39,7 +39,7 @@ pub struct TestSuite {
     #[serde(default)]
     defaults: Defaults,
     #[serde[rename = "test-case"]]
-    test_details: Vec<DetailsProvided>,
+    test_details: Vec<TestCaseDetails>,
 }
 
 impl TestSuite {
@@ -93,8 +93,8 @@ mod tests {
         }
     }
 
-    fn all_details_but_expected() -> DetailsProvided {
-        DetailsProvided {
+    fn all_details_but_expected() -> TestCaseDetails {
+        TestCaseDetails {
             description: "Search in English only.".to_string(),
             query: "metta".to_string(),
             site_language: Some("en".to_string()),
@@ -141,7 +141,7 @@ mod tests {
                 selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
                 match_partial: Some(false),
             },
-            test_details: vec![DetailsProvided {
+            test_details: vec![TestCaseDetails {
                 description: "Search for the metta sutta in English and Pali".to_string(),
                 query: "metta".to_string(),
                 selected_languages: Some(vec!["pli".to_string(), "en".to_string()]),
@@ -229,7 +229,7 @@ mod tests {
 
     #[test]
     fn can_combine_provided_details_with_defaults_to_get_test_case() {
-        let details = DetailsProvided {
+        let details = TestCaseDetails {
             description: "Search in English only.".to_string(),
             query: "metta".to_string(),
             site_language: Some("en".to_string()),
@@ -259,7 +259,7 @@ mod tests {
             ..example_defaults()
         };
 
-        let details = DetailsProvided {
+        let details = TestCaseDetails {
             description: "Search in English only.".to_string(),
             query: "metta".to_string(),
             site_language: None,
@@ -280,7 +280,7 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_site_language_missing() {
-        let missing = DetailsProvided {
+        let missing = TestCaseDetails {
             site_language: None,
             ..all_details_but_expected()
         };
@@ -295,7 +295,7 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_selected_languages_missing() {
-        let missing = DetailsProvided {
+        let missing = TestCaseDetails {
             selected_languages: None,
             ..all_details_but_expected()
         };
@@ -310,7 +310,7 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_match_partial_missing() {
-        let missing = DetailsProvided {
+        let missing = TestCaseDetails {
             match_partial: None,
             ..all_details_but_expected()
         };
@@ -325,7 +325,7 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_limit_missing() {
-        let missing = DetailsProvided {
+        let missing = TestCaseDetails {
             limit: None,
             ..all_details_but_expected()
         };
@@ -340,7 +340,7 @@ mod tests {
 
     #[test]
     fn combine_gives_error_when_restrict_missing() {
-        let missing = DetailsProvided {
+        let missing = TestCaseDetails {
             restrict: None,
             ..all_details_but_expected()
         };

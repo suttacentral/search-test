@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
 use crate::expected::{Expected, ExpectedDetails};
-use crate::test_suite::DetailsProvided;
+use crate::test_suite::TestCaseDetails;
 use anyhow::Context;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -16,7 +16,7 @@ pub struct TestCase {
 }
 
 impl TestCase {
-    pub fn new(defaults: &Defaults, provided: &DetailsProvided) -> anyhow::Result<TestCase> {
+    pub fn new(defaults: &Defaults, provided: &TestCaseDetails) -> anyhow::Result<TestCase> {
         let description = provided.description.clone();
         let query = provided.query.clone();
         let site_language = [&provided.site_language, &defaults.site_language]
