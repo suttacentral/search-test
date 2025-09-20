@@ -57,7 +57,7 @@ struct FuzzyDictionary {
 
 #[derive(Deserialize, Debug)]
 pub struct SearchResponse {
-    pub total: u16,
+    total: u16,
     hits: Vec<Hit>,
     suttaplex: Vec<Suttaplex>,
     fuzzy_dictionary: Vec<FuzzyDictionary>,

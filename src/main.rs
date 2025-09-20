@@ -1,13 +1,13 @@
-mod act;
 mod defaults;
 mod expected;
 mod identifiers;
 mod request;
+mod response;
 mod test_case;
 mod test_suite;
 
-use crate::act::SearchResponse;
 use crate::request::build;
+use crate::response::SearchResponse;
 use crate::test_suite::TestSuite;
 use anyhow::Result;
 use reqwest::Error;
