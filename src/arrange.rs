@@ -514,7 +514,12 @@ mod tests {
         .unwrap();
 
         let test_case = suite.test_cases().unwrap()[0].clone();
-        let key = test_case.expected.unwrap().search_key().unwrap().unwrap();
+        let key = test_case
+            .expected
+            .unwrap()
+            .search_key_yyy()
+            .unwrap()
+            .unwrap();
         assert_eq!(
             key,
             SearchResultKey::Suttaplex {

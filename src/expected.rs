@@ -1,3 +1,4 @@
+use crate::identifiers::SearchResultKey::Suttaplex;
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Result, anyhow};
 use serde::Deserialize;
@@ -14,7 +15,23 @@ pub struct ExpectedDetails {
 }
 
 impl ExpectedDetails {
-    pub fn search_key(&self) -> Result<Option<SearchResultKey>> {
+    pub fn search_key(&self) -> Option<SearchResultKey> {
+        if let Some(uid) = self.suttaplex.clone() {
+            return Some(SearchResultKey::Suttaplex { uid: uid.clone() });
+        };
+        if let Some(url) = self.sutta.clone() {
+            return Some(SearchResultKey::Text { url: url.clone() });
+        };
+        if let Some(url) = self.dictionary.clone() {
+            return Some(SearchResultKey::Dictionary { url: url.clone() });
+        };
+        if let Some(url) = self.other.clone() {
+            return Some(SearchResultKey::Text { url: url.clone() });
+        };
+        None
+    }
+
+    pub fn search_key_yyy(&self) -> Result<Option<SearchResultKey>> {
         if self.count_expected() > 1 {
             return Err(anyhow!("More than one expected result specified."));
         };
@@ -85,9 +102,9 @@ impl TryFrom<ExpectedDetails> for Expected {
             Some(min_rank) => {
                 todo!()
             }
-            None => {
-                todo!()
-            }
+            None => Ok(Expected::Unranked {
+                key: details.search_key().unwrap(),
+            }),
         }
     }
 }
@@ -120,6 +137,24 @@ mod tests {
 
         let error = Expected::try_from(details).unwrap_err();
         assert_eq!(error.to_string(), "more than one expected result provided");
+    }
+
+    #[test]
+    fn try_from_with_unranked_suttaplex_is_ok() {
+        let details = ExpectedDetails {
+            suttaplex: Some(SuttaplexUid::from("mn1")),
+            ..ExpectedDetails::default()
+        };
+
+        let expected = Expected::try_from(details).unwrap();
+        assert_eq!(
+            expected,
+            Expected::Unranked {
+                key: SearchResultKey::Suttaplex {
+                    uid: SuttaplexUid::from("mn1")
+                }
+            }
+        );
     }
 
     #[test]
@@ -161,7 +196,7 @@ mod tests {
         };
 
         assert_eq!(
-            expected.search_key().unwrap().unwrap(),
+            expected.search_key_yyy().unwrap().unwrap(),
             SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
             }
@@ -176,7 +211,7 @@ mod tests {
         };
 
         assert_eq!(
-            expected.search_key().unwrap().unwrap(),
+            expected.search_key_yyy().unwrap().unwrap(),
             SearchResultKey::Text {
                 url: TextUrl::from("/mn1/en/bodhi"),
             }
@@ -191,7 +226,7 @@ mod tests {
         };
 
         assert_eq!(
-            expected.search_key().unwrap().unwrap(),
+            expected.search_key_yyy().unwrap().unwrap(),
             SearchResultKey::Dictionary {
                 url: DictionaryUrl::from("/define/metta"),
             }
@@ -206,7 +241,7 @@ mod tests {
         };
 
         assert_eq!(
-            expected.search_key().unwrap().unwrap(),
+            expected.search_key_yyy().unwrap().unwrap(),
             SearchResultKey::Text {
                 url: TextUrl::from("/licensing"),
             }
