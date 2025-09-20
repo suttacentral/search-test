@@ -30,25 +30,6 @@ impl ExpectedDetails {
         None
     }
 
-    pub fn search_key_yyy(&self) -> Result<Option<SearchResultKey>> {
-        if self.count_expected() > 1 {
-            return Err(anyhow!("More than one expected result specified."));
-        };
-        if let Some(uid) = self.suttaplex.clone() {
-            return Ok(Some(SearchResultKey::Suttaplex { uid: uid.clone() }));
-        };
-        if let Some(url) = self.sutta.clone() {
-            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
-        };
-        if let Some(url) = self.dictionary.clone() {
-            return Ok(Some(SearchResultKey::Dictionary { url: url.clone() }));
-        };
-        if let Some(url) = self.other.clone() {
-            return Ok(Some(SearchResultKey::Text { url: url.clone() }));
-        };
-        Ok(None)
-    }
-
     fn count_expected(&self) -> usize {
         [
             self.suttaplex.is_some(),
@@ -203,97 +184,5 @@ mod tests {
         assert_eq!(one.count_expected(), 1);
         assert_eq!(two.count_expected(), 2);
         assert_eq!(three.count_expected(), 3);
-    }
-
-    #[test]
-    fn get_key_from_suttaplex() {
-        let expected = ExpectedDetails {
-            suttaplex: Some(SuttaplexUid::from("mn1")),
-            ..Default::default()
-        };
-
-        assert_eq!(
-            expected.search_key_yyy().unwrap().unwrap(),
-            SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            }
-        );
-    }
-
-    #[test]
-    fn get_key_from_sutta() {
-        let expected = ExpectedDetails {
-            sutta: Some(TextUrl::from("/mn1/en/bodhi")),
-            ..Default::default()
-        };
-
-        assert_eq!(
-            expected.search_key_yyy().unwrap().unwrap(),
-            SearchResultKey::Text {
-                url: TextUrl::from("/mn1/en/bodhi"),
-            }
-        );
-    }
-
-    #[test]
-    fn get_key_from_dictionary() {
-        let expected = ExpectedDetails {
-            dictionary: Some(DictionaryUrl::from("/define/metta")),
-            ..Default::default()
-        };
-
-        assert_eq!(
-            expected.search_key_yyy().unwrap().unwrap(),
-            SearchResultKey::Dictionary {
-                url: DictionaryUrl::from("/define/metta"),
-            }
-        );
-    }
-
-    #[test]
-    fn get_key_from_other() {
-        let expected = ExpectedDetails {
-            other: Some(TextUrl::from("/licensing")),
-            ..Default::default()
-        };
-
-        assert_eq!(
-            expected.search_key_yyy().unwrap().unwrap(),
-            SearchResultKey::Text {
-                url: TextUrl::from("/licensing"),
-            }
-        );
-    }
-
-    #[test]
-    fn min_rank_may_be_missing_when_expect_present() {
-        let expected = ExpectedDetails {
-            min_rank: None,
-            ..Default::default()
-        };
-        assert!(expected.min_rank().unwrap().is_none());
-    }
-
-    #[test]
-    fn min_rank_allowed_if_expect_present() {
-        let details = ExpectedDetails {
-            sutta: Some(TextUrl::from("/mn1/en/bodhi")),
-            min_rank: Some(36),
-            ..Default::default()
-        };
-
-        assert_eq!(details.min_rank().unwrap().unwrap(), 36);
-    }
-
-    #[test]
-    fn min_rank_not_allowed_if_expect_missing() {
-        let details = ExpectedDetails {
-            min_rank: Some(36),
-            ..Default::default()
-        };
-        assert_eq!(
-            details.min_rank().unwrap_err().to_string(),
-            "min-rank must be accompanied by expected result"
-        );
     }
 }
