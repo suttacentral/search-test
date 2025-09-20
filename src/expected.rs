@@ -2,7 +2,6 @@ use crate::identifiers::SearchResultKey::Suttaplex;
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Result, anyhow};
 use serde::Deserialize;
-use std::cmp::min;
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
@@ -76,7 +75,7 @@ impl ExpectedDetails {
 }
 
 #[derive(Clone, Debug, PartialEq)]
-enum Expected {
+pub enum Expected {
     Unranked {
         key: SearchResultKey,
     },
@@ -99,9 +98,10 @@ impl TryFrom<ExpectedDetails> for Expected {
         };
 
         match details.min_rank {
-            Some(min_rank) => {
-                todo!()
-            }
+            Some(min_rank) => Ok(Expected::Ranked {
+                key: details.search_key().unwrap(),
+                min_rank,
+            }),
             None => Ok(Expected::Unranked {
                 key: details.search_key().unwrap(),
             }),
@@ -140,7 +140,7 @@ mod tests {
     }
 
     #[test]
-    fn try_from_with_unranked_suttaplex_is_ok() {
+    fn try_from_unranked_is_ok() {
         let details = ExpectedDetails {
             suttaplex: Some(SuttaplexUid::from("mn1")),
             ..ExpectedDetails::default()
@@ -150,9 +150,29 @@ mod tests {
         assert_eq!(
             expected,
             Expected::Unranked {
-                key: SearchResultKey::Suttaplex {
+                key: Suttaplex {
                     uid: SuttaplexUid::from("mn1")
                 }
+            }
+        );
+    }
+
+    #[test]
+    fn try_from_ranked_is_ok() {
+        let details = ExpectedDetails {
+            suttaplex: Some(SuttaplexUid::from("mn1")),
+            min_rank: Some(3),
+            ..ExpectedDetails::default()
+        };
+
+        let expected = Expected::try_from(details).unwrap();
+        assert_eq!(
+            expected,
+            Expected::Ranked {
+                key: Suttaplex {
+                    uid: SuttaplexUid::from("mn1")
+                },
+                min_rank: 3,
             }
         );
     }
