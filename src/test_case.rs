@@ -103,16 +103,31 @@ mod tests {
         }
     }
 
-    #[test]
-    fn construct_with_defaults() {
-        let defaults = Defaults {
+    fn defaults() -> Defaults {
+        Defaults {
             limit: Some(50),
             site_language: Some("en".to_string()),
             restrict: Some("all".to_string()),
             selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
             match_partial: Some(false),
-        };
+        }
+    }
 
+    fn test_case() -> TestCase {
+        TestCase {
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
+            site_language: "en".to_string(),
+            selected_languages: vec!["en".to_string()],
+            match_partial: false,
+            limit: 50,
+            restrict: "all".to_string(),
+            expected: None,
+        }
+    }
+
+    #[test]
+    fn construct_with_defaults() {
         let details = TestCaseDetails {
             description: "Search in English only.".to_string(),
             query: "metta".to_string(),
@@ -124,51 +139,22 @@ mod tests {
             expected: None,
         };
 
-        let test_case = TestCase::new(&defaults, &details).unwrap();
+        let actual = TestCase::new(&defaults(), &details).unwrap();
 
-        assert_eq!(
-            test_case,
-            TestCase {
-                description: "Search in English only.".to_string(),
-                query: "metta".to_string(),
-                site_language: "en".to_string(),
-                selected_languages: vec!["en".to_string()],
-                match_partial: false,
-                limit: 50,
-                restrict: "all".to_string(),
-                expected: None,
-            }
-        );
+        assert_eq!(actual, test_case());
     }
 
     #[test]
-    fn can_combine_missing_defaults() {
-        let defaults = Defaults::default();
-        let test_case = TestCase::new(&defaults, &all_details_but_expected()).unwrap();
-
-        assert_eq!(
-            test_case,
-            TestCase {
-                description: "Search in English only.".to_string(),
-                query: "metta".to_string(),
-                site_language: "en".to_string(),
-                selected_languages: vec!["en".to_string()],
-                match_partial: false,
-                limit: 50,
-                restrict: "all".to_string(),
-                expected: None,
-            }
-        );
+    fn construct_without_defaults() {
+        let actual = TestCase::new(&Defaults::default(), &all_details_but_expected()).unwrap();
+        assert_eq!(actual, test_case());
     }
 
     #[test]
     fn error_when_both_are_missing_site_language() {
         let defaults = Defaults {
-            limit: Some(50),
             site_language: None,
-            restrict: Some("all".to_string()),
-            selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
-            match_partial: Some(false),
+            ..defaults()
         };
 
         let details = TestCaseDetails {
@@ -191,7 +177,7 @@ mod tests {
     }
 
     #[test]
-    fn combine_gives_error_when_site_language_missing() {
+    fn error_when_site_language_missing() {
         let missing = TestCaseDetails {
             site_language: None,
             ..all_details_but_expected()
@@ -206,7 +192,7 @@ mod tests {
     }
 
     #[test]
-    fn combine_gives_error_when_selected_languages_missing() {
+    fn error_when_selected_languages_missing() {
         let missing = TestCaseDetails {
             selected_languages: None,
             ..all_details_but_expected()
@@ -221,7 +207,7 @@ mod tests {
     }
 
     #[test]
-    fn combine_gives_error_when_match_partial_missing() {
+    fn error_when_match_partial_missing() {
         let missing = TestCaseDetails {
             match_partial: None,
             ..all_details_but_expected()
@@ -236,7 +222,7 @@ mod tests {
     }
 
     #[test]
-    fn combine_gives_error_when_limit_missing() {
+    fn error_when_limit_missing() {
         let missing = TestCaseDetails {
             limit: None,
             ..all_details_but_expected()
@@ -251,7 +237,7 @@ mod tests {
     }
 
     #[test]
-    fn combine_gives_error_when_restrict_missing() {
+    fn error_when_restrict_missing() {
         let missing = TestCaseDetails {
             restrict: None,
             ..all_details_but_expected()
