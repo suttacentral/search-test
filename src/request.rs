@@ -44,7 +44,7 @@ mod tests {
     #[test]
     fn builds_correct_url() {
         let suite = test_suite().unwrap();
-        let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
+        let test_case = suite.test_cases().next().unwrap().unwrap();
         let request = build(suite.endpoint(), test_case).build().unwrap();
         let expected = "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false";
         let actual = request.url().to_string();
@@ -54,7 +54,7 @@ mod tests {
     #[test]
     fn has_correct_body() {
         let suite = test_suite().unwrap();
-        let test_case = suite.test_cases().unwrap().iter().next().unwrap().clone();
+        let test_case = suite.test_cases().next().unwrap().unwrap();
         let request = build(suite.endpoint(), test_case).build().unwrap();
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();

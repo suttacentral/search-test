@@ -56,11 +56,10 @@ impl TestSuite {
         self.settings.delay
     }
 
-    pub fn test_cases(&self) -> Result<Vec<TestCase>> {
+    pub fn test_cases(&self) -> impl Iterator<Item = Result<TestCase>> {
         self.test_details
             .iter()
             .map(|details| TestCase::new(&self.defaults, details))
-            .collect()
     }
 }
 
@@ -380,11 +379,12 @@ mod tests {
         )
         .unwrap();
 
-        let metta = &suite.test_cases().unwrap()[0];
-        assert_eq!(metta.query, "metta");
+        let queries: Vec<_> = suite
+            .test_cases()
+            .map(|test_case| test_case.unwrap().query)
+            .collect();
 
-        let pacch = &suite.test_cases().unwrap()[1];
-        assert_eq!(pacch.query, "pacch");
+        assert_eq!(queries, vec!("metta", "pacch"));
     }
 
     #[test]
@@ -446,7 +446,7 @@ mod tests {
         )
         .unwrap();
 
-        let test_case = suite.test_cases().unwrap()[0].clone();
+        let test_case = suite.test_cases().next().unwrap().unwrap();
         let expected: Expected = test_case.expected.unwrap();
         assert_eq!(
             expected,
@@ -480,7 +480,7 @@ mod tests {
         )
         .unwrap();
 
-        let test_case = suite.test_cases().unwrap()[0].clone();
+        let test_case = suite.test_cases().next().unwrap().unwrap();
         let expected = test_case.expected;
         assert!(expected.is_none());
     }

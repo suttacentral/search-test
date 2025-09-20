@@ -15,10 +15,9 @@ use reqwest::Error;
 fn main() {
     let toml = std::fs::read_to_string("test-cases/play.toml").unwrap();
     let suite = TestSuite::load_from_string(toml.as_str()).unwrap();
-    let test_cases = suite.test_cases().unwrap();
 
-    for test_case in test_cases {
-        let request = build(suite.endpoint(), test_case);
+    for test_case in suite.test_cases() {
+        let request = build(suite.endpoint(), test_case.unwrap());
         let response = request.send().unwrap();
         let results: Result<SearchResponse, Error> = response.json();
 
