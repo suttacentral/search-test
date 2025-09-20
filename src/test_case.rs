@@ -1,6 +1,6 @@
-use crate::arrange::DetailsProvided;
 use crate::defaults::Defaults;
 use crate::expected::{Expected, ExpectedDetails};
+use crate::test_suite::DetailsProvided;
 use anyhow::Context;
 
 #[derive(Clone, Debug, PartialEq)]

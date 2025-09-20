@@ -19,7 +19,7 @@ pub fn build(endpoint: String, test_case: TestCase) -> RequestBuilder {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::arrange::TestSuite;
+    use crate::test_suite::TestSuite;
 
     fn test_suite() -> anyhow::Result<TestSuite> {
         TestSuite::load_from_string(

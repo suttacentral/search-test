@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
 use crate::expected::ExpectedDetails;
-use crate::identifiers::{SuttaplexUid, TextUrl};
+use crate::identifiers::TextUrl;
 use crate::test_case::TestCase;
 use anyhow::{Context, Result};
 use serde::Deserialize;
@@ -68,7 +68,7 @@ impl TestSuite {
 mod tests {
     use super::*;
     use crate::expected::Expected;
-    use crate::identifiers::SearchResultKey;
+    use crate::identifiers::{SearchResultKey, SuttaplexUid};
 
     fn example_defaults() -> Defaults {
         Defaults {

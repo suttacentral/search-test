@@ -1,4 +1,3 @@
-use crate::identifiers::SearchResultKey::Suttaplex;
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Result, anyhow};
 use serde::Deserialize;
@@ -116,7 +115,7 @@ mod tests {
         assert_eq!(
             expected,
             Expected::Unranked {
-                key: Suttaplex {
+                key: SearchResultKey::Suttaplex {
                     uid: SuttaplexUid::from("mn1")
                 }
             }
@@ -135,7 +134,7 @@ mod tests {
         assert_eq!(
             expected,
             Expected::Ranked {
-                key: Suttaplex {
+                key: SearchResultKey::Suttaplex {
                     uid: SuttaplexUid::from("mn1")
                 },
                 min_rank: 3,
