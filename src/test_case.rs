@@ -83,3 +83,185 @@ impl TestCase {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::defaults::Defaults;
+    use crate::test_case::TestCase;
+    use crate::test_suite::TestCaseDetails;
+
+    fn all_details_but_expected() -> TestCaseDetails {
+        TestCaseDetails {
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
+            site_language: Some("en".to_string()),
+            selected_languages: Some(vec!["en".to_string()]),
+            match_partial: Some(false),
+            limit: Some(50),
+            restrict: Some("all".to_string()),
+            expected: None,
+        }
+    }
+
+    #[test]
+    fn construct_with_defaults() {
+        let defaults = Defaults {
+            limit: Some(50),
+            site_language: Some("en".to_string()),
+            restrict: Some("all".to_string()),
+            selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
+            match_partial: Some(false),
+        };
+
+        let details = TestCaseDetails {
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
+            site_language: Some("en".to_string()),
+            selected_languages: Some(vec!["en".to_string()]),
+            match_partial: Some(false),
+            limit: None,
+            restrict: None,
+            expected: None,
+        };
+
+        let test_case = TestCase::new(&defaults, &details).unwrap();
+
+        assert_eq!(
+            test_case,
+            TestCase {
+                description: "Search in English only.".to_string(),
+                query: "metta".to_string(),
+                site_language: "en".to_string(),
+                selected_languages: vec!["en".to_string()],
+                match_partial: false,
+                limit: 50,
+                restrict: "all".to_string(),
+                expected: None,
+            }
+        );
+    }
+
+    #[test]
+    fn can_combine_missing_defaults() {
+        let defaults = Defaults::default();
+        let test_case = TestCase::new(&defaults, &all_details_but_expected()).unwrap();
+
+        assert_eq!(
+            test_case,
+            TestCase {
+                description: "Search in English only.".to_string(),
+                query: "metta".to_string(),
+                site_language: "en".to_string(),
+                selected_languages: vec!["en".to_string()],
+                match_partial: false,
+                limit: 50,
+                restrict: "all".to_string(),
+                expected: None,
+            }
+        );
+    }
+
+    #[test]
+    fn error_when_both_are_missing_site_language() {
+        let defaults = Defaults {
+            limit: Some(50),
+            site_language: None,
+            restrict: Some("all".to_string()),
+            selected_languages: Some(vec!["en".to_string(), "pli".to_string()]),
+            match_partial: Some(false),
+        };
+
+        let details = TestCaseDetails {
+            description: "Search in English only.".to_string(),
+            query: "metta".to_string(),
+            site_language: None,
+            selected_languages: Some(vec!["en".to_string()]),
+            match_partial: Some(false),
+            limit: Some(50),
+            restrict: Some("all".to_string()),
+            expected: None,
+        };
+
+        if let Err(error) = TestCase::new(&defaults, &details) {
+            assert_eq!(
+                error.to_string(),
+                "Test case `Search in English only.` missing `site-language` and no default provided."
+            );
+        }
+    }
+
+    #[test]
+    fn combine_gives_error_when_site_language_missing() {
+        let missing = TestCaseDetails {
+            site_language: None,
+            ..all_details_but_expected()
+        };
+
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case `Search in English only.` missing `site-language` and no default provided."
+        );
+    }
+
+    #[test]
+    fn combine_gives_error_when_selected_languages_missing() {
+        let missing = TestCaseDetails {
+            selected_languages: None,
+            ..all_details_but_expected()
+        };
+
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case `Search in English only.` missing `selected-languages` and no default provided."
+        );
+    }
+
+    #[test]
+    fn combine_gives_error_when_match_partial_missing() {
+        let missing = TestCaseDetails {
+            match_partial: None,
+            ..all_details_but_expected()
+        };
+
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case `Search in English only.` missing `match-partial` and no default provided."
+        );
+    }
+
+    #[test]
+    fn combine_gives_error_when_limit_missing() {
+        let missing = TestCaseDetails {
+            limit: None,
+            ..all_details_but_expected()
+        };
+
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case `Search in English only.` missing `limit` and no default provided."
+        );
+    }
+
+    #[test]
+    fn combine_gives_error_when_restrict_missing() {
+        let missing = TestCaseDetails {
+            restrict: None,
+            ..all_details_but_expected()
+        };
+
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
+
+        assert_eq!(
+            error.to_string(),
+            "Test case `Search in English only.` missing `restrict` and no default provided."
+        );
+    }
+}
