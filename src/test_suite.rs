@@ -1,6 +1,5 @@
 use crate::defaults::Defaults;
 use crate::expected::ExpectedDetails;
-use crate::identifiers::TextUrl;
 use crate::test_case::TestCase;
 use anyhow::{Context, Result};
 use serde::Deserialize;
@@ -11,12 +10,6 @@ struct Settings {
     endpoint: String,
     #[serde(default)]
     delay: usize,
-}
-
-#[derive(Clone, Debug, Deserialize, PartialEq)]
-#[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct SuttaHitAssertion {
-    pub top: TextUrl,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
