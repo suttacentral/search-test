@@ -1,5 +1,5 @@
 use crate::defaults::Defaults;
-use crate::expected::Expected;
+use crate::expected::ExpectedDetails;
 use crate::identifiers::{SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
@@ -28,7 +28,7 @@ pub struct DetailsProvided {
     pub restrict: Option<String>,
     pub selected_languages: Option<Vec<String>>,
     pub match_partial: Option<bool>,
-    pub expected: Option<Expected>,
+    pub expected: Option<ExpectedDetails>,
 }
 
 #[derive(Debug, Deserialize, PartialEq)]
@@ -50,7 +50,7 @@ pub struct TestCase {
     pub restrict: String,
     pub selected_languages: Vec<String>,
     pub match_partial: bool,
-    pub expected: Option<Expected>,
+    pub expected: Option<ExpectedDetails>,
 }
 
 impl TestCase {

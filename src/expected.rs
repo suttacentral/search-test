@@ -4,7 +4,7 @@ use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
-pub struct Expected {
+pub struct ExpectedDetails {
     suttaplex: Option<SuttaplexUid>,
     sutta: Option<TextUrl>,
     dictionary: Option<DictionaryUrl>,
@@ -12,7 +12,7 @@ pub struct Expected {
     min_rank: Option<usize>,
 }
 
-impl Expected {
+impl ExpectedDetails {
     pub fn search_key(&self) -> Result<Option<SearchResultKey>> {
         if self.count_expected() > 1 {
             return Err(anyhow!("More than one expected result specified."));
@@ -63,7 +63,7 @@ mod tests {
 
     #[test]
     fn count_expected() {
-        let zero = Expected {
+        let zero = ExpectedDetails {
             suttaplex: None,
             sutta: None,
             dictionary: None,
@@ -71,17 +71,17 @@ mod tests {
             min_rank: None,
         };
 
-        let one = Expected {
+        let one = ExpectedDetails {
             suttaplex: Some(SuttaplexUid::from("mn1")),
             ..zero.clone()
         };
 
-        let two = Expected {
+        let two = ExpectedDetails {
             sutta: Some(TextUrl::from("/mn1/en/bodhi")),
             ..one.clone()
         };
 
-        let three = Expected {
+        let three = ExpectedDetails {
             dictionary: Some(DictionaryUrl::from("/define/metta")),
             ..two.clone()
         };
@@ -94,7 +94,7 @@ mod tests {
 
     #[test]
     fn get_key_from_suttaplex() {
-        let expected = Expected {
+        let expected = ExpectedDetails {
             suttaplex: Some(SuttaplexUid::from("mn1")),
             ..Default::default()
         };
@@ -109,7 +109,7 @@ mod tests {
 
     #[test]
     fn get_key_from_sutta() {
-        let expected = Expected {
+        let expected = ExpectedDetails {
             sutta: Some(TextUrl::from("/mn1/en/bodhi")),
             ..Default::default()
         };
@@ -124,7 +124,7 @@ mod tests {
 
     #[test]
     fn get_key_from_dictionary() {
-        let expected = Expected {
+        let expected = ExpectedDetails {
             dictionary: Some(DictionaryUrl::from("/define/metta")),
             ..Default::default()
         };
@@ -139,7 +139,7 @@ mod tests {
 
     #[test]
     fn get_key_from_other() {
-        let expected = Expected {
+        let expected = ExpectedDetails {
             other: Some(TextUrl::from("/licensing")),
             ..Default::default()
         };
@@ -154,7 +154,7 @@ mod tests {
 
     #[test]
     fn min_rank_may_be_missing_when_expect_present() {
-        let expected = Expected {
+        let expected = ExpectedDetails {
             min_rank: None,
             ..Default::default()
         };
@@ -163,7 +163,7 @@ mod tests {
 
     #[test]
     fn min_rank_allowed_if_expect_present() {
-        let details = Expected {
+        let details = ExpectedDetails {
             sutta: Some(TextUrl::from("/mn1/en/bodhi")),
             min_rank: Some(36),
             ..Default::default()
@@ -174,7 +174,7 @@ mod tests {
 
     #[test]
     fn min_rank_not_allowed_if_expect_missing() {
-        let details = Expected {
+        let details = ExpectedDetails {
             min_rank: Some(36),
             ..Default::default()
         };
