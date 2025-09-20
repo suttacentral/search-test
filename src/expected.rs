@@ -83,11 +83,7 @@ impl TryFrom<ExpectedDetails> for Expected {
 
         match details.min_rank {
             Some(min_rank) => {
-                if details.count_expected() == 0 {
-                    Err(anyhow!("min-rank set but there is no expected result"))
-                } else {
-                    todo!()
-                }
+                todo!()
             }
             None => {
                 todo!()
