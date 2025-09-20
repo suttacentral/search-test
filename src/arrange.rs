@@ -1,6 +1,6 @@
 use crate::defaults::Defaults;
 use crate::expected::{Expected, ExpectedDetails};
-use crate::identifiers::{SearchResultKey, SuttaplexUid, TextUrl};
+use crate::identifiers::{SuttaplexUid, TextUrl};
 use anyhow::{Context, Result};
 use serde::Deserialize;
 
@@ -531,5 +531,31 @@ mod tests {
                 min_rank: 3
             }
         );
+    }
+
+    #[test]
+    fn test_expected_is_none_when_missing() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Find a suttaplex"
+            query = "mn1"
+        "#,
+        )
+        .unwrap();
+
+        let test_case = suite.test_cases().unwrap()[0].clone();
+        let expected = test_case.expected;
+        assert!(expected.is_none());
     }
 }

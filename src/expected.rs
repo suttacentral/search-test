@@ -41,18 +41,6 @@ impl ExpectedDetails {
         .filter(|x| *x)
         .count()
     }
-
-    pub fn min_rank(&self) -> Result<Option<usize>> {
-        if self.min_rank.is_none() {
-            return Ok(None);
-        };
-
-        match self.count_expected() {
-            0 => Err(anyhow!("min-rank must be accompanied by expected result")),
-            1 => Ok(self.min_rank),
-            _ => Err(anyhow!("More than one expected result specified.")),
-        }
-    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
