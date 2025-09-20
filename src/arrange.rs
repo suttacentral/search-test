@@ -58,11 +58,11 @@ impl TestCase {
         format!("Test case `{description}` missing `{key}` and no default provided.")
     }
 
-    fn expected(provided: &DetailsProvided) -> Result<Option<Expected>> {
+    fn expected(expected_details: &Option<ExpectedDetails>) -> Result<Option<Expected>> {
         let mut expected = None;
 
-        if let Some(details) = &provided.expected {
-            expected = Some(Expected::try_from(details)?);
+        if let Some(expected_details) = &expected_details {
+            expected = Some(Expected::try_from(expected_details)?);
         }
         Ok(expected)
     }
@@ -106,7 +106,7 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected = Self::expected(&provided)?;
+        let expected = Self::expected(&provided.expected)?;
 
         Ok(TestCase {
             description,
