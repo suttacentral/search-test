@@ -4,6 +4,7 @@ mod defaults;
 mod expected;
 mod identifiers;
 mod request;
+mod test_case;
 
 use crate::act::SearchResponse;
 use crate::arrange::TestSuite;

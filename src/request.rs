@@ -1,7 +1,7 @@
-use crate::arrange;
+use crate::test_case::TestCase;
 use reqwest::blocking::{Client, RequestBuilder};
 
-pub fn build(endpoint: String, test_case: arrange::TestCase) -> RequestBuilder {
+pub fn build(endpoint: String, test_case: TestCase) -> RequestBuilder {
     let params = vec![
         ("limit", test_case.limit.to_string()),
         ("query", test_case.query),
