@@ -1,6 +1,7 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use anyhow::{Result, anyhow};
 use serde::Deserialize;
+use std::cmp::min;
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
 #[serde(rename_all = "kebab-case", deny_unknown_fields)]
@@ -57,9 +58,69 @@ impl ExpectedDetails {
     }
 }
 
+#[derive(Clone, Debug, PartialEq)]
+enum Expected {
+    Unranked {
+        key: SearchResultKey,
+    },
+    Ranked {
+        key: SearchResultKey,
+        min_rank: usize,
+    },
+}
+
+impl TryFrom<ExpectedDetails> for Expected {
+    type Error = anyhow::Error;
+
+    fn try_from(details: ExpectedDetails) -> Result<Self> {
+        if (details.count_expected() > 1) {
+            return Err(anyhow!("more than one expected result provided"));
+        }
+
+        match details.min_rank {
+            Some(min_rank) => {
+                if details.count_expected() == 0 {
+                    Err(anyhow!("min-rank set but there is no expected result"))
+                } else {
+                    todo!()
+                }
+            }
+            None => {
+                todo!()
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn try_from_min_rank_with_no_expected_results_is_error() {
+        let details = ExpectedDetails {
+            min_rank: Some(3),
+            ..ExpectedDetails::default()
+        };
+
+        let error = Expected::try_from(details).unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "min-rank set but there is no expected result"
+        );
+    }
+
+    #[test]
+    fn try_from_multiple_expected_results_is_error() {
+        let details = ExpectedDetails {
+            suttaplex: Some(SuttaplexUid::from("mn1")),
+            sutta: Some(TextUrl::from("/mn1/en/bodhi")),
+            ..ExpectedDetails::default()
+        };
+
+        let error = Expected::try_from(details).unwrap_err();
+        assert_eq!(error.to_string(), "more than one expected result provided");
+    }
 
     #[test]
     fn count_expected() {
