@@ -58,13 +58,14 @@ impl TestCase {
         format!("Test case `{description}` missing `{key}` and no default provided.")
     }
 
-    fn expected(expected_details: &Option<ExpectedDetails>) -> Result<Option<Expected>> {
-        let mut expected = None;
-
-        if let Some(expected_details) = &expected_details {
-            expected = Some(Expected::try_from(expected_details)?);
+    fn expected(details: &Option<ExpectedDetails>) -> Result<Option<Expected>> {
+        match details {
+            Some(expected_details) => {
+                let expected = Expected::try_from(expected_details)?;
+                Ok(Some(expected))
+            }
+            None => Ok(None),
         }
-        Ok(expected)
     }
 
     fn combine(defaults: &Defaults, provided: &DetailsProvided) -> Result<TestCase> {
