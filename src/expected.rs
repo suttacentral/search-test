@@ -97,14 +97,11 @@ impl TryFrom<ExpectedDetails> for Expected {
             return Err(anyhow!("min-rank set but there is no expected result"));
         };
 
+        let key = details.search_key().unwrap();
+
         match details.min_rank {
-            Some(min_rank) => Ok(Expected::Ranked {
-                key: details.search_key().unwrap(),
-                min_rank,
-            }),
-            None => Ok(Expected::Unranked {
-                key: details.search_key().unwrap(),
-            }),
+            Some(min_rank) => Ok(Expected::Ranked { key, min_rank }),
+            None => Ok(Expected::Unranked { key }),
         }
     }
 }
