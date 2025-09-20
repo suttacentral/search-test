@@ -73,9 +73,13 @@ impl TryFrom<ExpectedDetails> for Expected {
     type Error = anyhow::Error;
 
     fn try_from(details: ExpectedDetails) -> Result<Self> {
-        if (details.count_expected() > 1) {
+        if details.count_expected() > 1 {
             return Err(anyhow!("more than one expected result provided"));
         }
+
+        if details.min_rank.is_some() && details.count_expected() == 0 {
+            return Err(anyhow!("min-rank set but there is no expected result"));
+        };
 
         match details.min_rank {
             Some(min_rank) => {
