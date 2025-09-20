@@ -16,21 +16,7 @@ pub struct TestCase {
 }
 
 impl TestCase {
-    fn missing_message(description: &str, key: &str) -> String {
-        format!("Test case `{description}` missing `{key}` and no default provided.")
-    }
-
-    fn expected(details: &Option<ExpectedDetails>) -> anyhow::Result<Option<Expected>> {
-        match details {
-            Some(expected_details) => {
-                let expected = Expected::try_from(expected_details)?;
-                Ok(Some(expected))
-            }
-            None => Ok(None),
-        }
-    }
-
-    pub fn combine(defaults: &Defaults, provided: &DetailsProvided) -> anyhow::Result<TestCase> {
+    pub fn new(defaults: &Defaults, provided: &DetailsProvided) -> anyhow::Result<TestCase> {
         let description = provided.description.clone();
         let query = provided.query.clone();
         let site_language = [&provided.site_language, &defaults.site_language]
@@ -81,5 +67,19 @@ impl TestCase {
             restrict,
             expected,
         })
+    }
+
+    fn missing_message(description: &str, key: &str) -> String {
+        format!("Test case `{description}` missing `{key}` and no default provided.")
+    }
+
+    fn expected(details: &Option<ExpectedDetails>) -> anyhow::Result<Option<Expected>> {
+        match details {
+            Some(expected_details) => {
+                let expected = Expected::try_from(expected_details)?;
+                Ok(Some(expected))
+            }
+            None => Ok(None),
+        }
     }
 }

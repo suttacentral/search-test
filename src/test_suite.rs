@@ -59,7 +59,7 @@ impl TestSuite {
     pub fn test_cases(&self) -> Result<Vec<TestCase>> {
         self.test_details
             .iter()
-            .map(|details| TestCase::combine(&self.defaults, details))
+            .map(|details| TestCase::new(&self.defaults, details))
             .collect()
     }
 }
@@ -240,7 +240,7 @@ mod tests {
             expected: None,
         };
 
-        let test_case = TestCase::combine(&example_defaults(), &details).unwrap();
+        let test_case = TestCase::new(&example_defaults(), &details).unwrap();
 
         assert_eq!(test_case, example_test_case());
     }
@@ -248,7 +248,7 @@ mod tests {
     #[test]
     fn can_combine_missing_defaults() {
         let defaults = Defaults::default();
-        let test_case = TestCase::combine(&defaults, &all_details_but_expected()).unwrap();
+        let test_case = TestCase::new(&defaults, &all_details_but_expected()).unwrap();
         assert_eq!(test_case, example_test_case());
     }
 
@@ -270,7 +270,7 @@ mod tests {
             expected: None,
         };
 
-        if let Err(error) = TestCase::combine(&defaults, &details) {
+        if let Err(error) = TestCase::new(&defaults, &details) {
             assert_eq!(
                 error.to_string(),
                 "Test case `Search in English only.` missing `site-language` and no default provided."
@@ -285,7 +285,7 @@ mod tests {
             ..all_details_but_expected()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -300,7 +300,7 @@ mod tests {
             ..all_details_but_expected()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -315,7 +315,7 @@ mod tests {
             ..all_details_but_expected()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -330,7 +330,7 @@ mod tests {
             ..all_details_but_expected()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
@@ -345,7 +345,7 @@ mod tests {
             ..all_details_but_expected()
         };
 
-        let error = TestCase::combine(&Defaults::default(), &missing).unwrap_err();
+        let error = TestCase::new(&Defaults::default(), &missing).unwrap_err();
 
         assert_eq!(
             error.to_string(),
