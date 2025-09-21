@@ -5,7 +5,7 @@ use std::fmt::Display;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
-enum Hit {
+pub enum Hit {
     Dictionary {
         category: String,
         url: DictionaryUrl,
@@ -45,7 +45,7 @@ impl Hit {
     }
 
     #[allow(unused)]
-    pub fn new_text(uid: &str, lang: &str, author: &str) -> Hit {
+    fn new_text(uid: &str, lang: &str, author: &str) -> Hit {
         let url = format!("/{uid}/{lang}/{author}");
 
         Hit::Text {
@@ -57,7 +57,7 @@ impl Hit {
     }
 
     #[allow(unused)]
-    pub fn new_dictionary(word: &str) -> Hit {
+    fn new_dictionary(word: &str) -> Hit {
         let url = format!("/define/{word}");
 
         Hit::Dictionary {
@@ -68,21 +68,21 @@ impl Hit {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct Suttaplex {
-    pub uid: SuttaplexUid,
+struct Suttaplex {
+    uid: SuttaplexUid,
 }
 
 #[derive(Deserialize, Debug)]
-pub struct FuzzyDictionary {
-    pub url: DictionaryUrl,
+struct FuzzyDictionary {
+    url: DictionaryUrl,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SearchResponse {
-    pub total: u16,
-    pub hits: Vec<Hit>,
-    pub suttaplex: Vec<Suttaplex>,
-    pub fuzzy_dictionary: Vec<FuzzyDictionary>,
+    total: u16,
+    hits: Vec<Hit>,
+    suttaplex: Vec<Suttaplex>,
+    fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
 impl SearchResponse {
