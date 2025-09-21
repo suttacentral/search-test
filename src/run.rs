@@ -4,7 +4,7 @@ pub struct Runner {
     suite: TestSuite,
 }
 
-struct TestResult {
+pub struct TestResult {
     pub passed: bool,
 }
 
