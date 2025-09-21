@@ -5,7 +5,7 @@ use std::fmt::Display;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
-pub enum Hit {
+enum Hit {
     Dictionary {
         category: String,
         url: DictionaryUrl,
