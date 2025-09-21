@@ -4,6 +4,7 @@ mod identifiers;
 mod request;
 mod response;
 mod run;
+mod search_results;
 mod test_case;
 mod test_suite;
 

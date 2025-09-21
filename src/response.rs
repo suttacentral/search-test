@@ -92,19 +92,19 @@ impl SearchResponse {
             .map(|position| position + 1)
     }
 
-    fn text_hits(&self) -> impl Iterator<Item = TextUrl> {
+    pub fn text_hits(&self) -> impl Iterator<Item = TextUrl> {
         self.hits.iter().filter_map(|h| h.text_url())
     }
 
-    fn dictionary_hits(&self) -> impl Iterator<Item = DictionaryUrl> {
+    pub fn dictionary_hits(&self) -> impl Iterator<Item = DictionaryUrl> {
         self.hits.iter().filter_map(|h| h.dictionary_url())
     }
 
-    fn fuzzy_dictionary_hits(&self) -> impl Iterator<Item = DictionaryUrl> {
+    pub fn fuzzy_dictionary_hits(&self) -> impl Iterator<Item = DictionaryUrl> {
         self.fuzzy_dictionary.iter().map(|d| d.url.clone())
     }
 
-    fn suttaplex_hits(&self) -> impl Iterator<Item = SuttaplexUid> {
+    pub fn suttaplex_hits(&self) -> impl Iterator<Item = SuttaplexUid> {
         self.suttaplex.iter().map(|s| s.uid.clone())
     }
 }
