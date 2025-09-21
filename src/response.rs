@@ -67,16 +67,10 @@ impl SearchResponse {
     #[allow(unused)]
     pub fn rank(&self, result: SearchResultKey) -> Option<usize> {
         match result {
-            SearchResultKey::Text { url } => self.rank_text(url),
+            SearchResultKey::Text { url } => panic!("Removed"),
             SearchResultKey::Dictionary { url } => self.rank_dictionary(url),
             SearchResultKey::Suttaplex { uid } => self.rank_suttaplex(uid),
         }
-    }
-
-    fn rank_text(&self, url: TextUrl) -> Option<usize> {
-        self.text_hits()
-            .position(|h| h == url)
-            .map(|position| position + 1)
     }
 
     fn rank_dictionary(&self, url: DictionaryUrl) -> Option<usize> {
@@ -284,33 +278,6 @@ mod tests {
             response.fuzzy_dictionary_hits().next().unwrap(),
             DictionaryUrl::from("/define/anupacchinnā")
         );
-    }
-
-    #[test]
-    fn rank_text_hits() {
-        let response = SearchResponse {
-            total: 0,
-            suttaplex: Vec::new(),
-            fuzzy_dictionary: Vec::new(),
-            hits: vec![
-                Hit::new_text("mn1", "en", "bodhi"),
-                Hit::new_dictionary("metta"),
-                Hit::new_text("mn2", "en", "bodhi"),
-            ],
-        };
-        let mn1 = SearchResultKey::Text {
-            url: TextUrl::from("/mn1/en/bodhi"),
-        };
-        let mn2 = SearchResultKey::Text {
-            url: TextUrl::from("/mn2/en/bodhi"),
-        };
-        let missing = SearchResultKey::Text {
-            url: TextUrl::from("/mn1/fr/bodhi"),
-        };
-
-        assert_eq!(response.rank(mn1), Some(1));
-        assert_eq!(response.rank(mn2), Some(2));
-        assert_eq!(response.rank(missing), None);
     }
 
     #[test]
