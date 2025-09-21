@@ -4,7 +4,6 @@ use crate::test_suite::TestSuite;
 use crate::request::build;
 use crate::response::SearchResponse;
 use anyhow::{Context, Result};
-use serde::Deserialize;
 
 pub struct Runner {
     suite: TestSuite,
@@ -36,11 +35,11 @@ impl Runner {
             Ok(test_case) => {
                 let response = Self::send(self.suite.endpoint(), test_case);
                 match response {
-                    Ok(response) => TestResult { passed: true },
-                    Err(error) => TestResult { passed: false },
+                    Ok(_response) => TestResult { passed: true },
+                    Err(_error) => TestResult { passed: false },
                 }
             }
-            Err(error) => TestResult { passed: false },
+            Err(_error) => TestResult { passed: false },
         }
     }
 }
