@@ -1,4 +1,4 @@
-use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::Display;
@@ -44,6 +44,7 @@ impl Hit {
         }
     }
 
+    #[allow(unused)]
     pub fn new_text(uid: &str, lang: &str, author: &str) -> Hit {
         let url = format!("/{uid}/{lang}/{author}");
 
@@ -55,6 +56,7 @@ impl Hit {
         }
     }
 
+    #[allow(unused)]
     pub fn new_dictionary(word: &str) -> Hit {
         let url = format!("/define/{word}");
 
@@ -118,6 +120,57 @@ impl Display for SearchResponse {
             .try_for_each(|uid| writeln!(f, "Suttaplex hit: {uid}"))?;
 
         Ok(())
+    }
+}
+
+pub struct SearchResults {
+    pub text: Vec<TextUrl>,
+    pub dictionary: Vec<DictionaryUrl>,
+    pub suttaplex: Vec<SuttaplexUid>,
+}
+
+impl From<SearchResponse> for SearchResults {
+    fn from(response: SearchResponse) -> Self {
+        SearchResults {
+            text: response.text_hits().collect(),
+            suttaplex: response.suttaplex_hits().collect(),
+            dictionary: response
+                .dictionary_hits()
+                .chain(response.fuzzy_dictionary_hits())
+                .collect(),
+        }
+    }
+}
+
+impl SearchResults {
+    #[allow(unused)]
+    pub fn rank(&self, result: &SearchResultKey) -> Option<usize> {
+        match result {
+            SearchResultKey::Text { url } => self.rank_text(url),
+            SearchResultKey::Dictionary { url } => self.rank_dictionary(url),
+            SearchResultKey::Suttaplex { uid } => self.rank_suttaplex(uid),
+        }
+    }
+
+    fn rank_text(&self, url: &TextUrl) -> Option<usize> {
+        self.text
+            .iter()
+            .position(|h| h == url)
+            .map(|position| position + 1)
+    }
+
+    fn rank_dictionary(&self, url: &DictionaryUrl) -> Option<usize> {
+        self.dictionary
+            .iter()
+            .position(|h| h == url)
+            .map(|position| position + 1)
+    }
+
+    fn rank_suttaplex(&self, uri: &SuttaplexUid) -> Option<usize> {
+        self.suttaplex
+            .iter()
+            .position(|hit| hit == uri)
+            .map(|position| position + 1)
     }
 }
 
@@ -254,5 +307,97 @@ mod tests {
             response.fuzzy_dictionary_hits().next().unwrap(),
             DictionaryUrl::from("/define/anupacchinnā")
         );
+    }
+
+    #[test]
+    fn rank_text_hits() {
+        let response = SearchResponse {
+            total: 0,
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            hits: vec![
+                Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_dictionary("metta"),
+                Hit::new_text("mn2", "en", "bodhi"),
+            ],
+        };
+
+        let result = SearchResults::from(response);
+
+        let mn1 = SearchResultKey::Text {
+            url: TextUrl::from("/mn1/en/bodhi"),
+        };
+        let mn2 = SearchResultKey::Text {
+            url: TextUrl::from("/mn2/en/bodhi"),
+        };
+        let missing = SearchResultKey::Text {
+            url: TextUrl::from("/mn1/fr/bodhi"),
+        };
+
+        assert_eq!(result.rank(&mn1), Some(1));
+        assert_eq!(result.rank(&mn2), Some(2));
+        assert_eq!(result.rank(&missing), None);
+    }
+
+    #[test]
+    fn rank_dictionary_hits() {
+        let response = SearchResponse {
+            total: 0,
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: vec![FuzzyDictionary {
+                url: DictionaryUrl::from("/define/nibbana"),
+            }],
+            hits: vec![
+                Hit::new_dictionary("metta"),
+                Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_dictionary("dosa"),
+            ],
+        };
+
+        let result = SearchResults::from(response);
+
+        let metta = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/metta"),
+        };
+        let dosa = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/dosa"),
+        };
+        let nibbana = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/nibbana"),
+        };
+        let brahma = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/brahma"),
+        };
+
+        assert_eq!(result.rank(&metta), Some(1));
+        assert_eq!(result.rank(&dosa), Some(2));
+        assert_eq!(result.rank(&nibbana), Some(3));
+        assert_eq!(result.rank(&brahma), None);
+    }
+
+    #[test]
+    fn rank_suttaplex_hits() {
+        let response = SearchResponse {
+            total: 0,
+            hits: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
+        };
+
+        let result = SearchResults::from(response);
+
+        let mn1 = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn1"),
+        };
+        let mn2 = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn2"),
+        };
+        let mn3 = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn3"),
+        };
+
+        assert_eq!(result.rank(&mn1), Some(1));
+        assert_eq!(result.rank(&mn2), Some(2));
+        assert_eq!(result.rank(&mn3), None);
     }
 }
