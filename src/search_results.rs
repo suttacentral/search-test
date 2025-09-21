@@ -24,9 +24,9 @@ impl SearchResults {
     #[allow(unused)]
     pub fn rank(&self, result: &SearchResultKey) -> Option<usize> {
         match result {
-            SearchResultKey::Text { url } => self.rank_text(&url),
-            SearchResultKey::Dictionary { url } => self.rank_dictionary(&url),
-            SearchResultKey::Suttaplex { uid } => todo!(),
+            SearchResultKey::Text { url } => self.rank_text(url),
+            SearchResultKey::Dictionary { url } => self.rank_dictionary(url),
+            SearchResultKey::Suttaplex { uid } => self.rank_suttaplex(uid),
         }
     }
 
@@ -43,13 +43,20 @@ impl SearchResults {
             .position(|h| h == url)
             .map(|position| position + 1)
     }
+
+    fn rank_suttaplex(&self, uri: &SuttaplexUid) -> Option<usize> {
+        self.suttaplex
+            .iter()
+            .position(|hit| hit == uri)
+            .map(|position| position + 1)
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, TextUrl};
-    use crate::response::{FuzzyDictionary, Hit, SearchResponse};
+    use crate::response::{FuzzyDictionary, Hit, SearchResponse, Suttaplex};
     use crate::search_results::SearchResults;
 
     #[test]
@@ -116,5 +123,31 @@ mod tests {
         assert_eq!(result.rank(&dosa), Some(2));
         assert_eq!(result.rank(&nibbana), Some(3));
         assert_eq!(result.rank(&brahma), None);
+    }
+
+    #[test]
+    fn rank_suttaplex_hits() {
+        let response = SearchResponse {
+            total: 0,
+            hits: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
+        };
+
+        let result = SearchResults::from(response);
+
+        let mn1 = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn1"),
+        };
+        let mn2 = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn2"),
+        };
+        let mn3 = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn3"),
+        };
+
+        assert_eq!(result.rank(&mn1), Some(1));
+        assert_eq!(result.rank(&mn2), Some(2));
+        assert_eq!(result.rank(&mn3), None);
     }
 }
