@@ -5,7 +5,7 @@ use std::fmt::Display;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
-enum Hit {
+pub enum Hit {
     Dictionary {
         category: String,
         url: DictionaryUrl,
@@ -43,24 +43,44 @@ impl Hit {
             None
         }
     }
+
+    pub fn new_text(uid: &str, lang: &str, author: &str) -> Hit {
+        let url = format!("/{uid}/{lang}/{author}");
+
+        Hit::Text {
+            uid: String::from(uid),
+            lang: String::from(lang),
+            author_uid: Some(String::from(author)),
+            url: TextUrl::from(url.as_str()),
+        }
+    }
+
+    pub fn new_dictionary(word: &str) -> Hit {
+        let url = format!("/define/{word}");
+
+        Hit::Dictionary {
+            category: String::from("dictionary"),
+            url: DictionaryUrl::from(url.as_str()),
+        }
+    }
 }
 
 #[derive(Deserialize, Debug)]
-struct Suttaplex {
-    uid: SuttaplexUid,
+pub struct Suttaplex {
+    pub uid: SuttaplexUid,
 }
 
 #[derive(Deserialize, Debug)]
-struct FuzzyDictionary {
-    url: DictionaryUrl,
+pub struct FuzzyDictionary {
+    pub url: DictionaryUrl,
 }
 
 #[derive(Deserialize, Debug)]
 pub struct SearchResponse {
-    total: u16,
-    hits: Vec<Hit>,
-    suttaplex: Vec<Suttaplex>,
-    fuzzy_dictionary: Vec<FuzzyDictionary>,
+    pub total: u16,
+    pub hits: Vec<Hit>,
+    pub suttaplex: Vec<Suttaplex>,
+    pub fuzzy_dictionary: Vec<FuzzyDictionary>,
 }
 
 impl SearchResponse {
@@ -132,28 +152,6 @@ mod tests {
         fn from(value: &str) -> Self {
             Self {
                 uid: SuttaplexUid::from(value),
-            }
-        }
-    }
-
-    impl Hit {
-        fn new_text(uid: &str, lang: &str, author: &str) -> Hit {
-            let url = format!("/{uid}/{lang}/{author}");
-
-            Hit::Text {
-                uid: String::from(uid),
-                lang: String::from(lang),
-                author_uid: Some(String::from(author)),
-                url: TextUrl::from(url.as_str()),
-            }
-        }
-
-        fn new_dictionary(word: &str) -> Hit {
-            let url = format!("/define/{word}");
-
-            Hit::Dictionary {
-                category: String::from("dictionary"),
-                url: DictionaryUrl::from(url.as_str()),
             }
         }
     }

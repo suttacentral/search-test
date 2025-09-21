@@ -40,11 +40,25 @@ impl SearchResults {
 
 #[cfg(test)]
 mod tests {
-    use crate::identifiers::{SearchResultKey, TextUrl};
+    use super::*;
+    use crate::identifiers::{DictionaryUrl, SearchResultKey, TextUrl};
+    use crate::response::{FuzzyDictionary, Hit, SearchResponse};
     use crate::search_results::SearchResults;
 
     #[test]
     fn rank_text_hits() {
+        let response = SearchResponse {
+            total: 0,
+            suttaplex: Vec::new(),
+            fuzzy_dictionary: Vec::new(),
+            hits: vec![
+                Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_dictionary("metta"),
+                Hit::new_text("mn2", "en", "bodhi"),
+            ],
+        };
+        let result = SearchResults::from(response);
+
         let mn1 = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
         };
@@ -55,17 +69,42 @@ mod tests {
             url: TextUrl::from("/mn1/fr/bodhi"),
         };
 
-        let results = SearchResults {
-            text: vec![
-                TextUrl::from("/mn1/en/bodhi"),
-                TextUrl::from("/mn2/en/bodhi"),
-            ],
-            dictionary: Vec::new(),
+        assert_eq!(result.rank(&mn1), Some(1));
+        assert_eq!(result.rank(&mn2), Some(2));
+        assert_eq!(result.rank(&missing), None);
+    }
+
+    #[test]
+    fn rank_dictionary_hits() {
+        let response = SearchResponse {
+            total: 0,
             suttaplex: Vec::new(),
+            fuzzy_dictionary: vec![FuzzyDictionary {
+                url: DictionaryUrl::from("/define/nibbana"),
+            }],
+            hits: vec![
+                Hit::new_dictionary("metta"),
+                Hit::new_text("mn1", "en", "bodhi"),
+                Hit::new_dictionary("dosa"),
+            ],
         };
 
-        assert_eq!(results.rank(&mn1), Some(1));
-        assert_eq!(results.rank(&mn2), Some(2));
-        assert_eq!(results.rank(&missing), None);
+        let metta = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/metta"),
+        };
+        let dosa = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/dosa"),
+        };
+        let nibbana = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/nibbana"),
+        };
+        let brahma = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/brahma"),
+        };
+
+        assert_eq!(response.rank(metta), Some(1));
+        assert_eq!(response.rank(dosa), Some(2));
+        assert_eq!(response.rank(nibbana), Some(3));
+        assert_eq!(response.rank(brahma), None);
     }
 }
