@@ -3,15 +3,11 @@ use crate::test_suite::TestSuite;
 
 use crate::request::build;
 use crate::response::SearchResponse;
+use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
 pub struct Runner {
     suite: TestSuite,
-}
-
-#[derive(Clone, Debug, Default, PartialEq)]
-pub struct TestResult {
-    pub passed: bool,
 }
 
 impl Runner {

@@ -5,6 +5,7 @@ mod request;
 mod response;
 mod run;
 mod test_case;
+mod test_result;
 mod test_suite;
 
 use crate::run::Runner;
