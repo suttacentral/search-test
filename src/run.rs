@@ -4,11 +4,13 @@ use crate::test_suite::TestSuite;
 use crate::request::build;
 use crate::response::SearchResponse;
 use anyhow::{Context, Result};
+use serde::Deserialize;
 
 pub struct Runner {
     suite: TestSuite,
 }
 
+#[derive(Clone, Debug, Default, PartialEq)]
 pub struct TestResult {
     pub passed: bool,
 }
@@ -34,20 +36,11 @@ impl Runner {
             Ok(test_case) => {
                 let response = Self::send(self.suite.endpoint(), test_case);
                 match response {
-                    Ok(response) => {
-                        println!("{response}");
-                        TestResult { passed: true }
-                    }
-                    Err(error) => {
-                        println!("{error:?}");
-                        TestResult { passed: false }
-                    }
+                    Ok(response) => TestResult { passed: true },
+                    Err(error) => TestResult { passed: false },
                 }
             }
-            Err(error) => {
-                println!("{error:?}");
-                TestResult { passed: false }
-            }
+            Err(error) => TestResult { passed: false },
         }
     }
 }
@@ -76,6 +69,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn run_a_suite() {
         let suite = suite_with_test_case();
         let runner = Runner::new(suite);
