@@ -6,16 +6,22 @@ use crate::response::{SearchResponse, SearchResults};
 use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
+trait SearchEngine {
+    fn search(&self, test_case: &TestCase) -> Result<SearchResponse>;
+}
+
 #[derive(Debug)]
-struct SearchEngine {
+struct HttpSearchEngine {
     endpoint: String,
 }
 
-impl SearchEngine {
+impl HttpSearchEngine {
     fn new(endpoint: String) -> Self {
         Self { endpoint }
     }
+}
 
+impl SearchEngine for HttpSearchEngine {
     fn search(&self, test_case: &TestCase) -> Result<SearchResponse> {
         let response = build(self.endpoint.clone(), test_case).send()?;
         response.json().context("Could not get JSON from response")
@@ -24,14 +30,14 @@ impl SearchEngine {
 
 #[derive(Debug)]
 pub struct Runner {
-    search_engine: SearchEngine,
+    search_engine: HttpSearchEngine,
     test_cases: Vec<TestCase>,
 }
 
 impl Runner {
     pub fn new(suite: TestSuite) -> Result<Self> {
         let test_cases = suite.test_cases().collect::<Result<Vec<_>>>()?;
-        let search_engine = SearchEngine::new(suite.endpoint().clone());
+        let search_engine = HttpSearchEngine::new(suite.endpoint().clone());
 
         Ok(Self {
             search_engine,
