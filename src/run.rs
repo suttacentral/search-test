@@ -7,26 +7,42 @@ use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
 #[derive(Debug)]
+struct SearchEngine {
+    endpoint: String,
+}
+
+impl SearchEngine {
+    fn new(endpoint: String) -> Self {
+        Self { endpoint }
+    }
+
+    fn get_response(&self, test_case: &TestCase) -> Result<SearchResponse> {
+        let response = build(self.endpoint.clone(), test_case).send()?;
+        response.json().context("Could not get JSON from response")
+    }
+}
+
+#[derive(Debug)]
 pub struct Runner {
-    suite: TestSuite,
+    search_engine: SearchEngine,
     test_cases: Vec<TestCase>,
 }
 
 impl Runner {
     pub fn new(suite: TestSuite) -> Result<Self> {
         let test_cases = suite.test_cases().collect::<Result<Vec<_>>>()?;
-        Ok(Self { suite, test_cases })
+        let search_engine = SearchEngine::new(suite.endpoint().clone());
+
+        Ok(Self {
+            search_engine,
+            test_cases,
+        })
     }
 
     pub fn run(&self) -> impl Iterator<Item = TestResult> {
         self.test_cases
             .iter()
             .map(|test_case| self.run_test(test_case))
-    }
-
-    fn get_response(endpoint: String, test_case: &TestCase) -> Result<SearchResponse> {
-        let response = build(endpoint, test_case).send()?;
-        response.json().context("Could not get JSON from response")
     }
 
     fn search_results(response: Result<SearchResponse>) -> Result<SearchResults> {
@@ -37,7 +53,7 @@ impl Runner {
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let response = Self::get_response(self.suite.endpoint(), test_case);
+        let response = self.search_engine.get_response(test_case);
         let results = Self::search_results(response);
         TestResult::new(test_case, results)
     }
