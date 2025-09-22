@@ -30,7 +30,7 @@ impl Runner {
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let response = Self::send(self.suite.endpoint(), &test_case);
+        let response = Self::send(self.suite.endpoint(), test_case);
         match response {
             Ok(response) => TestResult::new(test_case, Ok(SearchResults::from(response))),
             Err(error) => TestResult::new(test_case, Err(error)),
