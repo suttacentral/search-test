@@ -45,17 +45,17 @@ impl Runner {
             .map(|test_case| self.run_test(test_case))
     }
 
+    fn run_test(&self, test_case: &TestCase) -> TestResult {
+        let response = self.search_engine.search(test_case);
+        let results = Self::search_results(response);
+        TestResult::new(test_case, results)
+    }
+
     fn search_results(response: Result<SearchResponse>) -> Result<SearchResults> {
         match response {
             Ok(response) => Ok(SearchResults::from(response)),
             Err(error) => Err(error),
         }
-    }
-
-    fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let response = self.search_engine.search(test_case);
-        let results = Self::search_results(response);
-        TestResult::new(test_case, results)
     }
 }
 
