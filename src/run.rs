@@ -16,7 +16,7 @@ impl SearchEngine {
         Self { endpoint }
     }
 
-    fn get_response(&self, test_case: &TestCase) -> Result<SearchResponse> {
+    fn search(&self, test_case: &TestCase) -> Result<SearchResponse> {
         let response = build(self.endpoint.clone(), test_case).send()?;
         response.json().context("Could not get JSON from response")
     }
@@ -53,7 +53,7 @@ impl Runner {
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let response = self.search_engine.get_response(test_case);
+        let response = self.search_engine.search(test_case);
         let results = Self::search_results(response);
         TestResult::new(test_case, results)
     }
