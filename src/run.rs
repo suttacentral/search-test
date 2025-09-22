@@ -6,13 +6,16 @@ use crate::response::{SearchResponse, SearchResults};
 use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
+#[derive(Debug)]
 pub struct Runner {
     suite: TestSuite,
+    test_cases: Vec<TestCase>,
 }
 
 impl Runner {
-    pub fn new(suite: TestSuite) -> Self {
-        Self { suite }
+    pub fn new(suite: TestSuite) -> Result<Self> {
+        let test_cases = suite.test_cases().collect::<Result<Vec<_>>>()?;
+        Ok(Self { suite, test_cases })
     }
 
     pub fn run(&self) -> impl Iterator<Item = TestResult> {
@@ -64,11 +67,33 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
-    fn run_a_suite() {
+    fn all_good_test_cases_gives_new_runner() {
         let suite = suite_with_test_case();
-        let runner = Runner::new(suite);
-        let result = runner.run().next().unwrap();
-        assert!(result.passed);
+        let runner = Runner::new(suite).unwrap();
+        assert_eq!(runner.test_cases.len(), 1)
+    }
+
+    fn suite_with_bad_test_case() -> TestSuite {
+        TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [[test-case]]
+            description = "Search for the metta sutta in English and Pali"
+            query = "metta"
+            "#,
+        )
+        .unwrap()
+    }
+
+    #[test]
+    fn bad_test_fails_to_give_a_runner() {
+        let suite = suite_with_bad_test_case();
+        let error = Runner::new(suite).unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "Test case `Search for the metta sutta in English and Pali` missing `site-language` and no default provided."
+        );
     }
 }

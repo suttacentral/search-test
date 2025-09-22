@@ -14,7 +14,7 @@ use crate::test_suite::TestSuite;
 fn main() {
     let toml = std::fs::read_to_string("test-cases/play.toml").unwrap();
     let suite = TestSuite::load_from_string(toml.as_str()).unwrap();
-    let runner = Runner::new(suite);
+    let runner = Runner::new(suite).unwrap();
 
     for result in runner.run() {
         println!("{result:?}");
