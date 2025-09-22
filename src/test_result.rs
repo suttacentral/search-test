@@ -8,7 +8,7 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    pub fn new(test_case: TestCase, search_results: Result<SearchResults>) -> Self {
+    pub fn new(test_case: &TestCase, search_results: Result<SearchResults>) -> Self {
         Self { passed: true }
     }
 }
@@ -20,8 +20,8 @@ mod tests {
     #[test]
     fn construct_test_result() {
         let test_case = TestCase {
-            description: "Search in English only.".to_string(),
-            query: "metta".to_string(),
+            description: "Description".to_string(),
+            query: "query".to_string(),
             site_language: "en".to_string(),
             selected_languages: vec!["en".to_string()],
             match_partial: false,
@@ -36,6 +36,6 @@ mod tests {
             suttaplex: Vec::new(),
         };
 
-        let _test_result = TestResult::new(test_case, Ok(search_results));
+        let _test_result = TestResult::new(&test_case, Ok(search_results));
     }
 }

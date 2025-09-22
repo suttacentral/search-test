@@ -19,8 +19,8 @@ impl Runner {
     }
 
     pub fn run(&self) -> impl Iterator<Item = TestResult> {
-        self.suite
-            .test_cases()
+        self.test_cases
+            .iter()
             .map(|test_case| self.run_test(test_case))
     }
 
@@ -29,16 +29,11 @@ impl Runner {
         response.json().context("Could not get JSON from response")
     }
 
-    fn run_test(&self, test_case: Result<TestCase>) -> TestResult {
-        match test_case {
-            Ok(test_case) => {
-                let response = Self::send(self.suite.endpoint(), &test_case);
-                match response {
-                    Ok(response) => TestResult::new(test_case, Ok(SearchResults::from(response))),
-                    Err(error) => TestResult::new(test_case, Err(error)),
-                }
-            }
-            Err(_error) => TestResult { passed: false },
+    fn run_test(&self, test_case: &TestCase) -> TestResult {
+        let response = Self::send(self.suite.endpoint(), &test_case);
+        match response {
+            Ok(response) => TestResult::new(test_case, Ok(SearchResults::from(response))),
+            Err(error) => TestResult::new(test_case, Err(error)),
         }
     }
 }
