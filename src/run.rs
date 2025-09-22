@@ -24,13 +24,13 @@ impl Runner {
             .map(|test_case| self.run_test(test_case))
     }
 
-    fn send(endpoint: String, test_case: &TestCase) -> Result<SearchResponse> {
+    fn get_response(endpoint: String, test_case: &TestCase) -> Result<SearchResponse> {
         let response = build(endpoint, test_case).send()?;
         response.json().context("Could not get JSON from response")
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let response = Self::send(self.suite.endpoint(), test_case);
+        let response = Self::get_response(self.suite.endpoint(), test_case);
         match response {
             Ok(response) => TestResult::new(test_case, Ok(SearchResults::from(response))),
             Err(error) => TestResult::new(test_case, Err(error)),
