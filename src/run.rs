@@ -11,12 +11,12 @@ trait SearchEngine {
 }
 
 #[derive(Debug)]
-struct LiveSearchEngine {
+pub struct LiveSearchEngine {
     endpoint: String,
 }
 
 impl LiveSearchEngine {
-    fn new(endpoint: String) -> Self {
+    pub fn new(endpoint: String) -> Self {
         Self { endpoint }
     }
 }
@@ -29,15 +29,14 @@ impl SearchEngine for LiveSearchEngine {
 }
 
 #[derive(Debug)]
-pub struct Runner {
-    search_engine: LiveSearchEngine,
+pub struct Runner<T: SearchEngine> {
+    search_engine: T,
     test_cases: Vec<TestCase>,
 }
 
-impl Runner {
-    pub fn new(suite: TestSuite) -> Result<Self> {
+impl<T: SearchEngine> Runner<T> {
+    pub fn new(suite: TestSuite, search_engine: T) -> Result<Self> {
         let test_cases = suite.test_cases().collect::<Result<Vec<_>>>()?;
-        let search_engine = LiveSearchEngine::new(suite.endpoint().clone());
 
         Ok(Self {
             search_engine,
@@ -69,6 +68,15 @@ impl Runner {
 mod tests {
     use super::*;
 
+    #[derive(Debug)]
+    struct FakeSearchEngine;
+
+    impl SearchEngine for FakeSearchEngine {
+        fn search(&self, _test_case: &TestCase) -> Result<SearchResponse> {
+            todo!()
+        }
+    }
+
     fn suite_with_test_case() -> TestSuite {
         TestSuite::load_from_string(
             r#"
@@ -91,7 +99,7 @@ mod tests {
     #[test]
     fn all_good_test_cases_gives_new_runner() {
         let suite = suite_with_test_case();
-        let runner = Runner::new(suite).unwrap();
+        let runner = Runner::new(suite, FakeSearchEngine {}).unwrap();
         assert_eq!(runner.test_cases.len(), 1)
     }
 
@@ -112,7 +120,7 @@ mod tests {
     #[test]
     fn bad_test_fails_to_give_a_runner() {
         let suite = suite_with_bad_test_case();
-        let error = Runner::new(suite).unwrap_err();
+        let error = Runner::new(suite, FakeSearchEngine {}).unwrap_err();
         assert_eq!(
             error.to_string(),
             "Test case `Search for the metta sutta in English and Pali` missing `site-language` and no default provided."
