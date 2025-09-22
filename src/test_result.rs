@@ -1,5 +1,6 @@
 use crate::response::SearchResults;
 use crate::test_case::TestCase;
+use anyhow::Result;
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct TestResult {
@@ -7,7 +8,8 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    fn new(test_case: &TestCase, search_results: &SearchResults) -> Self {
+    #[allow(unused)]
+    fn new(test_case: TestCase, search_results: Result<SearchResults>) -> Self {
         Self { passed: true }
     }
 }
@@ -35,6 +37,6 @@ mod tests {
             suttaplex: Vec::new(),
         };
 
-        let test_result = TestResult::new(&test_case, &search_results);
+        let _test_result = TestResult::new(test_case, Ok(search_results));
     }
 }
