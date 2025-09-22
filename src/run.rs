@@ -6,7 +6,7 @@ use crate::response::{SearchResponse, SearchResults};
 use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
-trait SearchEngine {
+pub trait SearchEngine {
     fn search(&self, test_case: &TestCase) -> Result<SearchResponse>;
 }
 
