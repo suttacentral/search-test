@@ -2,7 +2,7 @@ use crate::test_case::TestCase;
 use crate::test_suite::TestSuite;
 
 use crate::request::build;
-use crate::response::SearchResponse;
+use crate::response::{SearchResponse, SearchResults};
 use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
@@ -21,7 +21,7 @@ impl Runner {
             .map(|test_case| self.run_test(test_case))
     }
 
-    fn send(endpoint: String, test_case: TestCase) -> Result<SearchResponse> {
+    fn send(endpoint: String, test_case: &TestCase) -> Result<SearchResponse> {
         let response = build(endpoint, test_case).send()?;
         response.json().context("Could not get JSON from response")
     }
@@ -29,10 +29,10 @@ impl Runner {
     fn run_test(&self, test_case: Result<TestCase>) -> TestResult {
         match test_case {
             Ok(test_case) => {
-                let response = Self::send(self.suite.endpoint(), test_case);
+                let response = Self::send(self.suite.endpoint(), &test_case);
                 match response {
-                    Ok(_response) => TestResult { passed: true },
-                    Err(_error) => TestResult { passed: false },
+                    Ok(response) => TestResult::new(test_case, Ok(SearchResults::from(response))),
+                    Err(error) => TestResult::new(test_case, Err(error)),
                 }
             }
             Err(_error) => TestResult { passed: false },

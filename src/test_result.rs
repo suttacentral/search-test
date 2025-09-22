@@ -8,8 +8,7 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    #[allow(unused)]
-    fn new(test_case: TestCase, search_results: Result<SearchResults>) -> Self {
+    pub fn new(test_case: TestCase, search_results: Result<SearchResults>) -> Self {
         Self { passed: true }
     }
 }
