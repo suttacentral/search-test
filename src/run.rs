@@ -161,7 +161,7 @@ mod tests {
         .unwrap();
 
         let search_results = SearchResults {
-            duration: Duration::from_secs(0),
+            duration: Duration::from_secs(3),
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("snp1.8")],
@@ -171,5 +171,6 @@ mod tests {
         let runner = Runner::new(suite, engine).unwrap();
         let test_result = runner.run().next().unwrap();
         assert!(test_result.passed);
+        assert_eq!(test_result.duration, Duration::from_secs(3))
     }
 }
