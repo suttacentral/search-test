@@ -1,48 +1,9 @@
 use crate::test_case::TestCase;
 use crate::test_suite::TestSuite;
-use std::time::{Duration, Instant};
 
-use crate::request::build;
-use crate::response::{SearchResponse, SearchResults};
+use crate::search_service::SearchEngine;
 use crate::test_result::TestResult;
-use anyhow::{Context, Result};
-
-pub trait SearchEngine {
-    fn search(&self, test_case: &TestCase) -> Result<SearchResults>;
-}
-
-#[derive(Debug)]
-pub struct LiveSearchEngine {
-    endpoint: String,
-}
-
-impl LiveSearchEngine {
-    pub fn new(endpoint: String) -> Self {
-        Self { endpoint }
-    }
-
-    fn search_results(
-        response: Result<SearchResponse>,
-        duration: Duration,
-    ) -> Result<SearchResults> {
-        match response {
-            Ok(response) => Ok(SearchResults::new(response, duration)),
-            Err(error) => Err(error),
-        }
-    }
-}
-
-impl SearchEngine for LiveSearchEngine {
-    fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
-        let start = Instant::now();
-        let http_response = build(self.endpoint.clone(), test_case).send()?;
-        let search_response = http_response
-            .json()
-            .context("Could not get JSON from response");
-        let duration = start.elapsed();
-        Self::search_results(search_response, duration)
-    }
-}
+use anyhow::Result;
 
 #[derive(Debug)]
 pub struct Runner<T: SearchEngine> {
@@ -76,7 +37,10 @@ impl<T: SearchEngine> Runner<T> {
 mod tests {
     use super::*;
     use crate::identifiers::SuttaplexUid;
+    use crate::response::SearchResults;
+    use anyhow::Context;
     use std::cell::RefCell;
+    use std::time::Duration;
 
     #[derive(Debug)]
     struct FakeSearchEngine {
