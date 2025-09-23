@@ -1,22 +1,22 @@
 use crate::test_case::TestCase;
 use crate::test_suite::TestSuite;
 
-use crate::search_service::SearchEngine;
+use crate::search_service::SearchService;
 use crate::test_result::TestResult;
 use anyhow::Result;
 
 #[derive(Debug)]
-pub struct Runner<T: SearchEngine> {
-    search_engine: T,
+pub struct Runner<T: SearchService> {
+    search_service: T,
     test_cases: Vec<TestCase>,
 }
 
-impl<T: SearchEngine> Runner<T> {
-    pub fn new(suite: TestSuite, search_engine: T) -> Result<Self> {
+impl<T: SearchService> Runner<T> {
+    pub fn new(suite: TestSuite, search_service: T) -> Result<Self> {
         let test_cases = suite.test_cases().collect::<Result<Vec<_>>>()?;
 
         Ok(Self {
-            search_engine,
+            search_service,
             test_cases,
         })
     }
@@ -28,7 +28,7 @@ impl<T: SearchEngine> Runner<T> {
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let results = self.search_engine.search(test_case);
+        let results = self.search_service.search(test_case);
         TestResult::new(test_case, results)
     }
 }
@@ -43,20 +43,20 @@ mod tests {
     use std::time::Duration;
 
     #[derive(Debug)]
-    struct FakeSearchEngine {
+    struct FakeSearchService {
         results: RefCell<Vec<SearchResults>>,
     }
 
-    impl FakeSearchEngine {
-        fn new(results: Vec<SearchResults>) -> FakeSearchEngine {
+    impl FakeSearchService {
+        fn new(results: Vec<SearchResults>) -> FakeSearchService {
             Self {
                 results: RefCell::new(results),
             }
         }
     }
 
-    impl SearchEngine for FakeSearchEngine {
-        fn search(&self, _test_case: &TestCase) -> Result<SearchResults> {
+    impl SearchService for FakeSearchService {
+        fn search(&self, _: &TestCase) -> Result<SearchResults> {
             self.results.borrow_mut().pop().context("No results left")
         }
     }
@@ -79,7 +79,7 @@ mod tests {
             "#,
         )
         .unwrap();
-        let runner = Runner::new(suite, FakeSearchEngine::new(Vec::new())).unwrap();
+        let runner = Runner::new(suite, FakeSearchService::new(Vec::new())).unwrap();
         assert_eq!(runner.test_cases.len(), 1)
     }
 
@@ -96,7 +96,7 @@ mod tests {
             "#,
         )
         .unwrap();
-        let error = Runner::new(suite, FakeSearchEngine::new(Vec::new())).unwrap_err();
+        let error = Runner::new(suite, FakeSearchService::new(Vec::new())).unwrap_err();
         assert_eq!(
             error.to_string(),
             "Test case `Search for the metta sutta in English and Pali` missing `site-language` and no default provided."
@@ -131,7 +131,7 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("snp1.8")],
         };
 
-        let engine = FakeSearchEngine::new(vec![search_results]);
+        let engine = FakeSearchService::new(vec![search_results]);
         let runner = Runner::new(suite, engine).unwrap();
         let test_result = runner.run().next().unwrap();
         assert!(test_result.passed);

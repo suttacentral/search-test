@@ -4,16 +4,16 @@ use crate::test_case::TestCase;
 use anyhow::{Context, Result};
 use std::time::{Duration, Instant};
 
-pub trait SearchEngine {
+pub trait SearchService {
     fn search(&self, test_case: &TestCase) -> Result<SearchResults>;
 }
 
 #[derive(Debug)]
-pub struct LiveSearchEngine {
+pub struct LiveSearchService {
     endpoint: String,
 }
 
-impl LiveSearchEngine {
+impl LiveSearchService {
     pub fn new(endpoint: String) -> Self {
         Self { endpoint }
     }
@@ -29,7 +29,7 @@ impl LiveSearchEngine {
     }
 }
 
-impl SearchEngine for LiveSearchEngine {
+impl SearchService for LiveSearchService {
     fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
         let start = Instant::now();
         let http_response = build(self.endpoint.clone(), test_case).send()?;
