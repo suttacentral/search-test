@@ -1,7 +1,7 @@
-use crate::response::{SearchResponse, SearchResults};
+use crate::response::SearchResults;
 use crate::test_case::TestCase;
 use anyhow::{Context, Result};
-use reqwest::blocking::{Client, RequestBuilder};
+use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
 
 pub trait SearchService {
@@ -18,16 +18,6 @@ impl LiveSearchService {
         Self { endpoint }
     }
 
-    fn search_results(
-        response: Result<SearchResponse>,
-        duration: Duration,
-    ) -> Result<SearchResults> {
-        match response {
-            Ok(response) => Ok(SearchResults::new(response, duration)),
-            Err(error) => Err(error),
-        }
-    }
-
     fn build_request(&self, test_case: &TestCase) -> RequestBuilder {
         let params = vec![
             ("limit", test_case.limit.to_string()),
@@ -42,17 +32,25 @@ impl LiveSearchService {
             .query(&params)
             .json(&test_case.selected_languages)
     }
+
+    fn search_results(http_response: Response, response_time: Duration) -> Result<SearchResults> {
+        let search_response = http_response
+            .json()
+            .context("Could not get JSON from response");
+
+        match search_response {
+            Ok(response) => Ok(SearchResults::new(response, response_time)),
+            Err(error) => Err(error),
+        }
+    }
 }
 
 impl SearchService for LiveSearchService {
     fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
         let start = Instant::now();
         let http_response = self.build_request(test_case).send()?;
-        let search_response = http_response
-            .json()
-            .context("Could not get JSON from response");
-        let duration = start.elapsed();
-        Self::search_results(search_response, duration)
+        let response_time = start.elapsed();
+        Self::search_results(http_response, response_time)
     }
 }
 
