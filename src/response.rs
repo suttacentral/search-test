@@ -123,6 +123,7 @@ impl Display for SearchResponse {
     }
 }
 
+#[derive(Debug)]
 pub struct SearchResults {
     pub text: Vec<TextUrl>,
     pub dictionary: Vec<DictionaryUrl>,

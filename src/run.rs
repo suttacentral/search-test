@@ -69,13 +69,24 @@ impl<T: SearchEngine> Runner<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::cell::RefCell;
 
     #[derive(Debug)]
-    struct FakeSearchEngine;
+    struct FakeSearchEngine {
+        results: RefCell<Vec<SearchResults>>,
+    }
+
+    impl FakeSearchEngine {
+        fn new(results: Vec<SearchResults>) -> FakeSearchEngine {
+            Self {
+                results: RefCell::new(results),
+            }
+        }
+    }
 
     impl SearchEngine for FakeSearchEngine {
         fn search(&self, _test_case: &TestCase) -> Result<SearchResults> {
-            todo!()
+            self.results.borrow_mut().pop().context("No results left")
         }
     }
 
@@ -101,7 +112,7 @@ mod tests {
     #[test]
     fn all_good_test_cases_gives_new_runner() {
         let suite = suite_with_test_case();
-        let runner = Runner::new(suite, FakeSearchEngine {}).unwrap();
+        let runner = Runner::new(suite, FakeSearchEngine::new(Vec::new())).unwrap();
         assert_eq!(runner.test_cases.len(), 1)
     }
 
@@ -122,7 +133,7 @@ mod tests {
     #[test]
     fn bad_test_fails_to_give_a_runner() {
         let suite = suite_with_bad_test_case();
-        let error = Runner::new(suite, FakeSearchEngine {}).unwrap_err();
+        let error = Runner::new(suite, FakeSearchEngine::new(Vec::new())).unwrap_err();
         assert_eq!(
             error.to_string(),
             "Test case `Search for the metta sutta in English and Pali` missing `site-language` and no default provided."
