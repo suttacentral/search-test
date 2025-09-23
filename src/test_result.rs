@@ -1,15 +1,20 @@
 use crate::response::SearchResults;
 use crate::test_case::TestCase;
 use anyhow::Result;
+use std::time::Duration;
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct TestResult {
+    pub duration: Duration,
     pub passed: bool,
 }
 
 impl TestResult {
     pub fn new(test_case: &TestCase, search_results: Result<SearchResults>) -> Self {
-        Self { passed: true }
+        Self {
+            passed: true,
+            duration: search_results.unwrap().duration,
+        }
     }
 }
 

@@ -135,7 +135,7 @@ pub struct SearchResults {
 impl SearchResults {
     pub fn new(response: SearchResponse, duration: Duration) -> Self {
         SearchResults {
-            duration: Duration::from_secs(0),
+            duration,
             text: response.text_hits().collect(),
             suttaplex: response.suttaplex_hits().collect(),
             dictionary: response

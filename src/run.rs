@@ -34,8 +34,8 @@ impl LiveSearchEngine {
 
 impl SearchEngine for LiveSearchEngine {
     fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
-        let http_response = build(self.endpoint.clone(), test_case).send()?;
         let start = Instant::now();
+        let http_response = build(self.endpoint.clone(), test_case).send()?;
         let search_response = http_response
             .json()
             .context("Could not get JSON from response");
