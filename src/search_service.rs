@@ -1,6 +1,7 @@
 use crate::response::SearchResults;
 use crate::test_case::TestCase;
-use anyhow::{Context, Result};
+use anyhow::{Context, Result, anyhow};
+use reqwest::StatusCode;
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
 
@@ -34,9 +35,16 @@ impl LiveSearchService {
     }
 
     fn search_results(http_response: Response, response_time: Duration) -> Result<SearchResults> {
+        let StatusCode::OK = http_response.status() else {
+            return Err(anyhow!(
+                "Expected status code to be OK but got {}",
+                http_response.status()
+            ));
+        };
+
         let search_response = http_response
             .json()
-            .context("Could not get JSON from response");
+            .context("Could not parse JSON response");
 
         match search_response {
             Ok(response) => Ok(SearchResults::new(response, response_time)),
