@@ -1,5 +1,6 @@
 use crate::test_case::TestCase;
 use crate::test_suite::TestSuite;
+use std::time::Duration;
 
 use crate::request::build;
 use crate::response::{SearchResponse, SearchResults};
@@ -22,7 +23,7 @@ impl LiveSearchEngine {
 
     fn search_results(response: Result<SearchResponse>) -> Result<SearchResults> {
         match response {
-            Ok(response) => Ok(SearchResults::from(response)),
+            Ok(response) => Ok(SearchResults::new(response, Duration::from_secs(0))),
             Err(error) => Err(error),
         }
     }
@@ -155,6 +156,7 @@ mod tests {
         .unwrap();
 
         let search_results = SearchResults {
+            duration: Duration::from_secs(0),
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("snp1.8")],

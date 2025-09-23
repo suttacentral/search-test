@@ -16,6 +16,7 @@ impl TestResult {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::time::Duration;
 
     #[test]
     fn construct_test_result() {
@@ -31,6 +32,7 @@ mod tests {
         };
 
         let search_results = SearchResults {
+            duration: Duration::from_secs(0),
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: Vec::new(),

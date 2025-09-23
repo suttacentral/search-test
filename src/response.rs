@@ -2,6 +2,7 @@ use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::Display;
+use std::time::Duration;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
@@ -125,14 +126,16 @@ impl Display for SearchResponse {
 
 #[derive(Debug)]
 pub struct SearchResults {
+    pub duration: Duration,
     pub text: Vec<TextUrl>,
     pub dictionary: Vec<DictionaryUrl>,
     pub suttaplex: Vec<SuttaplexUid>,
 }
 
-impl From<SearchResponse> for SearchResults {
-    fn from(response: SearchResponse) -> Self {
+impl SearchResults {
+    pub fn new(response: SearchResponse, duration: Duration) -> Self {
         SearchResults {
+            duration: Duration::from_secs(0),
             text: response.text_hits().collect(),
             suttaplex: response.suttaplex_hits().collect(),
             dictionary: response
@@ -141,9 +144,7 @@ impl From<SearchResponse> for SearchResults {
                 .collect(),
         }
     }
-}
 
-impl SearchResults {
     #[allow(unused)]
     pub fn rank(&self, result: &SearchResultKey) -> Option<usize> {
         match result {
@@ -323,7 +324,7 @@ mod tests {
             ],
         };
 
-        let result = SearchResults::from(response);
+        let result = SearchResults::new(response, Duration::from_secs(0));
 
         let mn1 = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
@@ -355,7 +356,7 @@ mod tests {
             ],
         };
 
-        let result = SearchResults::from(response);
+        let result = SearchResults::new(response, Duration::from_secs(0));
 
         let metta = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/metta"),
@@ -385,7 +386,7 @@ mod tests {
             suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
         };
 
-        let result = SearchResults::from(response);
+        let result = SearchResults::new(response, Duration::from_secs(0));
 
         let mn1 = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),
