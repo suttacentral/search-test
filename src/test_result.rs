@@ -21,7 +21,6 @@ impl TestResult {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::time::Duration;
 
     #[test]
     fn construct_test_result() {
@@ -43,6 +42,6 @@ mod tests {
             suttaplex: Vec::new(),
         };
 
-        let _test_result = TestResult::new(&test_case, Ok(search_results));
+        let _ = TestResult::new(&test_case, Ok(search_results));
     }
 }
