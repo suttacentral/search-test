@@ -1,7 +1,6 @@
 mod defaults;
 mod expected;
 mod identifiers;
-mod request;
 mod response;
 mod run;
 mod search_service;

@@ -1,7 +1,7 @@
-use crate::request::build;
 use crate::response::{SearchResponse, SearchResults};
 use crate::test_case::TestCase;
 use anyhow::{Context, Result};
+use reqwest::blocking::{Client, RequestBuilder};
 use std::time::{Duration, Instant};
 
 pub trait SearchService {
@@ -27,16 +27,67 @@ impl LiveSearchService {
             Err(error) => Err(error),
         }
     }
+
+    fn build_request(&self, test_case: &TestCase) -> RequestBuilder {
+        let params = vec![
+            ("limit", test_case.limit.to_string()),
+            ("query", test_case.query.to_string()),
+            ("language", test_case.site_language.to_string()),
+            ("restrict", test_case.restrict.to_string()),
+            ("matchpartial", test_case.match_partial.to_string()),
+        ];
+
+        Client::new()
+            .post(self.endpoint.as_str())
+            .query(&params)
+            .json(&test_case.selected_languages)
+    }
 }
 
 impl SearchService for LiveSearchService {
     fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
         let start = Instant::now();
-        let http_response = build(self.endpoint.clone(), test_case).send()?;
+        let http_response = self.build_request(test_case).send()?;
         let search_response = http_response
             .json()
             .context("Could not get JSON from response");
         let duration = start.elapsed();
         Self::search_results(search_response, duration)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn test_case() -> TestCase {
+        TestCase {
+            description: String::from("The Simile of the Adze"),
+            query: String::from("adze"),
+            limit: 1,
+            site_language: String::from("en"),
+            restrict: String::from("all"),
+            match_partial: false,
+            selected_languages: vec![String::from("en"), String::from("pli")],
+            expected: None,
+        }
+    }
+
+    #[test]
+    fn builds_correct_url() {
+        let service = LiveSearchService::new(String::from("http://localhost/api/search/instant"));
+        let request = service.build_request(&test_case()).build().unwrap();
+        let expected = "http://localhost/api/search/instant?limit=1&query=adze&language=en&restrict=all&matchpartial=false";
+        let actual = request.url().to_string();
+        assert_eq!(actual, expected);
+    }
+
+    #[test]
+    fn has_correct_body() {
+        let service = LiveSearchService::new(String::from("http://localhost/api/search/instant"));
+        let request = service.build_request(&test_case()).build().unwrap();
+        let body = request.body().unwrap().as_bytes().unwrap();
+        let body_contents = str::from_utf8(body).unwrap().to_string();
+        assert_eq!(body_contents, "[\"en\",\"pli\"]");
     }
 }
