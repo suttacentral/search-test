@@ -90,8 +90,9 @@ mod tests {
         }
     }
 
-    fn suite_with_test_case() -> TestSuite {
-        TestSuite::load_from_string(
+    #[test]
+    fn good_test_gives_new_runner() {
+        let suite = TestSuite::load_from_string(
             r#"
             [settings]
             endpoint = "http://localhost/api/search/instant"
@@ -106,18 +107,14 @@ mod tests {
             restrict = "all"
             "#,
         )
-        .unwrap()
-    }
-
-    #[test]
-    fn all_good_test_cases_gives_new_runner() {
-        let suite = suite_with_test_case();
+        .unwrap();
         let runner = Runner::new(suite, FakeSearchEngine::new(Vec::new())).unwrap();
         assert_eq!(runner.test_cases.len(), 1)
     }
 
-    fn suite_with_bad_test_case() -> TestSuite {
-        TestSuite::load_from_string(
+    #[test]
+    fn bad_test_fails_to_give_a_runner() {
+        let suite = TestSuite::load_from_string(
             r#"
             [settings]
             endpoint = "http://localhost/api/search/instant"
@@ -127,12 +124,7 @@ mod tests {
             query = "metta"
             "#,
         )
-        .unwrap()
-    }
-
-    #[test]
-    fn bad_test_fails_to_give_a_runner() {
-        let suite = suite_with_bad_test_case();
+        .unwrap();
         let error = Runner::new(suite, FakeSearchEngine::new(Vec::new())).unwrap_err();
         assert_eq!(
             error.to_string(),
