@@ -10,7 +10,7 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    pub fn new(test_case: &TestCase, search_results: Result<SearchResults>) -> Self {
+    pub fn new(_test_case: &TestCase, search_results: Result<SearchResults>) -> Self {
         Self {
             passed: true,
             duration: search_results.unwrap().duration,
