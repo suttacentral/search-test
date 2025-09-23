@@ -1,6 +1,6 @@
 use crate::test_case::TestCase;
 use crate::test_suite::TestSuite;
-use std::time::Duration;
+use std::time::{Duration, Instant};
 
 use crate::request::build;
 use crate::response::{SearchResponse, SearchResults};
@@ -21,9 +21,12 @@ impl LiveSearchEngine {
         Self { endpoint }
     }
 
-    fn search_results(response: Result<SearchResponse>) -> Result<SearchResults> {
+    fn search_results(
+        response: Result<SearchResponse>,
+        duration: Duration,
+    ) -> Result<SearchResults> {
         match response {
-            Ok(response) => Ok(SearchResults::new(response, Duration::from_secs(0))),
+            Ok(response) => Ok(SearchResults::new(response, duration)),
             Err(error) => Err(error),
         }
     }
@@ -32,10 +35,12 @@ impl LiveSearchEngine {
 impl SearchEngine for LiveSearchEngine {
     fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
         let http_response = build(self.endpoint.clone(), test_case).send()?;
+        let start = Instant::now();
         let search_response = http_response
             .json()
             .context("Could not get JSON from response");
-        Self::search_results(search_response)
+        let duration = start.elapsed();
+        Self::search_results(search_response, duration)
     }
 }
 
