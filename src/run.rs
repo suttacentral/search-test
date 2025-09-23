@@ -7,7 +7,7 @@ use crate::test_result::TestResult;
 use anyhow::{Context, Result};
 
 pub trait SearchEngine {
-    fn search(&self, test_case: &TestCase) -> Result<SearchResponse>;
+    fn search(&self, test_case: &TestCase) -> Result<SearchResults>;
 }
 
 #[derive(Debug)]
@@ -19,12 +19,22 @@ impl LiveSearchEngine {
     pub fn new(endpoint: String) -> Self {
         Self { endpoint }
     }
+
+    fn search_results(response: Result<SearchResponse>) -> Result<SearchResults> {
+        match response {
+            Ok(response) => Ok(SearchResults::from(response)),
+            Err(error) => Err(error),
+        }
+    }
 }
 
 impl SearchEngine for LiveSearchEngine {
-    fn search(&self, test_case: &TestCase) -> Result<SearchResponse> {
-        let response = build(self.endpoint.clone(), test_case).send()?;
-        response.json().context("Could not get JSON from response")
+    fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
+        let http_response = build(self.endpoint.clone(), test_case).send()?;
+        let search_response = http_response
+            .json()
+            .context("Could not get JSON from response");
+        Self::search_results(search_response)
     }
 }
 
@@ -51,16 +61,8 @@ impl<T: SearchEngine> Runner<T> {
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let response = self.search_engine.search(test_case);
-        let results = Self::search_results(response);
+        let results = self.search_engine.search(test_case);
         TestResult::new(test_case, results)
-    }
-
-    fn search_results(response: Result<SearchResponse>) -> Result<SearchResults> {
-        match response {
-            Ok(response) => Ok(SearchResults::from(response)),
-            Err(error) => Err(error),
-        }
     }
 }
 
@@ -72,7 +74,7 @@ mod tests {
     struct FakeSearchEngine;
 
     impl SearchEngine for FakeSearchEngine {
-        fn search(&self, _test_case: &TestCase) -> Result<SearchResponse> {
+        fn search(&self, _test_case: &TestCase) -> Result<SearchResults> {
             todo!()
         }
     }
