@@ -69,6 +69,7 @@ impl<T: SearchEngine> Runner<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::identifiers::{SuttaplexUid, TextUrl};
     use std::cell::RefCell;
 
     #[derive(Debug)]
@@ -130,5 +131,38 @@ mod tests {
             error.to_string(),
             "Test case `Search for the metta sutta in English and Pali` missing `site-language` and no default provided."
         );
+    }
+
+    #[test]
+    fn run_a_test() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+
+            [defaults]
+            selected-languages = ["pli", "en"]
+            match-partial = false
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+
+            [[test-case]]
+            description = "First search"
+            query = "metta"
+            "#,
+        )
+        .unwrap();
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![SuttaplexUid::from("snp1.8")],
+        };
+
+        let engine = FakeSearchEngine::new(vec![search_results]);
+        let runner = Runner::new(suite, engine).unwrap();
+        let test_result = runner.run().next().unwrap();
+        assert!(test_result.passed);
     }
 }
