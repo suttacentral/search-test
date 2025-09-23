@@ -69,7 +69,7 @@ impl<T: SearchEngine> Runner<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::{SuttaplexUid, TextUrl};
+    use crate::identifiers::SuttaplexUid;
     use std::cell::RefCell;
 
     #[derive(Debug)]
