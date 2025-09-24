@@ -4,10 +4,10 @@ use anyhow::{Context, Result, anyhow};
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::cell::RefCell;
 use std::time::{Duration, Instant};
-use toml::value::Time;
 
 #[derive(Debug)]
 pub struct TimedSearchResults {
+    #[allow(unused)]
     pub results: Result<SearchResults>,
     pub elapsed: Duration,
 }

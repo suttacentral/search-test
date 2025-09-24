@@ -2,7 +2,6 @@ use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::Display;
-use std::time::Duration;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]

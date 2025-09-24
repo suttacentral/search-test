@@ -39,7 +39,6 @@ mod tests {
     use crate::identifiers::SuttaplexUid;
     use crate::response::SearchResults;
     use crate::search_service::TimedSearchResults;
-    use anyhow::Context;
     use std::cell::RefCell;
     use std::time::Duration;
 

@@ -1,7 +1,5 @@
-use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
-use anyhow::Result;
 use std::time::Duration;
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -22,6 +20,7 @@ impl TestResult {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::response::SearchResults;
 
     #[test]
     fn construct_test_result() {
