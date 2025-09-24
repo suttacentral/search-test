@@ -1,7 +1,7 @@
 use crate::response::SearchResults;
 use crate::test_case::TestCase;
 use anyhow::{Context, Result, anyhow};
-use reqwest;
+use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
 
 pub trait SearchService {
@@ -18,7 +18,7 @@ impl LiveSearchService {
         Self { endpoint }
     }
 
-    fn build_request(&self, test_case: &TestCase) -> reqwest::blocking::RequestBuilder {
+    fn build_request(&self, test_case: &TestCase) -> RequestBuilder {
         let params = vec![
             ("limit", test_case.limit.to_string()),
             ("query", test_case.query.to_string()),
@@ -27,16 +27,13 @@ impl LiveSearchService {
             ("matchpartial", test_case.match_partial.to_string()),
         ];
 
-        reqwest::blocking::Client::new()
+        Client::new()
             .post(self.endpoint.as_str())
             .query(&params)
             .json(&test_case.selected_languages)
     }
 
-    fn search_results(
-        http_response: reqwest::blocking::Response,
-        response_time: Duration,
-    ) -> Result<SearchResults> {
+    fn search_results(http_response: Response, response_time: Duration) -> Result<SearchResults> {
         let reqwest::StatusCode::OK = http_response.status() else {
             return Err(anyhow!(
                 "Expected status code to be OK but got {}",
@@ -67,7 +64,6 @@ impl SearchService for LiveSearchService {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use http;
 
     fn test_case() -> TestCase {
         TestCase {
