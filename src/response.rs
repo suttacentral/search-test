@@ -126,16 +126,14 @@ impl Display for SearchResponse {
 
 #[derive(Debug)]
 pub struct SearchResults {
-    pub duration: Duration,
     pub text: Vec<TextUrl>,
     pub dictionary: Vec<DictionaryUrl>,
     pub suttaplex: Vec<SuttaplexUid>,
 }
 
 impl SearchResults {
-    pub fn new(response: SearchResponse, duration: Duration) -> Self {
+    pub fn new(response: SearchResponse) -> Self {
         SearchResults {
-            duration,
             text: response.text_hits().collect(),
             suttaplex: response.suttaplex_hits().collect(),
             dictionary: response
@@ -324,7 +322,7 @@ mod tests {
             ],
         };
 
-        let result = SearchResults::new(response, Duration::from_secs(0));
+        let result = SearchResults::new(response);
 
         let mn1 = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
@@ -356,7 +354,7 @@ mod tests {
             ],
         };
 
-        let result = SearchResults::new(response, Duration::from_secs(0));
+        let result = SearchResults::new(response);
 
         let metta = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/metta"),
@@ -386,7 +384,7 @@ mod tests {
             suttaplex: vec![Suttaplex::from("mn1"), Suttaplex::from("mn2")],
         };
 
-        let result = SearchResults::new(response, Duration::from_secs(0));
+        let result = SearchResults::new(response);
 
         let mn1 = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),

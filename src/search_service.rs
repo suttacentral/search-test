@@ -4,9 +4,15 @@ use anyhow::{Context, Result, anyhow};
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::cell::RefCell;
 use std::time::{Duration, Instant};
+use toml::value::Time;
 
+#[derive(Debug)]
+pub struct TimedSearchResults {
+    pub results: Result<SearchResults>,
+    pub elapsed: Duration,
+}
 pub trait SearchService {
-    fn search(&self, test_case: &TestCase) -> Result<SearchResults>;
+    fn search(&self, test_case: &TestCase) -> TimedSearchResults;
 
     fn set_timer(&self);
 
@@ -42,7 +48,7 @@ impl LiveSearchService {
             .json(&test_case.selected_languages)
     }
 
-    fn search_results(http_response: Response, response_time: Duration) -> Result<SearchResults> {
+    fn search_results(http_response: Response) -> Result<SearchResults> {
         let reqwest::StatusCode::OK = http_response.status() else {
             return Err(anyhow!(
                 "Expected status code to be OK but got {}",
@@ -55,18 +61,31 @@ impl LiveSearchService {
             .context("Could not parse JSON response");
 
         match search_response {
-            Ok(response) => Ok(SearchResults::new(response, response_time)),
+            Ok(response) => Ok(SearchResults::new(response)),
             Err(error) => Err(error),
         }
     }
 }
 
 impl SearchService for LiveSearchService {
-    fn search(&self, test_case: &TestCase) -> Result<SearchResults> {
+    fn search(&self, test_case: &TestCase) -> TimedSearchResults {
         self.set_timer();
-        let http_response = self.build_request(test_case).send()?;
-        let response_time = self.time_elapsed();
-        Self::search_results(http_response, response_time)
+        let http_response = self
+            .build_request(test_case)
+            .send()
+            .context("Error sending HTTP request");
+        let elapsed = self.time_elapsed();
+
+        match http_response {
+            Err(error) => TimedSearchResults {
+                elapsed,
+                results: Err(error),
+            },
+            Ok(http_response) => TimedSearchResults {
+                elapsed,
+                results: Self::search_results(http_response),
+            },
+        }
     }
 
     fn set_timer(&self) {
@@ -122,8 +141,7 @@ mod tests {
 
         let reqwest_response = reqwest::blocking::Response::from(http_response);
 
-        let error = LiveSearchService::search_results(reqwest_response, Duration::from_secs(1))
-            .unwrap_err();
+        let error = LiveSearchService::search_results(reqwest_response).unwrap_err();
         assert_eq!(
             error.to_string(),
             "Expected status code to be OK but got 500 Internal Server Error"

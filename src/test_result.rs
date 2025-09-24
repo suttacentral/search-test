@@ -1,4 +1,5 @@
 use crate::response::SearchResults;
+use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
 use anyhow::Result;
 use std::time::Duration;
@@ -10,10 +11,10 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    pub fn new(_test_case: &TestCase, search_results: Result<SearchResults>) -> Self {
+    pub fn new(_test_case: &TestCase, search_results: TimedSearchResults) -> Self {
         Self {
             passed: true,
-            duration: search_results.unwrap().duration,
+            duration: search_results.elapsed,
         }
     }
 }
@@ -35,13 +36,15 @@ mod tests {
             expected: None,
         };
 
-        let search_results = SearchResults {
-            duration: Duration::from_secs(0),
-            text: Vec::new(),
-            dictionary: Vec::new(),
-            suttaplex: Vec::new(),
+        let results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Ok(SearchResults {
+                text: Vec::new(),
+                dictionary: Vec::new(),
+                suttaplex: Vec::new(),
+            }),
         };
 
-        let _ = TestResult::new(&test_case, Ok(search_results));
+        let _ = TestResult::new(&test_case, results);
     }
 }

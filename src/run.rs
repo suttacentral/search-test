@@ -38,17 +38,18 @@ mod tests {
     use super::*;
     use crate::identifiers::SuttaplexUid;
     use crate::response::SearchResults;
+    use crate::search_service::TimedSearchResults;
     use anyhow::Context;
     use std::cell::RefCell;
     use std::time::Duration;
 
     #[derive(Debug)]
     struct FakeSearchService {
-        results: RefCell<Vec<SearchResults>>,
+        results: RefCell<Vec<TimedSearchResults>>,
     }
 
     impl FakeSearchService {
-        fn new(results: Vec<SearchResults>) -> FakeSearchService {
+        fn new(results: Vec<TimedSearchResults>) -> FakeSearchService {
             Self {
                 results: RefCell::new(results),
             }
@@ -56,8 +57,8 @@ mod tests {
     }
 
     impl SearchService for FakeSearchService {
-        fn search(&self, _: &TestCase) -> Result<SearchResults> {
-            self.results.borrow_mut().pop().context("No results left")
+        fn search(&self, _: &TestCase) -> TimedSearchResults {
+            self.results.borrow_mut().pop().unwrap()
         }
 
         fn set_timer(&self) {}
@@ -130,11 +131,13 @@ mod tests {
         )
         .unwrap();
 
-        let search_results = SearchResults {
-            duration: Duration::from_secs(3),
-            text: Vec::new(),
-            dictionary: Vec::new(),
-            suttaplex: vec![SuttaplexUid::from("snp1.8")],
+        let search_results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Ok(SearchResults {
+                text: Vec::new(),
+                dictionary: Vec::new(),
+                suttaplex: vec![SuttaplexUid::from("snp1.8")],
+            }),
         };
 
         let engine = FakeSearchService::new(vec![search_results]);
