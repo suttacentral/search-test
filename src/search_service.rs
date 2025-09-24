@@ -97,13 +97,19 @@ mod tests {
     }
 
     #[test]
-    fn reqwest_response_from_http_response() {
+    fn search_results_for_bad_status_code_is_error() {
         let http_response = http::Response::builder()
-            .status(200)
-            .header("X-Custom-Foo", "Bar")
-            .body("The body")
+            .status(500)
+            .body("Internal Server Error")
             .unwrap();
 
-        let _reqwest_response = reqwest::Response::from(http_response);
+        let reqwest_response = reqwest::blocking::Response::from(http_response);
+
+        let error = LiveSearchService::search_results(reqwest_response, Duration::from_secs(1))
+            .unwrap_err();
+        assert_eq!(
+            error.to_string(),
+            "Expected status code to be OK but got 500 Internal Server Error"
+        );
     }
 }
