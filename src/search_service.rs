@@ -67,6 +67,7 @@ impl SearchService for LiveSearchService {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use http;
 
     fn test_case() -> TestCase {
         TestCase {
@@ -97,5 +98,16 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
+    }
+
+    #[test]
+    fn reqwest_response_from_http_response() {
+        let http_response = http::Response::builder()
+            .status(200)
+            .header("X-Custom-Foo", "Bar")
+            .body("The body")
+            .unwrap();
+
+        let _reqwest_response = reqwest::Response::from(http_response);
     }
 }
