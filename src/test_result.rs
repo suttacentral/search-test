@@ -13,14 +13,14 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    pub fn new(test_case: &TestCase, timed: TimedSearchResults) -> Self {
-        match timed.results {
+    pub fn new(test_case: &TestCase, timed: &TimedSearchResults) -> Self {
+        match &timed.results {
             Ok(results) => Self::on_retrieved(test_case, results, timed.elapsed),
             Err(error) => Self::on_error(test_case, error, timed.elapsed),
         }
     }
 
-    fn on_error(_test_case: &TestCase, _error: Error, elapsed: Duration) -> Self {
+    fn on_error(_test_case: &TestCase, _error: &Error, elapsed: Duration) -> Self {
         Self {
             elapsed,
             passed: false,
@@ -29,23 +29,35 @@ impl TestResult {
 
     fn on_retrieved(
         test_case: &TestCase,
-        _search_results: SearchResults,
+        search_results: &SearchResults,
         elapsed: Duration,
     ) -> Self {
         match &test_case.expected {
-            Some(expected) => Self::with_expected(test_case, expected, elapsed),
+            Some(expected) => Self::with_expected(test_case, search_results, expected, elapsed),
             None => Self::without_expected(test_case, elapsed),
         }
     }
 
-    fn with_expected(test_case: &TestCase, expected: &Expected, elapsed: Duration) -> Self {
+    fn with_expected(
+        test_case: &TestCase,
+        search_results: &SearchResults,
+        expected: &Expected,
+        elapsed: Duration,
+    ) -> Self {
         match expected {
-            Expected::Unranked { key } => Self::expected_unranked(test_case, key, elapsed),
+            Expected::Unranked { key } => {
+                Self::expected_unranked(test_case, search_results, key, elapsed)
+            }
             Expected::Ranked { key, min_rank } => todo!(),
         }
     }
 
-    fn expected_unranked(test_case: &TestCase, key: &SearchResultKey, elapsed: Duration) -> Self {
+    fn expected_unranked(
+        test_case: &TestCase,
+        search_results: &SearchResults,
+        key: &SearchResultKey,
+        elapsed: Duration,
+    ) -> Self {
         match key {
             SearchResultKey::Suttaplex { uid } => Self {
                 elapsed,
@@ -96,7 +108,7 @@ mod tests {
             }),
         };
 
-        let _ = TestResult::new(&test_case(), results);
+        let _ = TestResult::new(&test_case(), &results);
     }
 
     #[test]
@@ -106,7 +118,7 @@ mod tests {
             results: Err(anyhow!("Got an error")),
         };
 
-        let test_result = TestResult::new(&test_case(), search_results);
+        let test_result = TestResult::new(&test_case(), &search_results);
         assert!(!test_result.passed, "Test passed but should have failed");
     }
 
@@ -126,7 +138,7 @@ mod tests {
             }),
         };
 
-        let test_result = TestResult::new(&test_case, search_results);
+        let test_result = TestResult::new(&test_case, &search_results);
 
         assert_eq!(
             test_result,
@@ -158,7 +170,7 @@ mod tests {
             results: Ok(search_results),
         };
 
-        let test_result = TestResult::new(&test_case, timed_results);
+        let test_result = TestResult::new(&test_case, &timed_results);
         assert!(!test_result.passed, "Test passed but should have failed");
     }
 }

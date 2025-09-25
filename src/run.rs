@@ -29,7 +29,7 @@ impl<T: SearchService> Runner<T> {
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
         let results = self.search_service.search(test_case);
-        TestResult::new(test_case, results)
+        TestResult::new(test_case, &results)
     }
 }
 
