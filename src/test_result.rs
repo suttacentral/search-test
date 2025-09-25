@@ -1,5 +1,5 @@
 use crate::expected::Expected;
-use crate::identifiers::SearchResultKey;
+use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
@@ -59,12 +59,23 @@ impl TestResult {
         elapsed: Duration,
     ) -> Self {
         match key {
-            SearchResultKey::Suttaplex { uid } => Self {
-                elapsed,
-                passed: false,
-            },
+            SearchResultKey::Suttaplex { uid } => {
+                Self::expected_unranked_suttaplex(test_case, search_results, uid, elapsed)
+            }
             SearchResultKey::Dictionary { url } => todo!(),
             SearchResultKey::Text { url } => todo!(),
+        }
+    }
+
+    fn expected_unranked_suttaplex(
+        test_case: &TestCase,
+        search_results: &SearchResults,
+        uid: &SuttaplexUid,
+        elapsed: Duration,
+    ) -> Self {
+        Self {
+            elapsed,
+            passed: false,
         }
     }
 
