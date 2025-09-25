@@ -38,9 +38,12 @@ impl TestResult {
     }
 
     fn expected_result(test_case: &TestCase, expected: &Expected, elapsed: Duration) -> Self {
-        Self {
-            elapsed,
-            passed: false,
+        match expected {
+            Expected::Unranked { key } => Self {
+                elapsed,
+                passed: false,
+            },
+            Expected::Ranked { key, min_rank } => todo!(),
         }
     }
 
