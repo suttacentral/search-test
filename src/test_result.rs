@@ -14,30 +14,30 @@ pub struct TestResult {
 impl TestResult {
     pub fn new(test_case: &TestCase, timed: TimedSearchResults) -> Self {
         match timed.results {
-            Ok(results) => Self::retrieved_result(test_case, results, timed.elapsed),
-            Err(error) => Self::error_result(test_case, error, timed.elapsed),
+            Ok(results) => Self::on_retrieved(test_case, results, timed.elapsed),
+            Err(error) => Self::on_error(test_case, error, timed.elapsed),
         }
     }
 
-    fn error_result(_test_case: &TestCase, _error: Error, elapsed: Duration) -> Self {
+    fn on_error(_test_case: &TestCase, _error: Error, elapsed: Duration) -> Self {
         Self {
             elapsed,
             passed: false,
         }
     }
 
-    fn retrieved_result(
+    fn on_retrieved(
         test_case: &TestCase,
         _search_results: SearchResults,
         elapsed: Duration,
     ) -> Self {
         match &test_case.expected {
-            Some(expected) => Self::expected_result(test_case, expected, elapsed),
-            None => Self::no_expected_result(test_case, elapsed),
+            Some(expected) => Self::with_expected(test_case, expected, elapsed),
+            None => Self::without_expected(test_case, elapsed),
         }
     }
 
-    fn expected_result(test_case: &TestCase, expected: &Expected, elapsed: Duration) -> Self {
+    fn with_expected(test_case: &TestCase, expected: &Expected, elapsed: Duration) -> Self {
         match expected {
             Expected::Unranked { key } => Self {
                 elapsed,
@@ -47,7 +47,7 @@ impl TestResult {
         }
     }
 
-    fn no_expected_result(test_case: &TestCase, elapsed: Duration) -> Self {
+    fn without_expected(test_case: &TestCase, elapsed: Duration) -> Self {
         Self {
             elapsed,
             passed: true,
