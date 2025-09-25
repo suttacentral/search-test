@@ -1,3 +1,4 @@
+use crate::expected::Expected;
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
@@ -18,24 +19,35 @@ impl TestResult {
         }
     }
 
-    pub fn error_result(_test_case: &TestCase, _error: Error, elapsed: Duration) -> Self {
+    fn error_result(_test_case: &TestCase, _error: Error, elapsed: Duration) -> Self {
         Self {
             elapsed,
             passed: false,
         }
     }
 
-    pub fn retrieved_result(
+    fn retrieved_result(
         test_case: &TestCase,
         _search_results: SearchResults,
         elapsed: Duration,
     ) -> Self {
         match &test_case.expected {
-            Some(expected) => todo!(),
-            None => Self {
-                elapsed,
-                passed: true,
-            },
+            Some(expected) => Self::expected_result(test_case, expected, elapsed),
+            None => Self::no_expected_result(test_case, elapsed),
+        }
+    }
+
+    fn expected_result(test_case: &TestCase, expected: &Expected, elapsed: Duration) -> Self {
+        Self {
+            elapsed,
+            passed: false,
+        }
+    }
+
+    fn no_expected_result(test_case: &TestCase, elapsed: Duration) -> Self {
+        Self {
+            elapsed,
+            passed: true,
         }
     }
 }
@@ -114,7 +126,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn unranked_suttaplex_not_in_results_is_a_failure() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
