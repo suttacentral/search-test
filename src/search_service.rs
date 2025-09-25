@@ -2,7 +2,6 @@ use crate::response::SearchResults;
 use crate::test_case::TestCase;
 use anyhow::{Context, Result, anyhow};
 use reqwest::blocking::{Client, RequestBuilder, Response};
-use std::cell::RefCell;
 use std::time::{Duration, Instant};
 
 #[derive(Debug)]
@@ -13,24 +12,16 @@ pub struct TimedSearchResults {
 }
 pub trait SearchService {
     fn search(&self, test_case: &TestCase) -> TimedSearchResults;
-
-    fn set_timer(&self);
-
-    fn time_elapsed(&self) -> Duration;
 }
 
 #[derive(Debug)]
 pub struct LiveSearchService {
     endpoint: String,
-    start_time: RefCell<Instant>,
 }
 
 impl LiveSearchService {
     pub fn new(endpoint: String) -> Self {
-        Self {
-            endpoint,
-            start_time: RefCell::new(Instant::now()),
-        }
+        Self { endpoint }
     }
 
     fn build_request(&self, test_case: &TestCase) -> RequestBuilder {
@@ -69,12 +60,12 @@ impl LiveSearchService {
 
 impl SearchService for LiveSearchService {
     fn search(&self, test_case: &TestCase) -> TimedSearchResults {
-        self.set_timer();
+        let start = Instant::now();
         let http_response = self
             .build_request(test_case)
             .send()
             .context("Error sending HTTP request");
-        let elapsed = self.time_elapsed();
+        let elapsed = start.elapsed();
 
         match http_response {
             Err(error) => TimedSearchResults {
@@ -86,14 +77,6 @@ impl SearchService for LiveSearchService {
                 results: Self::search_results(http_response),
             },
         }
-    }
-
-    fn set_timer(&self) {
-        *self.start_time.borrow_mut() = Instant::now();
-    }
-
-    fn time_elapsed(&self) -> Duration {
-        self.start_time.borrow().elapsed()
     }
 }
 

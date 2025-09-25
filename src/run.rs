@@ -59,12 +59,6 @@ mod tests {
         fn search(&self, _: &TestCase) -> TimedSearchResults {
             self.results.borrow_mut().pop().unwrap()
         }
-
-        fn set_timer(&self) {}
-
-        fn time_elapsed(&self) -> Duration {
-            Duration::from_secs(3)
-        }
     }
 
     #[test]
