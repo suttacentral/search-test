@@ -160,7 +160,7 @@ mod tests {
     }
 
     #[test]
-    fn unranked_suttaplex_not_in_results_is_a_failure() {
+    fn unranked_suttaplex_not_in_results() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -181,6 +181,31 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case, &timed_results);
-        assert!(!test_result.passed, "Test passed but should have failed");
+        assert!(!test_result.passed);
+    }
+
+    #[test]
+    fn unranked_suttaplex_in_results() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        };
+        let test_case = TestCase {
+            expected: Some(expected),
+            ..test_case()
+        };
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![SuttaplexUid::from("mn1")],
+        };
+        let timed_results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Ok(search_results),
+        };
+
+        let test_result = TestResult::new(&test_case, &timed_results);
+        assert!(test_result.passed);
     }
 }
