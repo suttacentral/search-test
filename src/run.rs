@@ -137,6 +137,6 @@ mod tests {
         let runner = Runner::new(suite, engine).unwrap();
         let test_result = runner.run().next().unwrap();
         assert!(test_result.passed);
-        assert_eq!(test_result.duration, Duration::from_secs(3))
+        assert_eq!(test_result.elapsed, Duration::from_secs(3))
     }
 }

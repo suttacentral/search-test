@@ -4,15 +4,21 @@ use std::time::Duration;
 
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct TestResult {
-    pub duration: Duration,
+    pub elapsed: Duration,
     pub passed: bool,
 }
 
 impl TestResult {
-    pub fn new(_test_case: &TestCase, search_results: TimedSearchResults) -> Self {
-        Self {
-            passed: true,
-            duration: search_results.elapsed,
+    pub fn new(_test_case: &TestCase, timed: TimedSearchResults) -> Self {
+        match timed.results {
+            Ok(_) => Self {
+                elapsed: timed.elapsed,
+                passed: true,
+            },
+            Err(_) => Self {
+                elapsed: timed.elapsed,
+                passed: false,
+            },
         }
     }
 }
@@ -21,9 +27,9 @@ impl TestResult {
 mod tests {
     use super::*;
     use crate::response::SearchResults;
+    use anyhow::anyhow;
 
-    #[test]
-    fn construct_test_result() {
+    fn test_case() -> TestCase {
         let test_case = TestCase {
             description: "Description".to_string(),
             query: "query".to_string(),
@@ -34,7 +40,11 @@ mod tests {
             restrict: "all".to_string(),
             expected: None,
         };
+        test_case
+    }
 
+    #[test]
+    fn construct_test_result() {
         let results = TimedSearchResults {
             elapsed: Duration::from_secs(3),
             results: Ok(SearchResults {
@@ -44,6 +54,18 @@ mod tests {
             }),
         };
 
-        let _ = TestResult::new(&test_case, results);
+        let _ = TestResult::new(&test_case(), results);
+    }
+
+    #[test]
+    fn failed_if_an_error_occurred() {
+        let search_results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Err(anyhow!("Got an error")),
+        };
+
+        let test_result = TestResult::new(&test_case(), search_results);
+
+        assert!(!test_result.passed);
     }
 }
