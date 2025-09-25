@@ -1,5 +1,7 @@
+use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
+use anyhow::Error;
 use std::time::Duration;
 
 #[derive(Clone, Debug, Default, PartialEq)]
@@ -9,15 +11,30 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    pub fn new(_test_case: &TestCase, timed: TimedSearchResults) -> Self {
+    pub fn new(test_case: &TestCase, timed: TimedSearchResults) -> Self {
         match timed.results {
-            Ok(_) => Self {
-                elapsed: timed.elapsed,
+            Ok(results) => Self::retrieved_result(test_case, results, timed.elapsed),
+            Err(error) => Self::error_result(test_case, error, timed.elapsed),
+        }
+    }
+
+    pub fn error_result(_test_case: &TestCase, _error: Error, elapsed: Duration) -> Self {
+        Self {
+            elapsed,
+            passed: false,
+        }
+    }
+
+    pub fn retrieved_result(
+        test_case: &TestCase,
+        _search_results: SearchResults,
+        elapsed: Duration,
+    ) -> Self {
+        match &test_case.expected {
+            Some(expected) => todo!(),
+            None => Self {
+                elapsed,
                 passed: true,
-            },
-            Err(_) => Self {
-                elapsed: timed.elapsed,
-                passed: false,
             },
         }
     }
@@ -26,11 +43,13 @@ impl TestResult {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::expected::Expected;
+    use crate::identifiers::{SearchResultKey, SuttaplexUid};
     use crate::response::SearchResults;
     use anyhow::anyhow;
 
     fn test_case() -> TestCase {
-        let test_case = TestCase {
+        TestCase {
             description: "Description".to_string(),
             query: "query".to_string(),
             site_language: "en".to_string(),
@@ -39,8 +58,7 @@ mod tests {
             limit: 50,
             restrict: "all".to_string(),
             expected: None,
-        };
-        test_case
+        }
     }
 
     #[test]
@@ -65,7 +83,59 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case(), search_results);
+        assert!(!test_result.passed, "Test passed but should have failed");
+    }
 
-        assert!(!test_result.passed);
+    #[test]
+    fn retrieved_results_and_nothing_is_expected() {
+        let test_case = TestCase {
+            expected: None,
+            ..test_case()
+        };
+
+        let search_results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Ok(SearchResults {
+                text: Vec::new(),
+                dictionary: Vec::new(),
+                suttaplex: Vec::new(),
+            }),
+        };
+
+        let test_result = TestResult::new(&test_case, search_results);
+
+        assert_eq!(
+            test_result,
+            TestResult {
+                elapsed: Duration::from_secs(3),
+                passed: true,
+            }
+        );
+    }
+
+    #[test]
+    #[ignore]
+    fn unranked_suttaplex_not_in_results_is_a_failure() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        };
+        let test_case = TestCase {
+            expected: Some(expected),
+            ..test_case()
+        };
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: Vec::new(),
+        };
+        let timed_results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Ok(search_results),
+        };
+
+        let test_result = TestResult::new(&test_case, timed_results);
+        assert!(!test_result.passed, "Test passed but should have failed");
     }
 }
