@@ -73,10 +73,9 @@ impl TestResult {
         uid: &SuttaplexUid,
         elapsed: Duration,
     ) -> Self {
-        Self {
-            elapsed,
-            passed: false,
-        }
+        let passed = search_results.suttaplex.contains(uid);
+
+        Self { elapsed, passed }
     }
 
     fn without_expected(test_case: &TestCase, elapsed: Duration) -> Self {
