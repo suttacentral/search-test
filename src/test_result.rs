@@ -46,9 +46,13 @@ impl TestResult {
     }
 
     fn expected_unranked(test_case: &TestCase, key: &SearchResultKey, elapsed: Duration) -> Self {
-        Self {
-            elapsed,
-            passed: false,
+        match key {
+            SearchResultKey::Suttaplex { uid } => Self {
+                elapsed,
+                passed: false,
+            },
+            SearchResultKey::Dictionary { url } => todo!(),
+            SearchResultKey::Text { url } => todo!(),
         }
     }
 
