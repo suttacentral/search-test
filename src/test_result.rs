@@ -6,10 +6,16 @@ use crate::test_case::TestCase;
 use anyhow::Error;
 use std::time::Duration;
 
-#[derive(Clone, Debug, Default, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
+pub enum Assertion {
+    Passed,
+    Failed,
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub struct TestResult {
     pub elapsed: Duration,
-    pub passed: bool,
+    pub assertion: Assertion,
 }
 
 impl TestResult {
@@ -23,7 +29,7 @@ impl TestResult {
     fn on_error(_test_case: &TestCase, _error: &Error, elapsed: Duration) -> Self {
         Self {
             elapsed,
-            passed: false,
+            assertion: Assertion::Failed,
         }
     }
 
@@ -73,15 +79,23 @@ impl TestResult {
         uid: &SuttaplexUid,
         elapsed: Duration,
     ) -> Self {
-        let passed = search_results.suttaplex.contains(uid);
-
-        Self { elapsed, passed }
+        if search_results.suttaplex.contains(uid) {
+            Self {
+                elapsed,
+                assertion: Assertion::Passed,
+            }
+        } else {
+            Self {
+                elapsed,
+                assertion: Assertion::Failed,
+            }
+        }
     }
 
     fn without_expected(test_case: &TestCase, elapsed: Duration) -> Self {
         Self {
             elapsed,
-            passed: true,
+            assertion: Assertion::Passed,
         }
     }
 }
@@ -129,7 +143,7 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case(), &search_results);
-        assert!(!test_result.passed, "Test passed but should have failed");
+        assert_eq!(test_result.assertion, Assertion::Failed);
     }
 
     #[test]
@@ -154,7 +168,7 @@ mod tests {
             test_result,
             TestResult {
                 elapsed: Duration::from_secs(3),
-                passed: true,
+                assertion: Assertion::Passed,
             }
         );
     }
@@ -181,7 +195,7 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case, &timed_results);
-        assert!(!test_result.passed);
+        assert_eq!(test_result.assertion, Assertion::Failed);
     }
 
     #[test]
@@ -206,6 +220,6 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case, &timed_results);
-        assert!(test_result.passed);
+        assert_eq!(test_result.assertion, Assertion::Passed);
     }
 }
