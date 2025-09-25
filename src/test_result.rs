@@ -1,4 +1,5 @@
 use crate::expected::Expected;
+use crate::identifiers::SearchResultKey;
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
@@ -39,11 +40,15 @@ impl TestResult {
 
     fn with_expected(test_case: &TestCase, expected: &Expected, elapsed: Duration) -> Self {
         match expected {
-            Expected::Unranked { key } => Self {
-                elapsed,
-                passed: false,
-            },
+            Expected::Unranked { key } => Self::expected_unranked(test_case, key, elapsed),
             Expected::Ranked { key, min_rank } => todo!(),
+        }
+    }
+
+    fn expected_unranked(test_case: &TestCase, key: &SearchResultKey, elapsed: Duration) -> Self {
+        Self {
+            elapsed,
+            passed: false,
         }
     }
 
