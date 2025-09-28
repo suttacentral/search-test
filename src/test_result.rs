@@ -26,8 +26,31 @@ impl Outcome {
 
     fn new_with_results(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
         match expected {
-            Some(expected) => todo!(),
+            Some(expected) => Self::new_with_expected(expected, search_results),
             None => Outcome::Successful,
+        }
+    }
+
+    fn new_with_expected(expected: &Expected, search_results: &SearchResults) -> Self {
+        match expected {
+            Expected::Unranked { key } => Self::new_unranked(&key, &search_results),
+            Expected::Ranked { key, min_rank } => todo!(),
+        }
+    }
+
+    fn new_unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
+        match key {
+            SearchResultKey::Suttaplex { uid } => Self::new_unranked_suttaplex(uid, search_results),
+            SearchResultKey::Dictionary { url } => todo!(),
+            SearchResultKey::Text { url } => todo!(),
+        }
+    }
+
+    fn new_unranked_suttaplex(uid: &SuttaplexUid, search_results: &SearchResults) -> Self {
+        if search_results.suttaplex.contains(uid) {
+            Outcome::SuttaplexFound { uid: uid.clone() }
+        } else {
+            Outcome::SuttaplexNotFound { uid: uid.clone() }
         }
     }
 }
@@ -212,24 +235,16 @@ mod tests {
                 uid: SuttaplexUid::from("mn1"),
             },
         };
-        let test_case = TestCase {
-            expected: Some(expected),
-            ..test_case()
-        };
         let search_results = SearchResults {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: Vec::new(),
         };
-        let timed_results = TimedSearchResults {
-            elapsed: Duration::from_secs(3),
-            results: Ok(search_results),
-        };
 
-        let test_result = TestResult::new(&test_case, &timed_results);
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
         assert_eq!(
-            test_result.outcome,
+            outcome,
             Outcome::SuttaplexNotFound {
                 uid: SuttaplexUid::from("mn1")
             }
