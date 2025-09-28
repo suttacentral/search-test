@@ -235,6 +235,7 @@ mod tests {
                 uid: SuttaplexUid::from("mn1"),
             },
         };
+
         let search_results = SearchResults {
             text: Vec::new(),
             dictionary: Vec::new(),
@@ -258,23 +259,17 @@ mod tests {
                 uid: SuttaplexUid::from("mn1"),
             },
         };
-        let test_case = TestCase {
-            expected: Some(expected),
-            ..test_case()
-        };
+
         let search_results = SearchResults {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("mn1")],
         };
-        let timed_results = TimedSearchResults {
-            elapsed: Duration::from_secs(3),
-            results: Ok(search_results),
-        };
 
-        let test_result = TestResult::new(&test_case, &timed_results);
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
         assert_eq!(
-            test_result.outcome,
+            outcome,
             Outcome::SuttaplexFound {
                 uid: SuttaplexUid::from("mn1")
             }
