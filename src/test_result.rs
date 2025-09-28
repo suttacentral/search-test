@@ -3,7 +3,7 @@ use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
-use anyhow::Error;
+use anyhow::{Error, Result};
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -12,6 +12,24 @@ pub enum Outcome {
     Successful,
     SuttaplexFound { uid: SuttaplexUid },
     SuttaplexNotFound { uid: SuttaplexUid },
+}
+
+impl Outcome {
+    fn new(expected: &Option<Expected>, search_results: &Result<SearchResults>) -> Self {
+        match search_results {
+            Ok(results) => Self::new_with_results(expected, results),
+            Err(error) => Outcome::ErrorOccurred {
+                message: error.to_string(),
+            },
+        }
+    }
+
+    fn new_with_results(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
+        match expected {
+            Some(expected) => todo!(),
+            None => Outcome::Successful,
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -153,15 +171,21 @@ mod tests {
     }
 
     #[test]
-    fn failed_if_an_error_occurred() {
+    fn test_result_has_elapsed_time() {
         let search_results = TimedSearchResults {
             elapsed: Duration::from_secs(3),
-            results: Err(anyhow!("Got an error")),
+            ..search_results()
         };
-
         let test_result = TestResult::new(&test_case(), &search_results);
+        assert_eq!(test_result.elapsed, Duration::from_secs(3));
+    }
+
+    #[test]
+    fn failed_if_an_error_occurred() {
+        let search_results = Err(anyhow!("Got an error"));
+        let outcome = Outcome::new(&None, &search_results);
         assert_eq!(
-            test_result.outcome,
+            outcome,
             Outcome::ErrorOccurred {
                 message: "Got an error".to_string(),
             }
@@ -169,32 +193,16 @@ mod tests {
     }
 
     #[test]
-    fn retrieved_results_and_nothing_is_expected() {
-        let test_case = TestCase {
-            description: "The tests passes but the results aren't checked".to_string(),
-            expected: None,
-            ..test_case()
-        };
+    fn successful_if_nothing_expected_and_no_search_results() {
+        let search_results = Ok(SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: Vec::new(),
+        });
 
-        let search_results = TimedSearchResults {
-            elapsed: Duration::from_secs(3),
-            results: Ok(SearchResults {
-                text: Vec::new(),
-                dictionary: Vec::new(),
-                suttaplex: Vec::new(),
-            }),
-        };
+        let outcome = Outcome::new(&None, &search_results);
 
-        let test_result = TestResult::new(&test_case, &search_results);
-
-        assert_eq!(
-            test_result,
-            TestResult {
-                description: "The tests passes but the results aren't checked".to_string(),
-                elapsed: Duration::from_secs(3),
-                outcome: Outcome::Successful
-            }
-        );
+        assert_eq!(outcome, Outcome::Successful);
     }
 
     #[test]
