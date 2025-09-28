@@ -7,6 +7,23 @@ use anyhow::{Error, Result};
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
+pub struct TestResult {
+    pub description: String,
+    pub elapsed: Duration,
+    pub outcome: Outcome,
+}
+
+impl TestResult {
+    pub fn new(test_case: &TestCase, timed: &TimedSearchResults) -> Self {
+        Self {
+            description: test_case.description.clone(),
+            elapsed: timed.elapsed,
+            outcome: Outcome::new(&test_case.expected, &timed.results),
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub enum Outcome {
     ErrorOccurred { message: String },
     Successful,
@@ -51,23 +68,6 @@ impl Outcome {
             Outcome::SuttaplexFound { uid: uid.clone() }
         } else {
             Outcome::SuttaplexNotFound { uid: uid.clone() }
-        }
-    }
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub struct TestResult {
-    pub description: String,
-    pub elapsed: Duration,
-    pub outcome: Outcome,
-}
-
-impl TestResult {
-    pub fn new(test_case: &TestCase, timed: &TimedSearchResults) -> Self {
-        Self {
-            description: test_case.description.clone(),
-            elapsed: timed.elapsed,
-            outcome: Outcome::new(&test_case.expected, &timed.results),
         }
     }
 }
