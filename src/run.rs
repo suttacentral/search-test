@@ -39,7 +39,7 @@ mod tests {
     use crate::identifiers::SuttaplexUid;
     use crate::response::SearchResults;
     use crate::search_service::TimedSearchResults;
-    use crate::test_result::Assertion;
+    use crate::test_result::Outcome;
     use std::cell::RefCell;
     use std::time::Duration;
 
@@ -137,7 +137,7 @@ mod tests {
         let engine = FakeSearchService::new(vec![search_results]);
         let runner = Runner::new(suite, engine).unwrap();
         let test_result = runner.run().next().unwrap();
-        assert_eq!(test_result.assertion, Assertion::Passed);
+        assert_eq!(test_result.outcome, Outcome::Successful);
         assert_eq!(test_result.elapsed, Duration::from_secs(3))
     }
 }

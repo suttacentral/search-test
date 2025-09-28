@@ -3,15 +3,8 @@ use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
-use crate::test_result::Outcome::Successful;
 use anyhow::Error;
 use std::time::Duration;
-
-#[derive(Clone, Debug, PartialEq)]
-pub enum Assertion {
-    Passed,
-    Failed,
-}
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Outcome {
@@ -25,7 +18,6 @@ pub enum Outcome {
 pub struct TestResult {
     pub description: String,
     pub elapsed: Duration,
-    pub assertion: Assertion,
     pub outcome: Outcome,
 }
 
@@ -41,7 +33,6 @@ impl TestResult {
         Self {
             description: test_case.description.clone(),
             elapsed,
-            assertion: Assertion::Failed,
             outcome: Outcome::ErrorOccurred {
                 message: error.to_string(),
             },
@@ -98,14 +89,12 @@ impl TestResult {
             Self {
                 description: test_case.description.clone(),
                 elapsed,
-                assertion: Assertion::Passed,
                 outcome: Outcome::SuttaplexFound { uid: uid.clone() },
             }
         } else {
             Self {
                 description: test_case.description.clone(),
                 elapsed,
-                assertion: Assertion::Failed,
                 outcome: Outcome::SuttaplexNotFound { uid: uid.clone() },
             }
         }
@@ -115,7 +104,6 @@ impl TestResult {
         Self {
             description: test_case.description.clone(),
             elapsed,
-            assertion: Assertion::Passed,
             outcome: Outcome::Successful,
         }
     }
@@ -204,7 +192,6 @@ mod tests {
             TestResult {
                 description: "The tests passes but the results aren't checked".to_string(),
                 elapsed: Duration::from_secs(3),
-                assertion: Assertion::Passed,
                 outcome: Outcome::Successful
             }
         );
@@ -232,7 +219,13 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case, &timed_results);
-        assert_eq!(test_result.assertion, Assertion::Failed);
+
+        assert_eq!(
+            test_result.outcome,
+            Outcome::SuttaplexNotFound {
+                uid: SuttaplexUid::from("mn1")
+            }
+        );
     }
 
     #[test]
@@ -257,6 +250,11 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case, &timed_results);
-        assert_eq!(test_result.assertion, Assertion::Passed);
+        assert_eq!(
+            test_result.outcome,
+            Outcome::SuttaplexFound {
+                uid: SuttaplexUid::from("mn1")
+            }
+        );
     }
 }
