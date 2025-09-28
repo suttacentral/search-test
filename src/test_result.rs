@@ -3,6 +3,7 @@ use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
+use crate::test_result::Outcome::Successful;
 use anyhow::Error;
 use std::time::Duration;
 
@@ -13,10 +14,19 @@ pub enum Assertion {
 }
 
 #[derive(Clone, Debug, PartialEq)]
+pub enum Outcome {
+    ErrorOccurred { message: String },
+    Successful,
+    SuttaplexFound { uid: SuttaplexUid },
+    SuttaplexNotFound { uid: SuttaplexUid },
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub struct TestResult {
     pub description: String,
     pub elapsed: Duration,
     pub assertion: Assertion,
+    pub outcome: Outcome,
 }
 
 impl TestResult {
@@ -27,11 +37,14 @@ impl TestResult {
         }
     }
 
-    fn on_error(test_case: &TestCase, _error: &Error, elapsed: Duration) -> Self {
+    fn on_error(test_case: &TestCase, error: &Error, elapsed: Duration) -> Self {
         Self {
             description: test_case.description.clone(),
             elapsed,
             assertion: Assertion::Failed,
+            outcome: Outcome::ErrorOccurred {
+                message: error.to_string(),
+            },
         }
     }
 
@@ -86,12 +99,14 @@ impl TestResult {
                 description: test_case.description.clone(),
                 elapsed,
                 assertion: Assertion::Passed,
+                outcome: Outcome::SuttaplexFound { uid: uid.clone() },
             }
         } else {
             Self {
                 description: test_case.description.clone(),
                 elapsed,
                 assertion: Assertion::Failed,
+                outcome: Outcome::SuttaplexNotFound { uid: uid.clone() },
             }
         }
     }
@@ -101,6 +116,7 @@ impl TestResult {
             description: test_case.description.clone(),
             elapsed,
             assertion: Assertion::Passed,
+            outcome: Outcome::Successful,
         }
     }
 }
@@ -156,12 +172,18 @@ mod tests {
         };
 
         let test_result = TestResult::new(&test_case(), &search_results);
-        assert_eq!(test_result.assertion, Assertion::Failed);
+        assert_eq!(
+            test_result.outcome,
+            Outcome::ErrorOccurred {
+                message: "Got an error".to_string(),
+            }
+        );
     }
 
     #[test]
     fn retrieved_results_and_nothing_is_expected() {
         let test_case = TestCase {
+            description: "The tests passes but the results aren't checked".to_string(),
             expected: None,
             ..test_case()
         };
@@ -180,9 +202,10 @@ mod tests {
         assert_eq!(
             test_result,
             TestResult {
-                description: "A test was successful".to_string(),
+                description: "The tests passes but the results aren't checked".to_string(),
                 elapsed: Duration::from_secs(3),
                 assertion: Assertion::Passed,
+                outcome: Outcome::Successful
             }
         );
     }
