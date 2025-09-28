@@ -64,88 +64,10 @@ pub struct TestResult {
 
 impl TestResult {
     pub fn new(test_case: &TestCase, timed: &TimedSearchResults) -> Self {
-        match &timed.results {
-            Ok(results) => Self::on_retrieved(test_case, results, timed.elapsed),
-            Err(error) => Self::on_error(test_case, error, timed.elapsed),
-        }
-    }
-
-    fn on_error(test_case: &TestCase, error: &Error, elapsed: Duration) -> Self {
         Self {
             description: test_case.description.clone(),
-            elapsed,
-            outcome: Outcome::ErrorOccurred {
-                message: error.to_string(),
-            },
-        }
-    }
-
-    fn on_retrieved(
-        test_case: &TestCase,
-        search_results: &SearchResults,
-        elapsed: Duration,
-    ) -> Self {
-        match &test_case.expected {
-            Some(expected) => Self::with_expected(test_case, search_results, expected, elapsed),
-            None => Self::without_expected(test_case, elapsed),
-        }
-    }
-
-    fn with_expected(
-        test_case: &TestCase,
-        search_results: &SearchResults,
-        expected: &Expected,
-        elapsed: Duration,
-    ) -> Self {
-        match expected {
-            Expected::Unranked { key } => {
-                Self::expected_unranked(test_case, search_results, key, elapsed)
-            }
-            Expected::Ranked { key, min_rank } => todo!(),
-        }
-    }
-
-    fn expected_unranked(
-        test_case: &TestCase,
-        search_results: &SearchResults,
-        key: &SearchResultKey,
-        elapsed: Duration,
-    ) -> Self {
-        match key {
-            SearchResultKey::Suttaplex { uid } => {
-                Self::expected_unranked_suttaplex(test_case, search_results, uid, elapsed)
-            }
-            SearchResultKey::Dictionary { url } => todo!(),
-            SearchResultKey::Text { url } => todo!(),
-        }
-    }
-
-    fn expected_unranked_suttaplex(
-        test_case: &TestCase,
-        search_results: &SearchResults,
-        uid: &SuttaplexUid,
-        elapsed: Duration,
-    ) -> Self {
-        if search_results.suttaplex.contains(uid) {
-            Self {
-                description: test_case.description.clone(),
-                elapsed,
-                outcome: Outcome::SuttaplexFound { uid: uid.clone() },
-            }
-        } else {
-            Self {
-                description: test_case.description.clone(),
-                elapsed,
-                outcome: Outcome::SuttaplexNotFound { uid: uid.clone() },
-            }
-        }
-    }
-
-    fn without_expected(test_case: &TestCase, elapsed: Duration) -> Self {
-        Self {
-            description: test_case.description.clone(),
-            elapsed,
-            outcome: Outcome::Successful,
+            elapsed: timed.elapsed,
+            outcome: Outcome::new(&test_case.expected, &timed.results),
         }
     }
 }
