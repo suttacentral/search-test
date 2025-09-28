@@ -107,12 +107,12 @@ mod tests {
     #[test]
     fn test_result_has_description() {
         let test_case = TestCase {
-            description: "Test case description ABC".to_string(),
+            description: "Matching description".to_string(),
             ..test_case()
         };
 
         let test_result = TestResult::new(&test_case, &search_results());
-        assert_eq!(test_result.description, "Test case description ABC");
+        assert_eq!(test_result.description, "Matching description");
     }
 
     #[test]
