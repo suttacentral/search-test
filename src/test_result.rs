@@ -14,6 +14,7 @@ pub enum Assertion {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct TestResult {
+    pub description: String,
     pub elapsed: Duration,
     pub assertion: Assertion,
 }
@@ -26,8 +27,9 @@ impl TestResult {
         }
     }
 
-    fn on_error(_test_case: &TestCase, _error: &Error, elapsed: Duration) -> Self {
+    fn on_error(test_case: &TestCase, _error: &Error, elapsed: Duration) -> Self {
         Self {
+            description: test_case.description.clone(),
             elapsed,
             assertion: Assertion::Failed,
         }
@@ -81,11 +83,13 @@ impl TestResult {
     ) -> Self {
         if search_results.suttaplex.contains(uid) {
             Self {
+                description: test_case.description.clone(),
                 elapsed,
                 assertion: Assertion::Passed,
             }
         } else {
             Self {
+                description: test_case.description.clone(),
                 elapsed,
                 assertion: Assertion::Failed,
             }
@@ -94,6 +98,7 @@ impl TestResult {
 
     fn without_expected(test_case: &TestCase, elapsed: Duration) -> Self {
         Self {
+            description: test_case.description.clone(),
             elapsed,
             assertion: Assertion::Passed,
         }
@@ -121,18 +126,26 @@ mod tests {
         }
     }
 
-    #[test]
-    fn construct_test_result() {
-        let results = TimedSearchResults {
+    fn search_results() -> TimedSearchResults {
+        TimedSearchResults {
             elapsed: Duration::from_secs(3),
             results: Ok(SearchResults {
                 text: Vec::new(),
                 dictionary: Vec::new(),
                 suttaplex: Vec::new(),
             }),
+        }
+    }
+
+    #[test]
+    fn test_result_has_description() {
+        let test_case = TestCase {
+            description: "Test case description ABC".to_string(),
+            ..test_case()
         };
 
-        let _ = TestResult::new(&test_case(), &results);
+        let test_result = TestResult::new(&test_case, &search_results());
+        assert_eq!(test_result.description, "Test case description ABC");
     }
 
     #[test]
@@ -167,6 +180,7 @@ mod tests {
         assert_eq!(
             test_result,
             TestResult {
+                description: "A test was successful".to_string(),
                 elapsed: Duration::from_secs(3),
                 assertion: Assertion::Passed,
             }
