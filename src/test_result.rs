@@ -35,41 +35,53 @@ pub enum Outcome {
 impl Outcome {
     fn new(expected: &Option<Expected>, search_results: &Result<SearchResults>) -> Self {
         match search_results {
-            Ok(results) => Self::new_with_results(expected, results),
+            Ok(results) => Self::with_results(expected, results),
             Err(error) => Outcome::ErrorOccurred {
                 message: error.to_string(),
             },
         }
     }
 
-    fn new_with_results(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
+    fn with_results(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
         match expected {
-            Some(expected) => Self::new_with_expected(expected, search_results),
+            Some(expected) => Self::with_expected(expected, search_results),
             None => Outcome::Successful,
         }
     }
 
-    fn new_with_expected(expected: &Expected, search_results: &SearchResults) -> Self {
+    fn with_expected(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
-            Expected::Unranked { key } => Self::new_unranked(key, search_results),
-            Expected::Ranked { key, min_rank } => todo!(),
+            Expected::Unranked { key } => Self::unranked(key, search_results),
+            Expected::Ranked { key, min_rank } => Self::ranked(key, search_results),
         }
     }
 
-    fn new_unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
+    fn unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
         match key {
-            SearchResultKey::Suttaplex { uid } => Self::new_unranked_suttaplex(uid, search_results),
+            SearchResultKey::Suttaplex { uid } => Self::unranked_suttaplex(uid, search_results),
             SearchResultKey::Dictionary { url } => todo!(),
             SearchResultKey::Text { url } => todo!(),
         }
     }
 
-    fn new_unranked_suttaplex(uid: &SuttaplexUid, search_results: &SearchResults) -> Self {
+    fn ranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
+        match key {
+            SearchResultKey::Suttaplex { uid } => Self::ranked_suttaplex(uid, search_results),
+            SearchResultKey::Dictionary { url } => todo!(),
+            SearchResultKey::Text { url } => todo!(),
+        }
+    }
+
+    fn unranked_suttaplex(uid: &SuttaplexUid, search_results: &SearchResults) -> Self {
         if search_results.suttaplex.contains(uid) {
             Outcome::SuttaplexFound { uid: uid.clone() }
         } else {
             Outcome::SuttaplexNotFound { uid: uid.clone() }
         }
+    }
+
+    fn ranked_suttaplex(uid: &SuttaplexUid, search_results: &SearchResults) -> Self {
+        todo!()
     }
 }
 
@@ -209,6 +221,31 @@ mod tests {
         assert_eq!(
             outcome,
             Outcome::SuttaplexFound {
+                uid: SuttaplexUid::from("mn1")
+            }
+        );
+    }
+
+    #[test]
+    fn ranking_a_missing_suttaplex_gives_not_found() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+            min_rank: 3,
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: Vec::new(),
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(
+            outcome,
+            Outcome::SuttaplexNotFound {
                 uid: SuttaplexUid::from("mn1")
             }
         );
