@@ -151,21 +151,21 @@ impl SearchResults {
         }
     }
 
-    fn rank_text(&self, url: &TextUrl) -> Option<usize> {
+    pub fn rank_text(&self, url: &TextUrl) -> Option<usize> {
         self.text
             .iter()
             .position(|h| h == url)
             .map(|position| position + 1)
     }
 
-    fn rank_dictionary(&self, url: &DictionaryUrl) -> Option<usize> {
+    pub fn rank_dictionary(&self, url: &DictionaryUrl) -> Option<usize> {
         self.dictionary
             .iter()
             .position(|h| h == url)
             .map(|position| position + 1)
     }
 
-    fn rank_suttaplex(&self, uri: &SuttaplexUid) -> Option<usize> {
+    pub fn rank_suttaplex(&self, uri: &SuttaplexUid) -> Option<usize> {
         self.suttaplex
             .iter()
             .position(|hit| hit == uri)

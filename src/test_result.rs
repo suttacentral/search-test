@@ -81,7 +81,10 @@ impl Outcome {
     }
 
     fn ranked_suttaplex(uid: &SuttaplexUid, search_results: &SearchResults) -> Self {
-        todo!()
+        match search_results.rank_suttaplex(uid) {
+            None => Outcome::SuttaplexNotFound { uid: uid.clone() },
+            _ => todo!(),
+        }
     }
 }
 
