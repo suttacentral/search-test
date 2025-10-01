@@ -3,7 +3,8 @@ use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
-use anyhow::{Error, Result};
+use anyhow::Result;
+use std::cmp::Ordering;
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -50,7 +51,7 @@ impl Outcome {
 
     fn new_with_expected(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
-            Expected::Unranked { key } => Self::new_unranked(&key, &search_results),
+            Expected::Unranked { key } => Self::new_unranked(key, search_results),
             Expected::Ranked { key, min_rank } => todo!(),
         }
     }
@@ -68,6 +69,21 @@ impl Outcome {
             Outcome::SuttaplexFound { uid: uid.clone() }
         } else {
             Outcome::SuttaplexNotFound { uid: uid.clone() }
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum Rank {
+    Sufficient,
+    BelowMinimum,
+}
+
+impl Rank {
+    fn new(actual: usize, minimum: usize) -> Self {
+        match actual.cmp(&minimum) {
+            Ordering::Greater | Ordering::Equal => Rank::Sufficient,
+            Ordering::Less => Rank::BelowMinimum,
         }
     }
 }
@@ -196,5 +212,12 @@ mod tests {
                 uid: SuttaplexUid::from("mn1")
             }
         );
+    }
+
+    #[test]
+    fn create_rank() {
+        assert_eq!(Rank::new(3, 2), Rank::Sufficient);
+        assert_eq!(Rank::new(3, 3), Rank::Sufficient);
+        assert_eq!(Rank::new(2, 3), Rank::BelowMinimum);
     }
 }
