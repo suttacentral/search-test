@@ -30,6 +30,7 @@ pub enum Outcome {
     Successful,
     SuttaplexFound { uid: SuttaplexUid },
     SuttaplexNotFound { uid: SuttaplexUid },
+    SuttaplexRanked { uid: SuttaplexUid, rank: Rank },
 }
 
 impl Outcome {
@@ -52,7 +53,7 @@ impl Outcome {
     fn with_expected(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
             Expected::Unranked { key } => Self::unranked(key, search_results),
-            Expected::Ranked { key, min_rank } => Self::ranked(key, search_results),
+            Expected::Ranked { key, min_rank } => Self::ranked(key, *min_rank, search_results),
         }
     }
 
@@ -64,9 +65,11 @@ impl Outcome {
         }
     }
 
-    fn ranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
+    fn ranked(key: &SearchResultKey, min_rank: usize, search_results: &SearchResults) -> Self {
         match key {
-            SearchResultKey::Suttaplex { uid } => Self::ranked_suttaplex(uid, search_results),
+            SearchResultKey::Suttaplex { uid } => {
+                Self::ranked_suttaplex(uid, min_rank, search_results)
+            }
             SearchResultKey::Dictionary { url } => todo!(),
             SearchResultKey::Text { url } => todo!(),
         }
@@ -80,10 +83,17 @@ impl Outcome {
         }
     }
 
-    fn ranked_suttaplex(uid: &SuttaplexUid, search_results: &SearchResults) -> Self {
+    fn ranked_suttaplex(
+        uid: &SuttaplexUid,
+        min_rank: usize,
+        search_results: &SearchResults,
+    ) -> Self {
         match search_results.rank_suttaplex(uid) {
+            Some(actual) => Outcome::SuttaplexRanked {
+                uid: uid.clone(),
+                rank: Rank::new(actual, min_rank),
+            },
             None => Outcome::SuttaplexNotFound { uid: uid.clone() },
-            _ => todo!(),
         }
     }
 }
@@ -91,14 +101,14 @@ impl Outcome {
 #[derive(Clone, Debug, PartialEq)]
 pub enum Rank {
     Sufficient,
-    BelowMinimum,
+    Insufficent,
 }
 
 impl Rank {
     fn new(actual: usize, minimum: usize) -> Self {
         match actual.cmp(&minimum) {
-            Ordering::Greater | Ordering::Equal => Rank::Sufficient,
-            Ordering::Less => Rank::BelowMinimum,
+            Ordering::Less | Ordering::Equal => Rank::Sufficient,
+            Ordering::Greater => Rank::Insufficent,
         }
     }
 }
@@ -255,9 +265,39 @@ mod tests {
     }
 
     #[test]
+    fn suttaplex_below_minimum_rank() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn3"),
+            },
+            min_rank: 2,
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![
+                SuttaplexUid::from("mn1"),
+                SuttaplexUid::from("mn2"),
+                SuttaplexUid::from("mn3"),
+            ],
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(
+            outcome,
+            Outcome::SuttaplexRanked {
+                uid: SuttaplexUid::from("mn3"),
+                rank: Rank::Insufficent,
+            }
+        );
+    }
+
+    #[test]
     fn create_rank() {
-        assert_eq!(Rank::new(3, 2), Rank::Sufficient);
+        assert_eq!(Rank::new(3, 2), Rank::Insufficent);
         assert_eq!(Rank::new(3, 3), Rank::Sufficient);
-        assert_eq!(Rank::new(2, 3), Rank::BelowMinimum);
+        assert_eq!(Rank::new(2, 3), Rank::Sufficient);
     }
 }
