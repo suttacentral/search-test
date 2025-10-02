@@ -29,6 +29,13 @@ impl<C: PartialEq> CategorySearch<C> {
     fn found(&self) -> bool {
         self.sequence.contains(&self.id)
     }
+
+    fn rank(&self) -> Option<usize> {
+        self.sequence
+            .iter()
+            .position(|hit| hit == &self.id)
+            .map(|position| position + 1)
+    }
 }
 
 #[cfg(test)]
@@ -47,7 +54,21 @@ mod tests {
             sequence: vec![SuttaplexUid::from("mn1")],
         };
 
-        assert!(search.found())
+        assert!(search.found());
+    }
+
+    #[test]
+    fn suttaplex_ranked() {
+        let search = CategorySearch {
+            id: SuttaplexUid::from("mn2"),
+            sequence: vec![
+                SuttaplexUid::from("mn1"),
+                SuttaplexUid::from("mn2"),
+                SuttaplexUid::from("mn3"),
+            ],
+        };
+
+        assert_eq!(search.rank(), Some(2));
     }
 
     fn test_case() -> TestCase {
