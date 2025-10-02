@@ -59,10 +59,7 @@ impl Outcome {
                     id: uid,
                     sequence: search_results.suttaplex.iter().clone().collect(),
                 };
-                match search.found() {
-                    true => Outcome::Found,
-                    false => Outcome::NotFound,
-                }
+                search.found()
             }
             SearchResultKey::Dictionary { url } => todo!(),
             SearchResultKey::Text { url } => todo!(),
@@ -79,8 +76,11 @@ where
 }
 
 impl<C: PartialEq> CategorySearch<C> {
-    fn found(&self) -> bool {
-        self.sequence.contains(&self.id)
+    fn found(&self) -> Outcome {
+        match self.sequence.contains(&self.id) {
+            true => Outcome::Found,
+            false => Outcome::NotFound,
+        }
     }
 
     fn rank(&self) -> Option<usize> {
@@ -108,7 +108,7 @@ mod tests {
             sequence: vec![SuttaplexUid::from("mn1")],
         };
 
-        assert!(search.found());
+        assert_eq!(search.found(), Outcome::Found);
     }
 
     #[test]
