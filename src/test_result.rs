@@ -123,34 +123,6 @@ impl Rank {
     }
 }
 
-#[derive(Clone, Debug, PartialEq)]
-pub enum SequenceSearch {
-    Suttplex {
-        look_for: SuttaplexUid,
-        in_sequence: Vec<SuttaplexUid>,
-    },
-    Dictionary {
-        look_for: DictionaryUrl,
-        in_sequence: Vec<DictionaryUrl>,
-    },
-    Text {
-        look_for: TextUrl,
-        in_sequence: Vec<TextUrl>,
-    },
-}
-
-impl SequenceSearch {
-    fn new(key: SearchResultKey, search_results: SearchResults) -> Self {
-        match key {
-            SearchResultKey::Suttaplex { uid } => SequenceSearch::Suttplex {
-                look_for: uid,
-                in_sequence: search_results.suttaplex,
-            },
-            _ => todo!(),
-        }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -376,28 +348,6 @@ mod tests {
             outcome,
             Outcome::DictionaryFound {
                 url: DictionaryUrl::from("/define/metta"),
-            }
-        );
-    }
-
-    #[test]
-    fn suttaplex_sequence_search() {
-        let key = SearchResultKey::Suttaplex {
-            uid: SuttaplexUid::from("mn1"),
-        };
-
-        let search_results = SearchResults {
-            text: Vec::new(),
-            dictionary: Vec::new(),
-            suttaplex: vec![SuttaplexUid::from("mn1")],
-        };
-
-        let sequence_search = SequenceSearch::new(key, search_results);
-        assert_eq!(
-            sequence_search,
-            SequenceSearch::Suttplex {
-                look_for: SuttaplexUid::from("mn1"),
-                in_sequence: vec![SuttaplexUid::from("mn1")]
             }
         );
     }
