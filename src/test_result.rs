@@ -1,3 +1,5 @@
+use crate::expected::Expected;
+use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
 use anyhow::{Result, anyhow};
@@ -32,6 +34,12 @@ pub enum Outcome {
     Success,
 }
 
+impl Outcome {
+    fn new(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
+        Outcome::Success
+    }
+}
+
 struct CategorySearch<C>
 where
     C: PartialEq,
@@ -55,11 +63,11 @@ impl<C: PartialEq> CategorySearch<C> {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     use crate::identifiers::SuttaplexUid;
     use crate::response::SearchResults;
     use crate::search_service::TimedSearchResults;
     use crate::test_case::TestCase;
-    use crate::test_result::{CategorySearch, TestResult};
     use anyhow::anyhow;
     use std::time::Duration;
 
@@ -145,5 +153,17 @@ mod tests {
             test_result.outcome.unwrap_err().to_string(),
             "Something went wrong"
         );
+    }
+
+    #[test]
+    fn new_outcome_is_success_when_nothing_expected() {
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: Vec::new(),
+        };
+
+        let outcome = Outcome::new(&None, &search_results);
+        assert_eq!(outcome, Outcome::Success);
     }
 }
