@@ -53,17 +53,7 @@ impl Outcome {
     }
 
     fn unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
-        let search = CategorySearch::new(key, search_results);
-        match search {
-            CategorySearch::Suttaplex {
-                search_for,
-                in_sequence,
-            } => match in_sequence.contains(&search_for) {
-                true => Outcome::Found,
-                false => Outcome::NotFound,
-            },
-            _ => todo!(),
-        }
+        CategorySearch::new(key, search_results).found()
     }
 }
 
@@ -93,6 +83,23 @@ impl CategorySearch {
             SearchResultKey::Dictionary { url } => todo!(),
             SearchResultKey::Text { url } => todo!(),
         }
+    }
+
+    fn found(&self) -> Outcome {
+        match self {
+            Self::Suttaplex {
+                search_for,
+                in_sequence,
+            } => match in_sequence.contains(&search_for) {
+                true => Outcome::Found,
+                false => Outcome::NotFound,
+            },
+            _ => todo!(),
+        }
+    }
+
+    fn rank(&self) -> Outcome {
+        todo!()
     }
 }
 
