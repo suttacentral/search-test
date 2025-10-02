@@ -1,5 +1,5 @@
 use crate::expected::Expected;
-use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
