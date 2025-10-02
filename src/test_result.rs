@@ -64,6 +64,30 @@ impl Outcome {
     }
 }
 
+struct CategorySearch<C>
+where
+    C: PartialEq,
+{
+    id: C,
+    sequence: Vec<C>,
+}
+
+impl<C: PartialEq> CategorySearch<C> {
+    fn found(&self) -> Outcome {
+        match self.sequence.contains(&self.id) {
+            true => Outcome::Found,
+            false => Outcome::NotFound,
+        }
+    }
+
+    fn rank(&self) -> Option<usize> {
+        self.sequence
+            .iter()
+            .position(|hit| hit == &self.id)
+            .map(|position| position + 1)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -73,6 +97,30 @@ mod tests {
     use crate::test_case::TestCase;
     use anyhow::anyhow;
     use std::time::Duration;
+
+    #[test]
+    fn suttaplex_found() {
+        let search = CategorySearch {
+            id: SuttaplexUid::from("mn1"),
+            sequence: vec![SuttaplexUid::from("mn1")],
+        };
+
+        assert_eq!(search.found(), Outcome::Found);
+    }
+
+    #[test]
+    fn suttaplex_ranked() {
+        let search = CategorySearch {
+            id: SuttaplexUid::from("mn2"),
+            sequence: vec![
+                SuttaplexUid::from("mn1"),
+                SuttaplexUid::from("mn2"),
+                SuttaplexUid::from("mn3"),
+            ],
+        };
+
+        assert_eq!(search.rank(), Some(2));
+    }
 
     fn test_case() -> TestCase {
         TestCase {
