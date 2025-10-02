@@ -34,7 +34,11 @@ impl<C: PartialEq> CategorySearch<C> {
 #[cfg(test)]
 mod tests {
     use crate::identifiers::SuttaplexUid;
-    use crate::test_result::CategorySearch;
+    use crate::response::SearchResults;
+    use crate::search_service::TimedSearchResults;
+    use crate::test_case::TestCase;
+    use crate::test_result::{CategorySearch, TestResult};
+    use std::time::Duration;
 
     #[test]
     fn suttaplex_found() {
@@ -44,5 +48,50 @@ mod tests {
         };
 
         assert!(search.found())
+    }
+
+    fn test_case() -> TestCase {
+        TestCase {
+            description: "Description".to_string(),
+            query: "query".to_string(),
+            site_language: "en".to_string(),
+            selected_languages: vec!["en".to_string()],
+            match_partial: false,
+            limit: 50,
+            restrict: "all".to_string(),
+            expected: None,
+        }
+    }
+
+    fn search_results() -> TimedSearchResults {
+        TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            results: Ok(SearchResults {
+                text: Vec::new(),
+                dictionary: Vec::new(),
+                suttaplex: Vec::new(),
+            }),
+        }
+    }
+
+    #[test]
+    fn test_result_has_description() {
+        let test_case = TestCase {
+            description: "Matching description".to_string(),
+            ..test_case()
+        };
+
+        let test_result = TestResult::new(&test_case, &search_results());
+        assert_eq!(test_result.description, "Matching description");
+    }
+
+    #[test]
+    fn test_result_has_elapsed_time() {
+        let search_results = TimedSearchResults {
+            elapsed: Duration::from_secs(3),
+            ..search_results()
+        };
+        let test_result = TestResult::new(&test_case(), &search_results);
+        assert_eq!(test_result.elapsed, Duration::from_secs(3));
     }
 }
