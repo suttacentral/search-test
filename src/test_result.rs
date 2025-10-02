@@ -1,4 +1,5 @@
 use crate::expected::Expected;
+use crate::identifiers::SearchResultKey;
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
@@ -40,12 +41,32 @@ impl Outcome {
     fn new(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
         match expected {
             None => Self::Success,
-            Some(exp) => Self::found(),
+            Some(expected) => Self::found(expected, search_results),
         }
     }
 
-    fn found() -> Self {
-        Self::Found
+    fn found(expected: &Expected, search_results: &SearchResults) -> Self {
+        match expected {
+            Expected::Unranked { key } => Self::unranked(key, search_results),
+            Expected::Ranked { key, min_rank } => todo!(),
+        }
+    }
+
+    fn unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
+        match key {
+            SearchResultKey::Suttaplex { uid } => {
+                let search = CategorySearch {
+                    id: uid,
+                    sequence: search_results.suttaplex.iter().clone().collect(),
+                };
+                match search.found() {
+                    true => Outcome::Found,
+                    false => Outcome::NotFound,
+                }
+            }
+            SearchResultKey::Dictionary { url } => todo!(),
+            SearchResultKey::Text { url } => todo!(),
+        }
     }
 }
 
@@ -193,5 +214,24 @@ mod tests {
         let outcome = Outcome::new(&Some(expected), &search_results);
 
         assert_eq!(outcome, Outcome::Found);
+    }
+
+    #[test]
+    fn outcome_is_not_found_in_search() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![SuttaplexUid::from("mn2")],
+        };
+
+        let outcome = Outcome::new(&Some(expected), &search_results);
+
+        assert_eq!(outcome, Outcome::NotFound);
     }
 }
