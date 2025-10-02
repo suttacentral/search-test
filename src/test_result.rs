@@ -1,11 +1,13 @@
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
+use anyhow::{Result, anyhow};
 use std::time::Duration;
 
 #[derive(Debug)]
 pub struct TestResult {
     pub description: String,
     pub elapsed: Duration,
+    pub outcome: Result<Outcome>,
 }
 
 impl TestResult {
@@ -13,8 +15,21 @@ impl TestResult {
         Self {
             description: test_case.description.clone(),
             elapsed: timed.elapsed,
+            outcome: Self::outcome(test_case, timed),
         }
     }
+
+    fn outcome(test_case: &TestCase, timed: &TimedSearchResults) -> Result<Outcome> {
+        match &timed.results {
+            Ok(search_results) => Ok(Outcome::Success),
+            Err(error) => Err(anyhow!(error.to_string())),
+        }
+    }
+}
+
+#[derive(Debug, PartialEq)]
+pub enum Outcome {
+    Success,
 }
 
 struct CategorySearch<C>
@@ -45,6 +60,7 @@ mod tests {
     use crate::search_service::TimedSearchResults;
     use crate::test_case::TestCase;
     use crate::test_result::{CategorySearch, TestResult};
+    use anyhow::anyhow;
     use std::time::Duration;
 
     #[test]
@@ -114,5 +130,20 @@ mod tests {
         };
         let test_result = TestResult::new(&test_case(), &search_results);
         assert_eq!(test_result.elapsed, Duration::from_secs(3));
+    }
+
+    #[test]
+    fn when_search_results_is_error_outcome_is_error() {
+        let search_results = TimedSearchResults {
+            results: Err(anyhow!("Something went wrong")),
+            ..search_results()
+        };
+
+        let test_result = TestResult::new(&test_case(), &search_results);
+
+        assert_eq!(
+            test_result.outcome.unwrap_err().to_string(),
+            "Something went wrong"
+        );
     }
 }
