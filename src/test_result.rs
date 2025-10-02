@@ -1,5 +1,5 @@
 use crate::expected::Expected;
-use crate::identifiers::{SearchResultKey, SuttaplexUid};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
@@ -31,6 +31,8 @@ pub enum Outcome {
     SuttaplexFound { uid: SuttaplexUid },
     SuttaplexNotFound { uid: SuttaplexUid },
     SuttaplexRanked { uid: SuttaplexUid, rank: Rank },
+    DictionaryFound { url: DictionaryUrl },
+    DictionaryNotFound { url: DictionaryUrl },
 }
 
 impl Outcome {
@@ -60,7 +62,7 @@ impl Outcome {
     fn unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
         match key {
             SearchResultKey::Suttaplex { uid } => Self::unranked_suttaplex(uid, search_results),
-            SearchResultKey::Dictionary { url } => todo!(),
+            SearchResultKey::Dictionary { url } => Self::unranked_dictionary(url, search_results),
             SearchResultKey::Text { url } => todo!(),
         }
     }
@@ -96,6 +98,14 @@ impl Outcome {
             None => Outcome::SuttaplexNotFound { uid: uid.clone() },
         }
     }
+
+    fn unranked_dictionary(url: &DictionaryUrl, search_results: &SearchResults) -> Self {
+        if search_results.dictionary.contains(url) {
+            Outcome::DictionaryFound { url: url.clone() }
+        } else {
+            Outcome::DictionaryNotFound { url: url.clone() }
+        }
+    }
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -117,7 +127,7 @@ impl Rank {
 mod tests {
     use super::*;
     use crate::expected::Expected;
-    use crate::identifiers::{SearchResultKey, SuttaplexUid};
+    use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
     use crate::response::SearchResults;
     use anyhow::anyhow;
 
@@ -290,6 +300,54 @@ mod tests {
             Outcome::SuttaplexRanked {
                 uid: SuttaplexUid::from("mn3"),
                 rank: Rank::Insufficent,
+            }
+        );
+    }
+
+    #[test]
+    fn unranked_dictionary_not_in_results() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Dictionary {
+                url: DictionaryUrl::from("/define/metta"),
+            },
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: Vec::new(),
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(
+            outcome,
+            Outcome::DictionaryNotFound {
+                url: DictionaryUrl::from("/define/metta"),
+            }
+        );
+    }
+
+    #[test]
+    fn unranked_dictionary_in_results() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Dictionary {
+                url: DictionaryUrl::from("/define/metta"),
+            },
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: vec![DictionaryUrl::from("/define/metta")],
+            suttaplex: Vec::new(),
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(
+            outcome,
+            Outcome::DictionaryFound {
+                url: DictionaryUrl::from("/define/metta"),
             }
         );
     }
