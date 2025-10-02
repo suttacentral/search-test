@@ -23,7 +23,7 @@ impl TestResult {
 
     fn outcome(test_case: &TestCase, timed: &TimedSearchResults) -> Result<Outcome> {
         match &timed.results {
-            Ok(search_results) => Ok(Outcome::Success),
+            Ok(search_results) => Ok(Outcome::new(&test_case.expected, search_results)),
             Err(error) => Err(anyhow!(error.to_string())),
         }
     }
@@ -32,11 +32,20 @@ impl TestResult {
 #[derive(Debug, PartialEq)]
 pub enum Outcome {
     Success,
+    Found,
+    NotFound,
 }
 
 impl Outcome {
     fn new(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
-        Outcome::Success
+        match expected {
+            None => Self::Success,
+            Some(exp) => Self::found(),
+        }
+    }
+
+    fn found() -> Self {
+        Self::Found
     }
 }
 
@@ -64,7 +73,7 @@ impl<C: PartialEq> CategorySearch<C> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::SuttaplexUid;
+    use crate::identifiers::{SearchResultKey, SuttaplexUid};
     use crate::response::SearchResults;
     use crate::search_service::TimedSearchResults;
     use crate::test_case::TestCase;
@@ -165,5 +174,24 @@ mod tests {
 
         let outcome = Outcome::new(&None, &search_results);
         assert_eq!(outcome, Outcome::Success);
+    }
+
+    #[test]
+    fn outcome_is_found_in_search() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![SuttaplexUid::from("mn1")],
+        };
+
+        let outcome = Outcome::new(&Some(expected), &search_results);
+
+        assert_eq!(outcome, Outcome::Found);
     }
 }
