@@ -47,13 +47,9 @@ impl Outcome {
 
     fn found(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
-            Expected::Unranked { key } => Self::unranked(key, search_results),
+            Expected::Unranked { key } => CategorySearch::new(key, search_results).found(),
             Expected::Ranked { key, min_rank } => todo!(),
         }
-    }
-
-    fn unranked(key: &SearchResultKey, search_results: &SearchResults) -> Self {
-        CategorySearch::new(key, search_results).found()
     }
 }
 
