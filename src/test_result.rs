@@ -11,7 +11,7 @@ use std::time::Duration;
 pub struct TestResult {
     pub description: String,
     pub elapsed: Duration,
-    pub outcome: Result<Outcome>,
+    pub outcome: Outcome,
 }
 
 impl TestResult {
@@ -19,27 +19,30 @@ impl TestResult {
         Self {
             description: test_case.description.clone(),
             elapsed: timed.elapsed,
-            outcome: Self::outcome(test_case, timed),
-        }
-    }
-
-    fn outcome(test_case: &TestCase, timed: &TimedSearchResults) -> Result<Outcome> {
-        match &timed.results {
-            Ok(search_results) => Ok(Outcome::new(&test_case.expected, search_results)),
-            Err(error) => Err(anyhow!(error.to_string())),
+            outcome: Outcome::new(&test_case.expected, &timed.results),
         }
     }
 }
 
 #[derive(Debug, PartialEq)]
 pub enum Outcome {
+    Error { message: String },
     Success,
     Found,
     NotFound,
 }
 
 impl Outcome {
-    fn new(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
+    fn new(expected: &Option<Expected>, search_results: &Result<SearchResults>) -> Self {
+        match search_results {
+            Ok(search_results) => Self::success(expected, search_results),
+            Err(error) => Self::Error {
+                message: error.to_string(),
+            },
+        }
+    }
+
+    fn success(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
         match expected {
             None => Self::Success,
             Some(expected) => Self::found(expected, search_results),
@@ -125,8 +128,10 @@ mod tests {
         let test_result = TestResult::new(&test_case(), &search_results);
 
         assert_eq!(
-            test_result.outcome.unwrap_err().to_string(),
-            "Something went wrong"
+            test_result.outcome,
+            Outcome::Error {
+                message: String::from("Something went wrong")
+            },
         );
     }
 
@@ -138,7 +143,7 @@ mod tests {
             suttaplex: Vec::new(),
         };
 
-        let outcome = Outcome::new(&None, &search_results);
+        let outcome = Outcome::new(&None, &Ok(search_results));
         assert_eq!(outcome, Outcome::Success);
     }
 
@@ -156,7 +161,7 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("mn1")],
         };
 
-        let outcome = Outcome::new(&Some(expected), &search_results);
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
         assert_eq!(outcome, Outcome::Found);
     }
@@ -175,7 +180,8 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("mn2")],
         };
 
-        let outcome = Outcome::new(&Some(expected), &search_results);
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
         assert_eq!(outcome, Outcome::NotFound);
     }
