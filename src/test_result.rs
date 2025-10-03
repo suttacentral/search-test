@@ -28,7 +28,7 @@ impl TestResult {
 pub enum Outcome {
     Error { message: String },
     Success,
-    Found,
+    Found { search: CategorySearch },
     NotFound,
 }
 
@@ -52,9 +52,9 @@ impl Outcome {
     fn expected(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
             Expected::Unranked { key } => {
-                let category_search = CategorySearch::new(key, search_results);
-                match category_search.found() {
-                    true => Outcome::Found,
+                let search = CategorySearch::new(key, search_results);
+                match search.found() {
+                    true => Outcome::Found { search },
                     false => Outcome::NotFound,
                 }
             }
@@ -163,7 +163,15 @@ mod tests {
 
         let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
-        assert_eq!(outcome, Outcome::Found);
+        assert_eq!(
+            outcome,
+            Outcome::Found {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_sequence: vec![SuttaplexUid::from("mn1")],
+                }
+            }
+        );
     }
 
     #[test]
