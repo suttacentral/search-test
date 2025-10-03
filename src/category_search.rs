@@ -30,20 +30,17 @@ impl CategorySearch {
         }
     }
 
-    pub fn found(&self) -> Outcome {
+    pub fn found(&self) -> bool {
         match self {
             Self::Suttaplex {
                 search_for,
                 in_sequence,
-            } => match in_sequence.contains(&search_for) {
-                true => Outcome::Found,
-                false => Outcome::NotFound,
-            },
+            } => in_sequence.contains(&search_for),
             _ => todo!(),
         }
     }
 
-    fn rank(&self) -> Outcome {
+    fn rank(&self) -> Option<usize> {
         todo!()
     }
 }

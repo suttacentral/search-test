@@ -48,7 +48,13 @@ impl Outcome {
 
     fn found(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
-            Expected::Unranked { key } => CategorySearch::new(key, search_results).found(),
+            Expected::Unranked { key } => {
+                let category_search = CategorySearch::new(key, search_results);
+                match category_search.found() {
+                    true => Outcome::Found,
+                    false => Outcome::NotFound,
+                }
+            }
             Expected::Ranked { key, min_rank } => todo!(),
         }
     }
