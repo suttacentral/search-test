@@ -52,6 +52,7 @@ impl CategorySearch {
         }
     }
 
+    // TODO: Replace with generic function over URL/UID?
     pub fn rank(&self) -> Option<usize> {
         match self {
             Self::Text {
