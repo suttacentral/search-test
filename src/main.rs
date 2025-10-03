@@ -1,3 +1,4 @@
+mod category_search;
 mod defaults;
 mod expected;
 mod identifiers;
