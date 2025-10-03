@@ -29,7 +29,7 @@ pub enum Outcome {
     Error { message: String },
     Success,
     Found { search: CategorySearch },
-    NotFound,
+    NotFound { search: CategorySearch },
 }
 
 impl Outcome {
@@ -55,7 +55,7 @@ impl Outcome {
                 let search = CategorySearch::new(key, search_results);
                 match search.found() {
                     true => Outcome::Found { search },
-                    false => Outcome::NotFound,
+                    false => Outcome::NotFound { search },
                 }
             }
             Expected::Ranked { key, min_rank } => todo!(),
@@ -190,6 +190,14 @@ mod tests {
 
         let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
-        assert_eq!(outcome, Outcome::NotFound);
+        assert_eq!(
+            outcome,
+            Outcome::NotFound {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn2")],
+                }
+            }
+        );
     }
 }
