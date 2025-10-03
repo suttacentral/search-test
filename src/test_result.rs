@@ -45,11 +45,11 @@ impl Outcome {
     fn success(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
         match expected {
             None => Self::Success,
-            Some(expected) => Self::found(expected, search_results),
+            Some(expected) => Self::expected(expected, search_results),
         }
     }
 
-    fn found(expected: &Expected, search_results: &SearchResults) -> Self {
+    fn expected(expected: &Expected, search_results: &SearchResults) -> Self {
         match expected {
             Expected::Unranked { key } => {
                 let category_search = CategorySearch::new(key, search_results);
