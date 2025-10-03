@@ -181,7 +181,6 @@ mod tests {
         };
 
         let outcome = Outcome::new(&Some(expected), &Ok(search_results));
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
         assert_eq!(outcome, Outcome::NotFound);
     }
