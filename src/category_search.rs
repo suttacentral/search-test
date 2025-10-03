@@ -243,4 +243,14 @@ mod tests {
 
         assert_eq!(search.rank(), Some(1));
     }
+
+    #[test]
+    fn text_has_no_rank() {
+        let search = CategorySearch::Text {
+            search_for: TextUrl::from("/mn1/en/bodhi"),
+            in_results: Vec::new(),
+        };
+
+        assert_eq!(search.rank(), None);
+    }
 }
