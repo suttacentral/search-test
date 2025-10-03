@@ -23,19 +23,26 @@ impl CategorySearch {
         match key {
             SearchResultKey::Suttaplex { uid } => Self::Suttaplex {
                 search_for: uid.clone(),
-                in_sequence: results.suttaplex.iter().cloned().collect(),
+                in_sequence: results.suttaplex.to_vec(),
             },
             SearchResultKey::Dictionary { url } => todo!(),
-            SearchResultKey::Text { url } => todo!(),
+            SearchResultKey::Text { url } => Self::Text {
+                search_for: url.clone(),
+                in_sequence: results.text.to_vec(),
+            },
         }
     }
 
     pub fn found(&self) -> bool {
         match self {
+            Self::Text {
+                search_for,
+                in_sequence,
+            } => in_sequence.contains(search_for),
             Self::Suttaplex {
                 search_for,
                 in_sequence,
-            } => in_sequence.contains(&search_for),
+            } => in_sequence.contains(search_for),
             _ => todo!(),
         }
     }
@@ -50,6 +57,29 @@ mod tests {
     use super::*;
     use crate::identifiers::{SearchResultKey, SuttaplexUid};
     use crate::response::SearchResults;
+
+    #[test]
+    fn text_in_results() {
+        let key = SearchResultKey::Text {
+            url: TextUrl::from("/mn1/en/bodhi"),
+        };
+
+        let search_results = SearchResults {
+            text: vec![TextUrl::from("/mn1/en/bodhi")],
+            dictionary: Vec::new(),
+            suttaplex: Vec::new(),
+        };
+
+        let search = CategorySearch::new(&key, &search_results);
+
+        assert_eq!(
+            search,
+            CategorySearch::Text {
+                search_for: TextUrl::from("/mn1/en/bodhi"),
+                in_sequence: vec![TextUrl::from("/mn1/en/bodhi")]
+            }
+        )
+    }
 
     #[test]
     fn create_suttaplex_search_result() {
