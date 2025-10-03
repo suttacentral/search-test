@@ -4,10 +4,11 @@ use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
-use anyhow::{Result, anyhow};
+use anyhow::Result;
 use std::time::Duration;
 
 #[derive(Debug)]
+#[allow(unused)]
 pub struct TestResult {
     pub description: String,
     pub elapsed: Duration,
@@ -64,8 +65,9 @@ impl Outcome {
                 let search = CategorySearch::new(key, search_results);
                 match search.rank() {
                     None => todo!(),
-                    Some(rank) if rank >= *min_rank => Outcome::SufficientRank,
-                    _ => todo!(),
+                    Some(rank) if rank <= *min_rank => Outcome::SufficientRank,
+                    Some(rank) if rank > *min_rank => Outcome::RankTooLow,
+                    _ => unreachable!("All possibilities covered above"),
                 }
             }
         }
@@ -228,5 +230,25 @@ mod tests {
         let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
         assert_eq!(outcome, Outcome::SufficientRank)
+    }
+
+    #[test]
+    fn outcome_rank_is_too_low() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn2"),
+            },
+            min_rank: 1,
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(outcome, Outcome::RankTooLow)
     }
 }
