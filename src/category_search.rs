@@ -64,7 +64,10 @@ impl CategorySearch {
             Self::Dictionary {
                 search_for,
                 in_results,
-            } => todo!(),
+            } => in_results
+                .iter()
+                .position(|hit| hit == search_for)
+                .map(|position| position + 1),
             Self::Suttaplex {
                 search_for,
                 in_results,
@@ -252,5 +255,23 @@ mod tests {
         };
 
         assert_eq!(search.rank(), None);
+    }
+
+    #[test]
+    fn dictionary_has_rank() {
+        let search = CategorySearch::Dictionary {
+            search_for: DictionaryUrl::from("/define/metta"),
+            in_results: vec![DictionaryUrl::from("/define/metta")],
+        };
+        assert_eq!(search.rank(), Some(1))
+    }
+
+    #[test]
+    fn dictionary_has_no_rank() {
+        let search = CategorySearch::Dictionary {
+            search_for: DictionaryUrl::from("/define/metta"),
+            in_results: Vec::new(),
+        };
+        assert_eq!(search.rank(), None)
     }
 }
