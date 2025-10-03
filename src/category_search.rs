@@ -39,21 +39,37 @@ impl CategorySearch {
         match self {
             Self::Text {
                 search_for,
-                in_results: in_sequence,
-            } => in_sequence.contains(search_for),
+                in_results,
+            } => in_results.contains(search_for),
             Self::Suttaplex {
                 search_for,
-                in_results: in_sequence,
-            } => in_sequence.contains(search_for),
+                in_results,
+            } => in_results.contains(search_for),
             Self::Dictionary {
                 search_for,
-                in_results: in_sequence,
-            } => in_sequence.contains(search_for),
+                in_results,
+            } => in_results.contains(search_for),
         }
     }
 
-    fn rank(&self) -> Option<usize> {
-        todo!()
+    pub fn rank(&self) -> Option<usize> {
+        match self {
+            Self::Text {
+                search_for,
+                in_results,
+            } => todo!(),
+            Self::Dictionary {
+                search_for,
+                in_results,
+            } => todo!(),
+            Self::Suttaplex {
+                search_for,
+                in_results,
+            } => in_results
+                .iter()
+                .position(|hit| hit == search_for)
+                .map(|position| position + 1),
+        }
     }
 }
 
@@ -190,5 +206,15 @@ mod tests {
         };
 
         assert!(!search.found());
+    }
+
+    #[test]
+    fn suttaplex_has_rank() {
+        let search = CategorySearch::Suttaplex {
+            search_for: SuttaplexUid::from("mn3"),
+            in_results: vec![SuttaplexUid::from("mn2"), SuttaplexUid::from("mn3")],
+        };
+
+        assert_eq!(search.rank(), Some(2));
     }
 }

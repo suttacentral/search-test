@@ -30,6 +30,8 @@ pub enum Outcome {
     Success,
     Found { search: CategorySearch },
     NotFound { search: CategorySearch },
+    SufficientRank,
+    RankTooLow,
 }
 
 impl Outcome {
@@ -58,7 +60,14 @@ impl Outcome {
                     false => Outcome::NotFound { search },
                 }
             }
-            Expected::Ranked { key, min_rank } => todo!(),
+            Expected::Ranked { key, min_rank } => {
+                let search = CategorySearch::new(key, search_results);
+                match search.rank() {
+                    None => todo!(),
+                    Some(rank) if rank >= *min_rank => Outcome::SufficientRank,
+                    _ => todo!(),
+                }
+            }
         }
     }
 }
@@ -199,5 +208,25 @@ mod tests {
                 }
             }
         );
+    }
+
+    #[test]
+    fn outcome_is_sufficient_rank() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+            min_rank: 1,
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: Vec::new(),
+            suttaplex: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(outcome, Outcome::SufficientRank)
     }
 }
