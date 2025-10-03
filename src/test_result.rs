@@ -64,7 +64,7 @@ impl Outcome {
             Expected::Ranked { key, min_rank } => {
                 let search = CategorySearch::new(key, search_results);
                 match search.rank() {
-                    None => Outcome::NotFound { search },
+                    None => Outcome::NotFound { search }, // TODO: Maybe separate variant?
                     Some(rank) if rank <= *min_rank => Outcome::SufficientRank,
                     Some(rank) if rank > *min_rank => Outcome::RankTooLow,
                     _ => unreachable!("All possibilities covered above"),
