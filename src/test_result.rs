@@ -64,7 +64,7 @@ impl Outcome {
             Expected::Ranked { key, min_rank } => {
                 let search = CategorySearch::new(key, search_results);
                 match search.rank() {
-                    None => todo!(),
+                    None => Outcome::NotFound { search },
                     Some(rank) if rank <= *min_rank => Outcome::SufficientRank,
                     Some(rank) if rank > *min_rank => Outcome::RankTooLow,
                     _ => unreachable!("All possibilities covered above"),
@@ -77,7 +77,7 @@ impl Outcome {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::{SearchResultKey, SuttaplexUid};
+    use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
     use crate::response::SearchResults;
     use crate::search_service::TimedSearchResults;
     use crate::test_case::TestCase;
@@ -250,5 +250,33 @@ mod tests {
         let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
         assert_eq!(outcome, Outcome::RankTooLow)
+    }
+
+    #[test]
+    fn outcome_ranked_but_is_missing() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Dictionary {
+                url: DictionaryUrl::from("/define/metta"),
+            },
+            min_rank: 1,
+        };
+
+        let search_results = SearchResults {
+            text: Vec::new(),
+            dictionary: vec![DictionaryUrl::from("/define/dosa")],
+            suttaplex: Vec::new(),
+        };
+
+        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+
+        assert_eq!(
+            outcome,
+            Outcome::NotFound {
+                search: CategorySearch::Dictionary {
+                    search_for: DictionaryUrl::from("/define/metta"),
+                    in_results: vec![DictionaryUrl::from("/define/dosa")],
+                }
+            }
+        )
     }
 }
