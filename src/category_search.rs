@@ -217,4 +217,14 @@ mod tests {
 
         assert_eq!(search.rank(), Some(2));
     }
+
+    #[test]
+    fn missing_suttaplex_has_no_rank() {
+        let search = CategorySearch::Suttaplex {
+            search_for: SuttaplexUid::from("mn3"),
+            in_results: Vec::new(),
+        };
+
+        assert_eq!(search.rank(), None);
+    }
 }
