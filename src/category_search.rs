@@ -172,4 +172,24 @@ mod tests {
 
         assert!(!search.found());
     }
+
+    #[test]
+    fn suttaplex_is_found() {
+        let search = CategorySearch::Suttaplex {
+            search_for: SuttaplexUid::from("mn1"),
+            in_sequence: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+        };
+
+        assert!(search.found());
+    }
+
+    #[test]
+    fn suttaplex_is_not_found() {
+        let search = CategorySearch::Suttaplex {
+            search_for: SuttaplexUid::from("mn1"),
+            in_sequence: vec![SuttaplexUid::from("mn2"), SuttaplexUid::from("mn3")],
+        };
+
+        assert!(!search.found());
+    }
 }
