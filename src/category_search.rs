@@ -57,7 +57,10 @@ impl CategorySearch {
             Self::Text {
                 search_for,
                 in_results,
-            } => todo!(),
+            } => in_results
+                .iter()
+                .position(|hit| hit == search_for)
+                .map(|position| position + 1),
             Self::Dictionary {
                 search_for,
                 in_results,
@@ -226,5 +229,18 @@ mod tests {
         };
 
         assert_eq!(search.rank(), None);
+    }
+
+    #[test]
+    fn text_has_rank() {
+        let search = CategorySearch::Text {
+            search_for: TextUrl::from("/mn1/en/bodhi"),
+            in_results: vec![
+                TextUrl::from("/mn1/en/bodhi"),
+                TextUrl::from("/mn1/en/sujato"),
+            ],
+        };
+
+        assert_eq!(search.rank(), Some(1));
     }
 }
