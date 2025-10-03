@@ -168,7 +168,7 @@ mod tests {
             Outcome::Found {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn1"),
-                    in_sequence: vec![SuttaplexUid::from("mn1")],
+                    in_results: vec![SuttaplexUid::from("mn1")],
                 }
             }
         );

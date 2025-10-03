@@ -5,15 +5,15 @@ use crate::response::SearchResults;
 pub enum CategorySearch {
     Text {
         search_for: TextUrl,
-        in_sequence: Vec<TextUrl>,
+        in_results: Vec<TextUrl>,
     },
     Dictionary {
         search_for: DictionaryUrl,
-        in_sequence: Vec<DictionaryUrl>,
+        in_results: Vec<DictionaryUrl>,
     },
     Suttaplex {
         search_for: SuttaplexUid,
-        in_sequence: Vec<SuttaplexUid>,
+        in_results: Vec<SuttaplexUid>,
     },
 }
 
@@ -22,15 +22,15 @@ impl CategorySearch {
         match key {
             SearchResultKey::Suttaplex { uid } => Self::Suttaplex {
                 search_for: uid.clone(),
-                in_sequence: results.suttaplex.to_vec(),
+                in_results: results.suttaplex.to_vec(),
             },
             SearchResultKey::Dictionary { url } => Self::Dictionary {
                 search_for: url.clone(),
-                in_sequence: results.dictionary.to_vec(),
+                in_results: results.dictionary.to_vec(),
             },
             SearchResultKey::Text { url } => Self::Text {
                 search_for: url.clone(),
-                in_sequence: results.text.to_vec(),
+                in_results: results.text.to_vec(),
             },
         }
     }
@@ -39,15 +39,15 @@ impl CategorySearch {
         match self {
             Self::Text {
                 search_for,
-                in_sequence,
+                in_results: in_sequence,
             } => in_sequence.contains(search_for),
             Self::Suttaplex {
                 search_for,
-                in_sequence,
+                in_results: in_sequence,
             } => in_sequence.contains(search_for),
             Self::Dictionary {
                 search_for,
-                in_sequence,
+                in_results: in_sequence,
             } => in_sequence.contains(search_for),
         }
     }
@@ -81,7 +81,7 @@ mod tests {
             search,
             CategorySearch::Text {
                 search_for: TextUrl::from("/mn1/en/bodhi"),
-                in_sequence: vec![TextUrl::from("/mn1/en/bodhi")]
+                in_results: vec![TextUrl::from("/mn1/en/bodhi")]
             }
         )
     }
@@ -104,7 +104,7 @@ mod tests {
             search,
             CategorySearch::Dictionary {
                 search_for: DictionaryUrl::from("/define/metta"),
-                in_sequence: vec![DictionaryUrl::from("/define/metta")]
+                in_results: vec![DictionaryUrl::from("/define/metta")]
             }
         )
     }
@@ -127,7 +127,7 @@ mod tests {
             search,
             CategorySearch::Suttaplex {
                 search_for: SuttaplexUid::from("mn1"),
-                in_sequence: vec![SuttaplexUid::from("mn1")]
+                in_results: vec![SuttaplexUid::from("mn1")]
             }
         )
     }
@@ -136,7 +136,7 @@ mod tests {
     fn text_is_found() {
         let search = CategorySearch::Text {
             search_for: TextUrl::from("/mn1/en/bodhi"),
-            in_sequence: vec![TextUrl::from("/mn1/en/bodhi")],
+            in_results: vec![TextUrl::from("/mn1/en/bodhi")],
         };
 
         assert!(search.found());
@@ -146,7 +146,7 @@ mod tests {
     fn text_is_missing() {
         let search = CategorySearch::Text {
             search_for: TextUrl::from("/mn1/en/bodhi"),
-            in_sequence: vec![],
+            in_results: vec![],
         };
 
         assert!(!search.found());
@@ -156,7 +156,7 @@ mod tests {
     fn dictionary_is_found() {
         let search = CategorySearch::Dictionary {
             search_for: DictionaryUrl::from("/define/metta"),
-            in_sequence: vec![DictionaryUrl::from("/define/metta")],
+            in_results: vec![DictionaryUrl::from("/define/metta")],
         };
 
         assert!(search.found());
@@ -166,7 +166,7 @@ mod tests {
     fn dictionary_is_missing() {
         let search = CategorySearch::Dictionary {
             search_for: DictionaryUrl::from("/define/metta"),
-            in_sequence: vec![DictionaryUrl::from("/define/dosa")],
+            in_results: vec![DictionaryUrl::from("/define/dosa")],
         };
 
         assert!(!search.found());
@@ -176,7 +176,7 @@ mod tests {
     fn suttaplex_is_found() {
         let search = CategorySearch::Suttaplex {
             search_for: SuttaplexUid::from("mn1"),
-            in_sequence: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+            in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
         };
 
         assert!(search.found());
@@ -186,7 +186,7 @@ mod tests {
     fn suttaplex_is_not_found() {
         let search = CategorySearch::Suttaplex {
             search_for: SuttaplexUid::from("mn1"),
-            in_sequence: vec![SuttaplexUid::from("mn2"), SuttaplexUid::from("mn3")],
+            in_results: vec![SuttaplexUid::from("mn2"), SuttaplexUid::from("mn3")],
         };
 
         assert!(!search.found());
