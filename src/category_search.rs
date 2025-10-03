@@ -46,7 +46,10 @@ impl CategorySearch {
                 search_for,
                 in_sequence,
             } => in_sequence.contains(search_for),
-            _ => todo!(),
+            Self::Dictionary {
+                search_for,
+                in_sequence,
+            } => in_sequence.contains(search_for),
         }
     }
 
@@ -128,5 +131,45 @@ mod tests {
                 in_sequence: vec![SuttaplexUid::from("mn1")]
             }
         )
+    }
+
+    #[test]
+    fn text_is_found() {
+        let search = CategorySearch::Text {
+            search_for: TextUrl::from("/mn1/en/bodhi"),
+            in_sequence: vec![TextUrl::from("/mn1/en/bodhi")],
+        };
+
+        assert!(search.found());
+    }
+
+    #[test]
+    fn text_is_missing() {
+        let search = CategorySearch::Text {
+            search_for: TextUrl::from("/mn1/en/bodhi"),
+            in_sequence: vec![],
+        };
+
+        assert!(!search.found());
+    }
+
+    #[test]
+    fn dictionary_is_found() {
+        let search = CategorySearch::Dictionary {
+            search_for: DictionaryUrl::from("/define/metta"),
+            in_sequence: vec![DictionaryUrl::from("/define/metta")],
+        };
+
+        assert!(search.found());
+    }
+
+    #[test]
+    fn dictionary_is_missing() {
+        let search = CategorySearch::Dictionary {
+            search_for: DictionaryUrl::from("/define/metta"),
+            in_sequence: vec![DictionaryUrl::from("/define/dosa")],
+        };
+
+        assert!(!search.found());
     }
 }
