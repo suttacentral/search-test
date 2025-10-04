@@ -4,6 +4,7 @@ use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
 use anyhow::Result;
+use std::cmp::Ordering;
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -34,14 +35,11 @@ pub enum Rank {
 impl Rank {
     fn new(minimum: usize, actual: Option<usize>) -> Self {
         match actual {
-            Some(actual) => {
-                if actual <= minimum {
-                    Self::Sufficient { minimum, actual }
-                } else {
-                    Self::TooLow { minimum, actual }
-                }
-            }
             None => Rank::NotFound { minimum },
+            Some(actual) => match actual.cmp(&minimum) {
+                Ordering::Greater => Self::TooLow { minimum, actual },
+                Ordering::Less | Ordering::Equal => Self::Sufficient { minimum, actual },
+            },
         }
     }
 }
