@@ -31,7 +31,7 @@ pub enum Outcome {
     Success,
     Found { search: CategorySearch },
     NotFound { search: CategorySearch },
-    SufficientRank,
+    SufficientRank { search: CategorySearch },
     RankTooLow,
 }
 
@@ -65,7 +65,7 @@ impl Outcome {
                 let search = CategorySearch::new(key, search_results);
                 match search.rank() {
                     None => Outcome::NotFound { search }, // TODO: Maybe separate variant?
-                    Some(rank) if rank <= *min_rank => Outcome::SufficientRank,
+                    Some(rank) if rank <= *min_rank => Outcome::SufficientRank { search },
                     Some(rank) if rank > *min_rank => Outcome::RankTooLow,
                     _ => unreachable!("All possibilities covered above"),
                 }
@@ -229,7 +229,15 @@ mod tests {
 
         let outcome = Outcome::new(&Some(expected), &Ok(search_results));
 
-        assert_eq!(outcome, Outcome::SufficientRank)
+        assert_eq!(
+            outcome,
+            Outcome::SufficientRank {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")]
+                }
+            }
+        )
     }
 
     #[test]
