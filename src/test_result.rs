@@ -46,6 +46,10 @@ pub enum Outcome {
         min_rank: usize,
         actual_rank: usize,
     },
+    RankNotFound {
+        search: CategorySearch,
+        min_rank: usize,
+    },
 }
 
 impl Outcome {
@@ -77,7 +81,6 @@ impl Outcome {
             Expected::Ranked { key, min_rank } => {
                 let search = CategorySearch::new(key, search_results);
                 match search.rank() {
-                    None => Outcome::NotFound { search }, // TODO: Maybe separate variant?
                     Some(actual_rank) if actual_rank <= *min_rank => Outcome::SufficientRank {
                         search,
                         min_rank: *min_rank,
@@ -87,6 +90,10 @@ impl Outcome {
                         search,
                         min_rank: *min_rank,
                         actual_rank,
+                    },
+                    None => Outcome::RankNotFound {
+                        search,
+                        min_rank: *min_rank,
                     },
                     _ => unreachable!("All possibilities covered above"),
                 }
@@ -294,7 +301,7 @@ mod tests {
     }
 
     #[test]
-    fn outcome_ranked_but_is_missing() {
+    fn outcome_ranked_but_not_found() {
         let expected = Expected::Ranked {
             key: SearchResultKey::Dictionary {
                 url: DictionaryUrl::from("/define/metta"),
@@ -312,11 +319,12 @@ mod tests {
 
         assert_eq!(
             outcome,
-            Outcome::NotFound {
+            Outcome::RankNotFound {
                 search: CategorySearch::Dictionary {
                     search_for: DictionaryUrl::from("/define/metta"),
                     in_results: vec![DictionaryUrl::from("/define/dosa")],
-                }
+                },
+                min_rank: 1
             }
         )
     }
