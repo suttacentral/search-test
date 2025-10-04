@@ -1,6 +1,5 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
-use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
