@@ -6,7 +6,7 @@ use crate::test_case::TestCase;
 use anyhow::Result;
 use std::time::Duration;
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 #[allow(unused)]
 pub struct TestResult {
     pub description: String,
@@ -24,32 +24,35 @@ impl TestResult {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
+pub enum Rank {
+    Sufficient { minimum: usize, actual: usize },
+    TooLow { minimum: usize, actual: usize },
+    NotFound { minimum: usize },
+}
+
+impl Rank {
+    fn new(minimum: usize, actual: Option<usize>) -> Self {
+        match actual {
+            Some(actual) => {
+                if actual <= minimum {
+                    Self::Sufficient { minimum, actual }
+                } else {
+                    Self::TooLow { minimum, actual }
+                }
+            }
+            None => Rank::NotFound { minimum },
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
 pub enum Outcome {
-    Error {
-        message: String,
-    },
+    Error { message: String },
     Success,
-    Found {
-        search: CategorySearch,
-    },
-    NotFound {
-        search: CategorySearch,
-    },
-    SufficientRank {
-        search: CategorySearch,
-        min_rank: usize,
-        actual_rank: usize,
-    },
-    RankTooLow {
-        search: CategorySearch,
-        min_rank: usize,
-        actual_rank: usize,
-    },
-    RankNotFound {
-        search: CategorySearch,
-        min_rank: usize,
-    },
+    Found { search: CategorySearch },
+    NotFound { search: CategorySearch },
+    Ranked { search: CategorySearch, rank: Rank },
 }
 
 impl Outcome {
@@ -80,23 +83,8 @@ impl Outcome {
             }
             Expected::Ranked { key, min_rank } => {
                 let search = CategorySearch::new(key, search_results);
-                match search.rank() {
-                    Some(actual_rank) if actual_rank <= *min_rank => Outcome::SufficientRank {
-                        search,
-                        min_rank: *min_rank,
-                        actual_rank,
-                    },
-                    Some(actual_rank) if actual_rank > *min_rank => Outcome::RankTooLow {
-                        search,
-                        min_rank: *min_rank,
-                        actual_rank,
-                    },
-                    None => Outcome::RankNotFound {
-                        search,
-                        min_rank: *min_rank,
-                    },
-                    _ => unreachable!("All possibilities covered above"),
-                }
+                let rank = Rank::new(*min_rank, search.rank());
+                Outcome::Ranked { search, rank }
             }
         }
     }
@@ -259,13 +247,15 @@ mod tests {
 
         assert_eq!(
             outcome,
-            Outcome::SufficientRank {
+            Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn1"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")]
                 },
-                min_rank: 1,
-                actual_rank: 1
+                rank: Rank::Sufficient {
+                    minimum: 1,
+                    actual: 1
+                }
             }
         )
     }
@@ -289,13 +279,15 @@ mod tests {
 
         assert_eq!(
             outcome,
-            Outcome::RankTooLow {
+            Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn2"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")]
                 },
-                min_rank: 1,
-                actual_rank: 2,
+                rank: Rank::TooLow {
+                    minimum: 1,
+                    actual: 2
+                }
             }
         )
     }
@@ -319,12 +311,12 @@ mod tests {
 
         assert_eq!(
             outcome,
-            Outcome::RankNotFound {
+            Outcome::Ranked {
                 search: CategorySearch::Dictionary {
                     search_for: DictionaryUrl::from("/define/metta"),
                     in_results: vec![DictionaryUrl::from("/define/dosa")],
                 },
-                min_rank: 1
+                rank: Rank::NotFound { minimum: 1 }
             }
         )
     }
