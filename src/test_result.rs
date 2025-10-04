@@ -43,6 +43,8 @@ pub enum Outcome {
     },
     RankTooLow {
         search: CategorySearch,
+        min_rank: usize,
+        actual_rank: usize,
     },
 }
 
@@ -81,7 +83,11 @@ impl Outcome {
                         min_rank: *min_rank,
                         actual_rank,
                     },
-                    Some(actual_rank) if actual_rank > *min_rank => Outcome::RankTooLow { search },
+                    Some(actual_rank) if actual_rank > *min_rank => Outcome::RankTooLow {
+                        search,
+                        min_rank: *min_rank,
+                        actual_rank,
+                    },
                     _ => unreachable!("All possibilities covered above"),
                 }
             }
@@ -281,6 +287,8 @@ mod tests {
                     search_for: SuttaplexUid::from("mn2"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")]
                 },
+                min_rank: 1,
+                actual_rank: 2,
             }
         )
     }
