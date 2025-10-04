@@ -36,9 +36,9 @@ impl Rank {
     fn new(minimum: usize, actual: Option<usize>) -> Self {
         match actual {
             None => Rank::NotFound { minimum },
-            Some(actual) => match actual.cmp(&minimum) {
-                Ordering::Greater => Self::TooLow { minimum, actual },
-                Ordering::Less | Ordering::Equal => Self::Sufficient { minimum, actual },
+            Some(actual) => match minimum.cmp(&actual) {
+                Ordering::Greater | Ordering::Equal => Self::Sufficient { minimum, actual },
+                Ordering::Less => Self::TooLow { minimum, actual },
             },
         }
     }
