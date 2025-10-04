@@ -20,6 +20,6 @@ fn main() {
     let runner = Runner::new(suite, search_service).unwrap();
 
     for result in runner.run() {
-        println!("{result:?}");
+        println!("{result:#?}");
     }
 }
