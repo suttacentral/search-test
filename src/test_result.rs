@@ -27,12 +27,24 @@ impl TestResult {
 
 #[derive(Debug, PartialEq)]
 pub enum Outcome {
-    Error { message: String },
+    Error {
+        message: String,
+    },
     Success,
-    Found { search: CategorySearch },
-    NotFound { search: CategorySearch },
-    SufficientRank { search: CategorySearch },
-    RankTooLow { search: CategorySearch },
+    Found {
+        search: CategorySearch,
+    },
+    NotFound {
+        search: CategorySearch,
+    },
+    SufficientRank {
+        search: CategorySearch,
+        min_rank: usize,
+        actual_rank: usize,
+    },
+    RankTooLow {
+        search: CategorySearch,
+    },
 }
 
 impl Outcome {
@@ -65,8 +77,12 @@ impl Outcome {
                 let search = CategorySearch::new(key, search_results);
                 match search.rank() {
                     None => Outcome::NotFound { search }, // TODO: Maybe separate variant?
-                    Some(rank) if rank <= *min_rank => Outcome::SufficientRank { search },
-                    Some(rank) if rank > *min_rank => Outcome::RankTooLow { search },
+                    Some(actual_rank) if actual_rank <= *min_rank => Outcome::SufficientRank {
+                        search,
+                        min_rank: *min_rank,
+                        actual_rank,
+                    },
+                    Some(actual_rank) if actual_rank > *min_rank => Outcome::RankTooLow { search },
                     _ => unreachable!("All possibilities covered above"),
                 }
             }
@@ -235,7 +251,9 @@ mod tests {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn1"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")]
-                }
+                },
+                min_rank: 1,
+                actual_rank: 1
             }
         )
     }
@@ -263,7 +281,7 @@ mod tests {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn2"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")]
-                }
+                },
             }
         )
     }
