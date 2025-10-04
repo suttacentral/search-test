@@ -98,6 +98,33 @@ mod tests {
     use anyhow::anyhow;
     use std::time::Duration;
 
+    #[test]
+    fn rank_not_found() {
+        assert_eq!(Rank::new(3, None), Rank::NotFound { minimum: 3 });
+    }
+
+    #[test]
+    fn rank_sufficient() {
+        assert_eq!(
+            Rank::new(3, Some(3)),
+            Rank::Sufficient {
+                minimum: 3,
+                actual: 3
+            }
+        );
+    }
+
+    #[test]
+    fn rank_too_low() {
+        assert_eq!(
+            Rank::new(3, Some(4)),
+            Rank::TooLow {
+                minimum: 3,
+                actual: 4
+            }
+        );
+    }
+
     fn test_case() -> TestCase {
         TestCase {
             description: "Description".to_string(),
