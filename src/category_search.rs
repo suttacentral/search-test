@@ -35,6 +35,13 @@ impl CategorySearch {
         }
     }
 
+    fn rank_in_results<T: PartialEq>(item: &T, results: &[T]) -> Option<usize> {
+        results
+            .iter()
+            .position(|hit| hit == item)
+            .map(|position| position + 1)
+    }
+
     pub fn found(&self) -> bool {
         match self {
             Self::Text {
@@ -52,30 +59,20 @@ impl CategorySearch {
         }
     }
 
-    // TODO: Replace with generic function over URL/UID?
     pub fn rank(&self) -> Option<usize> {
         match self {
             Self::Text {
                 search_for,
                 in_results,
-            } => in_results
-                .iter()
-                .position(|hit| hit == search_for)
-                .map(|position| position + 1),
+            } => Self::rank_in_results(search_for, in_results),
             Self::Dictionary {
                 search_for,
                 in_results,
-            } => in_results
-                .iter()
-                .position(|hit| hit == search_for)
-                .map(|position| position + 1),
+            } => Self::rank_in_results(search_for, in_results),
             Self::Suttaplex {
                 search_for,
                 in_results,
-            } => in_results
-                .iter()
-                .position(|hit| hit == search_for)
-                .map(|position| position + 1),
+            } => Self::rank_in_results(search_for, in_results),
         }
     }
 }
