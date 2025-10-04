@@ -6,7 +6,7 @@ use crate::test_case::TestCase;
 use anyhow::Result;
 use std::time::Duration;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 #[allow(unused)]
 pub struct TestResult {
     pub description: String,
