@@ -91,7 +91,16 @@ impl Outcome {
         match self {
             Self::Error { message: _ } => Summary::Error,
             Self::Success => Summary::Passed,
-            _ => todo!(),
+            Self::Found { search: _ } => Summary::Passed,
+            Self::NotFound { search: _ } => Summary::Failed,
+            Self::Ranked { search: _, rank } => match rank {
+                Rank::NotFound { minimum: _ } => Summary::Failed,
+                Rank::TooLow {
+                    minimum: _,
+                    actual: _,
+                } => Summary::Failed,
+                _ => todo!(),
+            },
         }
     }
 }
@@ -125,6 +134,57 @@ mod tests {
     fn summary_is_passed_for_success() {
         let outcome = Outcome::Success;
         assert_eq!(outcome.summary(), Summary::Passed);
+    }
+
+    #[test]
+    fn summary_is_passed_for_found() {
+        let outcome = Outcome::Found {
+            search: CategorySearch::Suttaplex {
+                search_for: SuttaplexUid::from("mn1"),
+                in_results: Vec::new(),
+            },
+        };
+        assert_eq!(outcome.summary(), Summary::Passed);
+    }
+
+    #[test]
+    fn summary_is_failed_for_not_found() {
+        let outcome = Outcome::NotFound {
+            search: CategorySearch::Suttaplex {
+                search_for: SuttaplexUid::from("mn1"),
+                in_results: Vec::new(),
+            },
+        };
+        assert_eq!(outcome.summary(), Summary::Failed);
+    }
+
+    #[test]
+    fn summary_is_failed_for_rank_not_found() {
+        let outcome = Outcome::Ranked {
+            search: CategorySearch::Suttaplex {
+                search_for: SuttaplexUid::from("mn1"),
+                in_results: Vec::new(),
+            },
+            rank: Rank::NotFound { minimum: 3 },
+        };
+
+        assert_eq!(outcome.summary(), Summary::Failed);
+    }
+
+    #[test]
+    fn summary_is_failed_for_rank_too_low() {
+        let outcome = Outcome::Ranked {
+            search: CategorySearch::Suttaplex {
+                search_for: SuttaplexUid::from("mn1"),
+                in_results: Vec::new(),
+            },
+            rank: Rank::TooLow {
+                minimum: 3,
+                actual: 4,
+            },
+        };
+
+        assert_eq!(outcome.summary(), Summary::Failed);
     }
 
     #[test]
