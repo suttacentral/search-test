@@ -86,6 +86,20 @@ impl Outcome {
             }
         }
     }
+
+    fn in_brief(&self) -> OutcomeInBrief {
+        match self {
+            Self::Error { message: _ } => OutcomeInBrief::Error,
+            _ => todo!(),
+        }
+    }
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum OutcomeInBrief {
+    Error,
+    Passed,
+    Failed,
 }
 
 #[cfg(test)]
@@ -97,6 +111,14 @@ mod tests {
     use crate::test_case::TestCase;
     use anyhow::anyhow;
     use std::time::Duration;
+
+    #[test]
+    fn in_brief_error_is_error() {
+        let outcome = Outcome::Error {
+            message: String::from("An error occured"),
+        };
+        assert_eq!(outcome.in_brief(), OutcomeInBrief::Error);
+    }
 
     #[test]
     fn rank_not_found() {
