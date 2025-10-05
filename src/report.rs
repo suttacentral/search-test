@@ -1,6 +1,16 @@
 use crate::test_result::{Summary, TestResult};
 use std::fmt::{Display, Formatter};
 
+impl Display for TestResult {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        let summary = self.outcome.summary().to_string();
+        let elapsed = self.elapsed.as_millis();
+        let description = &self.description;
+
+        write!(f, "{summary:7} ({elapsed}ms): \"{description}\"")
+    }
+}
+
 impl Display for Summary {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -11,14 +21,14 @@ impl Display for Summary {
     }
 }
 
-impl Display for TestResult {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(
-            f,
-            "{}: Ran test {} in {}ms",
-            self.outcome.summary(),
-            self.description,
-            self.elapsed.as_millis()
-        )
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn display_summary() {
+        assert_eq!(Summary::Error.to_string(), "ERROR");
+        assert_eq!(Summary::Failed.to_string(), "FAILED");
+        assert_eq!(Summary::Passed.to_string(), "PASSED");
     }
 }
