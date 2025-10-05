@@ -90,6 +90,7 @@ impl Outcome {
     fn in_brief(&self) -> Summary {
         match self {
             Self::Error { message: _ } => Summary::Error,
+            Self::Success => Summary::Passed,
             _ => todo!(),
         }
     }
@@ -118,6 +119,12 @@ mod tests {
             message: String::from("An error occured"),
         };
         assert_eq!(outcome.in_brief(), Summary::Error);
+    }
+
+    #[test]
+    fn summary_is_passed_for_success() {
+        let outcome = Outcome::Success;
+        assert_eq!(outcome.in_brief(), Summary::Passed);
     }
 
     #[test]
