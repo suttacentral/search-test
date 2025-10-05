@@ -2,6 +2,7 @@ mod category_search;
 mod defaults;
 mod expected;
 mod identifiers;
+mod report;
 mod response;
 mod run;
 mod search_service;
@@ -20,6 +21,6 @@ fn main() {
     let runner = Runner::new(suite, search_service).unwrap();
 
     for result in runner.run() {
-        println!("{result:#?}");
+        println!("{result}");
     }
 }
