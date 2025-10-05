@@ -4,10 +4,10 @@ use std::fmt::{Display, Formatter};
 impl Display for TestResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         let summary = self.outcome.summary().to_string();
-        let elapsed = self.elapsed.as_millis();
+        let elapsed = format!("{}ms", self.elapsed.as_millis());
         let description = &self.description;
 
-        write!(f, "{summary:7} ({elapsed}ms): \"{description}\"")
+        write!(f, "{summary:7} {elapsed:6} \"{description}\"")
     }
 }
 
