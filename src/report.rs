@@ -24,11 +24,28 @@ impl Display for Summary {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::test_result::Outcome;
+    use std::time::Duration;
 
     #[test]
     fn display_summary() {
         assert_eq!(Summary::Error.to_string(), "ERROR");
         assert_eq!(Summary::Failed.to_string(), "FAILED");
         assert_eq!(Summary::Passed.to_string(), "PASSED");
+    }
+
+    #[test]
+    fn display_error_test_result() {
+        let test_result = TestResult {
+            description: String::from("Something will go wrong."),
+            elapsed: Duration::from_millis(4321),
+            outcome: Outcome::Error {
+                message: String::from("Something went wrong"),
+            },
+        };
+
+        let expected = r#"ERROR   4321ms "Something will go wrong.""#;
+
+        assert_eq!(test_result.to_string(), expected);
     }
 }
