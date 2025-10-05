@@ -23,7 +23,7 @@ impl TestResult {
     }
 
     fn detail_line(&self) -> Option<String> {
-        None
+        Some(String::from("  Something went wrong"))
     }
 }
 
@@ -53,7 +53,7 @@ mod tests {
     #[test]
     fn display_error() {
         let display = TestResult {
-            description: String::from("Something will go wrong."),
+            description: String::from("Something will go wrong"),
             elapsed: Duration::from_millis(4321),
             outcome: Outcome::Error {
                 message: String::from("Something went wrong"),
@@ -65,7 +65,9 @@ mod tests {
 
         assert_eq!(
             lines.next().unwrap(),
-            "ERROR   4321ms Something will go wrong."
-        )
+            "ERROR   4321ms Something will go wrong"
+        );
+
+        assert_eq!(lines.next().unwrap(), "  Something went wrong")
     }
 }
