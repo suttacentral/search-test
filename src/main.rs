@@ -14,7 +14,7 @@ use crate::test_suite::TestSuite;
 use search_service::LiveSearchService;
 
 fn main() {
-    let toml = std::fs::read_to_string("test-cases/play.toml").unwrap();
+    let toml = std::fs::read_to_string("test-cases/examples.toml").unwrap();
     let suite = TestSuite::load_from_string(toml.as_str()).unwrap();
     let search_service = LiveSearchService::new(suite.endpoint().clone());
     let runner = Runner::new(suite, search_service).unwrap();
