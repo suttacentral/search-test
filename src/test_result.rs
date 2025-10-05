@@ -87,7 +87,7 @@ impl Outcome {
         }
     }
 
-    fn summary(&self) -> Summary {
+    pub fn summary(&self) -> Summary {
         match self {
             Self::Error { message: _ } => Summary::Error,
             Self::Success => Summary::Passed,
