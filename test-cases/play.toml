@@ -9,8 +9,8 @@ match-partial = false
 selected-languages = ["en", "pli"]
 
 [[test-case]]
-description = "Has multiple dictionary results."
-query = "pacch"
+description = "Playing around"
+query = "metta"
 match-partial = true
-expected.suttaplex = "mn1"
+expected.sutta = "/snp5.1/en/sujato"
 expected.min-rank = 3
