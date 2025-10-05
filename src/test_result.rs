@@ -99,7 +99,10 @@ impl Outcome {
                     minimum: _,
                     actual: _,
                 } => Summary::Failed,
-                _ => todo!(),
+                Rank::Sufficient {
+                    minimum: _,
+                    actual: _,
+                } => Summary::Passed,
             },
         }
     }
@@ -185,6 +188,22 @@ mod tests {
         };
 
         assert_eq!(outcome.summary(), Summary::Failed);
+    }
+
+    #[test]
+    fn summary_is_passed_for_rank_sufficient() {
+        let outcome = Outcome::Ranked {
+            search: CategorySearch::Suttaplex {
+                search_for: SuttaplexUid::from("mn1"),
+                in_results: Vec::new(),
+            },
+            rank: Rank::Sufficient {
+                minimum: 3,
+                actual: 2,
+            },
+        };
+
+        assert_eq!(outcome.summary(), Summary::Passed);
     }
 
     #[test]
