@@ -3,11 +3,17 @@ use std::fmt::{Display, Formatter};
 
 impl Display for TestResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "{}", self.main_line())
+    }
+}
+
+impl TestResult {
+    fn main_line(&self) -> String {
         let summary = self.outcome.summary().to_string();
         let elapsed = format!("{}ms", self.elapsed.as_millis());
         let description = &self.description;
 
-        write!(f, "{summary:7} {elapsed:6} \"{description}\"")
+        format!("{summary:7} {elapsed:6} {description}")
     }
 }
 
@@ -35,7 +41,7 @@ mod tests {
     }
 
     #[test]
-    fn display_error_test_result() {
+    fn display_error_main_line() {
         let test_result = TestResult {
             description: String::from("Something will go wrong."),
             elapsed: Duration::from_millis(4321),
@@ -43,9 +49,9 @@ mod tests {
                 message: String::from("Something went wrong"),
             },
         };
-
-        let expected = r#"ERROR   4321ms "Something will go wrong.""#;
-
-        assert_eq!(test_result.to_string(), expected);
+        assert_eq!(
+            test_result.main_line(),
+            "ERROR   4321ms Something will go wrong."
+        )
     }
 }
