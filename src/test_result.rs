@@ -87,16 +87,16 @@ impl Outcome {
         }
     }
 
-    fn in_brief(&self) -> OutcomeInBrief {
+    fn in_brief(&self) -> Summary {
         match self {
-            Self::Error { message: _ } => OutcomeInBrief::Error,
+            Self::Error { message: _ } => Summary::Error,
             _ => todo!(),
         }
     }
 }
 
 #[derive(Clone, Debug, PartialEq)]
-pub enum OutcomeInBrief {
+pub enum Summary {
     Error,
     Passed,
     Failed,
@@ -113,11 +113,11 @@ mod tests {
     use std::time::Duration;
 
     #[test]
-    fn in_brief_error_is_error() {
+    fn summary_error_is_error() {
         let outcome = Outcome::Error {
             message: String::from("An error occured"),
         };
-        assert_eq!(outcome.in_brief(), OutcomeInBrief::Error);
+        assert_eq!(outcome.in_brief(), Summary::Error);
     }
 
     #[test]
