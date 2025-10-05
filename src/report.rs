@@ -3,7 +3,13 @@ use std::fmt::{Display, Formatter};
 
 impl Display for TestResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "{}", self.main_line())
+        writeln!(f, "{}", self.main_line())?;
+
+        if let Some(detail_line) = self.detail_line() {
+            writeln!(f, "{}", detail_line)?;
+        };
+
+        Ok(())
     }
 }
 
@@ -14,6 +20,10 @@ impl TestResult {
         let description = &self.description;
 
         format!("{summary:7} {elapsed:6} {description}")
+    }
+
+    fn detail_line(&self) -> Option<String> {
+        None
     }
 }
 
@@ -41,16 +51,20 @@ mod tests {
     }
 
     #[test]
-    fn display_error_main_line() {
-        let test_result = TestResult {
+    fn display_error() {
+        let display = TestResult {
             description: String::from("Something will go wrong."),
             elapsed: Duration::from_millis(4321),
             outcome: Outcome::Error {
                 message: String::from("Something went wrong"),
             },
-        };
+        }
+        .to_string();
+
+        let mut lines = display.lines();
+
         assert_eq!(
-            test_result.main_line(),
+            lines.next().unwrap(),
             "ERROR   4321ms Something will go wrong."
         )
     }
