@@ -1,29 +1,18 @@
-use crate::test_result::{Summary, TestResult};
+use crate::test_result::{Outcome, Summary, TestResult};
 use std::fmt::{Display, Formatter};
 
 impl Display for TestResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        writeln!(f, "{}", self.main_line())?;
-
-        if let Some(detail_line) = self.detail_line() {
-            writeln!(f, "{}", detail_line)?;
-        };
-
-        Ok(())
-    }
-}
-
-impl TestResult {
-    fn main_line(&self) -> String {
         let summary = self.outcome.summary().to_string();
         let elapsed = format!("{}ms", self.elapsed.as_millis());
         let description = &self.description;
 
-        format!("{summary:7} {elapsed:6} {description}")
-    }
-
-    fn detail_line(&self) -> Option<String> {
-        Some(String::from("  Something went wrong"))
+        writeln!(f, "{summary:7} {elapsed:6} {description}")?;
+        match &self.outcome {
+            Outcome::Error { message } => writeln!(f, "  {message}")?,
+            _ => todo!(),
+        }
+        Ok(())
     }
 }
 
