@@ -40,22 +40,29 @@ mod tests {
         assert_eq!(Summary::Passed.to_string(), "PASSED");
     }
 
+    fn message(line_1: &str, line_2: &str) -> String {
+        let mut expected = Vec::new();
+        writeln!(&mut expected, "{line_1}").unwrap();
+        writeln!(&mut expected, "{line_2}").unwrap();
+        String::from_utf8(expected).unwrap()
+    }
+
     #[test]
     fn display_error() {
-        let display = TestResult {
+        let test_result = TestResult {
             description: String::from("Something will go wrong"),
             elapsed: Duration::from_millis(4321),
             outcome: Outcome::Error {
                 message: String::from("Something went wrong"),
             },
-        }
-        .to_string();
+        };
 
-        let mut expected = Vec::new();
-        writeln!(&mut expected, "ERROR   4321ms Something will go wrong").unwrap();
-        writeln!(&mut expected, "  Something went wrong").unwrap();
-        let message = String::from_utf8(expected).unwrap();
-
-        assert_eq!(display, message);
+        assert_eq!(
+            test_result.to_string(),
+            message(
+                "ERROR   4321ms Something will go wrong",
+                "  Something went wrong",
+            )
+        );
     }
 }
