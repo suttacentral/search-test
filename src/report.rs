@@ -30,6 +30,7 @@ impl Display for Summary {
 mod tests {
     use super::*;
     use crate::test_result::Outcome;
+    use std::io::Write;
     use std::time::Duration;
 
     #[test]
@@ -50,13 +51,11 @@ mod tests {
         }
         .to_string();
 
-        let mut lines = display.lines();
+        let mut expected = Vec::new();
+        writeln!(&mut expected, "ERROR   4321ms Something will go wrong").unwrap();
+        writeln!(&mut expected, "  Something went wrong").unwrap();
+        let message = String::from_utf8(expected).unwrap();
 
-        assert_eq!(
-            lines.next().unwrap(),
-            "ERROR   4321ms Something will go wrong"
-        );
-
-        assert_eq!(lines.next().unwrap(), "  Something went wrong")
+        assert_eq!(display, message);
     }
 }
