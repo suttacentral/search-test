@@ -42,7 +42,8 @@ impl LiveSearchService {
     fn search_results(http_response: Response) -> Result<SearchResults> {
         let reqwest::StatusCode::OK = http_response.status() else {
             return Err(anyhow!(
-                "Expected status code to be OK but got {}",
+                "Expected status code to be {} but got {}",
+                reqwest::StatusCode::OK,
                 http_response.status()
             ));
         };
@@ -127,7 +128,7 @@ mod tests {
         let error = LiveSearchService::search_results(reqwest_response).unwrap_err();
         assert_eq!(
             error.to_string(),
-            "Expected status code to be OK but got 500 Internal Server Error"
+            "Expected status code to be 200 OK but got 500 Internal Server Error"
         );
     }
 }
