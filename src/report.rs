@@ -14,7 +14,7 @@ impl TestResult {
         match &self.outcome {
             Outcome::Error { message } => Some(format!("{message}")),
             Outcome::Success => None,
-            Outcome::Found { search } => None,
+            Outcome::Found { search: _ } => None,
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
             Outcome::Ranked { search, rank } => match rank {
                 Rank::NotFound { minimum } => Some(Self::rank_not_found_message(search, minimum)),
@@ -237,7 +237,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn display_ranked_sufficient() {
         let test_result = TestResult {
             description: String::from("Expecting top rank"),
@@ -256,7 +255,7 @@ mod tests {
 
         assert_eq!(
             test_result.to_string(),
-            message("PASSED  123ms Expecting top rank", None)
+            message("PASSED  123ms  Expecting top rank", None)
         );
     }
 }
