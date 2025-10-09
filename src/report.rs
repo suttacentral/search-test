@@ -34,7 +34,7 @@ impl TestResult {
             CategorySearch::Text {
                 search_for,
                 in_results: _,
-            } => format!("Text {search_for}"),
+            } => format!("Text hit {search_for}"),
             CategorySearch::Dictionary {
                 search_for,
                 in_results: _,
