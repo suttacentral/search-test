@@ -24,7 +24,13 @@ selected-languages = ["pli"]
 expected.sutta = "/an1.51-60/pli/ms"
 
 [[test-case]]
-description = "Metta sutta not returned when searching for metta"
+description = "Metta sutta is in the top three"
+query = "metta"
+expected.sutta = "/snp5.1/en/sujato"
+expected.min-rank = 3
+
+[[test-case]]
+description = "Metta sutta is in the top three with partial match"
 query = "metta"
 match-partial = true
 expected.sutta = "/snp5.1/en/sujato"
