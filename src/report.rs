@@ -10,6 +10,7 @@ impl Display for TestResult {
         writeln!(f, "{summary:7} {elapsed:6} {description}")?;
         match &self.outcome {
             Outcome::Error { message } => writeln!(f, "  {message}")?,
+            Outcome::Success => (),
             _ => todo!(),
         }
         Ok(())
@@ -40,10 +41,12 @@ mod tests {
         assert_eq!(Summary::Passed.to_string(), "PASSED");
     }
 
-    fn message(line_1: &str, line_2: &str) -> String {
+    fn message(line_1: &str, line_2: Option<&str>) -> String {
         let mut expected = Vec::new();
         writeln!(&mut expected, "{line_1}").unwrap();
-        writeln!(&mut expected, "{line_2}").unwrap();
+        if let Some(line_2) = line_2 {
+            writeln!(&mut expected, "{line_2}").unwrap();
+        }
         String::from_utf8(expected).unwrap()
     }
 
@@ -61,8 +64,22 @@ mod tests {
             test_result.to_string(),
             message(
                 "ERROR   4321ms Something will go wrong",
-                "  Something went wrong",
+                Some("  Something went wrong"),
             )
+        );
+    }
+
+    #[test]
+    fn display_success() {
+        let test_result = TestResult {
+            description: String::from("We will retrieve something"),
+            elapsed: Duration::from_millis(321),
+            outcome: Outcome::Success,
+        };
+
+        assert_eq!(
+            test_result.to_string(),
+            message("PASSED  321ms  We will retrieve something", None)
         );
     }
 }
