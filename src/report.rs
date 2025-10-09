@@ -2,13 +2,18 @@ use crate::category_search::CategorySearch;
 use crate::test_result::{Outcome, Summary, TestResult};
 use std::fmt::{Display, Formatter};
 
-impl Display for TestResult {
-    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+impl TestResult {
+    fn main_line(&self) -> String {
         let summary = self.outcome.summary().to_string();
         let elapsed = format!("{}ms", self.elapsed.as_millis());
         let description = &self.description;
+        format!("{summary:7} {elapsed:6} {description}")
+    }
+}
 
-        writeln!(f, "{summary:7} {elapsed:6} {description}")?;
+impl Display for TestResult {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "{}", self.main_line())?;
         match &self.outcome {
             Outcome::Error { message } => writeln!(f, "  {message}")?,
             Outcome::Success => (),
