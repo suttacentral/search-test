@@ -16,7 +16,16 @@ impl TestResult {
             Outcome::Success => None,
             Outcome::Found { search } => None,
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
-            Outcome::Ranked { search, rank } => Some(Self::ranked_message(search, rank)),
+            Outcome::Ranked { search, rank } => match rank {
+                Rank::NotFound { minimum } => Some(Self::rank_not_found_message(search, minimum)),
+                Rank::TooLow { minimum, actual } => {
+                    Some(Self::rank_too_low_message(search, minimum, actual))
+                }
+                Rank::Sufficient {
+                    minimum: _,
+                    actual: _,
+                } => None,
+            },
         }
     }
 
@@ -39,14 +48,6 @@ impl TestResult {
 
     fn not_found_message(search: &CategorySearch) -> String {
         format!("{} not found in search results", Self::search_term(search))
-    }
-
-    fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
-        match rank {
-            Rank::NotFound { minimum } => Self::rank_not_found_message(search, minimum),
-            Rank::TooLow { minimum, actual } => Self::rank_too_low_message(search, minimum, actual),
-            Rank::Sufficient { minimum, actual } => String::from(""),
-        }
     }
 
     fn rank_not_found_message(search: &CategorySearch, minimum: &usize) -> String {
