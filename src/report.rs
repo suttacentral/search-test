@@ -14,7 +14,7 @@ impl TestResult {
         match &self.outcome {
             Outcome::Error { message } => Some(format!("{message}")),
             Outcome::Success => None,
-            Outcome::Found { search } => Some(Self::found_message(search)),
+            Outcome::Found { search } => None,
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
             Outcome::Ranked { search, rank } => Some(Self::ranked_message(search, rank)),
         }
@@ -37,26 +37,26 @@ impl TestResult {
         }
     }
 
-    fn found_message(search: &CategorySearch) -> String {
-        format!("{} found in search results", Self::search_term(search))
-    }
-
     fn not_found_message(search: &CategorySearch) -> String {
         format!("{} not found in search results", Self::search_term(search))
     }
 
     fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
         match rank {
-            Rank::NotFound { minimum } => format!(
-                "Minium rank {minimum} expected for {} but it was not found",
-                Self::search_term(search)
-            ),
+            Rank::NotFound { minimum } => Self::rank_not_found_message(search, minimum),
             Rank::TooLow { minimum, actual } => format!(
                 "Expected {} to have minimum rank of {minimum} but it was found at rank {actual}",
                 Self::search_term(search)
             ),
-            Rank::Sufficient { minimum, actual } => todo!(),
+            Rank::Sufficient { minimum, actual } => String::from(""),
         }
+    }
+
+    fn rank_not_found_message(search: &CategorySearch, minimum: &usize) -> String {
+        format!(
+            "Minium rank {minimum} expected for {} but it was not found",
+            Self::search_term(search)
+        )
     }
 }
 
@@ -154,10 +154,7 @@ mod tests {
 
         assert_eq!(
             test_result.to_string(),
-            message(
-                "PASSED  21ms   Find suttaplex mn1",
-                Some("  Suttaplex hit mn1 found in search results"),
-            )
+            message("PASSED  21ms   Find suttaplex mn1", None,)
         );
     }
 
@@ -231,6 +228,30 @@ mod tests {
                     "  Expected Suttaplex hit mn2 to have minimum rank of 1 but it was found at rank 2"
                 )
             )
+        );
+    }
+
+    #[test]
+    #[ignore]
+    fn display_ranked_sufficient() {
+        let test_result = TestResult {
+            description: String::from("Expecting top rank"),
+            elapsed: Duration::from_millis(123),
+            outcome: Outcome::Ranked {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+                },
+                rank: Rank::Sufficient {
+                    minimum: 1,
+                    actual: 1,
+                },
+            },
+        };
+
+        assert_eq!(
+            test_result.to_string(),
+            message("PASSED  123ms Expecting top rank", None)
         );
     }
 }
