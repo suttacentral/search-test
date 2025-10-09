@@ -17,20 +17,28 @@ impl TestResult {
             Outcome::Found { search } => Some(Self::found_message(search)),
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
             Outcome::Ranked { search, rank } => Some(Self::ranked_message(search, rank)),
-            _ => todo!(),
+        }
+    }
+
+    fn search_term(search: &CategorySearch) -> String {
+        match search {
+            CategorySearch::Text {
+                search_for,
+                in_results: _,
+            } => format!("Text {search_for}"),
+            CategorySearch::Dictionary {
+                search_for,
+                in_results: _,
+            } => format!("Dictionary hit {search_for}"),
+            CategorySearch::Suttaplex {
+                search_for,
+                in_results: _,
+            } => format!("Suttaplex hit {search_for}"),
         }
     }
 
     fn found_message(search: &CategorySearch) -> String {
-        match search {
-            CategorySearch::Suttaplex {
-                search_for,
-                in_results: _,
-            } => {
-                format!("  Suttaplex {search_for} found in search results")
-            }
-            _ => todo!(),
-        }
+        format!("  {} found in search results", Self::search_term(search))
     }
 
     fn not_found_message(search: &CategorySearch) -> String {
@@ -152,7 +160,7 @@ mod tests {
             test_result.to_string(),
             message(
                 "PASSED  21ms   Find suttaplex mn1",
-                Some("  Suttaplex mn1 found in search results"),
+                Some("  Suttaplex hit mn1 found in search results"),
             )
         );
     }
