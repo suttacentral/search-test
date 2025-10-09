@@ -1,3 +1,4 @@
+use crate::category_search::CategorySearch;
 use crate::test_result::{Outcome, Summary, TestResult};
 use std::fmt::{Display, Formatter};
 
@@ -11,6 +12,13 @@ impl Display for TestResult {
         match &self.outcome {
             Outcome::Error { message } => writeln!(f, "  {message}")?,
             Outcome::Success => (),
+            Outcome::Found { search } => match search {
+                CategorySearch::Suttaplex {
+                    search_for,
+                    in_results,
+                } => writeln!(f, "  Suttaplex {search_for} found in search results")?,
+                _ => todo!(),
+            },
             _ => todo!(),
         }
         Ok(())
@@ -30,6 +38,8 @@ impl Display for Summary {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::category_search::CategorySearch;
+    use crate::identifiers::SuttaplexUid;
     use crate::test_result::Outcome;
     use std::io::Write;
     use std::time::Duration;
@@ -80,6 +90,28 @@ mod tests {
         assert_eq!(
             test_result.to_string(),
             message("PASSED  321ms  We will retrieve something", None)
+        );
+    }
+
+    #[test]
+    fn display_found() {
+        let test_result = TestResult {
+            description: String::from("Find suttaplex mn1"),
+            elapsed: Duration::from_millis(21),
+            outcome: Outcome::Found {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+                },
+            },
+        };
+
+        assert_eq!(
+            test_result.to_string(),
+            message(
+                "PASSED  21ms   Find suttaplex mn1",
+                Some("  Suttaplex mn1 found in search results"),
+            )
         );
     }
 }
