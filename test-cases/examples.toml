@@ -9,13 +9,23 @@ match-partial = false
 selected-languages = ["en", "pli"]
 
 [[test-case]]
+description = "Causes internal server error"
+query = "by:sujato+\"the+Bamboo+Grove\""
+match-partial = false
+
+[[test-case]]
+description = "Search is successful"
+query = "dhamma"
+
+[[test-case]]
+description = "The most important sutta in Pali"
+query = "dhamma"
+selected-languages = ["pli"]
+expected.sutta = "/an1.51-60/pli/ms"
+
+[[test-case]]
 description = "Metta sutta not returned when searching for metta"
 query = "metta"
 match-partial = true
 expected.sutta = "/snp5.1/en/sujato"
 expected.min-rank = 3
-
-[[test-case]]
-description = "Causes internal server error"
-query = "by:sujato+\"the+Bamboo+Grove\""
-match-partial = false
