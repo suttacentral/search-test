@@ -12,7 +12,7 @@ impl TestResult {
 
     fn detail_line(&self) -> Option<String> {
         match &self.outcome {
-            Outcome::Error { message } => Some(format!("  {message}")),
+            Outcome::Error { message } => Some(format!("{message}")),
             Outcome::Success => None,
             Outcome::Found { search } => Some(Self::found_message(search)),
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
@@ -38,20 +38,17 @@ impl TestResult {
     }
 
     fn found_message(search: &CategorySearch) -> String {
-        format!("  {} found in search results", Self::search_term(search))
+        format!("{} found in search results", Self::search_term(search))
     }
 
     fn not_found_message(search: &CategorySearch) -> String {
-        format!(
-            "  {} not found in search results",
-            Self::search_term(search)
-        )
+        format!("{} not found in search results", Self::search_term(search))
     }
 
     fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
         match rank {
             Rank::NotFound { minimum } => String::from(
-                "  Expected minimum rank of 3 for suttaplex mn1 but it was not found in results",
+                "Expected minimum rank of 3 for suttaplex mn1 but it was not found in results",
             ),
             Rank::TooLow { minimum, actual } => todo!(),
             Rank::Sufficient { minimum, actual } => todo!(),
@@ -63,7 +60,7 @@ impl Display for TestResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "{}", self.main_line())?;
         if let Some(detail_line) = self.detail_line() {
-            writeln!(f, "{}", detail_line)?;
+            writeln!(f, "  {}", detail_line)?;
         }
         Ok(())
     }
