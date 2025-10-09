@@ -44,10 +44,7 @@ impl TestResult {
     fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
         match rank {
             Rank::NotFound { minimum } => Self::rank_not_found_message(search, minimum),
-            Rank::TooLow { minimum, actual } => format!(
-                "Expected {} to have minimum rank of {minimum} but it was found at rank {actual}",
-                Self::search_term(search)
-            ),
+            Rank::TooLow { minimum, actual } => Self::rank_too_low_message(search, minimum, actual),
             Rank::Sufficient { minimum, actual } => String::from(""),
         }
     }
@@ -55,6 +52,13 @@ impl TestResult {
     fn rank_not_found_message(search: &CategorySearch, minimum: &usize) -> String {
         format!(
             "Minium rank {minimum} expected for {} but it was not found",
+            Self::search_term(search)
+        )
+    }
+
+    fn rank_too_low_message(search: &CategorySearch, minimum: &usize, actual: &usize) -> String {
+        format!(
+            "Expected {} to have minimum rank of {minimum} but it was found at rank {actual}",
             Self::search_term(search)
         )
     }
