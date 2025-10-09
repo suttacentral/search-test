@@ -51,7 +51,10 @@ impl TestResult {
                 "Minium rank {minimum} expected for {} but it was not found",
                 Self::search_term(search)
             ),
-            Rank::TooLow { minimum, actual } => todo!(),
+            Rank::TooLow { minimum, actual } => format!(
+                "Expected {} to have minimum rank of {minimum} but it was found at rank {actual}",
+                Self::search_term(search)
+            ),
             Rank::Sufficient { minimum, actual } => todo!(),
         }
     }
@@ -201,5 +204,33 @@ mod tests {
                 Some("  Minium rank 3 expected for Suttaplex hit mn1 but it was not found")
             )
         )
+    }
+
+    #[test]
+    fn display_ranked_too_low() {
+        let test_result = TestResult {
+            description: String::from("Expecting top rank"),
+            elapsed: Duration::from_millis(76),
+            outcome: Outcome::Ranked {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn2"),
+                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+                },
+                rank: Rank::TooLow {
+                    minimum: 1,
+                    actual: 2,
+                },
+            },
+        };
+
+        assert_eq!(
+            test_result.to_string(),
+            message(
+                "FAILED  76ms   Expecting top rank",
+                Some(
+                    "  Expected Suttaplex hit mn2 to have minimum rank of 1 but it was found at rank 2"
+                )
+            )
+        );
     }
 }
