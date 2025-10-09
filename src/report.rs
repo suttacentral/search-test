@@ -42,15 +42,10 @@ impl TestResult {
     }
 
     fn not_found_message(search: &CategorySearch) -> String {
-        match search {
-            CategorySearch::Suttaplex {
-                search_for,
-                in_results: _,
-            } => {
-                format!("  Suttaplex {search_for} not found in search results")
-            }
-            _ => todo!(),
-        }
+        format!(
+            "  {} not found in search results",
+            Self::search_term(search)
+        )
     }
 
     fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
@@ -182,7 +177,7 @@ mod tests {
             test_result.to_string(),
             message(
                 "FAILED  1ms    Find suttaplex mn1",
-                Some("  Suttaplex mn1 not found in search results")
+                Some("  Suttaplex hit mn1 not found in search results")
             )
         )
     }
