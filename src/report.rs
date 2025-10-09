@@ -14,13 +14,19 @@ impl TestResult {
         match &self.outcome {
             Outcome::Error { message } => Some(format!("  {message}")),
             Outcome::Success => None,
-            Outcome::Found { search } => match search {
-                CategorySearch::Suttaplex {
-                    search_for,
-                    in_results: _,
-                } => Some(format!("  Suttaplex {search_for} found in search results")),
-                _ => todo!(),
-            },
+            Outcome::Found { search } => Some(Self::found_message(search)),
+            _ => todo!(),
+        }
+    }
+
+    fn found_message(search: &CategorySearch) -> String {
+        match search {
+            CategorySearch::Suttaplex {
+                search_for,
+                in_results: _,
+            } => {
+                format!("  Suttaplex {search_for} found in search results")
+            }
             _ => todo!(),
         }
     }
