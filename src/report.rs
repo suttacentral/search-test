@@ -1,5 +1,5 @@
 use crate::category_search::CategorySearch;
-use crate::test_result::{Outcome, Summary, TestResult};
+use crate::test_result::{Outcome, Rank, Summary, TestResult};
 use std::fmt::{Display, Formatter};
 
 impl TestResult {
@@ -16,6 +16,7 @@ impl TestResult {
             Outcome::Success => None,
             Outcome::Found { search } => Some(Self::found_message(search)),
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
+            Outcome::Ranked { search, rank } => Some(Self::ranked_message(search, rank)),
             _ => todo!(),
         }
     }
@@ -41,6 +42,16 @@ impl TestResult {
                 format!("  Suttaplex {search_for} not found in search results")
             }
             _ => todo!(),
+        }
+    }
+
+    fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
+        match rank {
+            Rank::NotFound { minimum } => String::from(
+                "  Expected minimum rank of 3 for suttaplex mn1 but it was not found in results",
+            ),
+            Rank::TooLow { minimum, actual } => todo!(),
+            Rank::Sufficient { minimum, actual } => todo!(),
         }
     }
 }
@@ -70,7 +81,8 @@ mod tests {
     use super::*;
     use crate::category_search::CategorySearch;
     use crate::identifiers::SuttaplexUid;
-    use crate::test_result::Outcome;
+    use crate::test_result::Outcome::Ranked;
+    use crate::test_result::{Outcome, Rank};
     use std::io::Write;
     use std::time::Duration;
 
@@ -163,6 +175,31 @@ mod tests {
             message(
                 "FAILED  1ms    Find suttaplex mn1",
                 Some("  Suttaplex mn1 not found in search results")
+            )
+        )
+    }
+
+    #[test]
+    fn display_ranked_not_found() {
+        let test_result = TestResult {
+            description: String::from("Wanted rank, but not found"),
+            elapsed: Duration::from_millis(10),
+            outcome: Ranked {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![],
+                },
+                rank: Rank::NotFound { minimum: 3 },
+            },
+        };
+
+        assert_eq!(
+            test_result.to_string(),
+            message(
+                "FAILED  10ms   Wanted rank, but not found",
+                Some(
+                    "  Expected minimum rank of 3 for suttaplex mn1 but it was not found in results"
+                )
             )
         )
     }
