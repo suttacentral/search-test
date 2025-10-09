@@ -15,7 +15,7 @@ impl Display for TestResult {
             Outcome::Found { search } => match search {
                 CategorySearch::Suttaplex {
                     search_for,
-                    in_results,
+                    in_results: _,
                 } => writeln!(f, "  Suttaplex {search_for} found in search results")?,
                 _ => todo!(),
             },
