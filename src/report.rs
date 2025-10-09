@@ -47,8 +47,9 @@ impl TestResult {
 
     fn ranked_message(search: &CategorySearch, rank: &Rank) -> String {
         match rank {
-            Rank::NotFound { minimum } => String::from(
-                "Expected minimum rank of 3 for suttaplex mn1 but it was not found in results",
+            Rank::NotFound { minimum } => format!(
+                "Minium rank {minimum} expected for {} but it was not found",
+                Self::search_term(search)
             ),
             Rank::TooLow { minimum, actual } => todo!(),
             Rank::Sufficient { minimum, actual } => todo!(),
@@ -197,9 +198,7 @@ mod tests {
             test_result.to_string(),
             message(
                 "FAILED  10ms   Wanted rank, but not found",
-                Some(
-                    "  Expected minimum rank of 3 for suttaplex mn1 but it was not found in results"
-                )
+                Some("  Minium rank 3 expected for Suttaplex hit mn1 but it was not found")
             )
         )
     }
