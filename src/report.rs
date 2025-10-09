@@ -15,6 +15,7 @@ impl TestResult {
             Outcome::Error { message } => Some(format!("  {message}")),
             Outcome::Success => None,
             Outcome::Found { search } => Some(Self::found_message(search)),
+            Outcome::NotFound { search } => Some(Self::not_found_message(search)),
             _ => todo!(),
         }
     }
@@ -26,6 +27,18 @@ impl TestResult {
                 in_results: _,
             } => {
                 format!("  Suttaplex {search_for} found in search results")
+            }
+            _ => todo!(),
+        }
+    }
+
+    fn not_found_message(search: &CategorySearch) -> String {
+        match search {
+            CategorySearch::Suttaplex {
+                search_for,
+                in_results: _,
+            } => {
+                format!("  Suttaplex {search_for} not found in search results")
             }
             _ => todo!(),
         }
@@ -130,5 +143,27 @@ mod tests {
                 Some("  Suttaplex mn1 found in search results"),
             )
         );
+    }
+
+    #[test]
+    fn display_not_found() {
+        let test_result = TestResult {
+            description: String::from("Find suttaplex mn1"),
+            elapsed: Duration::from_millis(1),
+            outcome: Outcome::NotFound {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![],
+                },
+            },
+        };
+
+        assert_eq!(
+            test_result.to_string(),
+            message(
+                "FAILED  1ms    Find suttaplex mn1",
+                Some("  Suttaplex mn1 not found in search results")
+            )
+        )
     }
 }
