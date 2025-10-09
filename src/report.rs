@@ -9,22 +9,28 @@ impl TestResult {
         let description = &self.description;
         format!("{summary:7} {elapsed:6} {description}")
     }
+
+    fn detail_line(&self) -> Option<String> {
+        match &self.outcome {
+            Outcome::Error { message } => Some(format!("  {message}")),
+            Outcome::Success => None,
+            Outcome::Found { search } => match search {
+                CategorySearch::Suttaplex {
+                    search_for,
+                    in_results: _,
+                } => Some(format!("  Suttaplex {search_for} found in search results")),
+                _ => todo!(),
+            },
+            _ => todo!(),
+        }
+    }
 }
 
 impl Display for TestResult {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         writeln!(f, "{}", self.main_line())?;
-        match &self.outcome {
-            Outcome::Error { message } => writeln!(f, "  {message}")?,
-            Outcome::Success => (),
-            Outcome::Found { search } => match search {
-                CategorySearch::Suttaplex {
-                    search_for,
-                    in_results: _,
-                } => writeln!(f, "  Suttaplex {search_for} found in search results")?,
-                _ => todo!(),
-            },
-            _ => todo!(),
+        if let Some(detail_line) = self.detail_line() {
+            writeln!(f, "{}", detail_line)?;
         }
         Ok(())
     }
