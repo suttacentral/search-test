@@ -12,7 +12,7 @@ impl TestResult {
 
     fn detail_line(&self) -> Option<String> {
         match &self.outcome {
-            Outcome::Error { message } => Some(format!("{message}")),
+            Outcome::Error { message } => Some(message.to_string()),
             Outcome::Success => None,
             Outcome::Found { search: _ } => None,
             Outcome::NotFound { search } => Some(Self::not_found_message(search)),
