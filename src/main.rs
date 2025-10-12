@@ -26,6 +26,7 @@ fn run_application() -> Result<ResultCount> {
     let runner = Runner::new(&test_suite, search_service)?;
 
     println!("{}", test_suite.headline());
+    println!();
 
     let mut result_count = ResultCount::new();
 
