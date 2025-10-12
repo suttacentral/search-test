@@ -1,3 +1,4 @@
+use crate::test_suite::TestSuite;
 use anyhow::{Context, Result, anyhow};
 
 fn get_file_name(args: Vec<String>) -> Result<String> {
@@ -10,10 +11,11 @@ fn get_file_name(args: Vec<String>) -> Result<String> {
     }
 }
 
-pub fn get_toml() -> Result<String> {
+pub fn load_suite() -> Result<TestSuite> {
     let args: Vec<String> = std::env::args().collect();
     let file_name = get_file_name(args)?;
-    std::fs::read_to_string(file_name).context("Error reading file")
+    let toml = std::fs::read_to_string(file_name).context("Error reading file")?;
+    TestSuite::load_from_string(toml.as_str())
 }
 
 #[cfg(test)]
