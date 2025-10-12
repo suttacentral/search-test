@@ -9,7 +9,7 @@ use serde::Deserialize;
 struct Settings {
     endpoint: String,
     #[serde(default)]
-    delay: usize,
+    delay: u64,
 }
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
@@ -45,7 +45,7 @@ impl TestSuite {
     }
 
     #[allow(unused)]
-    pub fn delay(&self) -> usize {
+    pub fn delay(&self) -> u64 {
         self.settings.delay
     }
 

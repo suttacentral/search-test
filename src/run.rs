@@ -12,7 +12,7 @@ pub struct Runner<T: SearchService> {
 }
 
 impl<T: SearchService> Runner<T> {
-    pub fn new(suite: TestSuite, search_service: T) -> Result<Self> {
+    pub fn new(suite: &TestSuite, search_service: T) -> Result<Self> {
         let test_cases = suite.test_cases().collect::<Result<Vec<_>>>()?;
 
         Ok(Self {
@@ -79,7 +79,7 @@ mod tests {
             "#,
         )
         .unwrap();
-        let runner = Runner::new(suite, FakeSearchService::new(Vec::new())).unwrap();
+        let runner = Runner::new(&suite, FakeSearchService::new(Vec::new())).unwrap();
         assert_eq!(runner.test_cases.len(), 1)
     }
 
@@ -96,7 +96,7 @@ mod tests {
             "#,
         )
         .unwrap();
-        let error = Runner::new(suite, FakeSearchService::new(Vec::new())).unwrap_err();
+        let error = Runner::new(&suite, FakeSearchService::new(Vec::new())).unwrap_err();
         assert_eq!(
             error.to_string(),
             "Test case `Search for the metta sutta in English and Pali` missing `site-language` and no default provided."
@@ -134,7 +134,7 @@ mod tests {
         };
 
         let engine = FakeSearchService::new(vec![search_results]);
-        let runner = Runner::new(suite, engine).unwrap();
+        let runner = Runner::new(&suite, engine).unwrap();
         let test_result = runner.run().next().unwrap();
         assert_eq!(test_result.elapsed, Duration::from_secs(3))
     }

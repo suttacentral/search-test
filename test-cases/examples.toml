@@ -1,5 +1,6 @@
 [settings]
 endpoint = "http://localhost/api/search/instant"
+delay = 10000
 
 [defaults]
 limit = 10
