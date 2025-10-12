@@ -18,14 +18,20 @@ use std::thread::sleep;
 use std::time::Duration;
 
 fn main() {
-    let suite = load_suite().unwrap();
-    let search_service = LiveSearchService::new(suite.endpoint().clone());
-    let runner = Runner::new(&suite, search_service).unwrap();
+    let test_suite = load_suite();
 
-    println!("{}", suite.headline());
+    match test_suite {
+        Ok(test_suite) => {
+            let search_service = LiveSearchService::new(test_suite.endpoint().clone());
+            let runner = Runner::new(&test_suite, search_service).unwrap();
 
-    for result in runner.run() {
-        print!("{result}");
-        sleep(Duration::from_millis(suite.delay()));
+            println!("{}", test_suite.headline());
+
+            for result in runner.run() {
+                print!("{result}");
+                sleep(Duration::from_millis(test_suite.delay()));
+            }
+        }
+        Err(error) => println!("{error}"),
     }
 }
