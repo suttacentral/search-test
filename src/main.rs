@@ -18,6 +18,23 @@ use search_service::LiveSearchService;
 use std::thread::sleep;
 use std::time::Duration;
 
+#[derive(Debug, Clone, PartialEq)]
+struct ResultCount {
+    passed: usize,
+    failed: usize,
+    error: usize,
+}
+
+impl ResultCount {
+    fn new() -> Self {
+        Self {
+            passed: 0,
+            failed: 0,
+            error: 0,
+        }
+    }
+}
+
 fn run_application() -> Result<()> {
     let test_suite = load_suite()?;
     let search_service = LiveSearchService::new(test_suite.endpoint().clone());
@@ -36,5 +53,22 @@ fn run_application() -> Result<()> {
 fn main() {
     if let Err(error) = run_application() {
         println!("{error}")
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn initialise_result_count() {
+        let count = ResultCount::new();
+        assert_eq!(
+            count,
+            ResultCount {
+                passed: 0,
+                failed: 0,
+                error: 0
+            }
+        );
     }
 }
