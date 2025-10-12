@@ -54,6 +54,14 @@ impl TestSuite {
             .iter()
             .map(|details| TestCase::new(&self.defaults, details))
     }
+
+    pub fn headline(&self) -> String {
+        format!(
+            "Running tests against endpoint {} with {}ms delay",
+            self.endpoint(),
+            self.delay()
+        )
+    }
 }
 
 #[cfg(test)]
@@ -314,5 +322,37 @@ mod tests {
         let test_case = suite.test_cases().next().unwrap().unwrap();
         let expected = test_case.expected;
         assert!(expected.is_none());
+    }
+
+    #[test]
+    fn format_headline_with_delay() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 1000
+
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Find a sutta"
+            query = "metta"
+
+            [[test-case]]
+            description = "Find another sutta"
+            query = "dosa"
+        "#,
+        )
+        .unwrap();
+
+        assert_eq!(
+            suite.headline(),
+            "Running tests against endpoint http://localhost/api/search/instant with 1000ms delay"
+        )
     }
 }

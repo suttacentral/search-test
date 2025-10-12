@@ -22,6 +22,8 @@ fn main() {
     let search_service = LiveSearchService::new(suite.endpoint().clone());
     let runner = Runner::new(&suite, search_service).unwrap();
 
+    println!("{}", suite.headline());
+
     for result in runner.run() {
         print!("{result}");
         sleep(Duration::from_millis(suite.delay()));
