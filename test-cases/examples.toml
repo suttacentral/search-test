@@ -43,3 +43,9 @@ query = "metta"
 match-partial = true
 expected.sutta = "/snp5.1/en/sujato"
 expected.min-rank = 3
+
+[[test-case]]
+description = "A pali term with diacritics"
+query = "māṇavena"
+expected.sutta = "/dn1/pli/ms"
+expected.min-rank = 1
