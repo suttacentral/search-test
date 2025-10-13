@@ -12,13 +12,13 @@ $ curl -X POST --json '["en"]' 'https://suttacentral.net/api/search/instant?limi
 The search is defined in both the URL, with the query and a few other parameters, and the body of the request,
 which is simply a list of languages to search in.
 
-### Installing
+## Installing
 
 Head on over to the releases page to download and install the utility:
 
 https://github.com/suttacentral/search-test/releases
 
-### Building
+## Building
 
 `search-test` is written entirely in Rust, so to build you'll need the toolchain installed:
 
@@ -186,7 +186,7 @@ expected.sutta = "/an5.77/en/sujato"
 expected.min-rank = 3
 ```
 
-### Running test suites
+## Running test suites
 
 With `search-test` on your path, it takes a single argument, the path to the test suite to be run:
 
