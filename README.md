@@ -143,3 +143,62 @@ Apart from suttaplexes, you can find the ids via the url of the search result. F
 the ID would be `/mn1/en/sujato`
 
 Or for `https://suttacentral.net/define/metta?lang=en` you'd use `/define/metta`
+
+### A complete TOML example
+
+```toml
+[settings]
+endpoint = "http://localhost/api/search/instant"
+delay = 10
+
+[defaults]
+limit = 10
+site-language = "en"
+restrict = "all"
+match-partial = false
+selected-languages = ["en", "pli"]
+
+[[test-case]]
+description = "Causes internal server error"
+query = "by:sujato+\"the+Bamboo+Grove\""
+
+[[test-case]]
+description = "Search is successful"
+query = "dhamma"
+
+[[test-case]]
+description = "The most important sutta in Pali"
+query = "dhamma"
+selected-languages = ["pli"]
+expected.sutta = "/an1.51-60/pli/ms"
+
+[[test-case]]
+description = "This sutta is ranked too low"
+query = "snake"
+selected-languages = ["en", "pli"]
+expected.sutta = "/an5.77/en/sujato"
+expected.min-rank = 3
+```
+
+### Running test suites
+
+With `search-test` on your path, it takes a single argument, the path to the test suite to be run:
+
+```
+$ search-test examples.toml 
+Running tests against endpoint http://localhost/api/search/instant with 10ms delay
+
+ERROR   55ms   Causes internal server error
+  Expected status code to be 200 OK but got 502 Bad Gateway
+PASSED  679ms  Search is successful
+PASSED  650ms  The most important sutta in Pali
+FAILED  388ms  This sutta is ranked too low
+  Expected Text hit /an5.77/en/sujato to have minimum rank of 3 but it was found at rank 4
+FAILED  356ms  Metta sutta should be in the top three but isn't in results at all
+  Minium rank 3 expected for Text hit /snp5.1/en/sujato but it was not found
+PASSED  1707ms Metta sutta is in the top three with partial match
+PASSED  322ms  A pali term with diacritics
+PASSED  363ms  Metta is in the dictionary
+PASSED  335ms  Guide to The Linked Discourses
+6 passed, 2 failed, 1 encountered an error
+```
