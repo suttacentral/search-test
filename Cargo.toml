@@ -2,6 +2,7 @@
 name = "search-test"
 version = "0.1.0"
 edition = "2024"
+repository = "https://github.com/suttacentral/search-test"
 
 [dependencies]
 anyhow = "1.0.98"
