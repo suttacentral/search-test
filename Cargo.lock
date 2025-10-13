@@ -876,6 +876,7 @@ name = "search-test"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "http",
  "reqwest",
  "serde",
  "serde_json",
