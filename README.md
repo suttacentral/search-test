@@ -1,30 +1,68 @@
-# System Testing for SuttaCentral Search
+# Acceptance Testing for SuttaCentral Search
 
-## Overview
+The `search-test` utility lets us test the "instant search" endpoint for SuttaCentral. Test suites are written as
+TOML files and are run at the command line. Each test case makes a single request to the endpoint supplied in the
+test suite TOML file and the response is checked and the test outcome printed to the screen. A typical request would
+look like this in curl:
 
-[SuttaCentral.net](https://SuttaCentral.net) allows its users to search for specific texts via a search bar the top of
-the screen. When we type in a query a drop down list of suggestions appears. These results are provided by a third
-party search engine, [Algolia](https://www.algolia.com/). We can then navigate directly to those texts, or go to the
-search engine results page. These results are served via a POST request to an endpoint. For example, using curl:
+```
+$ curl -X POST --json '["en"]' 'https://suttacentral.net/api/search/instant?limit=50&query=adze&language=en&restrict=all&matchpartial=false'
+```
 
-`$ curl -X POST --json '["en"]' 'https://suttacentral.net/api/search/instant?limit=50&query=adze&language=en&restrict=all&matchpartial=false'`
-
-Here we're using the search query "adze" and providing an array of language codes in the body.
-
-The objective of this tool is to test the "instant search" API using a combination of a command line utility and
-Github workflows to automate testing of the staging and production environments. The CLI can be run locally on the
-developers machine against localhost, staging or production and reads test cases from a JSON file.
-
-I'm writing the initial version of the CLI in Rust but will happily rewrite it in Python if required. Likewise
-the workflow could be ported to another CI/CD environment (e.g. GitLabs CI).
-
-This is not intended for unit or integration testing, nor is it intended to run on the staging or production servers.
-It sits outside the system it is designed to test.
+The search is defined in both the URL, with the query and a few other parameters, and the body of the request,
+which is simply a list of languages to search in.
 
 ## Building
 
-I'll expand this later on, but here's what I've needed on my machine:
+`search-test` is written entirely in Rust, so to build you'll need the toolchain installed:
+
+https://rust-lang.org/tools/install/
+
+On Linux Mint 22.1 I needed to add a single dependency:
 
 ```
 sudo apt install libssl-dev
+```
+
+Building and running is then straightforward using `cargo`. E.g. `cargo run examples.toml`.
+
+## Creating test cases
+
+Each suite is contained in a single TOML file. It begins with a settings section, defaults section and then one or more
+test cases.
+
+### Settings
+
+There are two possible settings:
+
+- `endpoint` tells us where to send the requests. This would normally be on localhost but can be used for staging and
+  production as needs be.
+- `delay` is the time to wait between tests in milliseconds. This is optional and will default to zero milliseconds if
+  not provided.
+
+```toml
+[settings]
+endpoint = "http://localhost/api/search/instant"
+delay = 100
+```
+
+### Defaults
+
+This entire section can be omitted, but generally you will want to have some sensible defaults for your tests. If any
+defaults aren't specified then each test case must include them. i.e. if you don't specify `limit`, then every test
+case will have to include `limit`.
+
+- `limit` is not specified by the SuttaCentral user directly and might be hardcoded in the site code.
+- `restrict` : I've only tried "all" as I don't know what it does.
+- `site-language` is the language selected by the SuttaCentral user and used throughout the site.
+- `match-partial` will be true if the user selects "Match partial" when searching, otherwise false.
+- `selected-languages` is an array of language codes equivalent to the items ticked by the user.
+
+```toml
+[defaults]
+limit = 10
+site-language = "en"
+restrict = "all"
+match-partial = false
+selected-languages = ["en", "pli"]
 ```
