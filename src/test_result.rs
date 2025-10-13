@@ -58,7 +58,7 @@ impl Outcome {
         match search_results {
             Ok(search_results) => Self::success(expected, search_results),
             Err(error) => Self::Error {
-                message: error.to_string(),
+                message: format!("{error:#}"),
             },
         }
     }
