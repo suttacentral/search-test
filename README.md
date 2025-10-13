@@ -104,7 +104,7 @@ expected response:
 
 ```toml
 [[test-case]]
-description = "The most important sutta in Pali"
+description = "The most important sutta in Pāli"
 query = "dhamma"
 selected-languages = ["pli"]
 expected.sutta = "/an1.51-60/pli/ms"
@@ -112,3 +112,34 @@ expected.sutta = "/an1.51-60/pli/ms"
 
 You can only specify one of the above. If you want to check, say, that a query returns a sutta and a dictionary result
 then you need to specify two test cases, even though a single request could return both.
+
+### Ranking
+
+We'd like to know that our results are ordered with the best results at the top. You can add a minimum rank to your
+expected result. Naturally there needs to be an expected result to be ranked. The test suite won't run otherwise.
+
+```toml
+[[test-case]]
+description = "Metta sutta is in the top three with partial match"
+query = "metta"
+match-partial = true
+expected.sutta = "/snp5.1/en/sujato"
+expected.min-rank = 3
+```
+
+### Result IDs
+
+In order to specify expected results, each result has an ID, scraped from the JSON response.
+
+- `expected.sutta` will typically be in three parts: `/snp5.1/en/sujato`
+- `expected.dictionary` starts the same, with the end being the word: `/define/metta`
+- `expected.suttaplex` is just the uid: `mn1`.
+- `expected.other` might take any form, but an examples would include `/sn-guide-sujato` and `/licencing`
+
+Apart from suttaplexes, you can find the ids via the url of the search result. For example, given:
+
+`https://suttacentral.net/mn1/en/sujato?lang=en&layout=plain&reference=none&notes=asterisk&highlight=false&script=latin`
+
+the ID would be `/mn1/en/sujato`
+
+Or for `https://suttacentral.net/define/metta?lang=en` you'd use `/define/metta`

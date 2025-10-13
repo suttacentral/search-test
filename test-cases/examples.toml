@@ -53,4 +53,9 @@ expected.min-rank = 1
 description = "Metta is in the dictionary"
 query = "metta"
 expected.dictionary = "/define/metta"
-expected.sutta = "/dn1/pli/ms"
+
+[[test-case]]
+description = "Guide to The Linked Discourses"
+query = "sn guide"
+selected-languages = ["en"]
+expected.other = "/sn-guide-sujato"
