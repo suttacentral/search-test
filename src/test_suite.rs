@@ -355,4 +355,36 @@ mod tests {
             "Running tests against endpoint http://localhost/api/search/instant with 1000ms delay"
         )
     }
+
+    #[test]
+    fn two_expected_type_gives_meaningful_error_message() {
+        let suite = TestSuite::load_from_string(
+            r#"
+            [settings]
+            endpoint = "http://localhost/api/search/instant"
+            delay = 1000
+
+            [defaults]
+            limit = 50
+            site-language = "en"
+            restrict = "all"
+            selected-languages = ["en", "pli"]
+            match-partial = false
+
+            [[test-case]]
+            description = "Has two types expected"
+            query = "metta"
+            expected.sutta = "/snp5.1/en/sujato"
+            expected.dictionary = "/define/metta"
+        "#,
+        )
+        .unwrap();
+
+        let error = suite.test_cases().next().unwrap().unwrap_err();
+
+        assert_eq!(
+            format!("{error:#}"),
+            "Test case `Has two types expected`: more than one expected result provided"
+        );
+    }
 }

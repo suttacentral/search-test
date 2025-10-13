@@ -1,7 +1,7 @@
 use crate::defaults::Defaults;
 use crate::expected::{Expected, ExpectedDetails};
 use crate::test_suite::TestCaseDetails;
-use anyhow::Context;
+use anyhow::{Context, Result};
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct TestCase {
@@ -16,7 +16,7 @@ pub struct TestCase {
 }
 
 impl TestCase {
-    pub fn new(defaults: &Defaults, provided: &TestCaseDetails) -> anyhow::Result<TestCase> {
+    pub fn new(defaults: &Defaults, provided: &TestCaseDetails) -> Result<TestCase> {
         let description = provided.description.clone();
         let query = provided.query.clone();
         let site_language = [&provided.site_language, &defaults.site_language]
@@ -55,7 +55,8 @@ impl TestCase {
             .clone()
             .unwrap();
 
-        let expected = Self::expected(&provided.expected)?;
+        let expected = Self::expected(&provided.expected)
+            .context(Self::expected_error_message(&description))?;
 
         Ok(TestCase {
             description,
@@ -73,7 +74,7 @@ impl TestCase {
         format!("Test case `{description}` missing `{key}` and no default provided.")
     }
 
-    fn expected(details: &Option<ExpectedDetails>) -> anyhow::Result<Option<Expected>> {
+    fn expected(details: &Option<ExpectedDetails>) -> Result<Option<Expected>> {
         match details {
             Some(expected_details) => {
                 let expected = Expected::try_from(expected_details)?;
@@ -81,6 +82,10 @@ impl TestCase {
             }
             None => Ok(None),
         }
+    }
+
+    fn expected_error_message(description: &str) -> String {
+        format!("Test case `{description}`")
     }
 }
 

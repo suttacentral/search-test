@@ -42,6 +42,6 @@ fn run_application() -> Result<ResultCount> {
 fn main() {
     match run_application() {
         Ok(count) => println!("{count}"),
-        Err(error) => println!("{error}"),
+        Err(error) => println!("{error:#}"),
     }
 }
