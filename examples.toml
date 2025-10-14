@@ -59,3 +59,9 @@ description = "Guide to The Linked Discourses"
 query = "sn guide"
 selected-languages = ["en"]
 expected.other = "/sn-guide-sujato"
+
+[[test-case]]
+description = "Ananda in Chinese"
+query = "阿難"
+selected-languages = ["lzh"]
+expected.sutta = "/da1/lzh/taisho"
