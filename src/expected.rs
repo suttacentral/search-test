@@ -1,4 +1,4 @@
-use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
 use anyhow::{Result, anyhow};
 use serde::Deserialize;
 
@@ -8,6 +8,7 @@ pub struct ExpectedDetails {
     suttaplex: Option<SuttaplexUid>,
     sutta: Option<TextUrl>,
     dictionary: Option<DictionaryUrl>,
+    volpage: Option<VolpageReference>,
     other: Option<TextUrl>,
     min_rank: Option<usize>,
 }
@@ -34,6 +35,7 @@ impl ExpectedDetails {
             self.suttaplex.is_some(),
             self.sutta.is_some(),
             self.dictionary.is_some(),
+            self.volpage.is_some(),
             self.other.is_some(),
         ]
         .into_iter()
@@ -148,6 +150,7 @@ mod tests {
             suttaplex: None,
             sutta: None,
             dictionary: None,
+            volpage: None,
             other: None,
             min_rank: None,
         };
@@ -167,9 +170,15 @@ mod tests {
             ..two.clone()
         };
 
+        let four = ExpectedDetails {
+            volpage: Some(VolpageReference::from("PTS SN ii 1")),
+            ..three.clone()
+        };
+
         assert_eq!(zero.count_expected(), 0);
         assert_eq!(one.count_expected(), 1);
         assert_eq!(two.count_expected(), 2);
         assert_eq!(three.count_expected(), 3);
+        assert_eq!(four.count_expected(), 4);
     }
 }

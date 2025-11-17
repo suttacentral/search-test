@@ -47,6 +47,15 @@ impl From<&str> for SuttaplexUid {
     }
 }
 
+#[derive(Clone, Deserialize, Debug, PartialEq)]
+pub struct VolpageReference(String);
+
+impl From<&str> for VolpageReference {
+    fn from(value: &str) -> Self {
+        Self(String::from(value))
+    }
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum SearchResultKey {
     Text { url: TextUrl },
