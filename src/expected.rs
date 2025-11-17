@@ -24,6 +24,11 @@ impl ExpectedDetails {
         if let Some(url) = self.dictionary.clone() {
             return Some(SearchResultKey::Dictionary { url: url.clone() });
         };
+        if let Some(reference) = self.volpage.clone() {
+            return Some(SearchResultKey::Volpage {
+                reference: reference.clone(),
+            });
+        }
         if let Some(url) = self.other.clone() {
             return Some(SearchResultKey::Text { url: url.clone() });
         };
@@ -180,5 +185,24 @@ mod tests {
         assert_eq!(two.count_expected(), 2);
         assert_eq!(three.count_expected(), 3);
         assert_eq!(four.count_expected(), 4);
+    }
+
+    #[test]
+    fn obtain_volpage_search_key() {
+        let volpage_expected = ExpectedDetails {
+            suttaplex: None,
+            sutta: None,
+            dictionary: None,
+            volpage: Some(VolpageReference::from("PTS SN ii 1")),
+            other: None,
+            min_rank: None,
+        };
+
+        assert_eq!(
+            volpage_expected.search_key().unwrap(),
+            SearchResultKey::Volpage {
+                reference: VolpageReference::from("PTS SN ii 1")
+            }
+        )
     }
 }

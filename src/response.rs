@@ -148,6 +148,7 @@ impl SearchResults {
             SearchResultKey::Text { url } => self.rank_text(url),
             SearchResultKey::Dictionary { url } => self.rank_dictionary(url),
             SearchResultKey::Suttaplex { uid } => self.rank_suttaplex(uid),
+            SearchResultKey::Volpage { reference } => todo!(),
         }
     }
 

@@ -61,4 +61,5 @@ pub enum SearchResultKey {
     Text { url: TextUrl },
     Dictionary { url: DictionaryUrl },
     Suttaplex { uid: SuttaplexUid },
+    Volpage { reference: VolpageReference },
 }

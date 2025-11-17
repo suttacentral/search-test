@@ -32,6 +32,7 @@ impl CategorySearch {
                 search_for: url.clone(),
                 in_results: results.text.to_vec(),
             },
+            SearchResultKey::Volpage { reference: _ } => todo!(),
         }
     }
 
