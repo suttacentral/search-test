@@ -37,7 +37,7 @@ impl<T: SearchService> Runner<T> {
 mod tests {
     use super::*;
     use crate::identifiers::SuttaplexUid;
-    use crate::response::SearchResults;
+    use crate::response::response::SearchResults;
     use crate::search_service::TimedSearchResults;
     use std::cell::RefCell;
     use std::time::Duration;

@@ -1,5 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
-use crate::response::SearchResults;
+use crate::response::response::SearchResults;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
@@ -82,7 +82,6 @@ impl CategorySearch {
 mod tests {
     use super::*;
     use crate::identifiers::{SearchResultKey, SuttaplexUid};
-    use crate::response::SearchResults;
 
     #[test]
     fn text_in_results() {

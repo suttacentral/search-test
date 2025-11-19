@@ -1,6 +1,6 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
-use crate::response::SearchResults;
+use crate::response::response::SearchResults;
 use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
 use anyhow::Result;
@@ -119,7 +119,6 @@ pub enum Summary {
 mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
-    use crate::response::SearchResults;
     use crate::search_service::TimedSearchResults;
     use crate::test_case::TestCase;
     use anyhow::anyhow;
