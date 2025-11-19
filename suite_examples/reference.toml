@@ -1,0 +1,14 @@
+[settings]
+endpoint = "http://staging.suttacentral.net/api/search/instant"
+delay = 10
+
+[defaults]
+limit = 10
+site-language = "en"
+restrict = "all"
+match-partial = false
+selected-languages = ["en", "pli"]
+
+[[test-case]]
+description = "Do we support reference searches?"
+query = "ref:PTS 1.1"

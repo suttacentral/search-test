@@ -1,0 +1,15 @@
+[settings]
+endpoint = "https://staging.suttacentral.net/api/search/instant"
+
+[defaults]
+limit = 10
+site-language = "en"
+restrict = "all"
+match-partial = false
+selected-languages = ["en", "pli"]
+
+[[test-case]]
+description = "Find volpage:SN ii 4"
+query = "volpage:SN ii 4"
+expected.volpage = "PTS SN ii 1"
+# expected.min_rank = 1
