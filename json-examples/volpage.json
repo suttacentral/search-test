@@ -1,0 +1,102 @@
+{
+    "total": 6,
+    "hits": [
+        {
+            "acronym": "SN 12.1",
+            "uid": "sn12.1",
+            "lang": null,
+            "name": "Dependent Origination ",
+            "volpage": "PTS SN ii 1",
+            "alt_volpage": null,
+            "all_reference": null,
+            "url": "/sn12.1",
+            "highlight": {
+                "content": [
+                    ""
+                ]
+            },
+            "root_name": "Paṭiccasamuppādasutta"
+        },
+        {
+            "acronym": "SN 12.1–2",
+            "uid": "sn12.1-2",
+            "lang": null,
+            "name": null,
+            "volpage": "PTS SN ii 1",
+            "alt_volpage": null,
+            "all_reference": null,
+            "url": "/sn12.1-2",
+            "highlight": {
+                "content": [
+                    ""
+                ]
+            }
+        },
+        {
+            "acronym": "SN 12.2",
+            "uid": "sn12.2",
+            "lang": null,
+            "name": "Analysis ",
+            "volpage": "PTS SN ii 2",
+            "alt_volpage": null,
+            "all_reference": null,
+            "url": "/sn12.2",
+            "highlight": {
+                "content": [
+                    ""
+                ]
+            },
+            "root_name": "Vibhaṅgasutta"
+        },
+        {
+            "acronym": "SN 12.3",
+            "uid": "sn12.3",
+            "lang": null,
+            "name": "Practice ",
+            "volpage": "PTS SN ii 4",
+            "alt_volpage": null,
+            "all_reference": null,
+            "url": "/sn12.3",
+            "highlight": {
+                "content": [
+                    ""
+                ]
+            },
+            "root_name": "Paṭipadāsutta"
+        },
+        {
+            "acronym": "SN 12.4",
+            "uid": "sn12.4",
+            "lang": null,
+            "name": "About Vipassī ",
+            "volpage": "PTS SN ii 5",
+            "alt_volpage": null,
+            "all_reference": null,
+            "url": "/sn12.4",
+            "highlight": {
+                "content": [
+                    ""
+                ]
+            },
+            "root_name": "Vipassīsutta"
+        },
+        {
+            "acronym": "SN 12.4–9",
+            "uid": "sn12.4-9",
+            "lang": null,
+            "name": null,
+            "name": null,
+            "volpage": "PTS SN ii 5",
+            "alt_volpage": null,
+            "all_reference": null,
+            "url": "/sn12.4-9",
+            "highlight": {
+                "content": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "suttaplex": [],
+    "fuzzy_dictionary": []
+}
