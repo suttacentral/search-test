@@ -1,4 +1,4 @@
-use crate::response::response::SearchResults;
+use crate::response::general::SearchResults;
 use crate::test_case::TestCase;
 use anyhow::{Context, Result, anyhow};
 use reqwest::blocking::{Client, RequestBuilder, Response};

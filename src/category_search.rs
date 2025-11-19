@@ -1,5 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
-use crate::response::response::SearchResults;
+use crate::response::general::SearchResults;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
