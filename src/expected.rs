@@ -72,6 +72,7 @@ impl TryFrom<&ExpectedDetails> for Expected {
             return Err(anyhow!("min-rank set but there is no expected result"));
         };
 
+        // TODO: remove unwrap()
         let key = details.search_key().unwrap();
 
         match details.min_rank {
