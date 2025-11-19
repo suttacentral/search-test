@@ -1,0 +1,14 @@
+[settings]
+endpoint = "http://localhost/api/search/instant"
+
+[defaults]
+limit = 10
+site-language = "en"
+restrict = "all"
+match-partial = false
+selected-languages = ["en", "pli"]
+
+[[test-case]]
+description = "Search in title"
+query = "title:the root of all things"
+expected.suttaplex = "mn1"
