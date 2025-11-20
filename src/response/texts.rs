@@ -1,12 +1,12 @@
-use crate::identifiers::{DictionaryUrl, TextUrl};
-use crate::response::mixed_hits::Hit;
+use crate::identifiers::TextUrl;
+use crate::response::mixed_hits::MixedHit;
 use anyhow::Result;
 
 use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 struct TopLevel {
-    hits: Vec<Hit>,
+    hits: Vec<MixedHit>,
 }
 
 pub fn texts(json: &str) -> Result<Vec<TextUrl>> {
