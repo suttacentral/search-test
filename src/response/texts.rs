@@ -3,12 +3,8 @@ use crate::response::mixed_hits::MixedHits;
 use anyhow::Result;
 
 pub fn text_results(json: &str) -> Result<Vec<TextUrl>> {
-    let top_level: MixedHits = serde_json::from_str(json)?;
-    let urls = top_level
-        .hits
-        .iter()
-        .filter_map(|hit| hit.text_url())
-        .collect();
+    let hits: MixedHits = serde_json::from_str(json)?;
+    let urls = hits.hits.iter().filter_map(|hit| hit.text_url()).collect();
     Ok(urls)
 }
 

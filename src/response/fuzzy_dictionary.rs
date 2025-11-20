@@ -1,13 +1,22 @@
 use crate::identifiers::DictionaryUrl;
-use crate::response::mixed_hits::MixedHits;
 use anyhow::Result;
+use serde::Deserialize;
 
-pub fn dictionary_results(json: &str) -> Result<Vec<DictionaryUrl>> {
-    let hits: MixedHits = serde_json::from_str(json)?;
+#[derive(Deserialize, Debug)]
+struct FuzzyDictionaryHit {
+    url: DictionaryUrl,
+}
+
+#[derive(Deserialize, Debug)]
+struct FuzzyDictionaryHits {
+    fuzzy_dictionary: Vec<FuzzyDictionaryHit>,
+}
+pub fn fuzzy_dictionary_results(json: &str) -> Result<Vec<DictionaryUrl>> {
+    let hits: FuzzyDictionaryHits = serde_json::from_str(json)?;
     let urls = hits
-        .hits
+        .fuzzy_dictionary
         .iter()
-        .filter_map(|hit| hit.dictionary_url())
+        .map(|hit| hit.url.clone())
         .collect();
     Ok(urls)
 }
@@ -20,18 +29,18 @@ mod tests {
     fn no_results() {
         let json = r#"
         {
-            "hits": []
+            "fuzzy_dictionary": []
         }
         "#;
 
-        assert_eq!(dictionary_results(json).unwrap(), Vec::new())
+        assert_eq!(fuzzy_dictionary_results(json).unwrap(), Vec::new())
     }
 
     #[test]
     fn single_result() {
         let json = r#"
         {
-            "hits": [
+            "fuzzy_dictionary": [
                 {
                     "url": "/define/metta",
                     "category": "dictionary"
@@ -41,7 +50,7 @@ mod tests {
         "#;
 
         assert_eq!(
-            dictionary_results(json).unwrap(),
+            fuzzy_dictionary_results(json).unwrap(),
             vec![DictionaryUrl::from("/define/metta")]
         )
     }
@@ -50,7 +59,7 @@ mod tests {
     fn two_results() {
         let json = r#"
         {
-            "hits": [
+            "fuzzy_dictionary": [
                 {
                     "url": "/define/metta",
                     "category": "dictionary"
@@ -64,7 +73,7 @@ mod tests {
         "#;
 
         assert_eq!(
-            dictionary_results(json).unwrap(),
+            fuzzy_dictionary_results(json).unwrap(),
             vec![
                 DictionaryUrl::from("/define/metta"),
                 DictionaryUrl::from("/define/dosa")
