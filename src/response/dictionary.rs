@@ -45,4 +45,30 @@ mod tests {
             vec![DictionaryUrl::from("/define/metta")]
         )
     }
+
+    #[test]
+    fn two_results() {
+        let json = r#"
+        {
+            "hits": [
+                {
+                    "url": "/define/metta",
+                    "category": "dictionary"
+                },
+                {
+                    "url": "/define/dosa",
+                    "category": "dictionary"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            dictionary_results(json).unwrap(),
+            vec![
+                DictionaryUrl::from("/define/metta"),
+                DictionaryUrl::from("/define/dosa")
+            ]
+        )
+    }
 }
