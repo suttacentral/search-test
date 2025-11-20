@@ -1,9 +1,9 @@
 use crate::identifiers::TextUrl;
-use crate::response::mixed_hits::TopLevel;
+use crate::response::mixed_hits::MixedHits;
 use anyhow::Result;
 
 pub fn texts(json: &str) -> Result<Vec<TextUrl>> {
-    let top_level: TopLevel = serde_json::from_str(json)?;
+    let top_level: MixedHits = serde_json::from_str(json)?;
     let urls = top_level
         .hits
         .iter()

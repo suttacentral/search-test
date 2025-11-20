@@ -3,7 +3,7 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
-pub enum MixedHit {
+pub enum Hit {
     Dictionary {
         category: String,
         url: DictionaryUrl,
@@ -17,13 +17,13 @@ pub enum MixedHit {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopLevel {
-    pub hits: Vec<MixedHit>,
+pub struct MixedHits {
+    pub hits: Vec<Hit>,
 }
 
-impl MixedHit {
+impl Hit {
     pub fn text_url(&self) -> Option<TextUrl> {
-        if let MixedHit::Text { url, .. } = self {
+        if let Hit::Text { url, .. } = self {
             Some(url.clone())
         } else {
             None
@@ -31,7 +31,7 @@ impl MixedHit {
     }
 
     pub fn dictionary_url(&self) -> Option<DictionaryUrl> {
-        if let MixedHit::Dictionary { url, .. } = self {
+        if let Hit::Dictionary { url, .. } = self {
             Some(url.clone())
         } else {
             None

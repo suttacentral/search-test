@@ -1,9 +1,9 @@
 use crate::identifiers::DictionaryUrl;
-use crate::response::mixed_hits::TopLevel;
+use crate::response::mixed_hits::MixedHits;
 use anyhow::Result;
 
 pub fn dictionary_results(json: &str) -> Result<Vec<DictionaryUrl>> {
-    let top_level: TopLevel = serde_json::from_str(json)?;
+    let top_level: MixedHits = serde_json::from_str(json)?;
     let urls = top_level
         .hits
         .iter()
