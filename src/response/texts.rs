@@ -1,32 +1,8 @@
 use crate::identifiers::{DictionaryUrl, TextUrl};
+use crate::response::mixed_hits::Hit;
 use anyhow::Result;
 
 use serde::Deserialize;
-
-#[derive(Clone, Deserialize, Debug, PartialEq)]
-#[serde(untagged)]
-enum Hit {
-    Dictionary {
-        category: String,
-        url: DictionaryUrl,
-    },
-    Text {
-        uid: String,
-        lang: String,
-        author_uid: Option<String>,
-        url: TextUrl,
-    },
-}
-
-impl Hit {
-    fn text_url(&self) -> Option<TextUrl> {
-        if let Hit::Text { url, .. } = self {
-            Some(url.clone())
-        } else {
-            None
-        }
-    }
-}
 
 #[derive(Deserialize, Debug)]
 struct TopLevel {
