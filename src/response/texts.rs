@@ -127,4 +127,25 @@ mod tests {
 
         assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
     }
+
+    #[test]
+    fn ignores_other_top_level_attributes() {
+        let json = r#"
+        {
+            "total": 80,
+            "hits": [
+                {
+                    "uid": "mn1",
+                    "lang": "en",
+                    "author_uid": "sujato",
+                    "url": "/mn1/en/sujato"
+                }
+            ],
+            "suttaplex": [],
+            "fuzzy_dictionary": []
+        }
+        "#;
+
+        assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
+    }
 }
