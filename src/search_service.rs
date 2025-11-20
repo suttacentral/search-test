@@ -1,4 +1,4 @@
-use crate::response::general::SearchResults;
+use crate::response::general::{SearchResponse, SearchResults};
 use crate::test_case::TestCase;
 use anyhow::{Context, Result, anyhow};
 use reqwest::blocking::{Client, RequestBuilder, Response};
@@ -47,8 +47,9 @@ impl LiveSearchService {
             ));
         };
 
-        let search_response = http_response
-            .json()
+        let json = http_response.text()?;
+
+        let search_response = serde_json::from_str::<SearchResponse>(json.as_str())
             .context("Could not parse JSON response");
 
         match search_response {
