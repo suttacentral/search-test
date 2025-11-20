@@ -8,7 +8,6 @@ use std::cmp::Ordering;
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
-#[allow(unused)]
 pub struct TestResult {
     pub description: String,
     pub elapsed: Duration,

@@ -6,7 +6,6 @@ use std::time::{Duration, Instant};
 
 #[derive(Debug)]
 pub struct TimedSearchResults {
-    #[allow(unused)]
     pub results: Result<SearchResults>,
     pub elapsed: Duration,
 }
