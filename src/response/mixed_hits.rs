@@ -16,9 +16,22 @@ pub enum MixedHit {
     },
 }
 
+#[derive(Deserialize, Debug)]
+pub struct TopLevel {
+    pub hits: Vec<MixedHit>,
+}
+
 impl MixedHit {
     pub fn text_url(&self) -> Option<TextUrl> {
         if let MixedHit::Text { url, .. } = self {
+            Some(url.clone())
+        } else {
+            None
+        }
+    }
+
+    pub fn dictionary_url(&self) -> Option<DictionaryUrl> {
+        if let MixedHit::Dictionary { url, .. } = self {
             Some(url.clone())
         } else {
             None

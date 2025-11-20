@@ -1,13 +1,6 @@
 use crate::identifiers::TextUrl;
-use crate::response::mixed_hits::MixedHit;
+use crate::response::mixed_hits::TopLevel;
 use anyhow::Result;
-
-use serde::Deserialize;
-
-#[derive(Deserialize, Debug)]
-struct TopLevel {
-    hits: Vec<MixedHit>,
-}
 
 pub fn texts(json: &str) -> Result<Vec<TextUrl>> {
     let top_level: TopLevel = serde_json::from_str(json)?;
