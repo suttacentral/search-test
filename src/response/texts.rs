@@ -5,7 +5,7 @@ use serde::Deserialize;
 
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 #[serde(untagged)]
-pub enum Hit {
+enum Hit {
     Dictionary {
         category: String,
         url: DictionaryUrl,
@@ -29,11 +29,11 @@ impl Hit {
 }
 
 #[derive(Deserialize, Debug)]
-pub struct TopLevel {
+struct TopLevel {
     hits: Vec<Hit>,
 }
 
-fn texts(json: &str) -> Result<Vec<TextUrl>> {
+pub fn texts(json: &str) -> Result<Vec<TextUrl>> {
     let top_level: TopLevel = serde_json::from_str(json)?;
     let urls = top_level
         .hits
