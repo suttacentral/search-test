@@ -1,24 +1,45 @@
-use crate::identifiers::TextUrl;
+use crate::identifiers::{DictionaryUrl, TextUrl};
 use anyhow::Result;
 
 use serde::Deserialize;
 
-#[derive(Deserialize, Debug, PartialEq)]
-pub struct Text {
-    uid: String,
-    lang: String,
-    author_uid: Option<String>,
-    url: TextUrl,
+#[derive(Clone, Deserialize, Debug, PartialEq)]
+#[serde(untagged)]
+pub enum Hit {
+    Dictionary {
+        category: String,
+        url: DictionaryUrl,
+    },
+    Text {
+        uid: String,
+        lang: String,
+        author_uid: Option<String>,
+        url: TextUrl,
+    },
+}
+
+impl Hit {
+    fn text_url(&self) -> Option<TextUrl> {
+        if let Hit::Text { url, .. } = self {
+            Some(url.clone())
+        } else {
+            None
+        }
+    }
 }
 
 #[derive(Deserialize, Debug)]
 pub struct TopLevel {
-    hits: Vec<Text>,
+    hits: Vec<Hit>,
 }
 
 fn texts(json: &str) -> Result<Vec<TextUrl>> {
     let top_level: TopLevel = serde_json::from_str(json)?;
-    let urls = top_level.hits.iter().map(|hit| hit.url.clone()).collect();
+    let urls = top_level
+        .hits
+        .iter()
+        .filter_map(|hit| hit.text_url())
+        .collect();
     Ok(urls)
 }
 
@@ -83,5 +104,27 @@ mod tests {
                 TextUrl::from("/mn2/en/sujato")
             ]
         )
+    }
+
+    #[test]
+    fn ignores_dictionary_result() {
+        let json = r#"
+        {
+            "hits": [
+                {
+                    "uid": "mn1",
+                    "lang": "en",
+                    "author_uid": "sujato",
+                    "url": "/mn1/en/sujato"
+                },
+                {
+                    "category": "dictionary",
+                    "url": "/define/metta"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
     }
 }
