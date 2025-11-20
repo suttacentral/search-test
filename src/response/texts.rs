@@ -27,6 +27,17 @@ mod tests {
     use super::*;
 
     #[test]
+    fn no_results() {
+        let json = r#"
+        {
+            "hits": []
+        }
+        "#;
+
+        assert_eq!(texts(json).unwrap(), Vec::new())
+    }
+
+    #[test]
     fn single_result() {
         let json = r#"
         {
