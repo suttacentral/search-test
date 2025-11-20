@@ -27,7 +27,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn single_text_result() {
+    fn single_result() {
         let json = r#"
         {
             "hits": [
@@ -42,5 +42,35 @@ mod tests {
         "#;
 
         assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
+    }
+
+    #[test]
+    fn two_results() {
+        let json = r#"
+        {
+            "hits": [
+                {
+                    "uid": "mn1",
+                    "lang": "en",
+                    "author_uid": "sujato",
+                    "url": "/mn1/en/sujato"
+                },
+                {
+                    "uid": "mn2",
+                    "lang": "en",
+                    "author_uid": "sujato",
+                    "url": "/mn2/en/sujato"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            texts(json).unwrap(),
+            vec![
+                TextUrl::from("/mn1/en/sujato"),
+                TextUrl::from("/mn2/en/sujato")
+            ]
+        )
     }
 }
