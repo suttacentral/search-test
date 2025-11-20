@@ -1,5 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
-use crate::response::texts::texts;
+use crate::response::texts::text_results;
 use anyhow::Result;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -15,7 +15,7 @@ impl SearchResults {
     pub fn new(key: SearchResultKey, json: &str) -> Result<SearchResults> {
         match key {
             SearchResultKey::Text { .. } => {
-                let results = texts(json)?;
+                let results = text_results(json)?;
                 Ok(SearchResults::Text { results })
             }
             _ => todo!(),

@@ -2,7 +2,7 @@ use crate::identifiers::TextUrl;
 use crate::response::mixed_hits::MixedHits;
 use anyhow::Result;
 
-pub fn texts(json: &str) -> Result<Vec<TextUrl>> {
+pub fn text_results(json: &str) -> Result<Vec<TextUrl>> {
     let top_level: MixedHits = serde_json::from_str(json)?;
     let urls = top_level
         .hits
@@ -24,7 +24,7 @@ mod tests {
         }
         "#;
 
-        assert_eq!(texts(json).unwrap(), Vec::new())
+        assert_eq!(text_results(json).unwrap(), Vec::new())
     }
 
     #[test]
@@ -42,7 +42,10 @@ mod tests {
         }
         "#;
 
-        assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
+        assert_eq!(
+            text_results(json).unwrap(),
+            vec![TextUrl::from("/mn1/en/sujato")]
+        )
     }
 
     #[test]
@@ -67,7 +70,7 @@ mod tests {
         "#;
 
         assert_eq!(
-            texts(json).unwrap(),
+            text_results(json).unwrap(),
             vec![
                 TextUrl::from("/mn1/en/sujato"),
                 TextUrl::from("/mn2/en/sujato")
@@ -94,7 +97,10 @@ mod tests {
         }
         "#;
 
-        assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
+        assert_eq!(
+            text_results(json).unwrap(),
+            vec![TextUrl::from("/mn1/en/sujato")]
+        )
     }
 
     #[test]
@@ -115,6 +121,9 @@ mod tests {
         }
         "#;
 
-        assert_eq!(texts(json).unwrap(), vec![TextUrl::from("/mn1/en/sujato")])
+        assert_eq!(
+            text_results(json).unwrap(),
+            vec![TextUrl::from("/mn1/en/sujato")]
+        )
     }
 }
