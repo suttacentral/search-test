@@ -11,6 +11,7 @@ struct FuzzyDictionaryHit {
 struct FuzzyDictionaryHits {
     fuzzy_dictionary: Vec<FuzzyDictionaryHit>,
 }
+
 pub fn fuzzy_dictionary_results(json: &str) -> Result<Vec<DictionaryUrl>> {
     let hits: FuzzyDictionaryHits = serde_json::from_str(json)?;
     let urls = hits
