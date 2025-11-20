@@ -1,4 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
+use crate::response::dictionary::dictionary_results;
 use crate::response::texts::text_results;
 use anyhow::Result;
 
@@ -14,10 +15,12 @@ pub enum SearchResults {
 impl SearchResults {
     pub fn new(key: SearchResultKey, json: &str) -> Result<SearchResults> {
         match key {
-            SearchResultKey::Text { .. } => {
-                let results = text_results(json)?;
-                Ok(SearchResults::Text { results })
-            }
+            SearchResultKey::Text { .. } => Ok(SearchResults::Text {
+                results: text_results(json)?,
+            }),
+            SearchResultKey::Dictionary { .. } => Ok(SearchResults::Dictionary {
+                results: dictionary_results(json)?,
+            }),
             _ => todo!(),
         }
     }
@@ -25,8 +28,7 @@ impl SearchResults {
 
 #[cfg(test)]
 mod tests {
-    use crate::identifiers::{SearchResultKey, TextUrl};
-    use crate::response::search_results::SearchResults;
+    use super::*;
 
     #[test]
     fn constructs_text_results() {
@@ -53,5 +55,30 @@ mod tests {
                 results: vec![TextUrl::from("/mn1/en/sujato")]
             }
         );
+    }
+
+    #[test]
+    fn constructs_dictionary_results() {
+        let key = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/metta"),
+        };
+
+        let json = r#"
+        {
+            "hits": [
+                {
+                    "url": "/define/metta",
+                    "category": "dictionary"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            SearchResults::new(key, json).unwrap(),
+            SearchResults::Dictionary {
+                results: vec![DictionaryUrl::from("/define/metta")]
+            }
+        )
     }
 }
