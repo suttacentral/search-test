@@ -97,7 +97,7 @@ mod tests {
     }
 
     #[test]
-    fn fuzzy_only() {
+    fn one_fuzzy_result() {
         let json = r#"
         {
             "hits" : [],
@@ -113,6 +113,61 @@ mod tests {
         assert_eq!(
             dictionary_results(json).unwrap(),
             vec![DictionaryUrl::from("/define/metta")]
+        )
+    }
+
+    #[test]
+    fn two_fuzzy_results() {
+        let json = r#"
+        {
+            "hits" : [],
+            "fuzzy_dictionary": [
+                {
+                    "url": "/define/metta",
+                    "category": "dictionary"
+                },
+                {
+                    "url": "/define/dosa",
+                    "category": "dictionary"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            dictionary_results(json).unwrap(),
+            vec![
+                DictionaryUrl::from("/define/metta"),
+                DictionaryUrl::from("/define/dosa")
+            ]
+        )
+    }
+
+    #[test]
+    fn one_of_each_result() {
+        let json = r#"
+        {
+            "hits" : [
+            {
+                    "url": "/define/metta",
+                    "category": "dictionary"
+                }
+            ],
+            "fuzzy_dictionary": [
+                {
+                    "url": "/define/dosa",
+                    "category": "dictionary"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            dictionary_results(json).unwrap(),
+            vec![
+                DictionaryUrl::from("/define/metta"),
+                DictionaryUrl::from("/define/dosa")
+            ]
         )
     }
 }
