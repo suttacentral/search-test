@@ -90,7 +90,13 @@ impl TestCase {
     }
 
     fn search_type(&self) -> Option<SearchType> {
-        None
+        match &self.expected {
+            None => None,
+            Some(expected) => match expected {
+                Expected::Unranked { key } => Some(SearchType::from(key.clone())),
+                Expected::Ranked { key, .. } => Some(SearchType::from(key.clone())),
+            },
+        }
     }
 }
 
@@ -98,6 +104,7 @@ impl TestCase {
 mod tests {
     use crate::defaults::Defaults;
     use crate::expected::Expected;
+    use crate::identifiers::{SearchResultKey, SearchType, SuttaplexUid};
     use crate::test_case::TestCase;
     use crate::test_suite::TestCaseDetails;
 
@@ -263,12 +270,24 @@ mod tests {
     }
 
     #[test]
-    fn search_type_is_none_when_expected_is_none() {
+    fn search_type_is_none_when_expected_missing() {
         let test_case = TestCase {
             expected: None,
             ..test_case()
         };
-
         assert_eq!(test_case.search_type(), None);
+    }
+
+    #[test]
+    fn search_type_obtained_when_unranked_expected_present() {
+        let test_case = TestCase {
+            expected: Some(Expected::Unranked {
+                key: SearchResultKey::Suttaplex {
+                    uid: SuttaplexUid::from("mn1"),
+                },
+            }),
+            ..test_case()
+        };
+        assert_eq!(test_case.search_type(), Some(SearchType::Suttaplex));
     }
 }
