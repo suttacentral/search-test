@@ -70,7 +70,8 @@ mod tests {
                     "url": "/define/metta",
                     "category": "dictionary"
                 }
-            ]
+            ],
+            "fuzzy_dictionary": []
         }
         "#;
 
