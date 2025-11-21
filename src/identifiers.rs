@@ -1,3 +1,4 @@
+use crate::identifiers::SearchType::{Dictionary, Suttaplex, Text, Volpage};
 use serde::Deserialize;
 use std::fmt;
 use std::fmt::{Display, Formatter};
@@ -62,4 +63,23 @@ pub enum SearchResultKey {
     Dictionary { url: DictionaryUrl },
     Suttaplex { uid: SuttaplexUid },
     Volpage { reference: VolpageReference },
+}
+
+#[derive(Clone, Debug, PartialEq)]
+pub enum SearchType {
+    Text,
+    Dictionary,
+    Suttaplex,
+    Volpage,
+}
+
+impl From<SearchResultKey> for SearchType {
+    fn from(key: SearchResultKey) -> Self {
+        match key {
+            SearchResultKey::Text { .. } => Text,
+            SearchResultKey::Dictionary { .. } => Dictionary,
+            SearchResultKey::Suttaplex { .. } => Suttaplex,
+            SearchResultKey::Volpage { .. } => Volpage,
+        }
+    }
 }
