@@ -64,20 +64,28 @@ mod tests {
 
         let json = r#"
         {
-            "hits": [
-                {
+            "hits" : [
+            {
                     "url": "/define/metta",
                     "category": "dictionary"
                 }
             ],
-            "fuzzy_dictionary": []
+            "fuzzy_dictionary": [
+                {
+                    "url": "/define/dosa",
+                    "category": "dictionary"
+                }
+            ]
         }
         "#;
 
         assert_eq!(
             SearchResults::new(key, json).unwrap(),
             SearchResults::Dictionary {
-                results: vec![DictionaryUrl::from("/define/metta")]
+                results: vec![
+                    DictionaryUrl::from("/define/metta"),
+                    DictionaryUrl::from("/define/dosa")
+                ]
             }
         )
     }
