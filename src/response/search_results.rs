@@ -7,7 +7,6 @@ use anyhow::Result;
 pub enum SearchResults {
     Text { results: Vec<TextUrl> },
     Dictionary { results: Vec<DictionaryUrl> },
-    FuzzyDictionary { results: Vec<DictionaryUrl> },
     Suttaplex { results: Vec<SuttaplexUid> },
     Volpage { results: Vec<VolpageReference> },
 }
