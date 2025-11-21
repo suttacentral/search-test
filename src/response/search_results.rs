@@ -24,7 +24,7 @@ impl SearchResults {
             SearchResultKey::Suttaplex { .. } => Ok(SearchResults::Suttaplex {
                 results: suttaplex_results(json)?,
             }),
-            _ => todo!(),
+            SearchResultKey::Volpage { .. } => todo!(),
         }
     }
 }
