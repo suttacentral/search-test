@@ -47,15 +47,14 @@ impl LiveSearchService {
             ));
         };
 
-        let json = http_response.text()?;
+        let json = http_response
+            .text()
+            .context("Could not obtain HTTP response Body")?;
 
         let search_response = serde_json::from_str::<SearchResponse>(json.as_str())
-            .context("Could not parse JSON response");
+            .context("Could not parse JSON response")?;
 
-        match search_response {
-            Ok(response) => Ok(SearchResults::new(response)),
-            Err(error) => Err(error),
-        }
+        Ok(SearchResults::new(search_response))
     }
 }
 
