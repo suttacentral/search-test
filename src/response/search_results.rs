@@ -1,4 +1,6 @@
-use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
+use crate::identifiers::{
+    DictionaryUrl, SearchResultKey, SearchType, SuttaplexUid, TextUrl, VolpageReference,
+};
 use crate::response::dictionary::dictionary_results;
 use crate::response::suttaplex::suttaplex_results;
 use crate::response::texts::text_results;
@@ -13,18 +15,18 @@ pub enum SearchResults {
 }
 
 impl SearchResults {
-    pub fn new(key: SearchResultKey, json: &str) -> Result<SearchResults> {
-        match key {
-            SearchResultKey::Text { .. } => Ok(SearchResults::Text {
+    pub fn new(search_type: SearchType, json: &str) -> Result<SearchResults> {
+        match search_type {
+            SearchType::Text => Ok(SearchResults::Text {
                 results: text_results(json)?,
             }),
-            SearchResultKey::Dictionary { .. } => Ok(SearchResults::Dictionary {
+            SearchType::Dictionary => Ok(SearchResults::Dictionary {
                 results: dictionary_results(json)?,
             }),
-            SearchResultKey::Suttaplex { .. } => Ok(SearchResults::Suttaplex {
+            SearchType::Suttaplex => Ok(SearchResults::Suttaplex {
                 results: suttaplex_results(json)?,
             }),
-            SearchResultKey::Volpage { .. } => todo!(),
+            SearchType::Volpage => todo!(),
         }
     }
 }
@@ -35,10 +37,6 @@ mod tests {
 
     #[test]
     fn constructs_text_results() {
-        let key = SearchResultKey::Text {
-            url: TextUrl::from("/mn1/en/sujato"),
-        };
-
         let json = r#"
         {
             "hits": [
@@ -53,7 +51,7 @@ mod tests {
         "#;
 
         assert_eq!(
-            SearchResults::new(key, json).unwrap(),
+            SearchResults::new(SearchType::Text, json).unwrap(),
             SearchResults::Text {
                 results: vec![TextUrl::from("/mn1/en/sujato")]
             }
@@ -62,10 +60,6 @@ mod tests {
 
     #[test]
     fn constructs_dictionary_results() {
-        let key = SearchResultKey::Dictionary {
-            url: DictionaryUrl::from("/define/metta"),
-        };
-
         let json = r#"
         {
             "hits" : [
@@ -84,7 +78,7 @@ mod tests {
         "#;
 
         assert_eq!(
-            SearchResults::new(key, json).unwrap(),
+            SearchResults::new(SearchType::Dictionary, json).unwrap(),
             SearchResults::Dictionary {
                 results: vec![
                     DictionaryUrl::from("/define/metta"),
@@ -96,10 +90,6 @@ mod tests {
 
     #[test]
     fn constructs_suttaplex_results() {
-        let key = SearchResultKey::Suttaplex {
-            uid: SuttaplexUid::from("mn1"),
-        };
-
         let json = r#"
         {
             "suttaplex": [
@@ -111,7 +101,7 @@ mod tests {
         "#;
 
         assert_eq!(
-            SearchResults::new(key, json).unwrap(),
+            SearchResults::new(SearchType::Suttaplex, json).unwrap(),
             SearchResults::Suttaplex {
                 results: vec![SuttaplexUid::from("mn1")]
             }
