@@ -290,4 +290,18 @@ mod tests {
         };
         assert_eq!(test_case.search_type(), Some(SearchType::Suttaplex));
     }
+
+    #[test]
+    fn search_type_obtained_when_ranked_expected_present() {
+        let test_case = TestCase {
+            expected: Some(Expected::Ranked {
+                key: SearchResultKey::Suttaplex {
+                    uid: SuttaplexUid::from("mn1"),
+                },
+                min_rank: 5,
+            }),
+            ..test_case()
+        };
+        assert_eq!(test_case.search_type(), Some(SearchType::Suttaplex));
+    }
 }
