@@ -1,5 +1,6 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
 use crate::response::dictionary::dictionary_results;
+use crate::response::suttaplex::suttaplex_results;
 use crate::response::texts::text_results;
 use anyhow::Result;
 
@@ -19,6 +20,9 @@ impl SearchResults {
             }),
             SearchResultKey::Dictionary { .. } => Ok(SearchResults::Dictionary {
                 results: dictionary_results(json)?,
+            }),
+            SearchResultKey::Suttaplex { .. } => Ok(SearchResults::Suttaplex {
+                results: suttaplex_results(json)?,
             }),
             _ => todo!(),
         }
@@ -86,6 +90,30 @@ mod tests {
                     DictionaryUrl::from("/define/metta"),
                     DictionaryUrl::from("/define/dosa")
                 ]
+            }
+        )
+    }
+
+    #[test]
+    fn constructs_suttaplex_results() {
+        let key = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn1"),
+        };
+
+        let json = r#"
+        {
+            "suttaplex": [
+                {
+                    "uid": "mn1"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            SearchResults::new(key, json).unwrap(),
+            SearchResults::Suttaplex {
+                results: vec![SuttaplexUid::from("mn1")]
             }
         )
     }
