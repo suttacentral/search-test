@@ -1,5 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
-use anyhow::{Result, anyhow};
+use anyhow::{Context, Result, anyhow};
 use serde::Deserialize;
 
 #[derive(Clone, Debug, Default, Deserialize, PartialEq)]
@@ -72,8 +72,9 @@ impl TryFrom<&ExpectedDetails> for Expected {
             return Err(anyhow!("min-rank set but there is no expected result"));
         };
 
-        // TODO: remove unwrap()
-        let key = details.search_key().unwrap();
+        let key = details
+            .search_key()
+            .context("Failed to extract search key")?;
 
         match details.min_rank {
             Some(min_rank) => Ok(Expected::Ranked { key, min_rank }),
