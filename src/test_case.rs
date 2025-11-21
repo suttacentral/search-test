@@ -1,5 +1,6 @@
 use crate::defaults::Defaults;
 use crate::expected::{Expected, ExpectedDetails};
+use crate::identifiers::SearchType;
 use crate::test_suite::TestCaseDetails;
 use anyhow::{Context, Result};
 
@@ -87,11 +88,16 @@ impl TestCase {
     fn expected_error_message(description: &str) -> String {
         format!("Test case `{description}`")
     }
+
+    fn search_type(&self) -> Option<SearchType> {
+        None
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use crate::defaults::Defaults;
+    use crate::expected::Expected;
     use crate::test_case::TestCase;
     use crate::test_suite::TestCaseDetails;
 
@@ -254,5 +260,15 @@ mod tests {
             error.to_string(),
             "Test case `Search in English only.` missing `restrict` and no default provided."
         );
+    }
+
+    #[test]
+    fn search_type_is_none_when_expected_is_none() {
+        let test_case = TestCase {
+            expected: None,
+            ..test_case()
+        };
+
+        assert_eq!(test_case.search_type(), None);
     }
 }
