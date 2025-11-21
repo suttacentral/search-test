@@ -60,15 +60,6 @@ pub enum Expected {
     },
 }
 
-impl Expected {
-    fn search_key(&self) -> SearchResultKey {
-        match self {
-            Self::Unranked { key } => key.clone(),
-            Self::Ranked { key, .. } => key.clone(),
-        }
-    }
-}
-
 impl TryFrom<&ExpectedDetails> for Expected {
     type Error = anyhow::Error;
 
@@ -213,39 +204,6 @@ mod tests {
             volpage_expected.search_key().unwrap(),
             SearchResultKey::Volpage {
                 reference: VolpageReference::from("PTS SN ii 1")
-            }
-        )
-    }
-
-    #[test]
-    fn get_unranked_search_key() {
-        let expected = Expected::Unranked {
-            key: SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            },
-        };
-
-        assert_eq!(
-            expected.search_key(),
-            SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            }
-        )
-    }
-
-    #[test]
-    fn get_ranked_search_key() {
-        let expected = Expected::Ranked {
-            key: SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            },
-            min_rank: 5,
-        };
-
-        assert_eq!(
-            expected.search_key(),
-            SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
             }
         )
     }
