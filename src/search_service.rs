@@ -67,16 +67,12 @@ impl SearchService for LiveSearchService {
             .context("Error sending HTTP request");
         let elapsed = start.elapsed();
 
-        match http_response {
-            Err(error) => TimedSearchResults {
-                elapsed,
-                results: Err(error),
-            },
-            Ok(http_response) => TimedSearchResults {
-                elapsed,
-                results: Self::search_results(http_response),
-            },
-        }
+        let results: Result<SearchResults> = match http_response {
+            Ok(response) => Self::search_results(response),
+            Err(error) => Err(error),
+        };
+
+        TimedSearchResults { elapsed, results }
     }
 }
 
