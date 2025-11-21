@@ -1,5 +1,5 @@
 use crate::identifiers::DictionaryUrl;
-use crate::response::mixed_hits::{Hit, MixedHits};
+use crate::response::mixed_hits::Hit;
 use anyhow::Result;
 use serde::Deserialize;
 
