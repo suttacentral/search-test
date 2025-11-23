@@ -30,23 +30,28 @@ fn check_status_code(code: StatusCode) -> Result<()> {
     }
 }
 
+fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
+    vec![
+        ("limit".to_string(), test_case.limit.to_string()),
+        ("query".to_string(), test_case.query.to_string()),
+        ("language".to_string(), test_case.site_language.to_string()),
+        ("restrict".to_string(), test_case.restrict.to_string()),
+        (
+            "matchpartial".to_string(),
+            test_case.match_partial.to_string(),
+        ),
+    ]
+}
+
 impl LiveSearchService {
     pub fn new(endpoint: String) -> Self {
         Self { endpoint }
     }
 
     fn build_request(&self, test_case: &TestCase) -> RequestBuilder {
-        let params = vec![
-            ("limit", test_case.limit.to_string()),
-            ("query", test_case.query.to_string()),
-            ("language", test_case.site_language.to_string()),
-            ("restrict", test_case.restrict.to_string()),
-            ("matchpartial", test_case.match_partial.to_string()),
-        ];
-
         Client::new()
             .post(self.endpoint.as_str())
-            .query(&params)
+            .query(&parameters(test_case))
             .json(&test_case.selected_languages)
     }
 
