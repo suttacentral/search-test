@@ -1,6 +1,7 @@
 use crate::response::general::{SearchResponse, SearchResults};
 use crate::test_case::TestCase;
 use anyhow::{Context, Result, anyhow};
+use http::StatusCode;
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
 
@@ -16,6 +17,17 @@ pub trait SearchService {
 #[derive(Debug)]
 pub struct LiveSearchService {
     endpoint: String,
+}
+
+fn check_status_code(code: StatusCode) -> Result<()> {
+    match code {
+        StatusCode::OK => Ok(()),
+        _ => Err(anyhow!(
+            "Expected status code to be {} but got {}",
+            StatusCode::OK,
+            code
+        )),
+    }
 }
 
 impl LiveSearchService {
@@ -39,13 +51,7 @@ impl LiveSearchService {
     }
 
     fn search_results(http_response: Response) -> Result<SearchResults> {
-        let reqwest::StatusCode::OK = http_response.status() else {
-            return Err(anyhow!(
-                "Expected status code to be {} but got {}",
-                reqwest::StatusCode::OK,
-                http_response.status()
-            ));
-        };
+        check_status_code(http_response.status())?;
 
         let json = http_response
             .text()
@@ -112,18 +118,19 @@ mod tests {
     }
 
     #[test]
-    fn search_results_for_bad_status_code_is_error() {
-        let http_response = http::Response::builder()
-            .status(500)
-            .body("Internal Server Error")
-            .unwrap();
+    fn check_status_code_when_ok() {
+        assert!(check_status_code(StatusCode::OK).is_ok())
+    }
 
-        let reqwest_response = reqwest::blocking::Response::from(http_response);
+    #[test]
+    fn check_status_code_when_error() {
+        let message = check_status_code(StatusCode::INTERNAL_SERVER_ERROR)
+            .unwrap_err()
+            .to_string();
 
-        let error = LiveSearchService::search_results(reqwest_response).unwrap_err();
         assert_eq!(
-            error.to_string(),
+            message,
             "Expected status code to be 200 OK but got 500 Internal Server Error"
-        );
+        )
     }
 }
