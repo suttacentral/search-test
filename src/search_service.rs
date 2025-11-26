@@ -4,6 +4,7 @@ use anyhow::{Context, Result, anyhow};
 use http::StatusCode;
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
+use toml::value::Time;
 
 fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
     vec![
@@ -36,31 +37,36 @@ pub struct TimedSearchResults {
 }
 
 fn timed_search_results(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
-    let response = response.unwrap();
-    match check_status_code(response.status()) {
+    match response {
         Err(error) => TimedSearchResults {
             elapsed,
             results: Err(error),
         },
-        Ok(()) => match response.text() {
+        Ok(response) => match check_status_code(response.status()) {
             Err(error) => TimedSearchResults {
                 elapsed,
-                results: Err(anyhow!("Could not obtain text body from HTTP response")),
+                results: Err(error),
             },
-            Ok(json) => {
-                match serde_json::from_str::<SearchResponse>(json.as_str())
-                    .context("Could not parse JSON response")
-                {
-                    Err(error) => TimedSearchResults {
-                        elapsed,
-                        results: Err(error),
-                    },
-                    Ok(search_response) => TimedSearchResults {
-                        elapsed,
-                        results: Ok(SearchResults::new(search_response)),
-                    },
+            Ok(()) => match response.text() {
+                Err(error) => TimedSearchResults {
+                    elapsed,
+                    results: Err(anyhow!("Could not obtain text body from HTTP response")),
+                },
+                Ok(json) => {
+                    match serde_json::from_str::<SearchResponse>(json.as_str())
+                        .context("Could not parse JSON response")
+                    {
+                        Err(error) => TimedSearchResults {
+                            elapsed,
+                            results: Err(error),
+                        },
+                        Ok(search_response) => TimedSearchResults {
+                            elapsed,
+                            results: Ok(SearchResults::new(search_response)),
+                        },
+                    }
                 }
-            }
+            },
         },
     }
 }
@@ -169,6 +175,19 @@ mod tests {
             message,
             "Expected status code to be 200 OK but got 500 Internal Server Error"
         )
+    }
+
+    #[test]
+    fn construct_timed_search_for_unsuccessful_http_request() {
+        let timed_results = timed_search_results(
+            Duration::from_secs(1),
+            Err(anyhow!("Error sending HTTP request")),
+        );
+        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
+        assert_eq!(
+            timed_results.results.unwrap_err().to_string(),
+            "Error sending HTTP request"
+        );
     }
 
     #[test]
