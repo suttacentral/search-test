@@ -4,7 +4,6 @@ use anyhow::{Context, Result, anyhow};
 use http::StatusCode;
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
-use toml::value::Time;
 
 fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
     vec![
@@ -47,10 +46,13 @@ fn timed_search_results(elapsed: Duration, response: Result<Response>) -> TimedS
                 elapsed,
                 results: Err(error),
             },
-            Ok(()) => match response.text() {
+            Ok(()) => match response
+                .text()
+                .context("Could not obtain text body from HTTP response")
+            {
                 Err(error) => TimedSearchResults {
                     elapsed,
-                    results: Err(anyhow!("Could not obtain text body from HTTP response")),
+                    results: Err(error),
                 },
                 Ok(json) => {
                     match serde_json::from_str::<SearchResponse>(json.as_str())
@@ -91,19 +93,6 @@ impl LiveSearchService {
             .query(&parameters(test_case))
             .json(&test_case.selected_languages)
     }
-
-    fn search_results(http_response: Response) -> Result<SearchResults> {
-        check_status_code(http_response.status())?;
-
-        let json = http_response
-            .text()
-            .context("Could not obtain HTTP response Body")?;
-
-        let search_response = serde_json::from_str::<SearchResponse>(json.as_str())
-            .context("Could not parse JSON response")?;
-
-        Ok(SearchResults::new(search_response))
-    }
 }
 
 impl SearchService for LiveSearchService {
@@ -115,12 +104,7 @@ impl SearchService for LiveSearchService {
             .context("Error sending HTTP request");
         let elapsed = start.elapsed();
 
-        let results: Result<SearchResults> = match http_response {
-            Ok(response) => Self::search_results(response),
-            Err(error) => Err(error),
-        };
-
-        TimedSearchResults { elapsed, results }
+        timed_search_results(elapsed, http_response)
     }
 }
 
