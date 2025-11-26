@@ -35,23 +35,19 @@ pub struct TimedSearchResults {
     pub elapsed: Duration,
 }
 
-fn timed_search_results(
-    elapsed: Duration,
-    status_code: StatusCode,
-    json: Result<&str>,
-) -> TimedSearchResults {
-    match check_status_code(status_code) {
+fn timed_search_results(elapsed: Duration, response: Response) -> TimedSearchResults {
+    match check_status_code(response.status()) {
         Err(error) => TimedSearchResults {
             elapsed,
             results: Err(error),
         },
-        Ok(()) => match json {
+        Ok(()) => match response.text() {
             Err(error) => TimedSearchResults {
                 elapsed,
-                results: Err(error),
+                results: Err(anyhow!("Could not obtain text body from HTTP response")),
             },
             Ok(json) => {
-                match serde_json::from_str::<SearchResponse>(json)
+                match serde_json::from_str::<SearchResponse>(json.as_str())
                     .context("Could not parse JSON response")
                 {
                     Err(error) => TimedSearchResults {
@@ -176,11 +172,13 @@ mod tests {
 
     #[test]
     fn construct_timed_search_for_bad_status_code() {
-        let timed_results = timed_search_results(
-            Duration::from_secs(1),
-            StatusCode::INTERNAL_SERVER_ERROR,
-            Ok("Internal server error"),
+        let response = Response::from(
+            http::Response::builder()
+                .status(StatusCode::INTERNAL_SERVER_ERROR)
+                .body("Internal server error")
+                .unwrap(),
         );
+        let timed_results = timed_search_results(Duration::from_secs(1), response);
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
             timed_results.results.unwrap_err().to_string(),
@@ -189,27 +187,15 @@ mod tests {
     }
 
     #[test]
-    fn construct_timed_search_when_failed_to_get_json_text() {
-        let timed_results = timed_search_results(
-            Duration::from_secs(1),
-            StatusCode::OK,
-            Err(anyhow!("No JSON available in response")),
-        );
-
-        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
-        assert_eq!(
-            timed_results.results.unwrap_err().to_string(),
-            "No JSON available in response"
-        );
-    }
-
-    #[test]
     fn construct_timed_search_for_bad_json() {
-        let timed_results = timed_search_results(
-            Duration::from_secs(1),
-            StatusCode::OK,
-            Ok("A bunch of gibberish"),
+        let response = Response::from(
+            http::Response::builder()
+                .status(StatusCode::OK)
+                .body("A bunch of gibberish")
+                .unwrap(),
         );
+
+        let timed_results = timed_search_results(Duration::from_secs(1), response);
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
@@ -229,7 +215,14 @@ mod tests {
         }
         "#;
 
-        let timed_results = timed_search_results(Duration::from_secs(1), StatusCode::OK, Ok(json));
+        let response = Response::from(
+            http::Response::builder()
+                .status(StatusCode::OK)
+                .body(json)
+                .unwrap(),
+        );
+
+        let timed_results = timed_search_results(Duration::from_secs(1), response);
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
