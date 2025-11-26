@@ -98,13 +98,15 @@ impl LiveSearchService {
 impl SearchService for LiveSearchService {
     fn search(&self, test_case: &TestCase) -> TimedSearchResults {
         let start = Instant::now();
-        let http_response = self
+
+        let response = self
             .build_request(test_case)
             .send()
             .context("Error sending HTTP request");
+
         let elapsed = start.elapsed();
 
-        timed_search_results(elapsed, http_response)
+        timed_search_results(elapsed, response)
     }
 }
 
