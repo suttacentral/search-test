@@ -54,7 +54,13 @@ fn timed_search_results(
             elapsed,
             results: Err(error),
         },
-        Ok(()) => todo!(),
+        Ok(()) => match json {
+            Err(error) => TimedSearchResults {
+                elapsed,
+                results: Err(error),
+            },
+            Ok(json) => todo!(),
+        },
     }
 }
 
