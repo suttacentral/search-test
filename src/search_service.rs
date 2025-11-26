@@ -59,7 +59,17 @@ fn timed_search_results(
                 elapsed,
                 results: Err(error),
             },
-            Ok(json) => todo!(),
+            Ok(json) => {
+                match serde_json::from_str::<SearchResponse>(json)
+                    .context("Could not parse JSON response")
+                {
+                    Err(error) => TimedSearchResults {
+                        elapsed,
+                        results: Err(error),
+                    },
+                    Ok(search_response) => todo!(),
+                }
+            }
         },
     }
 }
