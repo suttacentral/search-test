@@ -67,7 +67,10 @@ fn timed_search_results(
                         elapsed,
                         results: Err(error),
                     },
-                    Ok(search_response) => todo!(),
+                    Ok(search_response) => TimedSearchResults {
+                        elapsed,
+                        results: Ok(SearchResults::new(search_response)),
+                    },
                 }
             }
         },
