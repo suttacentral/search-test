@@ -49,7 +49,13 @@ fn timed_search_results(
     status_code: StatusCode,
     json: Result<&str>,
 ) -> TimedSearchResults {
-    todo!()
+    match check_status_code(status_code) {
+        Err(error) => TimedSearchResults {
+            elapsed,
+            results: Err(error),
+        },
+        Ok(()) => todo!(),
+    }
 }
 
 impl LiveSearchService {
