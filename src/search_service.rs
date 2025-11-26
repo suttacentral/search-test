@@ -35,41 +35,43 @@ pub struct TimedSearchResults {
     pub elapsed: Duration,
 }
 
-fn timed_search_results(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
-    match response {
-        Err(error) => TimedSearchResults {
-            elapsed,
-            results: Err(error),
-        },
-        Ok(response) => match check_status_code(response.status()) {
+impl TimedSearchResults {
+    fn new(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
+        match response {
             Err(error) => TimedSearchResults {
                 elapsed,
                 results: Err(error),
             },
-            Ok(()) => match response
-                .text()
-                .context("Could not obtain text body from HTTP response")
-            {
+            Ok(response) => match check_status_code(response.status()) {
                 Err(error) => TimedSearchResults {
                     elapsed,
                     results: Err(error),
                 },
-                Ok(json) => {
-                    match serde_json::from_str::<SearchResponse>(json.as_str())
-                        .context("Could not parse JSON response")
-                    {
-                        Err(error) => TimedSearchResults {
-                            elapsed,
-                            results: Err(error),
-                        },
-                        Ok(search_response) => TimedSearchResults {
-                            elapsed,
-                            results: Ok(SearchResults::new(search_response)),
-                        },
+                Ok(()) => match response
+                    .text()
+                    .context("Could not obtain text body from HTTP response")
+                {
+                    Err(error) => TimedSearchResults {
+                        elapsed,
+                        results: Err(error),
+                    },
+                    Ok(json) => {
+                        match serde_json::from_str::<SearchResponse>(json.as_str())
+                            .context("Could not parse JSON response")
+                        {
+                            Err(error) => TimedSearchResults {
+                                elapsed,
+                                results: Err(error),
+                            },
+                            Ok(search_response) => TimedSearchResults {
+                                elapsed,
+                                results: Ok(SearchResults::new(search_response)),
+                            },
+                        }
                     }
-                }
+                },
             },
-        },
+        }
     }
 }
 
@@ -106,7 +108,7 @@ impl SearchService for LiveSearchService {
 
         let elapsed = start.elapsed();
 
-        timed_search_results(elapsed, response)
+        TimedSearchResults::new(elapsed, response)
     }
 }
 
@@ -165,7 +167,7 @@ mod tests {
 
     #[test]
     fn construct_timed_search_for_unsuccessful_http_request() {
-        let timed_results = timed_search_results(
+        let timed_results = TimedSearchResults::new(
             Duration::from_secs(1),
             Err(anyhow!("Error sending HTTP request")),
         );
@@ -184,7 +186,7 @@ mod tests {
                 .body("Internal server error")
                 .unwrap(),
         );
-        let timed_results = timed_search_results(Duration::from_secs(1), Ok(response));
+        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
             timed_results.results.unwrap_err().to_string(),
@@ -201,7 +203,7 @@ mod tests {
                 .unwrap(),
         );
 
-        let timed_results = timed_search_results(Duration::from_secs(1), Ok(response));
+        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
@@ -228,7 +230,7 @@ mod tests {
                 .unwrap(),
         );
 
-        let timed_results = timed_search_results(Duration::from_secs(1), Ok(response));
+        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
