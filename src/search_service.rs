@@ -35,7 +35,8 @@ pub struct TimedSearchResults {
     pub elapsed: Duration,
 }
 
-fn timed_search_results(elapsed: Duration, response: Response) -> TimedSearchResults {
+fn timed_search_results(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
+    let response = response.unwrap();
     match check_status_code(response.status()) {
         Err(error) => TimedSearchResults {
             elapsed,
@@ -178,7 +179,7 @@ mod tests {
                 .body("Internal server error")
                 .unwrap(),
         );
-        let timed_results = timed_search_results(Duration::from_secs(1), response);
+        let timed_results = timed_search_results(Duration::from_secs(1), Ok(response));
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
             timed_results.results.unwrap_err().to_string(),
@@ -195,7 +196,7 @@ mod tests {
                 .unwrap(),
         );
 
-        let timed_results = timed_search_results(Duration::from_secs(1), response);
+        let timed_results = timed_search_results(Duration::from_secs(1), Ok(response));
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
@@ -222,7 +223,7 @@ mod tests {
                 .unwrap(),
         );
 
-        let timed_results = timed_search_results(Duration::from_secs(1), response);
+        let timed_results = timed_search_results(Duration::from_secs(1), Ok(response));
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
