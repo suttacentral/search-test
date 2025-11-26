@@ -18,17 +18,6 @@ fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
     ]
 }
 
-fn check_status_code(code: StatusCode) -> Result<()> {
-    match code {
-        StatusCode::OK => Ok(()),
-        _ => Err(anyhow!(
-            "Expected status code to be {} but got {}",
-            StatusCode::OK,
-            code
-        )),
-    }
-}
-
 #[derive(Debug)]
 pub struct TimedSearchResults {
     pub results: Result<SearchResults>,
@@ -45,11 +34,22 @@ impl TimedSearchResults {
 
     fn search_results(response: Result<Response>) -> Result<SearchResults> {
         let response = response?;
-        check_status_code(response.status())?;
+        Self::check_status_code(response.status())?;
         let json = Self::json(response)?;
         let response = serde_json::from_str::<SearchResponse>(json.as_str())
             .context("Could not parse JSON response")?;
         Ok(SearchResults::new(response))
+    }
+
+    fn check_status_code(code: StatusCode) -> Result<()> {
+        match code {
+            StatusCode::OK => Ok(()),
+            _ => Err(anyhow!(
+                "Expected status code to be {} but got {}",
+                StatusCode::OK,
+                code
+            )),
+        }
     }
 
     fn json(response: Response) -> Result<String> {
@@ -134,12 +134,12 @@ mod tests {
 
     #[test]
     fn check_status_code_when_ok() {
-        assert!(check_status_code(StatusCode::OK).is_ok())
+        assert!(TimedSearchResults::check_status_code(StatusCode::OK).is_ok())
     }
 
     #[test]
     fn check_status_code_when_error() {
-        let message = check_status_code(StatusCode::INTERNAL_SERVER_ERROR)
+        let message = TimedSearchResults::check_status_code(StatusCode::INTERNAL_SERVER_ERROR)
             .unwrap_err()
             .to_string();
 
