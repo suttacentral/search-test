@@ -4,6 +4,7 @@ use anyhow::{Context, Result, anyhow};
 use http::StatusCode;
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
+use toml::value::Time;
 
 #[derive(Debug)]
 pub struct TimedSearchResults {
@@ -41,6 +42,14 @@ fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
             test_case.match_partial.to_string(),
         ),
     ]
+}
+
+fn timed_search_results(
+    elapsed: Duration,
+    status_code: StatusCode,
+    json: Result<&str>,
+) -> TimedSearchResults {
+    todo!()
 }
 
 impl LiveSearchService {
@@ -90,6 +99,7 @@ impl SearchService for LiveSearchService {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::identifiers::SuttaplexUid;
 
     fn test_case() -> TestCase {
         TestCase {
@@ -137,5 +147,73 @@ mod tests {
             message,
             "Expected status code to be 200 OK but got 500 Internal Server Error"
         )
+    }
+
+    #[test]
+    fn construct_timed_search_for_bad_status_code() {
+        let timed_results = timed_search_results(
+            Duration::from_secs(1),
+            StatusCode::INTERNAL_SERVER_ERROR,
+            Ok("Internal server error"),
+        );
+        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
+        assert_eq!(
+            timed_results.results.unwrap_err().to_string(),
+            "Expected status code to be 200 OK but got 500 Internal Server Error"
+        );
+    }
+
+    #[test]
+    fn construct_timed_search_when_failed_to_get_json_text() {
+        let timed_results = timed_search_results(
+            Duration::from_secs(1),
+            StatusCode::OK,
+            Err(anyhow!("No JSON available in response")),
+        );
+
+        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
+        assert_eq!(
+            timed_results.results.unwrap_err().to_string(),
+            "No JSON available in response"
+        );
+    }
+
+    #[test]
+    fn construct_timed_search_for_bad_json() {
+        let timed_results = timed_search_results(
+            Duration::from_secs(1),
+            StatusCode::OK,
+            Ok("A bunch of gibberish"),
+        );
+
+        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
+        assert_eq!(
+            timed_results.results.unwrap_err().to_string(),
+            "Could not parse JSON response"
+        );
+    }
+
+    #[test]
+    fn construct_timed_search_results_for_success() {
+        let json = r#"
+        {
+            "total": 1,
+            "hits" : [],
+            "fuzzy_dictionary": [],
+            "suttaplex" : [ { "uid": "mn1" } ]
+        }
+        "#;
+
+        let timed_results = timed_search_results(Duration::from_secs(1), StatusCode::OK, Ok(json));
+
+        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
+        assert_eq!(
+            timed_results.results.unwrap(),
+            SearchResults {
+                text: Vec::new(),
+                dictionary: Vec::new(),
+                suttaplex: vec![SuttaplexUid::from("mn1")]
+            }
+        );
     }
 }
