@@ -29,6 +29,10 @@ fn check_status_code(code: StatusCode) -> Result<()> {
     }
 }
 
+fn check_response(response: Response) -> Result<()> {
+    check_status_code(response.status())
+}
+
 #[derive(Debug)]
 pub struct TimedSearchResults {
     pub results: Result<SearchResults>,
@@ -159,7 +163,13 @@ mod tests {
 
     #[test]
     fn check_status_code_when_ok() {
-        assert!(check_status_code(StatusCode::OK).is_ok())
+        let response = Response::from(
+            http::Response::builder()
+                .status(StatusCode::OK)
+                .body("")
+                .unwrap(),
+        );
+        assert!(check_response(response).is_ok())
     }
 
     #[test]
