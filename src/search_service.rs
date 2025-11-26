@@ -55,22 +55,21 @@ impl TimedSearchResults {
                         elapsed,
                         results: Err(error),
                     },
-                    Ok(json) => {
-                        match serde_json::from_str::<SearchResponse>(json.as_str())
-                            .context("Could not parse JSON response")
-                        {
-                            Err(error) => TimedSearchResults {
-                                elapsed,
-                                results: Err(error),
-                            },
-                            Ok(search_response) => TimedSearchResults {
-                                elapsed,
-                                results: Ok(SearchResults::new(search_response)),
-                            },
-                        }
-                    }
+                    Ok(json) => TimedSearchResults {
+                        elapsed,
+                        results: Self::search_results(json),
+                    },
                 },
             },
+        }
+    }
+
+    fn search_results(json: String) -> Result<SearchResults> {
+        match serde_json::from_str::<SearchResponse>(json.as_str())
+            .context("Could not parse JSON response")
+        {
+            Err(error) => Err(error),
+            Ok(search_response) => Ok(SearchResults::new(search_response)),
         }
     }
 }
