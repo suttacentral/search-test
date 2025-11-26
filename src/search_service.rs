@@ -4,20 +4,18 @@ use anyhow::{Context, Result, anyhow};
 use http::StatusCode;
 use reqwest::blocking::{Client, RequestBuilder, Response};
 use std::time::{Duration, Instant};
-use toml::value::Time;
 
-#[derive(Debug)]
-pub struct TimedSearchResults {
-    pub results: Result<SearchResults>,
-    pub elapsed: Duration,
-}
-pub trait SearchService {
-    fn search(&self, test_case: &TestCase) -> TimedSearchResults;
-}
-
-#[derive(Debug)]
-pub struct LiveSearchService {
-    endpoint: String,
+fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
+    vec![
+        ("limit".to_string(), test_case.limit.to_string()),
+        ("query".to_string(), test_case.query.to_string()),
+        ("language".to_string(), test_case.site_language.to_string()),
+        ("restrict".to_string(), test_case.restrict.to_string()),
+        (
+            "matchpartial".to_string(),
+            test_case.match_partial.to_string(),
+        ),
+    ]
 }
 
 fn check_status_code(code: StatusCode) -> Result<()> {
@@ -31,17 +29,10 @@ fn check_status_code(code: StatusCode) -> Result<()> {
     }
 }
 
-fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
-    vec![
-        ("limit".to_string(), test_case.limit.to_string()),
-        ("query".to_string(), test_case.query.to_string()),
-        ("language".to_string(), test_case.site_language.to_string()),
-        ("restrict".to_string(), test_case.restrict.to_string()),
-        (
-            "matchpartial".to_string(),
-            test_case.match_partial.to_string(),
-        ),
-    ]
+#[derive(Debug)]
+pub struct TimedSearchResults {
+    pub results: Result<SearchResults>,
+    pub elapsed: Duration,
 }
 
 fn timed_search_results(
@@ -75,6 +66,15 @@ fn timed_search_results(
             }
         },
     }
+}
+
+pub trait SearchService {
+    fn search(&self, test_case: &TestCase) -> TimedSearchResults;
+}
+
+#[derive(Debug)]
+pub struct LiveSearchService {
+    endpoint: String,
 }
 
 impl LiveSearchService {
