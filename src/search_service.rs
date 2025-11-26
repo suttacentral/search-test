@@ -47,10 +47,7 @@ impl TimedSearchResults {
                     elapsed,
                     results: Err(error),
                 },
-                Ok(()) => match response
-                    .text()
-                    .context("Could not obtain text body from HTTP response")
-                {
+                Ok(()) => match Self::json(response) {
                     Err(error) => TimedSearchResults {
                         elapsed,
                         results: Err(error),
@@ -64,13 +61,16 @@ impl TimedSearchResults {
         }
     }
 
+    fn json(response: Response) -> Result<String> {
+        response
+            .text()
+            .context("Could not obtain text body from HTTP response")
+    }
+
     fn search_results(json: String) -> Result<SearchResults> {
-        match serde_json::from_str::<SearchResponse>(json.as_str())
-            .context("Could not parse JSON response")
-        {
-            Err(error) => Err(error),
-            Ok(search_response) => Ok(SearchResults::new(search_response)),
-        }
+        let response = serde_json::from_str::<SearchResponse>(json.as_str())
+            .context("Could not parse JSON response")?;
+        Ok(SearchResults::new(response))
     }
 }
 
