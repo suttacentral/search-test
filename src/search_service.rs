@@ -37,40 +37,25 @@ pub struct TimedSearchResults {
 
 impl TimedSearchResults {
     fn new(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
-        match response {
-            Err(error) => TimedSearchResults {
-                elapsed,
-                results: Err(error),
-            },
-            Ok(response) => match check_status_code(response.status()) {
-                Err(error) => TimedSearchResults {
-                    elapsed,
-                    results: Err(error),
-                },
-                Ok(()) => match Self::json(response) {
-                    Err(error) => TimedSearchResults {
-                        elapsed,
-                        results: Err(error),
-                    },
-                    Ok(json) => TimedSearchResults {
-                        elapsed,
-                        results: Self::search_results(json),
-                    },
-                },
-            },
+        TimedSearchResults {
+            elapsed,
+            results: Self::search_results(response),
         }
+    }
+
+    fn search_results(response: Result<Response>) -> Result<SearchResults> {
+        let response = response?;
+        check_status_code(response.status())?;
+        let json = Self::json(response)?;
+        let response = serde_json::from_str::<SearchResponse>(json.as_str())
+            .context("Could not parse JSON response")?;
+        Ok(SearchResults::new(response))
     }
 
     fn json(response: Response) -> Result<String> {
         response
             .text()
             .context("Could not obtain text body from HTTP response")
-    }
-
-    fn search_results(json: String) -> Result<SearchResults> {
-        let response = serde_json::from_str::<SearchResponse>(json.as_str())
-            .context("Could not parse JSON response")?;
-        Ok(SearchResults::new(response))
     }
 }
 
