@@ -40,35 +40,58 @@ impl TimedResponse {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::timed_search_results::TimedSearchResults;
     use anyhow::anyhow;
 
     #[test]
     fn unsuccessful_http_request() {
-        let response = TimedResponse::new(
+        let timed_response = TimedResponse::new(
             Duration::from_secs(1),
             Err(anyhow!("Error sending HTTP request")),
         );
-        assert_eq!(response.elapsed, Duration::from_secs(1));
+        assert_eq!(timed_response.elapsed, Duration::from_secs(1));
         assert_eq!(
-            response.json.unwrap_err().to_string(),
+            timed_response.json.unwrap_err().to_string(),
             "Error sending HTTP request"
         );
     }
 
     #[test]
     fn bad_status_code() {
-        let response = Response::from(
+        let http_response = Response::from(
             http::Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
                 .body("Internal server error")
                 .unwrap(),
         );
-        let response = TimedResponse::new(Duration::from_secs(1), Ok(response));
-        assert_eq!(response.elapsed, Duration::from_secs(1));
+        let timed_response = TimedResponse::new(Duration::from_secs(1), Ok(http_response));
+        assert_eq!(timed_response.elapsed, Duration::from_secs(1));
         assert_eq!(
-            response.json.unwrap_err().to_string(),
+            timed_response.json.unwrap_err().to_string(),
             "Expected status code to be 200 OK but got 500 Internal Server Error"
         );
+    }
+
+    #[test]
+    fn success() {
+        let json = r#"
+        {
+            "total": 1,
+            "hits" : [],
+            "fuzzy_dictionary": [],
+            "suttaplex" : [ { "uid": "mn1" } ]
+        }
+        "#;
+
+        let http_response = Response::from(
+            http::Response::builder()
+                .status(StatusCode::OK)
+                .body(json)
+                .unwrap(),
+        );
+
+        let timed_response = TimedResponse::new(Duration::from_secs(1), Ok(http_response));
+
+        assert_eq!(timed_response.elapsed, Duration::from_secs(1));
+        assert_eq!(timed_response.json.unwrap(), json);
     }
 }
