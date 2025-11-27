@@ -51,7 +51,7 @@ mod tests {
     use crate::identifiers::SuttaplexUid;
 
     #[test]
-    fn construct_timed_search_for_unsuccessful_http_request() {
+    fn unsuccessful_http_request() {
         let timed_results = TimedSearchResults::new(
             Duration::from_secs(1),
             Err(anyhow!("Error sending HTTP request")),
@@ -64,7 +64,7 @@ mod tests {
     }
 
     #[test]
-    fn construct_timed_search_for_bad_status_code() {
+    fn bad_status_code() {
         let response = Response::from(
             http::Response::builder()
                 .status(StatusCode::INTERNAL_SERVER_ERROR)
@@ -80,7 +80,7 @@ mod tests {
     }
 
     #[test]
-    fn construct_timed_search_for_bad_json() {
+    fn bad_json() {
         let response = Response::from(
             http::Response::builder()
                 .status(StatusCode::OK)
@@ -98,7 +98,7 @@ mod tests {
     }
 
     #[test]
-    fn construct_timed_search_results_for_success() {
+    fn success() {
         let json = r#"
         {
             "total": 1,
