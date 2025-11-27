@@ -4,6 +4,7 @@ mod expected;
 mod file_load;
 mod identifiers;
 mod report;
+mod request;
 mod response;
 mod result_count;
 mod run;
