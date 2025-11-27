@@ -38,7 +38,7 @@ mod tests {
     use super::*;
     use crate::identifiers::SuttaplexUid;
     use crate::response::general::SearchResults;
-    use crate::search_service::TimedSearchResults;
+    use crate::timed_search_results::TimedSearchResults;
     use std::cell::RefCell;
     use std::time::Duration;
 

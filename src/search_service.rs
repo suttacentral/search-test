@@ -1,8 +1,7 @@
-use crate::response::general::{SearchResponse, SearchResults};
 use crate::test_case::TestCase;
-use anyhow::{Context, Result, anyhow};
-use http::StatusCode;
-use reqwest::blocking::{Client, RequestBuilder, Response};
+use crate::timed_search_results::TimedSearchResults;
+use anyhow::{Context, Result};
+use reqwest::blocking::{Client, RequestBuilder};
 use std::time::{Duration, Instant};
 
 fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
@@ -16,47 +15,6 @@ fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
             test_case.match_partial.to_string(),
         ),
     ]
-}
-
-#[derive(Debug)]
-pub struct TimedSearchResults {
-    pub results: Result<SearchResults>,
-    pub elapsed: Duration,
-}
-
-impl TimedSearchResults {
-    fn new(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
-        TimedSearchResults {
-            elapsed,
-            results: Self::search_results(response),
-        }
-    }
-
-    fn search_results(response: Result<Response>) -> Result<SearchResults> {
-        let response = response?;
-        Self::check_status_code(response.status())?;
-        let json = Self::json(response)?;
-        let response = serde_json::from_str::<SearchResponse>(json.as_str())
-            .context("Could not parse JSON response")?;
-        Ok(SearchResults::new(response))
-    }
-
-    fn check_status_code(code: StatusCode) -> Result<()> {
-        match code {
-            StatusCode::OK => Ok(()),
-            _ => Err(anyhow!(
-                "Expected status code to be {} but got {}",
-                StatusCode::OK,
-                code
-            )),
-        }
-    }
-
-    fn json(response: Response) -> Result<String> {
-        response
-            .text()
-            .context("Could not obtain text body from HTTP response")
-    }
 }
 
 #[derive(Debug)]
@@ -107,7 +65,6 @@ impl SearchService for LiveSearchService {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::SuttaplexUid;
 
     fn test_case() -> TestCase {
         TestCase {
@@ -138,83 +95,5 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
-    }
-
-    #[test]
-    fn construct_timed_search_for_unsuccessful_http_request() {
-        let timed_results = TimedSearchResults::new(
-            Duration::from_secs(1),
-            Err(anyhow!("Error sending HTTP request")),
-        );
-        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
-        assert_eq!(
-            timed_results.results.unwrap_err().to_string(),
-            "Error sending HTTP request"
-        );
-    }
-
-    #[test]
-    fn construct_timed_search_for_bad_status_code() {
-        let response = Response::from(
-            http::Response::builder()
-                .status(StatusCode::INTERNAL_SERVER_ERROR)
-                .body("Internal server error")
-                .unwrap(),
-        );
-        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
-        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
-        assert_eq!(
-            timed_results.results.unwrap_err().to_string(),
-            "Expected status code to be 200 OK but got 500 Internal Server Error"
-        );
-    }
-
-    #[test]
-    fn construct_timed_search_for_bad_json() {
-        let response = Response::from(
-            http::Response::builder()
-                .status(StatusCode::OK)
-                .body("A bunch of gibberish")
-                .unwrap(),
-        );
-
-        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
-
-        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
-        assert_eq!(
-            timed_results.results.unwrap_err().to_string(),
-            "Could not parse JSON response"
-        );
-    }
-
-    #[test]
-    fn construct_timed_search_results_for_success() {
-        let json = r#"
-        {
-            "total": 1,
-            "hits" : [],
-            "fuzzy_dictionary": [],
-            "suttaplex" : [ { "uid": "mn1" } ]
-        }
-        "#;
-
-        let response = Response::from(
-            http::Response::builder()
-                .status(StatusCode::OK)
-                .body(json)
-                .unwrap(),
-        );
-
-        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
-
-        assert_eq!(timed_results.elapsed, Duration::from_secs(1));
-        assert_eq!(
-            timed_results.results.unwrap(),
-            SearchResults {
-                text: Vec::new(),
-                dictionary: Vec::new(),
-                suttaplex: vec![SuttaplexUid::from("mn1")]
-            }
-        );
     }
 }

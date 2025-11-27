@@ -11,6 +11,7 @@ mod search_service;
 mod test_case;
 mod test_result;
 mod test_suite;
+mod timed_search_results;
 
 use crate::file_load::load_suite;
 use crate::result_count::ResultCount;

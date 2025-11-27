@@ -1,8 +1,8 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 use crate::response::general::SearchResults;
-use crate::search_service::TimedSearchResults;
 use crate::test_case::TestCase;
+use crate::timed_search_results::TimedSearchResults;
 use anyhow::Result;
 use std::cmp::Ordering;
 use std::time::Duration;
@@ -118,8 +118,8 @@ pub enum Summary {
 mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
-    use crate::search_service::TimedSearchResults;
     use crate::test_case::TestCase;
+    use crate::timed_search_results::TimedSearchResults;
     use anyhow::anyhow;
     use std::time::Duration;
 
