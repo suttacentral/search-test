@@ -1,4 +1,5 @@
 use crate::response::general::{SearchResponse, SearchResults};
+use crate::timed_response::TimedResponse;
 use anyhow::{Context, Result, anyhow};
 use http::StatusCode;
 use reqwest::blocking::Response;
@@ -45,6 +46,31 @@ impl TimedSearchResults {
     }
 }
 
+impl From<TimedResponse> for TimedSearchResults {
+    fn from(timed_response: TimedResponse) -> Self {
+        match timed_response.json {
+            Err(error) => TimedSearchResults {
+                elapsed: timed_response.elapsed,
+                results: Err(error),
+            },
+            Ok(json) => {
+                let search_response = serde_json::from_str::<SearchResponse>(json.as_str())
+                    .context("Could not parse JSON response");
+                match search_response {
+                    Err(error) => TimedSearchResults {
+                        elapsed: timed_response.elapsed,
+                        results: Err(error),
+                    },
+                    Ok(search_response) => TimedSearchResults {
+                        elapsed: timed_response.elapsed,
+                        results: Ok(SearchResults::new(search_response)),
+                    },
+                }
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -52,10 +78,13 @@ mod tests {
 
     #[test]
     fn unsuccessful_http_request() {
-        let timed_results = TimedSearchResults::new(
+        let timed_response = TimedResponse::new(
             Duration::from_secs(1),
             Err(anyhow!("Error sending HTTP request")),
         );
+
+        let timed_results = TimedSearchResults::from(timed_response);
+
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
             timed_results.results.unwrap_err().to_string(),
@@ -71,7 +100,9 @@ mod tests {
                 .body("Internal server error")
                 .unwrap(),
         );
-        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
+        let timed_response = TimedResponse::new(Duration::from_secs(1), Ok(response));
+        let timed_results = TimedSearchResults::from(timed_response);
+
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
             timed_results.results.unwrap_err().to_string(),
@@ -88,7 +119,8 @@ mod tests {
                 .unwrap(),
         );
 
-        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
+        let timed_response = TimedResponse::new(Duration::from_secs(1), Ok(response));
+        let timed_results = TimedSearchResults::from(timed_response);
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
@@ -115,7 +147,8 @@ mod tests {
                 .unwrap(),
         );
 
-        let timed_results = TimedSearchResults::new(Duration::from_secs(1), Ok(response));
+        let timed_response = TimedResponse::new(Duration::from_secs(1), Ok(response));
+        let timed_results = TimedSearchResults::from(timed_response);
 
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
