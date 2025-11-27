@@ -1,12 +1,10 @@
 use crate::request::Request;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
-use crate::timed_search_results::TimedSearchResults;
-use anyhow::Context;
 use std::time::Instant;
 
 pub trait SearchService {
-    fn search(&self, test_case: &TestCase) -> TimedSearchResults;
+    fn search(&self, test_case: &TestCase) -> TimedResponse;
 }
 
 #[derive(Debug)]
@@ -21,12 +19,11 @@ impl LiveSearchService {
 }
 
 impl SearchService for LiveSearchService {
-    fn search(&self, test_case: &TestCase) -> TimedSearchResults {
+    fn search(&self, test_case: &TestCase) -> TimedResponse {
         let start = Instant::now();
         let response = Request::new(self.endpoint.clone(), test_case).send();
         let elapsed = start.elapsed();
-        let timed_response = TimedResponse::new(elapsed, response);
-        TimedSearchResults::from(timed_response)
+        TimedResponse::new(elapsed, response)
     }
 }
 

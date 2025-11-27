@@ -3,6 +3,7 @@ use crate::test_suite::TestSuite;
 
 use crate::search_service::SearchService;
 use crate::test_result::TestResult;
+use crate::timed_search_results::TimedSearchResults;
 use anyhow::Result;
 
 #[derive(Debug)]
@@ -28,7 +29,8 @@ impl<T: SearchService> Runner<T> {
     }
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
-        let results = self.search_service.search(test_case);
+        let response = self.search_service.search(test_case);
+        let results = TimedSearchResults::from(response);
         TestResult::new(test_case, &results)
     }
 }
@@ -36,28 +38,26 @@ impl<T: SearchService> Runner<T> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::SuttaplexUid;
-    use crate::response::general::SearchResults;
-    use crate::timed_search_results::TimedSearchResults;
+    use crate::timed_response::TimedResponse;
     use std::cell::RefCell;
     use std::time::Duration;
 
     #[derive(Debug)]
     struct FakeSearchService {
-        results: RefCell<Vec<TimedSearchResults>>,
+        responses: RefCell<Vec<TimedResponse>>,
     }
 
     impl FakeSearchService {
-        fn new(results: Vec<TimedSearchResults>) -> FakeSearchService {
+        fn new(responses: Vec<TimedResponse>) -> FakeSearchService {
             Self {
-                results: RefCell::new(results),
+                responses: RefCell::new(responses),
             }
         }
     }
 
     impl SearchService for FakeSearchService {
-        fn search(&self, _: &TestCase) -> TimedSearchResults {
-            self.results.borrow_mut().pop().unwrap()
+        fn search(&self, _: &TestCase) -> TimedResponse {
+            self.responses.borrow_mut().pop().unwrap()
         }
     }
 
@@ -124,18 +124,14 @@ mod tests {
         )
         .unwrap();
 
-        let search_results = TimedSearchResults {
+        let service = FakeSearchService::new(vec![TimedResponse {
             elapsed: Duration::from_secs(3),
-            results: Ok(SearchResults {
-                text: Vec::new(),
-                dictionary: Vec::new(),
-                suttaplex: vec![SuttaplexUid::from("snp1.8")],
-            }),
-        };
+            json: Ok(String::from(r#"{ "suttaplex": [ { "uid": "mn1" } ] } "#)),
+        }]);
 
-        let engine = FakeSearchService::new(vec![search_results]);
-        let runner = Runner::new(&suite, engine).unwrap();
+        let runner = Runner::new(&suite, service).unwrap();
         let test_result = runner.run().next().unwrap();
+
         assert_eq!(test_result.elapsed, Duration::from_secs(3))
     }
 }
