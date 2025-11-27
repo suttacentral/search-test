@@ -1,24 +1,24 @@
 use crate::response::general::{SearchResponse, SearchResults};
-use anyhow::{Context, anyhow};
+use anyhow::{Context, Result, anyhow};
 use http::StatusCode;
 use reqwest::blocking::Response;
 use std::time::Duration;
 
 #[derive(Debug)]
 pub struct TimedSearchResults {
-    pub results: anyhow::Result<SearchResults>,
+    pub results: Result<SearchResults>,
     pub elapsed: Duration,
 }
 
 impl TimedSearchResults {
-    pub fn new(elapsed: Duration, response: anyhow::Result<Response>) -> TimedSearchResults {
+    pub fn new(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
         TimedSearchResults {
             elapsed,
             results: Self::search_results(response),
         }
     }
 
-    fn search_results(response: anyhow::Result<Response>) -> anyhow::Result<SearchResults> {
+    fn search_results(response: Result<Response>) -> Result<SearchResults> {
         let response = response?;
         Self::check_status_code(response.status())?;
         let json = Self::json(response)?;
@@ -27,7 +27,7 @@ impl TimedSearchResults {
         Ok(SearchResults::new(response))
     }
 
-    fn check_status_code(code: StatusCode) -> anyhow::Result<()> {
+    fn check_status_code(code: StatusCode) -> Result<()> {
         match code {
             StatusCode::OK => Ok(()),
             _ => Err(anyhow!(
@@ -38,7 +38,7 @@ impl TimedSearchResults {
         }
     }
 
-    fn json(response: Response) -> anyhow::Result<String> {
+    fn json(response: Response) -> Result<String> {
         response
             .text()
             .context("Could not obtain text body from HTTP response")
