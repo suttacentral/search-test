@@ -1,5 +1,6 @@
 use crate::test_case::TestCase;
-use reqwest::blocking::{Client, RequestBuilder};
+use anyhow::{Context, Result};
+use reqwest::blocking::{Client, RequestBuilder, Response};
 
 pub struct Request {
     endpoint: String,
@@ -14,7 +15,13 @@ impl Request {
         }
     }
 
-    pub fn build_request(&self) -> RequestBuilder {
+    pub fn send(&self) -> Result<Response> {
+        self.build_request()
+            .send()
+            .context("Error sending HTTP request")
+    }
+
+    fn build_request(&self) -> RequestBuilder {
         Client::new()
             .post(self.endpoint.as_str())
             .query(&self.parameters())
