@@ -1,49 +1,12 @@
 use crate::response::general::{SearchResponse, SearchResults};
 use crate::timed_response::TimedResponse;
-use anyhow::{Context, Result, anyhow};
-use http::StatusCode;
-use reqwest::blocking::Response;
+use anyhow::{Context, Result};
 use std::time::Duration;
 
 #[derive(Debug)]
 pub struct TimedSearchResults {
     pub results: Result<SearchResults>,
     pub elapsed: Duration,
-}
-
-impl TimedSearchResults {
-    pub fn new(elapsed: Duration, response: Result<Response>) -> TimedSearchResults {
-        TimedSearchResults {
-            elapsed,
-            results: Self::search_results(response),
-        }
-    }
-
-    fn search_results(response: Result<Response>) -> Result<SearchResults> {
-        let response = response?;
-        Self::check_status_code(response.status())?;
-        let json = Self::json(response)?;
-        let response = serde_json::from_str::<SearchResponse>(json.as_str())
-            .context("Could not parse JSON response")?;
-        Ok(SearchResults::new(response))
-    }
-
-    fn check_status_code(code: StatusCode) -> Result<()> {
-        match code {
-            StatusCode::OK => Ok(()),
-            _ => Err(anyhow!(
-                "Expected status code to be {} but got {}",
-                StatusCode::OK,
-                code
-            )),
-        }
-    }
-
-    fn json(response: Response) -> Result<String> {
-        response
-            .text()
-            .context("Could not obtain text body from HTTP response")
-    }
 }
 
 impl From<TimedResponse> for TimedSearchResults {
@@ -75,6 +38,9 @@ impl From<TimedResponse> for TimedSearchResults {
 mod tests {
     use super::*;
     use crate::identifiers::SuttaplexUid;
+    use anyhow::anyhow;
+    use http::StatusCode;
+    use reqwest::blocking::Response;
 
     #[test]
     fn unsuccessful_http_request() {
