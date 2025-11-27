@@ -40,6 +40,7 @@ impl TimedResponse {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::timed_search_results::TimedSearchResults;
     use anyhow::anyhow;
 
     #[test]
@@ -52,6 +53,22 @@ mod tests {
         assert_eq!(
             response.json.unwrap_err().to_string(),
             "Error sending HTTP request"
+        );
+    }
+
+    #[test]
+    fn bad_status_code() {
+        let response = Response::from(
+            http::Response::builder()
+                .status(StatusCode::INTERNAL_SERVER_ERROR)
+                .body("Internal server error")
+                .unwrap(),
+        );
+        let response = TimedResponse::new(Duration::from_secs(1), Ok(response));
+        assert_eq!(response.elapsed, Duration::from_secs(1));
+        assert_eq!(
+            response.json.unwrap_err().to_string(),
+            "Expected status code to be 200 OK but got 500 Internal Server Error"
         );
     }
 }
