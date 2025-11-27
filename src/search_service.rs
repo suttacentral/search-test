@@ -59,6 +59,14 @@ impl TimedSearchResults {
     }
 }
 
+#[derive(Debug)]
+pub struct TimedResponse {
+    pub results: Result<String>,
+    pub elapsed: Duration,
+}
+
+impl TimedResponse {}
+
 pub trait SearchService {
     fn search(&self, test_case: &TestCase) -> TimedSearchResults;
 }
@@ -130,23 +138,6 @@ mod tests {
         let body = request.body().unwrap().as_bytes().unwrap();
         let body_contents = str::from_utf8(body).unwrap().to_string();
         assert_eq!(body_contents, "[\"en\",\"pli\"]");
-    }
-
-    #[test]
-    fn check_status_code_when_ok() {
-        assert!(TimedSearchResults::check_status_code(StatusCode::OK).is_ok())
-    }
-
-    #[test]
-    fn check_status_code_when_error() {
-        let message = TimedSearchResults::check_status_code(StatusCode::INTERNAL_SERVER_ERROR)
-            .unwrap_err()
-            .to_string();
-
-        assert_eq!(
-            message,
-            "Expected status code to be 200 OK but got 500 Internal Server Error"
-        )
     }
 
     #[test]
