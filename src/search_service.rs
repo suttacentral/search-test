@@ -1,4 +1,5 @@
 use crate::test_case::TestCase;
+use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
 use anyhow::{Context, Result};
 use reqwest::blocking::{Client, RequestBuilder};
@@ -50,7 +51,8 @@ impl SearchService for LiveSearchService {
 
         let elapsed = start.elapsed();
 
-        TimedSearchResults::new(elapsed, response)
+        let timed_response = TimedResponse::new(elapsed, response);
+        TimedSearchResults::from(timed_response)
     }
 }
 
