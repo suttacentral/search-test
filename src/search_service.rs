@@ -17,14 +17,6 @@ fn parameters(test_case: &TestCase) -> Vec<(String, String)> {
     ]
 }
 
-#[derive(Debug)]
-pub struct TimedResponse {
-    pub results: Result<String>,
-    pub elapsed: Duration,
-}
-
-impl TimedResponse {}
-
 pub trait SearchService {
     fn search(&self, test_case: &TestCase) -> TimedSearchResults;
 }
