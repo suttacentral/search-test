@@ -23,8 +23,7 @@ impl LiveSearchService {
 impl SearchService for LiveSearchService {
     fn search(&self, test_case: &TestCase) -> TimedSearchResults {
         let start = Instant::now();
-        let request = Request::new(self.endpoint.clone(), test_case);
-        let response = request.send();
+        let response = Request::new(self.endpoint.clone(), test_case).send();
         let elapsed = start.elapsed();
         let timed_response = TimedResponse::new(elapsed, response);
         TimedSearchResults::from(timed_response)
