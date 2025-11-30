@@ -1,5 +1,5 @@
+use crate::outcome::Outcome;
 use crate::rank::Rank;
-use crate::test_result::Outcome;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Summary {

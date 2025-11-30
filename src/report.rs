@@ -1,7 +1,8 @@
 use crate::category_search::CategorySearch;
+use crate::outcome::Outcome;
 use crate::rank::Rank;
 use crate::summary::Summary;
-use crate::test_result::{Outcome, TestResult};
+use crate::test_result::TestResult;
 use std::fmt::{Display, Formatter};
 
 impl TestResult {
@@ -92,7 +93,6 @@ mod tests {
     use super::*;
     use crate::category_search::CategorySearch;
     use crate::identifiers::SuttaplexUid;
-    use crate::test_result::Outcome;
     use std::io::Write;
     use std::time::Duration;
 

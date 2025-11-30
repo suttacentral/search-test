@@ -3,6 +3,7 @@ mod defaults;
 mod expected;
 mod file_load;
 mod identifiers;
+mod outcome;
 mod rank;
 mod report;
 mod request;
