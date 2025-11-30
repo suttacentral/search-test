@@ -1,6 +1,7 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 // use crate::response::search_results::SearchResults;
+use crate::identifiers::SearchType;
 use crate::response::general::SearchResults;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
@@ -61,6 +62,10 @@ pub enum Outcome {
 }
 
 impl Outcome {
+    fn new_xxx(search_type: Option<SearchType>, json: Result<&str>) -> Self {
+        todo!()
+    }
+
     fn new(expected: &Option<Expected>, search_results: &Result<SearchResults>) -> Self {
         match search_results {
             Ok(search_results) => Self::success(expected, search_results),
