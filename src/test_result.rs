@@ -1,7 +1,7 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
+// use crate::response::search_results::SearchResults;
 use crate::response::general::SearchResults;
-use crate::response::search_results;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
@@ -18,11 +18,16 @@ pub struct TestResult {
 
 impl TestResult {
     pub fn new(test_case: &TestCase, response: TimedResponse) -> Self {
-        let results = TimedSearchResults::from(response);
+        // let search_type = test_case.search_type();
+        // let json = response.json;
+        // let search_results = SearchResults::new(search_type, json);
+
+        let timed_search_results = TimedSearchResults::from(response);
+
         Self {
             description: test_case.description.clone(),
-            elapsed: results.elapsed,
-            outcome: Outcome::new(&test_case.expected, &results.results),
+            elapsed: timed_search_results.elapsed,
+            outcome: Outcome::new(&test_case.expected, &timed_search_results.results),
         }
     }
 }

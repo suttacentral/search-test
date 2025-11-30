@@ -89,7 +89,7 @@ impl TestCase {
         format!("Test case `{description}`")
     }
 
-    fn search_type(&self) -> Option<SearchType> {
+    pub fn search_type(&self) -> Option<SearchType> {
         match &self.expected {
             None => None,
             Some(expected) => match expected {
