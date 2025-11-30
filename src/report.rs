@@ -1,6 +1,7 @@
 use crate::category_search::CategorySearch;
+use crate::rank::Rank;
 use crate::summary::Summary;
-use crate::test_result::{Outcome, Rank, TestResult};
+use crate::test_result::{Outcome, TestResult};
 use std::fmt::{Display, Formatter};
 
 impl TestResult {
@@ -91,8 +92,7 @@ mod tests {
     use super::*;
     use crate::category_search::CategorySearch;
     use crate::identifiers::SuttaplexUid;
-    use crate::test_result::Outcome::Ranked;
-    use crate::test_result::{Outcome, Rank};
+    use crate::test_result::Outcome;
     use std::io::Write;
     use std::time::Duration;
 
@@ -191,7 +191,7 @@ mod tests {
         let test_result = TestResult {
             description: String::from("Wanted rank, but not found"),
             elapsed: Duration::from_millis(10),
-            outcome: Ranked {
+            outcome: Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn1"),
                     in_results: vec![],

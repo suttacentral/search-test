@@ -2,12 +2,12 @@ use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 // use crate::response::search_results::SearchResults;
 use crate::identifiers::SearchType;
+use crate::rank::Rank;
 use crate::response::general::SearchResults;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
 use anyhow::Result;
-use std::cmp::Ordering;
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -29,25 +29,6 @@ impl TestResult {
             description: test_case.description.clone(),
             elapsed: timed_search_results.elapsed,
             outcome: Outcome::new(&test_case.expected, &timed_search_results.results),
-        }
-    }
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub enum Rank {
-    Sufficient { minimum: usize, actual: usize },
-    TooLow { minimum: usize, actual: usize },
-    NotFound { minimum: usize },
-}
-
-impl Rank {
-    fn new(minimum: usize, actual: Option<usize>) -> Self {
-        match actual {
-            None => Rank::NotFound { minimum },
-            Some(actual) => match minimum.cmp(&actual) {
-                Ordering::Greater | Ordering::Equal => Self::Sufficient { minimum, actual },
-                Ordering::Less => Self::TooLow { minimum, actual },
-            },
         }
     }
 }
@@ -107,33 +88,6 @@ mod tests {
     use crate::test_case::TestCase;
     use anyhow::anyhow;
     use std::time::Duration;
-
-    #[test]
-    fn rank_not_found() {
-        assert_eq!(Rank::new(3, None), Rank::NotFound { minimum: 3 });
-    }
-
-    #[test]
-    fn rank_sufficient() {
-        assert_eq!(
-            Rank::new(3, Some(3)),
-            Rank::Sufficient {
-                minimum: 3,
-                actual: 3
-            }
-        );
-    }
-
-    #[test]
-    fn rank_too_low() {
-        assert_eq!(
-            Rank::new(3, Some(4)),
-            Rank::TooLow {
-                minimum: 3,
-                actual: 4
-            }
-        );
-    }
 
     fn test_case() -> TestCase {
         TestCase {
