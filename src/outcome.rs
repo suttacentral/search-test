@@ -24,10 +24,6 @@ impl Outcome {
                 None => Self::Success,
                 Some(expected) => match expected {
                     Expected::Unranked { key } => {
-                        let search_type = SearchType::from(key);
-                        let search_results =
-                            crate::response::search_results::SearchResults::new(search_type, json);
-                        //let search = CategorySearch::new(key, search_results);
                         todo!()
                     }
                     _ => todo!(),
@@ -74,16 +70,8 @@ impl Outcome {
 mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
+    use crate::test_json::NO_RESULTS_JSON;
     use anyhow::anyhow;
-
-    const NO_RESULTS_JSON: &str = r#"
-    {
-        "total": 1,
-        "hits" : [],
-        "fuzzy_dictionary": [],
-        "suttaplex" : []
-    }
-    "#;
 
     const SUTTAPLEX_JSON: &str = r#"
     {

@@ -13,6 +13,8 @@ mod run;
 mod search_service;
 mod summary;
 mod test_case;
+#[cfg(test)]
+mod test_json;
 mod test_result;
 mod test_suite;
 mod timed_response;
