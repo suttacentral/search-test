@@ -1,5 +1,6 @@
 use crate::category_search::CategorySearch;
-use crate::test_result::{Outcome, Rank, Summary, TestResult};
+use crate::summary::Summary;
+use crate::test_result::{Outcome, Rank, TestResult};
 use std::fmt::{Display, Formatter};
 
 impl TestResult {

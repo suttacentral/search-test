@@ -3,6 +3,7 @@ use crate::expected::Expected;
 // use crate::response::search_results::SearchResults;
 use crate::identifiers::SearchType;
 use crate::response::general::SearchResults;
+use crate::summary::Summary;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
@@ -100,31 +101,8 @@ impl Outcome {
     }
 
     pub fn summary(&self) -> Summary {
-        match self {
-            Self::Error { message: _ } => Summary::Error,
-            Self::Success => Summary::Passed,
-            Self::Found { search: _ } => Summary::Passed,
-            Self::NotFound { search: _ } => Summary::Failed,
-            Self::Ranked { search: _, rank } => match rank {
-                Rank::NotFound { minimum: _ } => Summary::Failed,
-                Rank::TooLow {
-                    minimum: _,
-                    actual: _,
-                } => Summary::Failed,
-                Rank::Sufficient {
-                    minimum: _,
-                    actual: _,
-                } => Summary::Passed,
-            },
-        }
+        Summary::from(self)
     }
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub enum Summary {
-    Error,
-    Passed,
-    Failed,
 }
 
 #[cfg(test)]

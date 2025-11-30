@@ -1,4 +1,4 @@
-use crate::test_result::Summary;
+use crate::summary::Summary;
 use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone, PartialEq)]

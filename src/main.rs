@@ -9,6 +9,7 @@ mod response;
 mod result_count;
 mod run;
 mod search_service;
+mod summary;
 mod test_case;
 mod test_result;
 mod test_suite;
