@@ -3,7 +3,6 @@ use crate::expected::Expected;
 // use crate::response::search_results::SearchResults;
 use crate::identifiers::SearchType;
 use crate::response::general::SearchResults;
-use crate::summary::Summary;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
@@ -108,87 +107,6 @@ mod tests {
     use crate::test_case::TestCase;
     use anyhow::anyhow;
     use std::time::Duration;
-
-    #[test]
-    fn summary_error_is_error() {
-        let outcome = Outcome::Error {
-            message: String::from("An error occured"),
-        };
-        assert_eq!(Summary::from(&outcome), Summary::Error);
-    }
-
-    #[test]
-    fn summary_is_passed_for_success() {
-        let outcome = Outcome::Success;
-        assert_eq!(Summary::from(&outcome), Summary::Passed);
-    }
-
-    #[test]
-    fn summary_is_passed_for_found() {
-        let outcome = Outcome::Found {
-            search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
-                in_results: Vec::new(),
-            },
-        };
-        assert_eq!(Summary::from(&outcome), Summary::Passed);
-    }
-
-    #[test]
-    fn summary_is_failed_for_not_found() {
-        let outcome = Outcome::NotFound {
-            search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
-                in_results: Vec::new(),
-            },
-        };
-        assert_eq!(Summary::from(&outcome), Summary::Failed);
-    }
-
-    #[test]
-    fn summary_is_failed_for_rank_not_found() {
-        let outcome = Outcome::Ranked {
-            search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
-                in_results: Vec::new(),
-            },
-            rank: Rank::NotFound { minimum: 3 },
-        };
-
-        assert_eq!(Summary::from(&outcome), Summary::Failed);
-    }
-
-    #[test]
-    fn summary_is_failed_for_rank_too_low() {
-        let outcome = Outcome::Ranked {
-            search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
-                in_results: Vec::new(),
-            },
-            rank: Rank::TooLow {
-                minimum: 3,
-                actual: 4,
-            },
-        };
-
-        assert_eq!(Summary::from(&outcome), Summary::Failed);
-    }
-
-    #[test]
-    fn summary_is_passed_for_rank_sufficient() {
-        let outcome = Outcome::Ranked {
-            search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
-                in_results: Vec::new(),
-            },
-            rank: Rank::Sufficient {
-                minimum: 3,
-                actual: 2,
-            },
-        };
-
-        assert_eq!(Summary::from(&outcome), Summary::Passed);
-    }
 
     #[test]
     fn rank_not_found() {
