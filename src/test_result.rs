@@ -3,6 +3,7 @@ use crate::expected::Expected;
 use crate::response::general::SearchResults;
 use crate::response::search_results;
 use crate::test_case::TestCase;
+use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
 use anyhow::Result;
 use std::cmp::Ordering;
@@ -16,11 +17,12 @@ pub struct TestResult {
 }
 
 impl TestResult {
-    pub fn new(test_case: &TestCase, timed: &TimedSearchResults) -> Self {
+    pub fn new(test_case: &TestCase, response: TimedResponse) -> Self {
+        let results = TimedSearchResults::from(response);
         Self {
             description: test_case.description.clone(),
-            elapsed: timed.elapsed,
-            outcome: Outcome::new(&test_case.expected, &timed.results),
+            elapsed: results.elapsed,
+            outcome: Outcome::new(&test_case.expected, &results.results),
         }
     }
 }
@@ -120,7 +122,6 @@ mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
     use crate::test_case::TestCase;
-    use crate::timed_search_results::TimedSearchResults;
     use anyhow::anyhow;
     use std::time::Duration;
 
@@ -245,14 +246,19 @@ mod tests {
         }
     }
 
-    fn search_results() -> TimedSearchResults {
-        TimedSearchResults {
+    const JSON: &str = r#"
+    {
+        "total": 1,
+        "hits" : [],
+        "fuzzy_dictionary": [],
+        "suttaplex" : [ { "uid": "mn1" } ]
+    }
+    "#;
+
+    fn ok_response() -> TimedResponse {
+        TimedResponse {
             elapsed: Duration::from_secs(3),
-            results: Ok(SearchResults {
-                text: Vec::new(),
-                dictionary: Vec::new(),
-                suttaplex: Vec::new(),
-            }),
+            json: Ok(String::from(JSON)),
         }
     }
 
@@ -263,28 +269,24 @@ mod tests {
             ..test_case()
         };
 
-        let test_result = TestResult::new(&test_case, &search_results());
+        let test_result = TestResult::new(&test_case, ok_response());
         assert_eq!(test_result.description, "Matching description");
     }
 
     #[test]
     fn test_result_has_elapsed_time() {
-        let search_results = TimedSearchResults {
-            elapsed: Duration::from_secs(3),
-            ..search_results()
-        };
-        let test_result = TestResult::new(&test_case(), &search_results);
+        let test_result = TestResult::new(&test_case(), ok_response());
         assert_eq!(test_result.elapsed, Duration::from_secs(3));
     }
 
     #[test]
     fn when_search_results_is_error_outcome_is_error() {
-        let search_results = TimedSearchResults {
-            results: Err(anyhow!("Something went wrong")),
-            ..search_results()
+        let response = TimedResponse {
+            elapsed: Duration::from_secs(3),
+            json: Err(anyhow!("Something went wrong")),
         };
 
-        let test_result = TestResult::new(&test_case(), &search_results);
+        let test_result = TestResult::new(&test_case(), response);
 
         assert_eq!(
             test_result.outcome,

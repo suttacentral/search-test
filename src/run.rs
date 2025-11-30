@@ -30,8 +30,7 @@ impl<T: SearchService> Runner<T> {
 
     fn run_test(&self, test_case: &TestCase) -> TestResult {
         let response = self.search_service.search(test_case);
-        let results = TimedSearchResults::from(response);
-        TestResult::new(test_case, &results)
+        TestResult::new(test_case, response)
     }
 }
 
