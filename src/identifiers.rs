@@ -73,8 +73,8 @@ pub enum SearchType {
     Volpage,
 }
 
-impl From<SearchResultKey> for SearchType {
-    fn from(key: SearchResultKey) -> Self {
+impl From<&SearchResultKey> for SearchType {
+    fn from(key: &SearchResultKey) -> Self {
         match key {
             SearchResultKey::Text { .. } => Text,
             SearchResultKey::Dictionary { .. } => Dictionary,
@@ -93,7 +93,7 @@ mod tests {
         let text_key = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/sujato"),
         };
-        assert_eq!(SearchType::from(text_key), SearchType::Text);
+        assert_eq!(SearchType::from(&text_key), SearchType::Text);
     }
 
     #[test]
@@ -101,7 +101,7 @@ mod tests {
         let dictionary_key = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/metta"),
         };
-        assert_eq!(SearchType::from(dictionary_key), SearchType::Dictionary);
+        assert_eq!(SearchType::from(&dictionary_key), SearchType::Dictionary);
     }
 
     #[test]
@@ -109,7 +109,7 @@ mod tests {
         let suttaplex_key = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),
         };
-        assert_eq!(SearchType::from(suttaplex_key), SearchType::Suttaplex);
+        assert_eq!(SearchType::from(&suttaplex_key), SearchType::Suttaplex);
     }
 
     #[test]
@@ -117,6 +117,6 @@ mod tests {
         let volpage_key = SearchResultKey::Volpage {
             reference: VolpageReference::from("PTS SN ii 1"),
         };
-        assert_eq!(SearchType::from(volpage_key), SearchType::Volpage);
+        assert_eq!(SearchType::from(&volpage_key), SearchType::Volpage);
     }
 }

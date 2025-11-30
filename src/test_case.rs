@@ -93,8 +93,8 @@ impl TestCase {
         match &self.expected {
             None => None,
             Some(expected) => match expected {
-                Expected::Unranked { key } => Some(SearchType::from(key.clone())),
-                Expected::Ranked { key, .. } => Some(SearchType::from(key.clone())),
+                Expected::Unranked { key } => Some(SearchType::from(key)),
+                Expected::Ranked { key, .. } => Some(SearchType::from(key)),
             },
         }
     }

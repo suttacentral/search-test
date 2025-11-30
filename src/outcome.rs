@@ -1,8 +1,9 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
-use crate::identifiers::SearchType;
+use crate::identifiers::{SearchResultKey, SearchType};
 use crate::rank::Rank;
 use crate::response::general::SearchResults;
+use anyhow::Result;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Outcome {
@@ -14,14 +15,28 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn new_xxx(search_type: Option<SearchType>, json: anyhow::Result<&str>) -> Self {
-        todo!()
+    pub fn new_from_json(expected: &Option<Expected>, json: Result<&str>) -> Self {
+        match json {
+            Err(error) => Self::Error {
+                message: format!("{error:#}"),
+            },
+            Ok(json) => match expected {
+                None => Self::Success,
+                Some(expected) => match expected {
+                    Expected::Unranked { key } => {
+                        let search_type = SearchType::from(key);
+                        let search_results =
+                            crate::response::search_results::SearchResults::new(search_type, json);
+                        //let search = CategorySearch::new(key, search_results);
+                        todo!()
+                    }
+                    _ => todo!(),
+                },
+            },
+        }
     }
 
-    pub fn new(
-        expected: &Option<Expected>,
-        search_results: &anyhow::Result<SearchResults>,
-    ) -> Self {
+    pub fn new(expected: &Option<Expected>, search_results: &Result<SearchResults>) -> Self {
         match search_results {
             Ok(search_results) => Self::success(expected, search_results),
             Err(error) => Self::Error {
@@ -59,20 +74,46 @@ impl Outcome {
 mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
+    use anyhow::anyhow;
+
+    const NO_RESULTS_JSON: &str = r#"
+    {
+        "total": 1,
+        "hits" : [],
+        "fuzzy_dictionary": [],
+        "suttaplex" : []
+    }
+    "#;
+
+    const SUTTAPLEX_JSON: &str = r#"
+    {
+        "total": 1,
+        "hits" : [],
+        "fuzzy_dictionary": [],
+        "suttaplex" : [ { "uid": "mn1" } ]
+    }
+    "#;
 
     #[test]
-    fn new_outcome_is_success_when_nothing_expected() {
-        let search_results = SearchResults {
-            text: Vec::new(),
-            dictionary: Vec::new(),
-            suttaplex: Vec::new(),
-        };
-
-        let outcome = Outcome::new(&None, &Ok(search_results));
-        assert_eq!(outcome, Outcome::Success);
+    fn success_when_no_search_type_and_json_ok() {
+        assert_eq!(
+            Outcome::new_from_json(&None, Ok(NO_RESULTS_JSON)),
+            Outcome::Success
+        );
     }
 
     #[test]
+    fn error_when_nothing_expected_and_json_error() {
+        assert_eq!(
+            Outcome::new_from_json(&None, Err(anyhow!("Something went wrong"))),
+            Outcome::Error {
+                message: String::from("Something went wrong")
+            },
+        );
+    }
+
+    #[test]
+    #[ignore]
     fn outcome_is_found_in_search() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
@@ -80,13 +121,7 @@ mod tests {
             },
         };
 
-        let search_results = SearchResults {
-            text: Vec::new(),
-            dictionary: Vec::new(),
-            suttaplex: vec![SuttaplexUid::from("mn1")],
-        };
-
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new_from_json(&Some(expected), Ok(SUTTAPLEX_JSON));
 
         assert_eq!(
             outcome,

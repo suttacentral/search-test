@@ -65,23 +65,6 @@ mod tests {
     }
 
     #[test]
-    fn when_search_results_is_error_outcome_is_error() {
-        let response = TimedResponse {
-            elapsed: Duration::from_secs(3),
-            json: Err(anyhow!("Something went wrong")),
-        };
-
-        let test_result = TestResult::new(&test_case(), response);
-
-        assert_eq!(
-            test_result.outcome,
-            Outcome::Error {
-                message: String::from("Something went wrong")
-            },
-        );
-    }
-
-    #[test]
     fn test_result_has_description() {
         let test_case = TestCase {
             description: "Matching description".to_string(),
