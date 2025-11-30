@@ -99,10 +99,6 @@ impl Outcome {
             }
         }
     }
-
-    pub fn summary(&self) -> Summary {
-        Summary::from(self)
-    }
 }
 
 #[cfg(test)]
@@ -118,13 +114,13 @@ mod tests {
         let outcome = Outcome::Error {
             message: String::from("An error occured"),
         };
-        assert_eq!(outcome.summary(), Summary::Error);
+        assert_eq!(Summary::from(&outcome), Summary::Error);
     }
 
     #[test]
     fn summary_is_passed_for_success() {
         let outcome = Outcome::Success;
-        assert_eq!(outcome.summary(), Summary::Passed);
+        assert_eq!(Summary::from(&outcome), Summary::Passed);
     }
 
     #[test]
@@ -135,7 +131,7 @@ mod tests {
                 in_results: Vec::new(),
             },
         };
-        assert_eq!(outcome.summary(), Summary::Passed);
+        assert_eq!(Summary::from(&outcome), Summary::Passed);
     }
 
     #[test]
@@ -146,7 +142,7 @@ mod tests {
                 in_results: Vec::new(),
             },
         };
-        assert_eq!(outcome.summary(), Summary::Failed);
+        assert_eq!(Summary::from(&outcome), Summary::Failed);
     }
 
     #[test]
@@ -159,7 +155,7 @@ mod tests {
             rank: Rank::NotFound { minimum: 3 },
         };
 
-        assert_eq!(outcome.summary(), Summary::Failed);
+        assert_eq!(Summary::from(&outcome), Summary::Failed);
     }
 
     #[test]
@@ -175,7 +171,7 @@ mod tests {
             },
         };
 
-        assert_eq!(outcome.summary(), Summary::Failed);
+        assert_eq!(Summary::from(&outcome), Summary::Failed);
     }
 
     #[test]
@@ -191,7 +187,7 @@ mod tests {
             },
         };
 
-        assert_eq!(outcome.summary(), Summary::Passed);
+        assert_eq!(Summary::from(&outcome), Summary::Passed);
     }
 
     #[test]

@@ -32,12 +32,4 @@ impl From<&Outcome> for Summary {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn summary_error_is_error() {
-        let outcome = Outcome::Error {
-            message: String::from("An error occured"),
-        };
-        assert_eq!(outcome.summary(), Summary::Error);
-    }
 }

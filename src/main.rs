@@ -19,6 +19,7 @@ mod timed_search_results;
 use crate::file_load::load_suite;
 use crate::result_count::ResultCount;
 use crate::run::Runner;
+use crate::summary::Summary;
 use anyhow::Result;
 use search_service::LiveSearchService;
 use std::thread::sleep;
@@ -37,7 +38,7 @@ fn run_application() -> Result<ResultCount> {
     for result in runner.run() {
         print!("{result}");
         sleep(Duration::from_millis(test_suite.delay()));
-        result_count.add(&result.outcome.summary());
+        result_count.add(&Summary::from(&result.outcome));
     }
 
     Ok(result_count)

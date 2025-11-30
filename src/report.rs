@@ -5,7 +5,7 @@ use std::fmt::{Display, Formatter};
 
 impl TestResult {
     fn main_line(&self) -> String {
-        let summary = self.outcome.summary().to_string();
+        let summary = Summary::from(&self.outcome).to_string();
         let elapsed = format!("{}ms", self.elapsed.as_millis());
         let description = &self.description;
         format!("{summary:7} {elapsed:6} {description}")
