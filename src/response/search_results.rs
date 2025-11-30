@@ -33,23 +33,50 @@ impl SearchResults {
 mod tests {
     use super::*;
 
+    const TEXT_JSON: &str = r#"
+    {
+        "hits": [
+            {
+                "uid": "mn1",
+                "lang": "en",
+                "author_uid": "sujato",
+                "url": "/mn1/en/sujato"
+            }
+        ]
+    }
+    "#;
+
+    const DICTIONARY_JSON: &str = r#"
+    {
+        "hits" : [
+        {
+                "url": "/define/metta",
+                "category": "dictionary"
+            }
+        ],
+        "fuzzy_dictionary": [
+            {
+                "url": "/define/dosa",
+                "category": "dictionary"
+            }
+        ]
+    }
+    "#;
+
+    const SUTTAPLEX_JSON: &str = r#"
+    {
+        "suttaplex": [
+            {
+                "uid": "mn1"
+            }
+        ]
+    }
+    "#;
+
     #[test]
     fn constructs_text_results() {
-        let json = r#"
-        {
-            "hits": [
-                {
-                    "uid": "mn1",
-                    "lang": "en",
-                    "author_uid": "sujato",
-                    "url": "/mn1/en/sujato"
-                }
-            ]
-        }
-        "#;
-
         assert_eq!(
-            SearchResults::new(SearchType::Text, json).unwrap(),
+            SearchResults::new(SearchType::Text, TEXT_JSON).unwrap(),
             SearchResults::Text {
                 results: vec![TextUrl::from("/mn1/en/sujato")]
             }
@@ -58,25 +85,8 @@ mod tests {
 
     #[test]
     fn constructs_dictionary_results() {
-        let json = r#"
-        {
-            "hits" : [
-            {
-                    "url": "/define/metta",
-                    "category": "dictionary"
-                }
-            ],
-            "fuzzy_dictionary": [
-                {
-                    "url": "/define/dosa",
-                    "category": "dictionary"
-                }
-            ]
-        }
-        "#;
-
         assert_eq!(
-            SearchResults::new(SearchType::Dictionary, json).unwrap(),
+            SearchResults::new(SearchType::Dictionary, DICTIONARY_JSON).unwrap(),
             SearchResults::Dictionary {
                 results: vec![
                     DictionaryUrl::from("/define/metta"),
@@ -88,18 +98,8 @@ mod tests {
 
     #[test]
     fn constructs_suttaplex_results() {
-        let json = r#"
-        {
-            "suttaplex": [
-                {
-                    "uid": "mn1"
-                }
-            ]
-        }
-        "#;
-
         assert_eq!(
-            SearchResults::new(SearchType::Suttaplex, json).unwrap(),
+            SearchResults::new(SearchType::Suttaplex, SUTTAPLEX_JSON).unwrap(),
             SearchResults::Suttaplex {
                 results: vec![SuttaplexUid::from("mn1")]
             }
