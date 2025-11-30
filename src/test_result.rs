@@ -32,7 +32,6 @@ impl TestResult {
 mod tests {
     use super::*;
     use crate::test_case::TestCase;
-    use anyhow::anyhow;
     use std::time::Duration;
 
     fn test_case() -> TestCase {
