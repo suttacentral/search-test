@@ -1,6 +1,7 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 use crate::response::general::SearchResults;
+use crate::response::search_results;
 use crate::test_case::TestCase;
 use crate::timed_search_results::TimedSearchResults;
 use anyhow::Result;
