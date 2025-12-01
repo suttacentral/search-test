@@ -89,7 +89,7 @@ mod tests {
         let results =
             TestResult::new_style_results(&test_case, Ok(String::from("This is not JSON")))
                 .unwrap_err();
-        assert_eq!(results.to_string(), "expected value at line 1 column 1")
+        assert_eq!(results.to_string(), "expected value at line 1 column 1") // TODO: Improve error message.
     }
 
     fn ok_response() -> TimedResponse {
