@@ -2,7 +2,7 @@ use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 use crate::identifiers::SearchResultKey;
 use crate::rank::Rank;
-use crate::response::general::SearchResults;
+use crate::response::general::SearchResultsOldStyle;
 use anyhow::Result;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -15,7 +15,10 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn new(expected: &Option<Expected>, search_results: &Result<SearchResults>) -> Self {
+    pub fn new(
+        expected: &Option<Expected>,
+        search_results: &Result<SearchResultsOldStyle>,
+    ) -> Self {
         match search_results {
             Ok(search_results) => Self::success(expected, search_results),
             Err(error) => Self::Error {
@@ -24,14 +27,14 @@ impl Outcome {
         }
     }
 
-    fn success(expected: &Option<Expected>, search_results: &SearchResults) -> Self {
+    fn success(expected: &Option<Expected>, search_results: &SearchResultsOldStyle) -> Self {
         match expected {
             None => Self::Success,
             Some(expected) => Self::expected(expected, search_results),
         }
     }
 
-    fn expected(expected: &Expected, search_results: &SearchResults) -> Self {
+    fn expected(expected: &Expected, search_results: &SearchResultsOldStyle) -> Self {
         match expected {
             Expected::Unranked { key } => {
                 let search = CategorySearch::new(key, search_results);
@@ -56,7 +59,7 @@ mod tests {
 
     #[test]
     fn new_outcome_is_success_when_nothing_expected() {
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: Vec::new(),
@@ -74,7 +77,7 @@ mod tests {
             },
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("mn1")],
@@ -101,7 +104,7 @@ mod tests {
             },
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("mn2")],
@@ -129,7 +132,7 @@ mod tests {
             min_rank: 1,
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
@@ -161,7 +164,7 @@ mod tests {
             min_rank: 1,
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
@@ -193,7 +196,7 @@ mod tests {
             min_rank: 1,
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: vec![DictionaryUrl::from("/define/dosa")],
             suttaplex: Vec::new(),

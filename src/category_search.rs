@@ -1,5 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
-use crate::response::general::SearchResults;
+use crate::response::general::SearchResultsOldStyle;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
@@ -18,7 +18,7 @@ pub enum CategorySearch {
 }
 
 impl CategorySearch {
-    pub fn new(key: &SearchResultKey, results: &SearchResults) -> Self {
+    pub fn new(key: &SearchResultKey, results: &SearchResultsOldStyle) -> Self {
         match key {
             SearchResultKey::Suttaplex { uid } => Self::Suttaplex {
                 search_for: uid.clone(),
@@ -89,7 +89,7 @@ mod tests {
             url: TextUrl::from("/mn1/en/bodhi"),
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: vec![TextUrl::from("/mn1/en/bodhi")],
             dictionary: Vec::new(),
             suttaplex: Vec::new(),
@@ -112,7 +112,7 @@ mod tests {
             url: DictionaryUrl::from("/define/metta"),
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: vec![DictionaryUrl::from("/define/metta")],
             suttaplex: Vec::new(),
@@ -135,7 +135,7 @@ mod tests {
             uid: SuttaplexUid::from("mn1"),
         };
 
-        let search_results = SearchResults {
+        let search_results = SearchResultsOldStyle {
             text: Vec::new(),
             dictionary: Vec::new(),
             suttaplex: vec![SuttaplexUid::from("mn1")],

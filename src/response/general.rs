@@ -124,15 +124,15 @@ impl Display for SearchResponse {
 }
 
 #[derive(Debug, PartialEq)]
-pub struct SearchResults {
+pub struct SearchResultsOldStyle {
     pub text: Vec<TextUrl>,
     pub dictionary: Vec<DictionaryUrl>,
     pub suttaplex: Vec<SuttaplexUid>,
 }
 
-impl SearchResults {
+impl SearchResultsOldStyle {
     pub fn new(response: SearchResponse) -> Self {
-        SearchResults {
+        SearchResultsOldStyle {
             text: response.text_hits().collect(),
             suttaplex: response.suttaplex_hits().collect(),
             dictionary: response

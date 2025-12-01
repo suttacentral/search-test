@@ -1,11 +1,11 @@
-use crate::response::general::{SearchResponse, SearchResults};
+use crate::response::general::{SearchResponse, SearchResultsOldStyle};
 use crate::timed_response::TimedResponse;
 use anyhow::{Context, Result};
 use std::time::Duration;
 
 #[derive(Debug)]
 pub struct TimedSearchResults {
-    pub results: Result<SearchResults>,
+    pub results: Result<SearchResultsOldStyle>,
     pub elapsed: Duration,
 }
 
@@ -26,7 +26,7 @@ impl From<TimedResponse> for TimedSearchResults {
                     },
                     Ok(search_response) => TimedSearchResults {
                         elapsed: timed_response.elapsed,
-                        results: Ok(SearchResults::new(search_response)),
+                        results: Ok(SearchResultsOldStyle::new(search_response)),
                     },
                 }
             }
@@ -119,7 +119,7 @@ mod tests {
         assert_eq!(timed_results.elapsed, Duration::from_secs(1));
         assert_eq!(
             timed_results.results.unwrap(),
-            SearchResults {
+            SearchResultsOldStyle {
                 text: Vec::new(),
                 dictionary: Vec::new(),
                 suttaplex: vec![SuttaplexUid::from("mn1")]
