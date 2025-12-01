@@ -3,7 +3,7 @@ use crate::response::search_results::SearchResultsNewStyle;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
 use crate::timed_search_results::TimedSearchResults;
-use anyhow::Result;
+use anyhow::{Context, Result};
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -31,7 +31,8 @@ impl TestResult {
         let json = json?;
         match test_case.search_type() {
             None => todo!(),
-            Some(search_type) => SearchResultsNewStyle::new(search_type, json.as_str()),
+            Some(search_type) => SearchResultsNewStyle::new(search_type, json.as_str())
+                .context("Could not extract search results from server response"),
         }
     }
 }
@@ -89,7 +90,10 @@ mod tests {
         let results =
             TestResult::new_style_results(&test_case, Ok(String::from("This is not JSON")))
                 .unwrap_err();
-        assert_eq!(results.to_string(), "expected value at line 1 column 1") // TODO: Improve error message.
+        assert_eq!(
+            results.to_string(),
+            "Could not extract search results from server response"
+        )
     }
 
     fn ok_response() -> TimedResponse {
