@@ -90,10 +90,7 @@ impl TestCase {
     }
 
     pub fn search_type(&self) -> Option<SearchType> {
-        match &self.expected {
-            None => None,
-            Some(expected) => Some(expected.search_type()),
-        }
+        Some(self.expected.as_ref()?.search_type())
     }
 }
 
