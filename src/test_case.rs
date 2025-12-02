@@ -92,10 +92,7 @@ impl TestCase {
     pub fn search_type(&self) -> Option<SearchType> {
         match &self.expected {
             None => None,
-            Some(expected) => match expected {
-                Expected::Unranked { key } => Some(SearchType::from(key)),
-                Expected::Ranked { key, .. } => Some(SearchType::from(key)),
-            },
+            Some(expected) => Some(expected.search_type()),
         }
     }
 }
