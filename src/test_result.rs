@@ -1,3 +1,4 @@
+use crate::expected::Expected;
 use crate::outcome::Outcome;
 use crate::response::search_results::SearchResultsNewStyle;
 use crate::test_case::TestCase;
@@ -25,14 +26,17 @@ impl TestResult {
     }
 
     fn new_style_results(
-        test_case: &TestCase,
+        expected: &Option<Expected>,
         json: Result<String>,
-    ) -> Result<SearchResultsNewStyle> {
+    ) -> Result<Option<SearchResultsNewStyle>> {
         let json = json?;
-        match test_case.search_type() {
-            None => todo!(),
-            Some(search_type) => SearchResultsNewStyle::new(search_type, json.as_str())
-                .context("Could not extract search results from server response"),
+        match expected {
+            None => Ok(None),
+            Some(expected) => {
+                let results = SearchResultsNewStyle::new(expected.search_type(), json.as_str())
+                    .context("Could not extract search results from server response")?;
+                todo!()
+            }
         }
     }
 }
@@ -69,26 +73,25 @@ mod tests {
     "#;
 
     #[test]
-    fn new_style_results_when_no_json() {
-        let results =
-            TestResult::new_style_results(&test_case(), Err(anyhow!("Failed to get JSON")))
-                .unwrap_err();
+    fn new_style_results_when_error_getting_json() {
+        let results = TestResult::new_style_results(
+            &test_case().expected,
+            Err(anyhow!("Failed to get JSON")),
+        )
+        .unwrap_err();
         assert_eq!(results.to_string(), "Failed to get JSON")
     }
 
     #[test]
-    fn new_style_results_when_bad_json() {
-        let test_case = TestCase {
-            expected: Some(Expected::Unranked {
-                key: SearchResultKey::Suttaplex {
-                    uid: SuttaplexUid::from("mn1"),
-                },
-            }),
-            ..test_case()
-        };
+    fn new_style_results_when_doesnt_parse() {
+        let expected = Some(Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        });
 
         let results =
-            TestResult::new_style_results(&test_case, Ok(String::from("This is not JSON")))
+            TestResult::new_style_results(&expected, Ok(String::from("This is not JSON")))
                 .unwrap_err();
         assert_eq!(
             results.to_string(),
