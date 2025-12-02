@@ -99,6 +99,15 @@ mod tests {
         )
     }
 
+    #[test]
+    fn new_style_results_when_no_errors_and_no_expected() {
+        assert!(
+            TestResult::new_style_results(&None, Ok(String::from(JSON)))
+                .unwrap()
+                .is_none()
+        )
+    }
+
     fn ok_response() -> TimedResponse {
         TimedResponse {
             elapsed: Duration::from_secs(3),
