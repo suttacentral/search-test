@@ -3,6 +3,7 @@ use crate::expected::Expected;
 use crate::identifiers::SearchResultKey;
 use crate::rank::Rank;
 use crate::response::general::SearchResultsOldStyle;
+use crate::response::search_results::SearchResultsNewStyle;
 use anyhow::Result;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -15,7 +16,14 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn new(
+    pub fn new_with_new_style_results(
+        expected: &Option<Expected>,
+        search_results: &Result<Option<SearchResultsNewStyle>>,
+    ) -> Self {
+        todo!()
+    }
+
+    pub fn new_with_old_style_results(
         expected: &Option<Expected>,
         search_results: &Result<SearchResultsOldStyle>,
     ) -> Self {
@@ -65,7 +73,7 @@ mod tests {
             suttaplex: Vec::new(),
         };
 
-        let outcome = Outcome::new(&None, &Ok(search_results));
+        let outcome = Outcome::new_with_old_style_results(&None, &Ok(search_results));
         assert_eq!(outcome, Outcome::Success);
     }
 
@@ -83,7 +91,7 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("mn1")],
         };
 
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new_with_old_style_results(&Some(expected), &Ok(search_results));
 
         assert_eq!(
             outcome,
@@ -110,7 +118,7 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("mn2")],
         };
 
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new_with_old_style_results(&Some(expected), &Ok(search_results));
 
         assert_eq!(
             outcome,
@@ -138,7 +146,7 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
         };
 
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new_with_old_style_results(&Some(expected), &Ok(search_results));
 
         assert_eq!(
             outcome,
@@ -170,7 +178,7 @@ mod tests {
             suttaplex: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
         };
 
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new_with_old_style_results(&Some(expected), &Ok(search_results));
 
         assert_eq!(
             outcome,
@@ -202,7 +210,7 @@ mod tests {
             suttaplex: Vec::new(),
         };
 
-        let outcome = Outcome::new(&Some(expected), &Ok(search_results));
+        let outcome = Outcome::new_with_old_style_results(&Some(expected), &Ok(search_results));
 
         assert_eq!(
             outcome,

@@ -21,7 +21,10 @@ impl TestResult {
         Self {
             description: test_case.description.clone(),
             elapsed: timed_search_results.elapsed,
-            outcome: Outcome::new(&test_case.expected, &timed_search_results.results),
+            outcome: Outcome::new_with_old_style_results(
+                &test_case.expected,
+                &timed_search_results.results,
+            ),
         }
     }
 
