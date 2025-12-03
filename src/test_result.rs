@@ -35,7 +35,7 @@ impl TestResult {
             Some(expected) => {
                 let results = SearchResultsNewStyle::new(expected.search_type(), json.as_str())
                     .context("Could not extract search results from server response")?;
-                todo!()
+                Ok(Some(results))
             }
         }
     }
@@ -105,6 +105,22 @@ mod tests {
             TestResult::new_style_results(&None, Ok(String::from(JSON)))
                 .unwrap()
                 .is_none()
+        )
+    }
+
+    #[test]
+    fn new_style_results_when_expected_and_parsed() {
+        let expected = Some(Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        });
+
+        assert_eq!(
+            TestResult::new_style_results(&expected, Ok(String::from(JSON))).unwrap(),
+            Some(SearchResultsNewStyle::Suttaplex {
+                results: vec![SuttaplexUid::from("mn1")]
+            })
         )
     }
 
