@@ -32,11 +32,10 @@ impl TestResult {
         let json = json?;
         match expected {
             None => Ok(None),
-            Some(expected) => {
-                let results = SearchResultsNewStyle::new(expected.search_type(), json.as_str())
-                    .context("Could not extract search results from server response")?;
-                Ok(Some(results))
-            }
+            Some(expected) => Ok(Some(
+                SearchResultsNewStyle::new(expected.search_type(), json.as_str())
+                    .context("Could not extract search results from server response")?,
+            )),
         }
     }
 }
