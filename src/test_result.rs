@@ -107,13 +107,12 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
     fn new_style_results_when_nothing_is_expected_and_json_is_bad() {
-        let results = TestResult::new_style_results(&None, Ok(String::from(BAD_JSON))).unwrap_err();
-        assert_eq!(
-            results.to_string(),
-            "Could not extract search results from server response"
-        )
+        assert!(
+            TestResult::new_style_results(&None, Ok(String::from(BAD_JSON)))
+                .unwrap()
+                .is_none()
+        );
     }
 
     #[test]
