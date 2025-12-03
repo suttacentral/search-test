@@ -35,10 +35,14 @@ impl TestResult {
         let json = json?;
         match expected {
             None => Ok(None),
-            Some(expected) => Ok(Some(
-                SearchResultsNewStyle::new(expected.search_type(), json.as_str())
-                    .context("Could not extract search results from server response")?,
-            )),
+            Some(expected) => {
+                let results = SearchResultsNewStyle::new(expected.search_type(), json.as_str())
+                    .context("Could not extract search results from server response");
+                match results {
+                    Ok(results) => Ok(Some(results)),
+                    Err(error) => Err(error),
+                }
+            }
         }
     }
 }
@@ -65,7 +69,7 @@ mod tests {
         }
     }
 
-    const JSON: &str = r#"
+    const GOOD_JSON: &str = r#"
     {
         "total": 1,
         "hits" : [],
@@ -73,6 +77,8 @@ mod tests {
         "suttaplex" : [ { "uid": "mn1" } ]
     }
     "#;
+
+    const BAD_JSON: &str = "This is not JSON";
 
     #[test]
     fn new_style_results_when_error_getting_json() {
@@ -85,7 +91,7 @@ mod tests {
     }
 
     #[test]
-    fn new_style_results_when_doesnt_parse() {
+    fn new_style_results_when_something_expected_and_json_is_bad() {
         let expected = Some(Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -93,8 +99,7 @@ mod tests {
         });
 
         let results =
-            TestResult::new_style_results(&expected, Ok(String::from("This is not JSON")))
-                .unwrap_err();
+            TestResult::new_style_results(&expected, Ok(String::from(BAD_JSON))).unwrap_err();
         assert_eq!(
             results.to_string(),
             "Could not extract search results from server response"
@@ -102,16 +107,26 @@ mod tests {
     }
 
     #[test]
-    fn new_style_results_when_no_errors_and_no_expected() {
+    #[ignore]
+    fn new_style_results_when_nothing_is_expected_and_json_is_bad() {
+        let results = TestResult::new_style_results(&None, Ok(String::from(BAD_JSON))).unwrap_err();
+        assert_eq!(
+            results.to_string(),
+            "Could not extract search results from server response"
+        )
+    }
+
+    #[test]
+    fn new_style_results_when_nothing_expected_and_json_is_good() {
         assert!(
-            TestResult::new_style_results(&None, Ok(String::from(JSON)))
+            TestResult::new_style_results(&None, Ok(String::from(GOOD_JSON)))
                 .unwrap()
                 .is_none()
         )
     }
 
     #[test]
-    fn new_style_results_when_expected_and_parsed() {
+    fn new_style_results_when_something_expected_and_json_is_good() {
         let expected = Some(Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -119,7 +134,7 @@ mod tests {
         });
 
         assert_eq!(
-            TestResult::new_style_results(&expected, Ok(String::from(JSON))).unwrap(),
+            TestResult::new_style_results(&expected, Ok(String::from(GOOD_JSON))).unwrap(),
             Some(SearchResultsNewStyle::Suttaplex {
                 results: vec![SuttaplexUid::from("mn1")]
             })
@@ -129,7 +144,7 @@ mod tests {
     fn ok_response() -> TimedResponse {
         TimedResponse {
             elapsed: Duration::from_secs(3),
-            json: Ok(String::from(JSON)),
+            json: Ok(String::from(GOOD_JSON)),
         }
     }
 
