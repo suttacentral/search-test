@@ -24,7 +24,10 @@ impl Outcome {
             Err(error) => Self::Error {
                 message: format!("{error:#}"),
             },
-            Ok(search_results) => todo!(),
+            Ok(search_results) => match search_results {
+                None => Self::Success,
+                Some(search_results) => todo!(),
+            },
         }
     }
 
@@ -72,12 +75,20 @@ mod tests {
     use anyhow::anyhow;
 
     #[test]
-    fn create_outcome_when_nothing_expected_and_new_style_results_is_an_error() {
+    fn outcome_is_error_when_nothing_expected_and_new_style_results_is_an_error() {
         assert_eq!(
             Outcome::new_with_new_style_results(&None, Err(anyhow!("Failed to get JSON"))),
             Outcome::Error {
                 message: String::from("Failed to get JSON")
             }
+        )
+    }
+
+    #[test]
+    fn outcome_is_success_when_nothing_expected_and_new_style_results_is_ok() {
+        assert_eq!(
+            Outcome::new_with_new_style_results(&None, Ok(None)),
+            Outcome::Success
         )
     }
 
