@@ -32,6 +32,9 @@ impl TestResult {
         expected: &Option<Expected>,
         json: Result<String>,
     ) -> Result<Option<SearchResultsNewStyle>> {
+        // We choose the parser based on what is expected. If we don't expect anything then we
+        // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
+        // and won't know if it is well-formed so we just return Ok(None)
         let json = json?;
         match expected {
             None => Ok(None),
