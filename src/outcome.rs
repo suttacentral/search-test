@@ -18,9 +18,14 @@ pub enum Outcome {
 impl Outcome {
     pub fn new_with_new_style_results(
         expected: &Option<Expected>,
-        search_results: &Result<Option<SearchResultsNewStyle>>,
+        search_results: Result<Option<SearchResultsNewStyle>>,
     ) -> Self {
-        todo!()
+        match search_results {
+            Err(error) => Self::Error {
+                message: format!("{error:#}"),
+            },
+            Ok(search_results) => todo!(),
+        }
     }
 
     pub fn new_with_old_style_results(
@@ -64,6 +69,17 @@ impl Outcome {
 mod tests {
     use super::*;
     use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
+    use anyhow::anyhow;
+
+    #[test]
+    fn create_outcome_when_nothing_expected_and_new_style_results_is_an_error() {
+        assert_eq!(
+            Outcome::new_with_new_style_results(&None, Err(anyhow!("Failed to get JSON"))),
+            Outcome::Error {
+                message: String::from("Failed to get JSON")
+            }
+        )
+    }
 
     #[test]
     fn new_outcome_is_success_when_nothing_expected() {
