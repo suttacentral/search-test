@@ -1,6 +1,7 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use crate::response::general::SearchResultsOldStyle;
 use crate::response::search_results::SearchResultsNewStyle;
+use anyhow::bail;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
@@ -39,9 +40,12 @@ impl CategorySearch {
 
     pub fn new_from_new_style(key: &SearchResultKey, results: &SearchResultsNewStyle) -> Self {
         match results {
-            SearchResultsNewStyle::Text { results } => CategorySearch::Text {
-                search_for: TextUrl::from("/mn1/en/bodhi"),
-                in_results: vec![TextUrl::from("/mn1/en/bodhi")],
+            SearchResultsNewStyle::Text { results } => match key {
+                SearchResultKey::Text { url } => CategorySearch::Text {
+                    search_for: url.clone(),
+                    in_results: results.clone(),
+                },
+                _ => panic!("Mismatched key and results"),
             },
             SearchResultsNewStyle::Dictionary { results } => todo!(),
             SearchResultsNewStyle::Suttaplex { results } => todo!(),
