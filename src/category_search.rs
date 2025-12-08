@@ -1,5 +1,6 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use crate::response::general::SearchResultsOldStyle;
+use crate::response::search_results::SearchResultsNewStyle;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
@@ -33,6 +34,18 @@ impl CategorySearch {
                 in_results: results.text.to_vec(),
             },
             SearchResultKey::Volpage { reference: _ } => todo!(),
+        }
+    }
+
+    pub fn new_from_new_style(key: &SearchResultKey, results: &SearchResultsNewStyle) -> Self {
+        match results {
+            SearchResultsNewStyle::Text { results } => CategorySearch::Text {
+                search_for: TextUrl::from("/mn1/en/bodhi"),
+                in_results: vec![TextUrl::from("/mn1/en/bodhi")],
+            },
+            SearchResultsNewStyle::Dictionary { results } => todo!(),
+            SearchResultsNewStyle::Suttaplex { results } => todo!(),
+            SearchResultsNewStyle::Volpage { results } => todo!(),
         }
     }
 
@@ -82,6 +95,26 @@ impl CategorySearch {
 mod tests {
     use super::*;
     use crate::identifiers::{SearchResultKey, SuttaplexUid};
+    use crate::response::search_results::SearchResultsNewStyle;
+
+    #[test]
+    fn new_from_new_style_results() {
+        let key = SearchResultKey::Text {
+            url: TextUrl::from("/mn1/en/bodhi"),
+        };
+
+        let search_results = SearchResultsNewStyle::Text {
+            results: vec![TextUrl::from("/mn1/en/bodhi")],
+        };
+
+        assert_eq!(
+            CategorySearch::new_from_new_style(&key, &search_results),
+            CategorySearch::Text {
+                search_for: TextUrl::from("/mn1/en/bodhi"),
+                in_results: vec![TextUrl::from("/mn1/en/bodhi")]
+            }
+        );
+    }
 
     #[test]
     fn text_in_results() {
