@@ -54,7 +54,13 @@ impl CategorySearch {
                 },
                 _ => panic!("Mismatched key and results"),
             },
-            SearchResultsNewStyle::Suttaplex { results } => todo!(),
+            SearchResultsNewStyle::Suttaplex { results } => match key {
+                SearchResultKey::Suttaplex { uid } => CategorySearch::Suttaplex {
+                    search_for: uid.clone(),
+                    in_results: results.clone(),
+                },
+                _ => panic!("Mismatched key and results"),
+            },
             SearchResultsNewStyle::Volpage { results } => todo!(),
         }
     }
@@ -141,6 +147,25 @@ mod tests {
             CategorySearch::Dictionary {
                 search_for: DictionaryUrl::from("/define/metta"),
                 in_results: vec![DictionaryUrl::from("/define/metta")]
+            }
+        );
+    }
+
+    #[test]
+    fn new_suttaplex_from_new_style_results() {
+        let key = SearchResultKey::Suttaplex {
+            uid: SuttaplexUid::from("mn1"),
+        };
+
+        let search_results = SearchResultsNewStyle::Suttaplex {
+            results: vec![SuttaplexUid::from("mn1")],
+        };
+
+        assert_eq!(
+            CategorySearch::new_from_new_style(&key, &search_results),
+            CategorySearch::Suttaplex {
+                search_for: SuttaplexUid::from("mn1"),
+                in_results: vec![SuttaplexUid::from("mn1")]
             }
         );
     }
