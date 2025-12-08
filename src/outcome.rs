@@ -4,7 +4,7 @@ use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::rank::Rank;
 use crate::response::general::SearchResultsOldStyle;
 use crate::response::search_results::SearchResultsNewStyle;
-use anyhow::{Error, Result};
+use anyhow::{Context, Result};
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Outcome {
@@ -33,6 +33,27 @@ impl Outcome {
                     },
                 },
             },
+        }
+    }
+
+    pub fn new_style_results(
+        expected: &Option<Expected>,
+        json: Result<String>,
+    ) -> Result<Option<SearchResultsNewStyle>> {
+        // We choose the parser based on what is expected. If we don't expect anything then we
+        // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
+        // and won't know if it is well-formed so we just return Ok(None)
+        let json = json?;
+        match expected {
+            None => Ok(None),
+            Some(expected) => {
+                let results = SearchResultsNewStyle::new(expected.search_type(), json.as_str())
+                    .context("Could not extract search results from server response");
+                match results {
+                    Ok(results) => Ok(Some(results)),
+                    Err(error) => Err(error),
+                }
+            }
         }
     }
 
@@ -76,10 +97,68 @@ impl Outcome {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::{DictionaryUrl, SearchResultKey, SearchType, SuttaplexUid};
+    use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
     use crate::test_json::SUTTAPLEX_MN1_JSON;
-    use crate::test_result::TestResult;
     use anyhow::anyhow;
+
+    const BAD_JSON: &str = "This is not JSON";
+
+    #[test]
+    fn new_style_results_when_error_getting_json() {
+        let results =
+            Outcome::new_style_results(&None, Err(anyhow!("Failed to get JSON"))).unwrap_err();
+        assert_eq!(results.to_string(), "Failed to get JSON")
+    }
+
+    #[test]
+    fn new_style_results_when_something_expected_and_json_is_bad() {
+        let expected = Some(Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        });
+
+        let results =
+            Outcome::new_style_results(&expected, Ok(String::from(BAD_JSON))).unwrap_err();
+        assert_eq!(
+            results.to_string(),
+            "Could not extract search results from server response"
+        )
+    }
+
+    #[test]
+    fn new_style_results_when_nothing_is_expected_and_json_is_bad() {
+        assert!(
+            Outcome::new_style_results(&None, Ok(String::from(BAD_JSON)))
+                .unwrap()
+                .is_none()
+        );
+    }
+
+    #[test]
+    fn new_style_results_when_nothing_expected_and_json_is_good() {
+        assert!(
+            Outcome::new_style_results(&None, Ok(String::from(SUTTAPLEX_MN1_JSON)))
+                .unwrap()
+                .is_none()
+        )
+    }
+
+    #[test]
+    fn new_style_results_when_something_expected_and_json_is_good() {
+        let expected = Some(Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        });
+
+        assert_eq!(
+            Outcome::new_style_results(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))).unwrap(),
+            Some(SearchResultsNewStyle::Suttaplex {
+                results: vec![SuttaplexUid::from("mn1")]
+            })
+        )
+    }
 
     #[test]
     fn outcome_is_error_when_nothing_expected_and_new_style_results_is_an_error() {
@@ -107,7 +186,7 @@ mod tests {
             },
         };
 
-        let search_results = TestResult::new_style_results(
+        let search_results = Outcome::new_style_results(
             &Some(expected.clone()),
             Ok(String::from(SUTTAPLEX_MN1_JSON)),
         );
