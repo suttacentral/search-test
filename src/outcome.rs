@@ -26,10 +26,13 @@ impl Outcome {
             },
             Ok(search_results) => match search_results {
                 None => Self::Success,
-                Some(search_results) => Outcome::Found {
-                    search: CategorySearch::Suttaplex {
-                        search_for: SuttaplexUid::from("mn1"),
-                        in_results: vec![SuttaplexUid::from("mn1")],
+                Some(search_results) => match &expected {
+                    None => todo!(),
+                    Some(expected) => match expected {
+                        Expected::Unranked { key } => Outcome::Found {
+                            search: CategorySearch::new_from_new_style(&key, &search_results),
+                        },
+                        Expected::Ranked { key, min_rank } => todo!(),
                     },
                 },
             },
