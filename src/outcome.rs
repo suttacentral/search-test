@@ -1,10 +1,10 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
-use crate::identifiers::SearchResultKey;
+use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::rank::Rank;
 use crate::response::general::SearchResultsOldStyle;
 use crate::response::search_results::SearchResultsNewStyle;
-use anyhow::Result;
+use anyhow::{Error, Result};
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum Outcome {
@@ -26,7 +26,12 @@ impl Outcome {
             },
             Ok(search_results) => match search_results {
                 None => Self::Success,
-                Some(search_results) => todo!(),
+                Some(search_results) => Outcome::Found {
+                    search: CategorySearch::Suttaplex {
+                        search_for: SuttaplexUid::from("mn1"),
+                        in_results: vec![SuttaplexUid::from("mn1")],
+                    },
+                },
             },
         }
     }
@@ -71,7 +76,9 @@ impl Outcome {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid};
+    use crate::identifiers::{DictionaryUrl, SearchResultKey, SearchType, SuttaplexUid};
+    use crate::test_json::SUTTAPLEX_MN1_JSON;
+    use crate::test_result::TestResult;
     use anyhow::anyhow;
 
     #[test]
@@ -89,6 +96,30 @@ mod tests {
         assert_eq!(
             Outcome::new_with_new_style_results(&None, Ok(None)),
             Outcome::Success
+        )
+    }
+
+    #[test]
+    fn outcome_is_found_when_something_expected_and_new_style_results_match_expected() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+        };
+
+        let search_results = TestResult::new_style_results(
+            &Some(expected.clone()),
+            Ok(String::from(SUTTAPLEX_MN1_JSON)),
+        );
+
+        assert_eq!(
+            Outcome::new_with_new_style_results(&Some(expected), search_results),
+            Outcome::Found {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn1")],
+                }
+            }
         )
     }
 

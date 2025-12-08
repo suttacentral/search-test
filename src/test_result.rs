@@ -28,7 +28,7 @@ impl TestResult {
         }
     }
 
-    fn new_style_results(
+    pub fn new_style_results(
         expected: &Option<Expected>,
         json: Result<String>,
     ) -> Result<Option<SearchResultsNewStyle>> {
