@@ -47,7 +47,13 @@ impl CategorySearch {
                 },
                 _ => panic!("Mismatched key and results"),
             },
-            SearchResultsNewStyle::Dictionary { results } => todo!(),
+            SearchResultsNewStyle::Dictionary { results } => match key {
+                SearchResultKey::Dictionary { url } => CategorySearch::Dictionary {
+                    search_for: url.clone(),
+                    in_results: results.clone(),
+                },
+                _ => panic!("Mismatched key and results"),
+            },
             SearchResultsNewStyle::Suttaplex { results } => todo!(),
             SearchResultsNewStyle::Volpage { results } => todo!(),
         }
@@ -102,7 +108,7 @@ mod tests {
     use crate::response::search_results::SearchResultsNewStyle;
 
     #[test]
-    fn new_from_new_style_results() {
+    fn new_text_from_new_style_results() {
         let key = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
         };
@@ -116,6 +122,25 @@ mod tests {
             CategorySearch::Text {
                 search_for: TextUrl::from("/mn1/en/bodhi"),
                 in_results: vec![TextUrl::from("/mn1/en/bodhi")]
+            }
+        );
+    }
+
+    #[test]
+    fn new_dictionary_from_new_style_results() {
+        let key = SearchResultKey::Dictionary {
+            url: DictionaryUrl::from("/define/metta"),
+        };
+
+        let search_results = SearchResultsNewStyle::Dictionary {
+            results: vec![DictionaryUrl::from("/define/metta")],
+        };
+
+        assert_eq!(
+            CategorySearch::new_from_new_style(&key, &search_results),
+            CategorySearch::Dictionary {
+                search_for: DictionaryUrl::from("/define/metta"),
+                in_results: vec![DictionaryUrl::from("/define/metta")]
             }
         );
     }
