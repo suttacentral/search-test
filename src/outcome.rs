@@ -29,9 +29,13 @@ impl Outcome {
                 Some(search_results) => match &expected {
                     None => todo!(),
                     Some(expected) => match expected {
-                        Expected::Unranked { key } => Outcome::Found {
-                            search: CategorySearch::new_from_new_style(&key, &search_results),
-                        },
+                        Expected::Unranked { key } => {
+                            let search = CategorySearch::new_from_new_style(key, &search_results);
+                            match search.found() {
+                                true => Outcome::Found { search },
+                                false => Outcome::NotFound { search },
+                            }
+                        }
                         Expected::Ranked { key, min_rank } => todo!(),
                     },
                 },
@@ -203,6 +207,30 @@ mod tests {
                 }
             }
         )
+    }
+
+    #[test]
+    fn outcome_is_not_found_when_something_expected_and_new_style_results_dont_match_expected() {
+        let expected = Expected::Unranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn2"),
+            },
+        };
+
+        let search_results = Outcome::new_style_results(
+            &Some(expected.clone()),
+            Ok(String::from(SUTTAPLEX_MN1_JSON)),
+        );
+
+        assert_eq!(
+            Outcome::new_with_new_style_results(&Some(expected), search_results),
+            Outcome::NotFound {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn2"),
+                    in_results: vec![SuttaplexUid::from("mn1")],
+                }
+            }
+        );
     }
 
     #[test]
