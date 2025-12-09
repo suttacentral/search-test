@@ -16,10 +16,8 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn new_with_new_style_results(
-        expected: &Option<Expected>,
-        search_results: Result<Option<SearchResultsNewStyle>>,
-    ) -> Self {
+    pub fn new_with_new_style_results(expected: &Option<Expected>, json: Result<String>) -> Self {
+        let search_results = Self::new_style_results(expected, json);
         match search_results {
             Err(error) => Self::Error {
                 message: format!("{error:#}"),
@@ -47,7 +45,7 @@ impl Outcome {
         }
     }
 
-    pub fn new_style_results(
+    fn new_style_results(
         expected: &Option<Expected>,
         json: Result<String>,
     ) -> Result<Option<SearchResultsNewStyle>> {
@@ -184,7 +182,7 @@ mod tests {
     #[test]
     fn outcome_is_success_when_nothing_expected_and_new_style_results_is_ok() {
         assert_eq!(
-            Outcome::new_with_new_style_results(&None, Ok(None)),
+            Outcome::new_with_new_style_results(&None, Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::Success
         )
     }
@@ -197,13 +195,11 @@ mod tests {
             },
         };
 
-        let search_results = Outcome::new_style_results(
-            &Some(expected.clone()),
-            Ok(String::from(SUTTAPLEX_MN1_JSON)),
-        );
-
         assert_eq!(
-            Outcome::new_with_new_style_results(&Some(expected), search_results),
+            Outcome::new_with_new_style_results(
+                &Some(expected),
+                Ok(String::from(SUTTAPLEX_MN1_JSON))
+            ),
             Outcome::Found {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn1"),
@@ -221,13 +217,11 @@ mod tests {
             },
         };
 
-        let search_results = Outcome::new_style_results(
-            &Some(expected.clone()),
-            Ok(String::from(SUTTAPLEX_MN1_JSON)),
-        );
-
         assert_eq!(
-            Outcome::new_with_new_style_results(&Some(expected), search_results),
+            Outcome::new_with_new_style_results(
+                &Some(expected),
+                Ok(String::from(SUTTAPLEX_MN1_JSON))
+            ),
             Outcome::NotFound {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn2"),
@@ -246,13 +240,11 @@ mod tests {
             min_rank: 1,
         };
 
-        let search_results = Outcome::new_style_results(
-            &Some(expected.clone()),
-            Ok(String::from(SUTTAPLEX_MN1_JSON)),
-        );
-
         assert_eq!(
-            Outcome::new_with_new_style_results(&Some(expected), search_results),
+            Outcome::new_with_new_style_results(
+                &Some(expected),
+                Ok(String::from(SUTTAPLEX_MN1_JSON))
+            ),
             Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
                     search_for: SuttaplexUid::from("mn1"),
