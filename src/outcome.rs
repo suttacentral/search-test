@@ -36,7 +36,11 @@ impl Outcome {
                                 false => Outcome::NotFound { search },
                             }
                         }
-                        Expected::Ranked { key, min_rank } => todo!(),
+                        Expected::Ranked { key, min_rank } => {
+                            let search = CategorySearch::new_from_new_style(key, &search_results);
+                            let rank = Rank::new(*min_rank, search.rank());
+                            Outcome::Ranked { search, rank }
+                        }
                     },
                 },
             },
@@ -231,6 +235,35 @@ mod tests {
                 }
             }
         );
+    }
+
+    #[test]
+    fn outcome_is_ranked_when_something_expected_and_is_in_results() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn1"),
+            },
+            min_rank: 1,
+        };
+
+        let search_results = Outcome::new_style_results(
+            &Some(expected.clone()),
+            Ok(String::from(SUTTAPLEX_MN1_JSON)),
+        );
+
+        assert_eq!(
+            Outcome::new_with_new_style_results(&Some(expected), search_results),
+            Outcome::Ranked {
+                search: CategorySearch::Suttaplex {
+                    search_for: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn1")],
+                },
+                rank: Rank::Sufficient {
+                    minimum: 1,
+                    actual: 1
+                },
+            }
+        )
     }
 
     #[test]

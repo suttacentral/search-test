@@ -1,6 +1,6 @@
 [settings]
-endpoint = "http://localhost/api/search/instant"
-delay = 10
+endpoint = "https://suttacentral.net/api/search/instant"
+delay = 1000
 
 [defaults]
 limit = 10
