@@ -14,15 +14,10 @@ pub struct TestResult {
 
 impl TestResult {
     pub fn new(test_case: &TestCase, response: TimedResponse) -> Self {
-        let timed_search_results = TimedSearchResults::from(response);
-
         Self {
             description: test_case.description.clone(),
-            elapsed: timed_search_results.elapsed,
-            outcome: Outcome::new_with_old_style_results(
-                &test_case.expected,
-                &timed_search_results.results,
-            ),
+            elapsed: response.elapsed,
+            outcome: Outcome::new_with_new_style_results(&test_case.expected, response.json),
         }
     }
 }
