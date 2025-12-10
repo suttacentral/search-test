@@ -67,7 +67,7 @@ impl Outcome {
 mod tests {
     use super::*;
     use crate::identifiers::{SearchResultKey, SuttaplexUid};
-    use crate::test_json::SUTTAPLEX_MN1_JSON;
+    use crate::test_json::{SUTTAPLEX_MN_FIRST_THREE_JSON, SUTTAPLEX_MN1_JSON};
     use anyhow::anyhow;
 
     const BAD_JSON: &str = "This is not JSON";
@@ -137,7 +137,7 @@ mod tests {
     }
 
     #[test]
-    fn not_found_when_expected_in_results() {
+    fn not_found_when_expected_is_in_results() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn2"),
@@ -156,7 +156,7 @@ mod tests {
     }
 
     #[test]
-    fn outcome_is_ranked_when_something_expected_and_is_in_results() {
+    fn ranked_sufficient_when_expected_and_in_correct_position() {
         let expected = Expected::Ranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -165,11 +165,18 @@ mod tests {
         };
 
         assert_eq!(
-            Outcome::new(&Some(expected), Ok(String::from(SUTTAPLEX_MN1_JSON))),
+            Outcome::new(
+                &Some(expected),
+                Ok(String::from(SUTTAPLEX_MN_FIRST_THREE_JSON))
+            ),
             Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![SuttaplexUid::from("mn1")],
+                    in_results: vec![
+                        SuttaplexUid::from("mn1"),
+                        SuttaplexUid::from("mn2"),
+                        SuttaplexUid::from("mn3")
+                    ],
                 },
                 rank: Rank::Sufficient {
                     minimum: 1,
