@@ -19,12 +19,9 @@ impl Outcome {
         // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
         // and won't know if it is well-formed so we just return Ok(None)
 
-        match Self::outcome_or_error(expected, maybe_json) {
-            Ok(outcome) => outcome,
-            Err(error) => Self::Error {
-                message: format!("{error:#}"),
-            },
-        }
+        Self::outcome_or_error(expected, maybe_json).unwrap_or_else(|error| Self::Error {
+            message: format!("{error:#}"),
+        })
     }
 
     fn outcome_or_error(
