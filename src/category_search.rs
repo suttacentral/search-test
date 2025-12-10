@@ -1,7 +1,6 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
 use crate::response::general::SearchResultsOldStyle;
 use crate::response::search_results::SearchResultsNewStyle;
-use anyhow::bail;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
@@ -173,22 +172,20 @@ mod tests {
     #[test]
     fn text_in_results() {
         let key = SearchResultKey::Text {
-            url: TextUrl::from("/mn1/en/bodhi"),
+            url: TextUrl::from("/mn1/en/sujato"),
         };
 
-        let search_results = SearchResultsOldStyle {
-            text: vec![TextUrl::from("/mn1/en/bodhi")],
-            dictionary: Vec::new(),
-            suttaplex: Vec::new(),
+        let search_results = SearchResultsNewStyle::Text {
+            results: vec![TextUrl::from("/mn1/en/sujato")],
         };
 
-        let search = CategorySearch::new(&key, &search_results);
+        let search = CategorySearch::new_from_new_style(&key, &search_results);
 
         assert_eq!(
             search,
             CategorySearch::Text {
-                search_for: TextUrl::from("/mn1/en/bodhi"),
-                in_results: vec![TextUrl::from("/mn1/en/bodhi")]
+                search_for: TextUrl::from("/mn1/en/sujato"),
+                in_results: vec![TextUrl::from("/mn1/en/sujato")]
             }
         )
     }
@@ -199,13 +196,11 @@ mod tests {
             url: DictionaryUrl::from("/define/metta"),
         };
 
-        let search_results = SearchResultsOldStyle {
-            text: Vec::new(),
-            dictionary: vec![DictionaryUrl::from("/define/metta")],
-            suttaplex: Vec::new(),
+        let search_results = SearchResultsNewStyle::Dictionary {
+            results: vec![DictionaryUrl::from("/define/metta")],
         };
 
-        let search = CategorySearch::new(&key, &search_results);
+        let search = CategorySearch::new_from_new_style(&key, &search_results);
 
         assert_eq!(
             search,
@@ -222,13 +217,11 @@ mod tests {
             uid: SuttaplexUid::from("mn1"),
         };
 
-        let search_results = SearchResultsOldStyle {
-            text: Vec::new(),
-            dictionary: Vec::new(),
-            suttaplex: vec![SuttaplexUid::from("mn1")],
+        let search_results = SearchResultsNewStyle::Suttaplex {
+            results: vec![SuttaplexUid::from("mn1")],
         };
 
-        let search = CategorySearch::new(&key, &search_results);
+        let search = CategorySearch::new_from_new_style(&key, &search_results);
 
         assert_eq!(
             search,
