@@ -251,6 +251,32 @@ mod tests {
     }
 
     #[test]
+    fn volpage_is_found() {
+        let results = SearchResults::Volpage {
+            expected: VolpageReference::from("PTS SN ii 1"),
+            results: vec![
+                VolpageReference::from("PTS SN ii 1"),
+                VolpageReference::from("PTS SN ii 1"),
+            ],
+        };
+
+        assert!(results.found());
+    }
+
+    #[test]
+    fn volpage_is_not_found() {
+        let results = SearchResults::Volpage {
+            expected: VolpageReference::from("PTS SN ii 2"),
+            results: vec![
+                VolpageReference::from("PTS SN ii 1"),
+                VolpageReference::from("PTS SN ii 1"),
+            ],
+        };
+
+        assert!(!results.found());
+    }
+
+    #[test]
     fn suttaplex_has_rank() {
         let search = SearchResults::Suttaplex {
             expected: SuttaplexUid::from("mn3"),
