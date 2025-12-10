@@ -31,14 +31,12 @@ impl Outcome {
         let json = maybe_json?;
         match expected {
             None => Ok(Self::Success),
-            Some(expected) => Ok(Self::with_json(expected, json)?),
+            Some(expected) => {
+                let results = SearchResults::new(expected.search_type(), json.as_str())
+                    .context("Could not extract search results from server response")?;
+                Ok(Self::with_expected(expected, &results))
+            }
         }
-    }
-
-    fn with_json(expected: &Expected, json: String) -> Result<Outcome> {
-        let results = SearchResults::new(expected.search_type(), json.as_str())
-            .context("Could not extract search results from server response")?;
-        Ok(Self::with_expected(expected, &results))
     }
 
     fn with_expected(expected: &Expected, results: &SearchResults) -> Self {
