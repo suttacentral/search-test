@@ -71,48 +71,54 @@ mod tests {
     use anyhow::anyhow;
 
     const BAD_JSON: &str = "This is not JSON";
+    const BAD_RESPONSE_MESSAGE: &str = "Failed to get JSON";
+    const BAD_JSON_MESSAGE: &str =
+        "Could not extract search results from server response: expected value at line 1 column 1";
 
     #[test]
-    fn error_getting_json() {
-        let results = Outcome::results(&None, Err(anyhow!("Failed to get JSON"))).unwrap_err();
-        assert_eq!(results.to_string(), "Failed to get JSON")
+    fn error_when_error_getting_json() {
+        assert_eq!(
+            Outcome::new(&None, Err(anyhow!(BAD_RESPONSE_MESSAGE))),
+            Outcome::Error {
+                message: String::from(BAD_RESPONSE_MESSAGE)
+            }
+        )
     }
 
     #[test]
-    fn something_expected_and_json_is_bad() {
+    fn error_when_something_expected_and_error_parsing_json() {
         let expected = Some(Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
             },
         });
 
-        let results = Outcome::results(&expected, Ok(String::from(BAD_JSON))).unwrap_err();
         assert_eq!(
-            results.to_string(),
-            "Could not extract search results from server response"
+            Outcome::new(&expected, Ok(String::from(BAD_JSON))),
+            Outcome::Error {
+                message: String::from(BAD_JSON_MESSAGE)
+            }
         )
     }
 
     #[test]
-    fn nothing_is_expected_and_json_is_bad() {
-        assert!(
-            Outcome::results(&None, Ok(String::from(BAD_JSON)))
-                .unwrap()
-                .is_none()
+    fn success_when_nothing_expected_and_json_parses() {
+        assert_eq!(
+            Outcome::new(&None, Ok(String::from(SUTTAPLEX_MN1_JSON))),
+            Outcome::Success,
+        )
+    }
+
+    #[test]
+    fn success_when_nothing_expected_and_error_parsing_json() {
+        assert_eq!(
+            Outcome::new(&None, Ok(String::from(BAD_JSON))),
+            Outcome::Success
         );
     }
 
     #[test]
-    fn nothing_expected_and_json_is_good() {
-        assert!(
-            Outcome::results(&None, Ok(String::from(SUTTAPLEX_MN1_JSON)))
-                .unwrap()
-                .is_none()
-        )
-    }
-
-    #[test]
-    fn something_expected_and_json_is_good() {
+    fn found_when_expected_in_results() {
         let expected = Some(Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -120,10 +126,13 @@ mod tests {
         });
 
         assert_eq!(
-            Outcome::results(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))).unwrap(),
-            Some(SearchResults::Suttaplex {
-                results: vec![SuttaplexUid::from("mn1")]
-            })
+            Outcome::new(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))),
+            Outcome::Found {
+                search: CategorySearch::Suttaplex {
+                    expected: SuttaplexUid::from("mn1"),
+                    in_results: vec![SuttaplexUid::from("mn1")]
+                }
+            },
         )
     }
 
