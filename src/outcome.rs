@@ -14,32 +14,37 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn new(expected: &Option<Expected>, json: Result<String>) -> Self {
+    pub fn new(expected: &Option<Expected>, maybe_json: Result<String>) -> Self {
         // We choose the parser based on what is expected. If we don't expect anything then we
         // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
         // and won't know if it is well-formed so we just return Ok(None)
 
-        match json {
-            Ok(json) => match expected {
-                None => Self::Success,
-                Some(expected) => Self::with_json(expected, json),
-            },
+        match Self::outcome_or_error(expected, maybe_json) {
+            Ok(outcome) => outcome,
             Err(error) => Self::Error {
                 message: format!("{error:#}"),
             },
         }
     }
 
-    fn with_json(expected: &Expected, json: String) -> Outcome {
-        let results = SearchResults::new(expected.search_type(), json.as_str())
-            .context("Could not extract search results from server response");
-
-        match results {
-            Ok(results) => Self::with_expected(expected, &results),
-            Err(error) => Self::Error {
-                message: format!("{error:#}"),
-            },
+    fn outcome_or_error(
+        expected: &Option<Expected>,
+        maybe_json: Result<String>,
+    ) -> Result<Outcome> {
+        let json = maybe_json?;
+        match expected {
+            None => Ok(Self::Success),
+            Some(expected) => {
+                let outcome = Self::with_json(expected, json)?;
+                Ok(outcome)
+            }
         }
+    }
+
+    fn with_json(expected: &Expected, json: String) -> Result<Outcome> {
+        let results = SearchResults::new(expected.search_type(), json.as_str())
+            .context("Could not extract search results from server response")?;
+        Ok(Self::with_expected(expected, &results))
     }
 
     fn with_expected(expected: &Expected, results: &SearchResults) -> Self {
