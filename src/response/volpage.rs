@@ -38,4 +38,22 @@ mod tests {
 
         assert_eq!(volpage_results(json).unwrap(), Vec::new())
     }
+
+    #[test]
+    fn single_result() {
+        let json = r#"
+        {
+            "hits": [
+                {
+                    "volpage": "PTS SN ii 1"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            volpage_results(json).unwrap(),
+            vec![VolpageReference::from("PTS SN ii 1")]
+        )
+    }
 }
