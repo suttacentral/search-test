@@ -5,23 +5,23 @@ use crate::response::texts::text_results;
 use anyhow::Result;
 
 #[derive(Clone, Debug, PartialEq)]
-pub enum SearchResultsNewStyle {
+pub enum SearchResults {
     Text { results: Vec<TextUrl> },
     Dictionary { results: Vec<DictionaryUrl> },
     Suttaplex { results: Vec<SuttaplexUid> },
     Volpage { results: Vec<VolpageReference> },
 }
 
-impl SearchResultsNewStyle {
-    pub fn new(search_type: SearchType, json: &str) -> Result<SearchResultsNewStyle> {
+impl SearchResults {
+    pub fn new(search_type: SearchType, json: &str) -> Result<SearchResults> {
         match search_type {
-            SearchType::Text => Ok(SearchResultsNewStyle::Text {
+            SearchType::Text => Ok(SearchResults::Text {
                 results: text_results(json)?,
             }),
-            SearchType::Dictionary => Ok(SearchResultsNewStyle::Dictionary {
+            SearchType::Dictionary => Ok(SearchResults::Dictionary {
                 results: dictionary_results(json)?,
             }),
-            SearchType::Suttaplex => Ok(SearchResultsNewStyle::Suttaplex {
+            SearchType::Suttaplex => Ok(SearchResults::Suttaplex {
                 results: suttaplex_results(json)?,
             }),
             SearchType::Volpage => todo!(),
@@ -76,8 +76,8 @@ mod tests {
     #[test]
     fn constructs_text_results() {
         assert_eq!(
-            SearchResultsNewStyle::new(SearchType::Text, TEXT_JSON).unwrap(),
-            SearchResultsNewStyle::Text {
+            SearchResults::new(SearchType::Text, TEXT_JSON).unwrap(),
+            SearchResults::Text {
                 results: vec![TextUrl::from("/mn1/en/sujato")]
             }
         );
@@ -86,8 +86,8 @@ mod tests {
     #[test]
     fn constructs_dictionary_results() {
         assert_eq!(
-            SearchResultsNewStyle::new(SearchType::Dictionary, DICTIONARY_JSON).unwrap(),
-            SearchResultsNewStyle::Dictionary {
+            SearchResults::new(SearchType::Dictionary, DICTIONARY_JSON).unwrap(),
+            SearchResults::Dictionary {
                 results: vec![
                     DictionaryUrl::from("/define/metta"),
                     DictionaryUrl::from("/define/dosa")
@@ -99,8 +99,8 @@ mod tests {
     #[test]
     fn constructs_suttaplex_results() {
         assert_eq!(
-            SearchResultsNewStyle::new(SearchType::Suttaplex, SUTTAPLEX_JSON).unwrap(),
-            SearchResultsNewStyle::Suttaplex {
+            SearchResults::new(SearchType::Suttaplex, SUTTAPLEX_JSON).unwrap(),
+            SearchResults::Suttaplex {
                 results: vec![SuttaplexUid::from("mn1")]
             }
         )

@@ -1,5 +1,5 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
-use crate::response::search_results::SearchResultsNewStyle;
+use crate::response::search_results::SearchResults;
 
 #[derive(Clone, Debug, PartialEq)]
 pub enum CategorySearch {
@@ -18,30 +18,30 @@ pub enum CategorySearch {
 }
 
 impl CategorySearch {
-    pub fn new_from_new_style(key: &SearchResultKey, results: &SearchResultsNewStyle) -> Self {
+    pub fn new_from_new_style(key: &SearchResultKey, results: &SearchResults) -> Self {
         match results {
-            SearchResultsNewStyle::Text { results } => match key {
+            SearchResults::Text { results } => match key {
                 SearchResultKey::Text { url } => CategorySearch::Text {
                     search_for: url.clone(),
                     in_results: results.clone(),
                 },
                 _ => panic!("Mismatched key and results"),
             },
-            SearchResultsNewStyle::Dictionary { results } => match key {
+            SearchResults::Dictionary { results } => match key {
                 SearchResultKey::Dictionary { url } => CategorySearch::Dictionary {
                     search_for: url.clone(),
                     in_results: results.clone(),
                 },
                 _ => panic!("Mismatched key and results"),
             },
-            SearchResultsNewStyle::Suttaplex { results } => match key {
+            SearchResults::Suttaplex { results } => match key {
                 SearchResultKey::Suttaplex { uid } => CategorySearch::Suttaplex {
                     search_for: uid.clone(),
                     in_results: results.clone(),
                 },
                 _ => panic!("Mismatched key and results"),
             },
-            SearchResultsNewStyle::Volpage { results } => todo!(),
+            SearchResults::Volpage { results } => todo!(),
         }
     }
 
@@ -91,7 +91,7 @@ impl CategorySearch {
 mod tests {
     use super::*;
     use crate::identifiers::{SearchResultKey, SuttaplexUid};
-    use crate::response::search_results::SearchResultsNewStyle;
+    use crate::response::search_results::SearchResults;
 
     #[test]
     fn new_text_from_new_style_results() {
@@ -99,7 +99,7 @@ mod tests {
             url: TextUrl::from("/mn1/en/bodhi"),
         };
 
-        let search_results = SearchResultsNewStyle::Text {
+        let search_results = SearchResults::Text {
             results: vec![TextUrl::from("/mn1/en/bodhi")],
         };
 
@@ -118,7 +118,7 @@ mod tests {
             url: DictionaryUrl::from("/define/metta"),
         };
 
-        let search_results = SearchResultsNewStyle::Dictionary {
+        let search_results = SearchResults::Dictionary {
             results: vec![DictionaryUrl::from("/define/metta")],
         };
 
@@ -137,7 +137,7 @@ mod tests {
             uid: SuttaplexUid::from("mn1"),
         };
 
-        let search_results = SearchResultsNewStyle::Suttaplex {
+        let search_results = SearchResults::Suttaplex {
             results: vec![SuttaplexUid::from("mn1")],
         };
 
@@ -156,7 +156,7 @@ mod tests {
             url: TextUrl::from("/mn1/en/sujato"),
         };
 
-        let search_results = SearchResultsNewStyle::Text {
+        let search_results = SearchResults::Text {
             results: vec![TextUrl::from("/mn1/en/sujato")],
         };
 
@@ -177,7 +177,7 @@ mod tests {
             url: DictionaryUrl::from("/define/metta"),
         };
 
-        let search_results = SearchResultsNewStyle::Dictionary {
+        let search_results = SearchResults::Dictionary {
             results: vec![DictionaryUrl::from("/define/metta")],
         };
 
@@ -198,7 +198,7 @@ mod tests {
             uid: SuttaplexUid::from("mn1"),
         };
 
-        let search_results = SearchResultsNewStyle::Suttaplex {
+        let search_results = SearchResults::Suttaplex {
             results: vec![SuttaplexUid::from("mn1")],
         };
 

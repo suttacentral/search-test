@@ -2,7 +2,7 @@ use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::rank::Rank;
-use crate::response::search_results::SearchResultsNewStyle;
+use crate::response::search_results::SearchResults;
 use anyhow::{Context, Result};
 
 #[derive(Clone, Debug, PartialEq)]
@@ -47,7 +47,7 @@ impl Outcome {
     fn new_style_results(
         expected: &Option<Expected>,
         json: Result<String>,
-    ) -> Result<Option<SearchResultsNewStyle>> {
+    ) -> Result<Option<SearchResults>> {
         // We choose the parser based on what is expected. If we don't expect anything then we
         // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
         // and won't know if it is well-formed so we just return Ok(None)
@@ -55,7 +55,7 @@ impl Outcome {
         match expected {
             None => Ok(None),
             Some(expected) => {
-                let results = SearchResultsNewStyle::new(expected.search_type(), json.as_str())
+                let results = SearchResults::new(expected.search_type(), json.as_str())
                     .context("Could not extract search results from server response");
                 match results {
                     Ok(results) => Ok(Some(results)),
@@ -126,7 +126,7 @@ mod tests {
 
         assert_eq!(
             Outcome::new_style_results(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))).unwrap(),
-            Some(SearchResultsNewStyle::Suttaplex {
+            Some(SearchResults::Suttaplex {
                 results: vec![SuttaplexUid::from("mn1")]
             })
         )
