@@ -15,8 +15,8 @@ pub enum Outcome {
 }
 
 impl Outcome {
-    pub fn new_with_new_style_results(expected: &Option<Expected>, json: Result<String>) -> Self {
-        let search_results = Self::new_style_results(expected, json);
+    pub fn new(expected: &Option<Expected>, json: Result<String>) -> Self {
+        let search_results = Self::results(expected, json);
         match search_results {
             Err(error) => Self::Error {
                 message: format!("{error:#}"),
@@ -44,10 +44,7 @@ impl Outcome {
         }
     }
 
-    fn new_style_results(
-        expected: &Option<Expected>,
-        json: Result<String>,
-    ) -> Result<Option<SearchResults>> {
+    fn results(expected: &Option<Expected>, json: Result<String>) -> Result<Option<SearchResults>> {
         // We choose the parser based on what is expected. If we don't expect anything then we
         // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
         // and won't know if it is well-formed so we just return Ok(None)
@@ -76,22 +73,20 @@ mod tests {
     const BAD_JSON: &str = "This is not JSON";
 
     #[test]
-    fn new_style_results_when_error_getting_json() {
-        let results =
-            Outcome::new_style_results(&None, Err(anyhow!("Failed to get JSON"))).unwrap_err();
+    fn error_getting_json() {
+        let results = Outcome::results(&None, Err(anyhow!("Failed to get JSON"))).unwrap_err();
         assert_eq!(results.to_string(), "Failed to get JSON")
     }
 
     #[test]
-    fn new_style_results_when_something_expected_and_json_is_bad() {
+    fn something_expected_and_json_is_bad() {
         let expected = Some(Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
             },
         });
 
-        let results =
-            Outcome::new_style_results(&expected, Ok(String::from(BAD_JSON))).unwrap_err();
+        let results = Outcome::results(&expected, Ok(String::from(BAD_JSON))).unwrap_err();
         assert_eq!(
             results.to_string(),
             "Could not extract search results from server response"
@@ -99,25 +94,25 @@ mod tests {
     }
 
     #[test]
-    fn new_style_results_when_nothing_is_expected_and_json_is_bad() {
+    fn nothing_is_expected_and_json_is_bad() {
         assert!(
-            Outcome::new_style_results(&None, Ok(String::from(BAD_JSON)))
+            Outcome::results(&None, Ok(String::from(BAD_JSON)))
                 .unwrap()
                 .is_none()
         );
     }
 
     #[test]
-    fn new_style_results_when_nothing_expected_and_json_is_good() {
+    fn nothing_expected_and_json_is_good() {
         assert!(
-            Outcome::new_style_results(&None, Ok(String::from(SUTTAPLEX_MN1_JSON)))
+            Outcome::results(&None, Ok(String::from(SUTTAPLEX_MN1_JSON)))
                 .unwrap()
                 .is_none()
         )
     }
 
     #[test]
-    fn new_style_results_when_something_expected_and_json_is_good() {
+    fn something_expected_and_json_is_good() {
         let expected = Some(Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -125,7 +120,7 @@ mod tests {
         });
 
         assert_eq!(
-            Outcome::new_style_results(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))).unwrap(),
+            Outcome::results(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))).unwrap(),
             Some(SearchResults::Suttaplex {
                 results: vec![SuttaplexUid::from("mn1")]
             })
@@ -133,9 +128,9 @@ mod tests {
     }
 
     #[test]
-    fn outcome_is_error_when_nothing_expected_and_new_style_results_is_an_error() {
+    fn nothing_expected_and_new_style_results_is_an_error() {
         assert_eq!(
-            Outcome::new_with_new_style_results(&None, Err(anyhow!("Failed to get JSON"))),
+            Outcome::new(&None, Err(anyhow!("Failed to get JSON"))),
             Outcome::Error {
                 message: String::from("Failed to get JSON")
             }
@@ -143,15 +138,15 @@ mod tests {
     }
 
     #[test]
-    fn outcome_is_success_when_nothing_expected_and_new_style_results_is_ok() {
+    fn nothing_expected_and_new_style_results_is_ok() {
         assert_eq!(
-            Outcome::new_with_new_style_results(&None, Ok(String::from(SUTTAPLEX_MN1_JSON))),
+            Outcome::new(&None, Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::Success
         )
     }
 
     #[test]
-    fn outcome_is_found_when_something_expected_and_new_style_results_match_expected() {
+    fn something_expected_and_new_style_results_match_expected() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -159,10 +154,7 @@ mod tests {
         };
 
         assert_eq!(
-            Outcome::new_with_new_style_results(
-                &Some(expected),
-                Ok(String::from(SUTTAPLEX_MN1_JSON))
-            ),
+            Outcome::new(&Some(expected), Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::Found {
                 search: CategorySearch::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
@@ -173,7 +165,7 @@ mod tests {
     }
 
     #[test]
-    fn outcome_is_not_found_when_something_expected_and_new_style_results_dont_match_expected() {
+    fn something_expected_and_new_style_results_dont_match_expected() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn2"),
@@ -181,10 +173,7 @@ mod tests {
         };
 
         assert_eq!(
-            Outcome::new_with_new_style_results(
-                &Some(expected),
-                Ok(String::from(SUTTAPLEX_MN1_JSON))
-            ),
+            Outcome::new(&Some(expected), Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::NotFound {
                 search: CategorySearch::Suttaplex {
                     expected: SuttaplexUid::from("mn2"),
@@ -204,10 +193,7 @@ mod tests {
         };
 
         assert_eq!(
-            Outcome::new_with_new_style_results(
-                &Some(expected),
-                Ok(String::from(SUTTAPLEX_MN1_JSON))
-            ),
+            Outcome::new(&Some(expected), Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),

@@ -15,7 +15,7 @@ impl TestResult {
         Self {
             description: test_case.description.clone(),
             elapsed: response.elapsed,
-            outcome: Outcome::new_with_new_style_results(&test_case.expected, response.json),
+            outcome: Outcome::new(&test_case.expected, response.json),
         }
     }
 }
@@ -23,9 +23,7 @@ impl TestResult {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::test_case::TestCase;
     use crate::test_json::SUTTAPLEX_MN1_JSON;
-    use std::time::Duration;
 
     fn test_case() -> TestCase {
         TestCase {
