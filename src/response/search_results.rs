@@ -42,6 +42,15 @@ impl SearchResults {
             SearchResultKey::Volpage { reference } => todo!(),
         }
     }
+
+    pub fn found(&self) -> bool {
+        match self {
+            Self::Text { expected, results } => results.contains(expected),
+            Self::Suttaplex { expected, results } => results.contains(expected),
+            Self::Dictionary { expected, results } => results.contains(expected),
+            Self::Volpage { expected, results } => results.contains(expected),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -134,5 +143,65 @@ mod tests {
                 results: vec![SuttaplexUid::from("mn1")]
             }
         )
+    }
+
+    #[test]
+    fn text_is_found() {
+        let results = SearchResults::Text {
+            expected: TextUrl::from("/mn1/en/bodhi"),
+            results: vec![TextUrl::from("/mn1/en/bodhi")],
+        };
+
+        assert!(results.found());
+    }
+
+    #[test]
+    fn text_is_missing() {
+        let results = SearchResults::Text {
+            expected: TextUrl::from("/mn1/en/bodhi"),
+            results: vec![],
+        };
+
+        assert!(!results.found());
+    }
+
+    #[test]
+    fn dictionary_is_found() {
+        let results = SearchResults::Dictionary {
+            expected: DictionaryUrl::from("/define/metta"),
+            results: vec![DictionaryUrl::from("/define/metta")],
+        };
+
+        assert!(results.found());
+    }
+
+    #[test]
+    fn dictionary_is_missing() {
+        let results = SearchResults::Dictionary {
+            expected: DictionaryUrl::from("/define/metta"),
+            results: vec![DictionaryUrl::from("/define/dosa")],
+        };
+
+        assert!(!results.found());
+    }
+
+    #[test]
+    fn suttaplex_is_found() {
+        let results = SearchResults::Suttaplex {
+            expected: SuttaplexUid::from("mn1"),
+            results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+        };
+
+        assert!(results.found());
+    }
+
+    #[test]
+    fn suttaplex_is_not_found() {
+        let results = SearchResults::Suttaplex {
+            expected: SuttaplexUid::from("mn1"),
+            results: vec![SuttaplexUid::from("mn2"), SuttaplexUid::from("mn3")],
+        };
+
+        assert!(!results.found());
     }
 }
