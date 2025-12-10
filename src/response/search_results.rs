@@ -51,6 +51,22 @@ impl SearchResults {
             Self::Volpage { expected, results } => results.contains(expected),
         }
     }
+
+    pub fn rank(&self) -> Option<usize> {
+        match self {
+            Self::Text { expected, results } => Self::rank_in_results(expected, results),
+            Self::Dictionary { expected, results } => Self::rank_in_results(expected, results),
+            Self::Suttaplex { expected, results } => Self::rank_in_results(expected, results),
+            Self::Volpage { expected, results } => Self::rank_in_results(expected, results),
+        }
+    }
+
+    fn rank_in_results<T: PartialEq>(item: &T, results: &[T]) -> Option<usize> {
+        results
+            .iter()
+            .position(|hit| hit == item)
+            .map(|position| position + 1)
+    }
 }
 
 #[cfg(test)]
@@ -203,5 +219,66 @@ mod tests {
         };
 
         assert!(!results.found());
+    }
+
+    #[test]
+    fn suttaplex_has_rank() {
+        let search = SearchResults::Suttaplex {
+            expected: SuttaplexUid::from("mn3"),
+            results: vec![SuttaplexUid::from("mn2"), SuttaplexUid::from("mn3")],
+        };
+
+        assert_eq!(search.rank(), Some(2));
+    }
+
+    #[test]
+    fn missing_suttaplex_has_no_rank() {
+        let results = SearchResults::Suttaplex {
+            expected: SuttaplexUid::from("mn3"),
+            results: Vec::new(),
+        };
+
+        assert_eq!(results.rank(), None);
+    }
+
+    #[test]
+    fn text_has_rank() {
+        let results = SearchResults::Text {
+            expected: TextUrl::from("/mn1/en/bodhi"),
+            results: vec![
+                TextUrl::from("/mn1/en/bodhi"),
+                TextUrl::from("/mn1/en/sujato"),
+            ],
+        };
+
+        assert_eq!(results.rank(), Some(1));
+    }
+
+    #[test]
+    fn text_has_no_rank() {
+        let results = SearchResults::Text {
+            expected: TextUrl::from("/mn1/en/bodhi"),
+            results: Vec::new(),
+        };
+
+        assert_eq!(results.rank(), None);
+    }
+
+    #[test]
+    fn dictionary_has_rank() {
+        let results = SearchResults::Dictionary {
+            expected: DictionaryUrl::from("/define/metta"),
+            results: vec![DictionaryUrl::from("/define/metta")],
+        };
+        assert_eq!(results.rank(), Some(1))
+    }
+
+    #[test]
+    fn dictionary_has_no_rank() {
+        let results = SearchResults::Dictionary {
+            expected: DictionaryUrl::from("/define/metta"),
+            results: Vec::new(),
+        };
+        assert_eq!(results.rank(), None)
     }
 }

@@ -46,7 +46,7 @@ impl Outcome {
             }
             Expected::Ranked { key, min_rank } => {
                 let search = CategorySearch::new(results);
-                let rank = Rank::new(*min_rank, search.rank());
+                let rank = Rank::new(*min_rank, results.rank());
                 Outcome::Ranked { search, rank }
             }
         }
