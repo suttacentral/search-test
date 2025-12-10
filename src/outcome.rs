@@ -32,23 +32,27 @@ impl Outcome {
                         Err(error) => Self::Error {
                             message: format!("{error:#}"),
                         },
-                        Ok(search_results) => match expected {
-                            Expected::Unranked { key } => {
-                                let search = CategorySearch::new(key, &search_results);
-                                match search.found() {
-                                    true => Outcome::Found { search },
-                                    false => Outcome::NotFound { search },
-                                }
-                            }
-                            Expected::Ranked { key, min_rank } => {
-                                let search = CategorySearch::new(key, &search_results);
-                                let rank = Rank::new(*min_rank, search.rank());
-                                Outcome::Ranked { search, rank }
-                            }
-                        },
+                        Ok(results) => Self::with_expected(expected, &results),
                     }
                 }
             },
+        }
+    }
+
+    fn with_expected(expected: &Expected, results: &SearchResults) -> Self {
+        match expected {
+            Expected::Unranked { key } => {
+                let search = CategorySearch::new(key, results);
+                match search.found() {
+                    true => Outcome::Found { search },
+                    false => Outcome::NotFound { search },
+                }
+            }
+            Expected::Ranked { key, min_rank } => {
+                let search = CategorySearch::new(key, results);
+                let rank = Rank::new(*min_rank, search.rank());
+                Outcome::Ranked { search, rank }
+            }
         }
     }
 }
