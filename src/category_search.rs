@@ -20,28 +20,19 @@ pub enum CategorySearch {
 impl CategorySearch {
     pub fn new(key: &SearchResultKey, results: &SearchResults) -> Self {
         match results {
-            SearchResults::Text { results } => match key {
-                SearchResultKey::Text { url } => CategorySearch::Text {
-                    expected: url.clone(),
-                    in_results: results.clone(),
-                },
-                _ => panic!("Mismatched key and results"),
+            SearchResults::Text { expected, results } => CategorySearch::Text {
+                expected: expected.clone(),
+                in_results: results.clone(),
             },
-            SearchResults::Dictionary { results } => match key {
-                SearchResultKey::Dictionary { url } => CategorySearch::Dictionary {
-                    expected: url.clone(),
-                    in_results: results.clone(),
-                },
-                _ => panic!("Mismatched key and results"),
+            SearchResults::Dictionary { expected, results } => CategorySearch::Dictionary {
+                expected: expected.clone(),
+                in_results: results.clone(),
             },
-            SearchResults::Suttaplex { results } => match key {
-                SearchResultKey::Suttaplex { uid } => CategorySearch::Suttaplex {
-                    expected: uid.clone(),
-                    in_results: results.clone(),
-                },
-                _ => panic!("Mismatched key and results"),
+            SearchResults::Suttaplex { expected, results } => CategorySearch::Suttaplex {
+                expected: expected.clone(),
+                in_results: results.clone(),
             },
-            SearchResults::Volpage { results } => todo!(),
+            SearchResults::Volpage { expected, results } => todo!(),
         }
     }
 
@@ -98,6 +89,7 @@ mod tests {
         };
 
         let search_results = SearchResults::Text {
+            expected: TextUrl::from("/mn1/en/bodhi"),
             results: vec![TextUrl::from("/mn1/en/bodhi")],
         };
 
@@ -117,6 +109,7 @@ mod tests {
         };
 
         let search_results = SearchResults::Dictionary {
+            expected: DictionaryUrl::from("/define/metta"),
             results: vec![DictionaryUrl::from("/define/metta")],
         };
 
@@ -136,6 +129,7 @@ mod tests {
         };
 
         let search_results = SearchResults::Suttaplex {
+            expected: SuttaplexUid::from("mn1"),
             results: vec![SuttaplexUid::from("mn1")],
         };
 
