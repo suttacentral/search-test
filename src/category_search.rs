@@ -94,7 +94,7 @@ mod tests {
     use crate::response::search_results::SearchResults;
 
     #[test]
-    fn new_text_from_new_style_results() {
+    fn new_text() {
         let key = SearchResultKey::Text {
             url: TextUrl::from("/mn1/en/bodhi"),
         };
@@ -113,7 +113,7 @@ mod tests {
     }
 
     #[test]
-    fn new_dictionary_from_new_style_results() {
+    fn new_dictionary() {
         let key = SearchResultKey::Dictionary {
             url: DictionaryUrl::from("/define/metta"),
         };
@@ -132,7 +132,7 @@ mod tests {
     }
 
     #[test]
-    fn new_suttaplex_from_new_style_results() {
+    fn new_suttaplex() {
         let key = SearchResultKey::Suttaplex {
             uid: SuttaplexUid::from("mn1"),
         };
@@ -148,69 +148,6 @@ mod tests {
                 in_results: vec![SuttaplexUid::from("mn1")]
             }
         );
-    }
-
-    #[test]
-    fn text_in_results() {
-        let key = SearchResultKey::Text {
-            url: TextUrl::from("/mn1/en/sujato"),
-        };
-
-        let search_results = SearchResults::Text {
-            results: vec![TextUrl::from("/mn1/en/sujato")],
-        };
-
-        let search = CategorySearch::new(&key, &search_results);
-
-        assert_eq!(
-            search,
-            CategorySearch::Text {
-                search_for: TextUrl::from("/mn1/en/sujato"),
-                in_results: vec![TextUrl::from("/mn1/en/sujato")]
-            }
-        )
-    }
-
-    #[test]
-    fn dictionary_in_results() {
-        let key = SearchResultKey::Dictionary {
-            url: DictionaryUrl::from("/define/metta"),
-        };
-
-        let search_results = SearchResults::Dictionary {
-            results: vec![DictionaryUrl::from("/define/metta")],
-        };
-
-        let search = CategorySearch::new(&key, &search_results);
-
-        assert_eq!(
-            search,
-            CategorySearch::Dictionary {
-                search_for: DictionaryUrl::from("/define/metta"),
-                in_results: vec![DictionaryUrl::from("/define/metta")]
-            }
-        )
-    }
-
-    #[test]
-    fn create_suttaplex_search_result() {
-        let key = SearchResultKey::Suttaplex {
-            uid: SuttaplexUid::from("mn1"),
-        };
-
-        let search_results = SearchResults::Suttaplex {
-            results: vec![SuttaplexUid::from("mn1")],
-        };
-
-        let search = CategorySearch::new(&key, &search_results);
-
-        assert_eq!(
-            search,
-            CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
-                in_results: vec![SuttaplexUid::from("mn1")]
-            }
-        )
     }
 
     #[test]
