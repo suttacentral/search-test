@@ -3,7 +3,6 @@ use crate::test_suite::TestSuite;
 
 use crate::search_service::SearchService;
 use crate::test_result::TestResult;
-use crate::timed_search_results::TimedSearchResults;
 use anyhow::Result;
 
 #[derive(Debug)]

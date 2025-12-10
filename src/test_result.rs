@@ -2,7 +2,6 @@ use crate::outcome::Outcome;
 use crate::response::search_results::SearchResultsNewStyle;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
-use crate::timed_search_results::TimedSearchResults;
 use std::time::Duration;
 
 #[derive(Clone, Debug, PartialEq)]
