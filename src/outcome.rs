@@ -16,7 +16,25 @@ pub enum Outcome {
 
 impl Outcome {
     pub fn new(expected: &Option<Expected>, json: Result<String>) -> Self {
-        let search_results = Self::results(expected, json);
+        // We choose the parser based on what is expected. If we don't expect anything then we
+        // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
+        // and won't know if it is well-formed so we just return Ok(None)
+
+        let search_results = match json {
+            Err(error) => Err(error),
+            Ok(json) => match expected {
+                None => Ok(None),
+                Some(expected) => {
+                    let results = SearchResults::new(expected.search_type(), json.as_str())
+                        .context("Could not extract search results from server response");
+                    match results {
+                        Ok(results) => Ok(Some(results)),
+                        Err(error) => Err(error),
+                    }
+                }
+            },
+        };
+
         match search_results {
             Err(error) => Self::Error {
                 message: format!("{error:#}"),
@@ -41,24 +59,6 @@ impl Outcome {
                     },
                 },
             },
-        }
-    }
-
-    fn results(expected: &Option<Expected>, json: Result<String>) -> Result<Option<SearchResults>> {
-        // We choose the parser based on what is expected. If we don't expect anything then we
-        // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
-        // and won't know if it is well-formed so we just return Ok(None)
-        let json = json?;
-        match expected {
-            None => Ok(None),
-            Some(expected) => {
-                let results = SearchResults::new(expected.search_type(), json.as_str())
-                    .context("Could not extract search results from server response");
-                match results {
-                    Ok(results) => Ok(Some(results)),
-                    Err(error) => Err(error),
-                }
-            }
         }
     }
 }
