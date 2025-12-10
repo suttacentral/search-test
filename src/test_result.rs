@@ -1,5 +1,4 @@
 use crate::outcome::Outcome;
-use crate::response::search_results::SearchResults;
 use crate::test_case::TestCase;
 use crate::timed_response::TimedResponse;
 use std::time::Duration;
