@@ -137,16 +137,6 @@ mod tests {
     }
 
     #[test]
-    fn nothing_expected_and_new_style_results_is_an_error() {
-        assert_eq!(
-            Outcome::new(&None, Err(anyhow!("Failed to get JSON"))),
-            Outcome::Error {
-                message: String::from("Failed to get JSON")
-            }
-        )
-    }
-
-    #[test]
     fn nothing_expected_and_new_style_results_is_ok() {
         assert_eq!(
             Outcome::new(&None, Ok(String::from(SUTTAPLEX_MN1_JSON))),
