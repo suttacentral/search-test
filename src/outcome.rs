@@ -23,7 +23,7 @@ impl Outcome {
             },
             Ok(search_results) => match search_results {
                 None => Self::Success,
-                Some(search_results) => match &expected {
+                Some(search_results) => match expected {
                     None => todo!(),
                     Some(expected) => match expected {
                         Expected::Unranked { key } => {
