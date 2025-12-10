@@ -74,7 +74,7 @@ mod tests {
     "#;
 
     #[test]
-    fn constructs_text_results() {
+    fn new_text_results() {
         assert_eq!(
             SearchResults::new(SearchType::Text, TEXT_JSON).unwrap(),
             SearchResults::Text {
@@ -84,7 +84,7 @@ mod tests {
     }
 
     #[test]
-    fn constructs_dictionary_results() {
+    fn new_dictionary_results() {
         assert_eq!(
             SearchResults::new(SearchType::Dictionary, DICTIONARY_JSON).unwrap(),
             SearchResults::Dictionary {
@@ -97,7 +97,7 @@ mod tests {
     }
 
     #[test]
-    fn constructs_suttaplex_results() {
+    fn new_suttaplex_results() {
         assert_eq!(
             SearchResults::new(SearchType::Suttaplex, SUTTAPLEX_JSON).unwrap(),
             SearchResults::Suttaplex {
