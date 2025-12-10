@@ -56,4 +56,28 @@ mod tests {
             vec![VolpageReference::from("PTS SN ii 1")]
         )
     }
+
+    #[test]
+    fn two_results() {
+        let json = r#"
+        {
+            "hits": [
+                {
+                    "volpage": "PTS SN ii 1"
+                },
+                {
+                    "volpage": "PTS SN ii 2"
+                }
+            ]
+        }
+        "#;
+
+        assert_eq!(
+            volpage_results(json).unwrap(),
+            vec![
+                VolpageReference::from("PTS SN ii 1"),
+                VolpageReference::from("PTS SN ii 2")
+            ]
+        )
+    }
 }
