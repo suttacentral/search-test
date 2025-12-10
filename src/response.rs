@@ -1,6 +1,5 @@
-mod dictionary;
+pub mod dictionary;
 mod mixed_hits;
-pub mod search_results;
-mod suttaplex;
-mod texts;
-mod volpage;
+pub mod suttaplex;
+pub mod texts;
+pub mod volpage;

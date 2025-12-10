@@ -34,7 +34,7 @@ impl From<&Outcome> for Summary {
 mod tests {
     use super::*;
     use crate::identifiers::SuttaplexUid;
-    use crate::response::search_results::SearchResults;
+    use crate::search_results::SearchResults;
 
     #[test]
     fn summary_error_is_error() {

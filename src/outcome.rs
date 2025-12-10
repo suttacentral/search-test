@@ -1,6 +1,6 @@
 use crate::expected::Expected;
 use crate::rank::Rank;
-use crate::response::search_results::SearchResults;
+use crate::search_results::SearchResults;
 use anyhow::{Context, Result};
 
 #[derive(Clone, Debug, PartialEq)]

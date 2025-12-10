@@ -2,6 +2,7 @@ use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, 
 use crate::response::dictionary::dictionary_results;
 use crate::response::suttaplex::suttaplex_results;
 use crate::response::texts::text_results;
+use crate::response::volpage::volpage_results;
 use anyhow::Result;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -39,7 +40,10 @@ impl SearchResults {
                 expected: uid.clone(),
                 results: suttaplex_results(json)?,
             }),
-            SearchResultKey::Volpage { reference } => todo!(),
+            SearchResultKey::Volpage { reference } => Ok(SearchResults::Volpage {
+                expected: reference.clone(),
+                results: volpage_results(json)?,
+            }),
         }
     }
 
@@ -113,6 +117,16 @@ mod tests {
     }
     "#;
 
+    const VOLPAGE_JSON: &str = r#"
+        {
+            "hits": [
+                {
+                    "volpage": "PTS SN ii 1"
+                }
+            ]
+        }
+        "#;
+
     #[test]
     fn new_text_results() {
         let key = SearchResultKey::Text {
@@ -157,6 +171,21 @@ mod tests {
             SearchResults::Suttaplex {
                 expected: SuttaplexUid::from("mn1"),
                 results: vec![SuttaplexUid::from("mn1")]
+            }
+        )
+    }
+
+    #[test]
+    fn new_volpage_results() {
+        let key = SearchResultKey::Volpage {
+            reference: VolpageReference::from("PTS SN ii 1"),
+        };
+
+        assert_eq!(
+            SearchResults::new(&key, VOLPAGE_JSON).unwrap(),
+            SearchResults::Volpage {
+                expected: VolpageReference::from("PTS SN ii 1"),
+                results: vec![VolpageReference::from("PTS SN ii 1")]
             }
         )
     }

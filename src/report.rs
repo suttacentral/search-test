@@ -1,6 +1,6 @@
 use crate::outcome::Outcome;
 use crate::rank::Rank;
-use crate::response::search_results::SearchResults;
+use crate::search_results::SearchResults;
 use crate::summary::Summary;
 use crate::test_result::TestResult;
 use std::fmt::{Display, Formatter};
