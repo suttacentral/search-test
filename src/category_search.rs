@@ -1,5 +1,4 @@
 use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
-use crate::response::general::SearchResultsOldStyle;
 use crate::response::search_results::SearchResultsNewStyle;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -19,24 +18,6 @@ pub enum CategorySearch {
 }
 
 impl CategorySearch {
-    pub fn new(key: &SearchResultKey, results: &SearchResultsOldStyle) -> Self {
-        match key {
-            SearchResultKey::Suttaplex { uid } => Self::Suttaplex {
-                search_for: uid.clone(),
-                in_results: results.suttaplex.to_vec(),
-            },
-            SearchResultKey::Dictionary { url } => Self::Dictionary {
-                search_for: url.clone(),
-                in_results: results.dictionary.to_vec(),
-            },
-            SearchResultKey::Text { url } => Self::Text {
-                search_for: url.clone(),
-                in_results: results.text.to_vec(),
-            },
-            SearchResultKey::Volpage { reference: _ } => todo!(),
-        }
-    }
-
     pub fn new_from_new_style(key: &SearchResultKey, results: &SearchResultsNewStyle) -> Self {
         match results {
             SearchResultsNewStyle::Text { results } => match key {
