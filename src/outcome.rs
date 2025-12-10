@@ -1,6 +1,5 @@
 use crate::category_search::CategorySearch;
 use crate::expected::Expected;
-use crate::identifiers::{SearchResultKey, SuttaplexUid};
 use crate::rank::Rank;
 use crate::response::search_results::SearchResults;
 use anyhow::{Context, Result};
@@ -51,33 +50,6 @@ impl Outcome {
                 }
             },
         }
-
-        //
-        // match search_results {
-        //     Err(error) => Self::Error {
-        //         message: format!("{error:#}"),
-        //     },
-        //     Ok(search_results) => match search_results {
-        //         None => Self::Success,
-        //         Some(search_results) => match expected {
-        //             None => todo!(),
-        //             Some(expected) => match expected {
-        //                 Expected::Unranked { key } => {
-        //                     let search = CategorySearch::new(key, &search_results);
-        //                     match search.found() {
-        //                         true => Outcome::Found { search },
-        //                         false => Outcome::NotFound { search },
-        //                     }
-        //                 }
-        //                 Expected::Ranked { key, min_rank } => {
-        //                     let search = CategorySearch::new(key, &search_results);
-        //                     let rank = Rank::new(*min_rank, search.rank());
-        //                     Outcome::Ranked { search, rank }
-        //                 }
-        //             },
-        //         },
-        //     },
-        // }
     }
 }
 
