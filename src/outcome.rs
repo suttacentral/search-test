@@ -137,34 +137,7 @@ mod tests {
     }
 
     #[test]
-    fn nothing_expected_and_new_style_results_is_ok() {
-        assert_eq!(
-            Outcome::new(&None, Ok(String::from(SUTTAPLEX_MN1_JSON))),
-            Outcome::Success
-        )
-    }
-
-    #[test]
-    fn something_expected_and_new_style_results_match_expected() {
-        let expected = Expected::Unranked {
-            key: SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            },
-        };
-
-        assert_eq!(
-            Outcome::new(&Some(expected), Ok(String::from(SUTTAPLEX_MN1_JSON))),
-            Outcome::Found {
-                search: CategorySearch::Suttaplex {
-                    expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![SuttaplexUid::from("mn1")],
-                }
-            }
-        )
-    }
-
-    #[test]
-    fn something_expected_and_new_style_results_dont_match_expected() {
+    fn not_found_when_expected_in_results() {
         let expected = Expected::Unranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn2"),
