@@ -20,21 +20,24 @@ impl Outcome {
         // and won't know if it is well-formed so we just return Ok(None)
 
         match json {
+            Ok(json) => match expected {
+                None => Self::Success,
+                Some(expected) => Self::with_json(expected, json),
+            },
             Err(error) => Self::Error {
                 message: format!("{error:#}"),
             },
-            Ok(json) => match expected {
-                None => Self::Success,
-                Some(expected) => {
-                    match SearchResults::new(expected.search_type(), json.as_str())
-                        .context("Could not extract search results from server response")
-                    {
-                        Err(error) => Self::Error {
-                            message: format!("{error:#}"),
-                        },
-                        Ok(results) => Self::with_expected(expected, &results),
-                    }
-                }
+        }
+    }
+
+    fn with_json(expected: &Expected, json: String) -> Outcome {
+        let results = SearchResults::new(expected.search_type(), json.as_str())
+            .context("Could not extract search results from server response");
+
+        match results {
+            Ok(results) => Self::with_expected(expected, &results),
+            Err(error) => Self::Error {
+                message: format!("{error:#}"),
             },
         }
     }
