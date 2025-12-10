@@ -18,7 +18,7 @@ pub enum CategorySearch {
 }
 
 impl CategorySearch {
-    pub fn new_from_new_style(key: &SearchResultKey, results: &SearchResults) -> Self {
+    pub fn new(key: &SearchResultKey, results: &SearchResults) -> Self {
         match results {
             SearchResults::Text { results } => match key {
                 SearchResultKey::Text { url } => CategorySearch::Text {
@@ -104,7 +104,7 @@ mod tests {
         };
 
         assert_eq!(
-            CategorySearch::new_from_new_style(&key, &search_results),
+            CategorySearch::new(&key, &search_results),
             CategorySearch::Text {
                 search_for: TextUrl::from("/mn1/en/bodhi"),
                 in_results: vec![TextUrl::from("/mn1/en/bodhi")]
@@ -123,7 +123,7 @@ mod tests {
         };
 
         assert_eq!(
-            CategorySearch::new_from_new_style(&key, &search_results),
+            CategorySearch::new(&key, &search_results),
             CategorySearch::Dictionary {
                 search_for: DictionaryUrl::from("/define/metta"),
                 in_results: vec![DictionaryUrl::from("/define/metta")]
@@ -142,7 +142,7 @@ mod tests {
         };
 
         assert_eq!(
-            CategorySearch::new_from_new_style(&key, &search_results),
+            CategorySearch::new(&key, &search_results),
             CategorySearch::Suttaplex {
                 search_for: SuttaplexUid::from("mn1"),
                 in_results: vec![SuttaplexUid::from("mn1")]
@@ -160,7 +160,7 @@ mod tests {
             results: vec![TextUrl::from("/mn1/en/sujato")],
         };
 
-        let search = CategorySearch::new_from_new_style(&key, &search_results);
+        let search = CategorySearch::new(&key, &search_results);
 
         assert_eq!(
             search,
@@ -181,7 +181,7 @@ mod tests {
             results: vec![DictionaryUrl::from("/define/metta")],
         };
 
-        let search = CategorySearch::new_from_new_style(&key, &search_results);
+        let search = CategorySearch::new(&key, &search_results);
 
         assert_eq!(
             search,
@@ -202,7 +202,7 @@ mod tests {
             results: vec![SuttaplexUid::from("mn1")],
         };
 
-        let search = CategorySearch::new_from_new_style(&key, &search_results);
+        let search = CategorySearch::new(&key, &search_results);
 
         assert_eq!(
             search,

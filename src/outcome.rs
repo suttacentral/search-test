@@ -27,14 +27,14 @@ impl Outcome {
                     None => todo!(),
                     Some(expected) => match expected {
                         Expected::Unranked { key } => {
-                            let search = CategorySearch::new_from_new_style(key, &search_results);
+                            let search = CategorySearch::new(key, &search_results);
                             match search.found() {
                                 true => Outcome::Found { search },
                                 false => Outcome::NotFound { search },
                             }
                         }
                         Expected::Ranked { key, min_rank } => {
-                            let search = CategorySearch::new_from_new_style(key, &search_results);
+                            let search = CategorySearch::new(key, &search_results);
                             let rank = Rank::new(*min_rank, search.rank());
                             Outcome::Ranked { search, rank }
                         }
