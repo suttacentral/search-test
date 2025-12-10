@@ -1,4 +1,3 @@
-use crate::category_search::CategorySearch;
 use crate::expected::Expected;
 use crate::rank::Rank;
 use crate::response::search_results::SearchResults;
@@ -8,9 +7,9 @@ use anyhow::{Context, Result};
 pub enum Outcome {
     Error { message: String },
     Success,
-    Found { search: CategorySearch },
-    NotFound { search: CategorySearch },
-    Ranked { search: CategorySearch, rank: Rank },
+    Found { results: SearchResults },
+    NotFound { results: SearchResults },
+    Ranked { results: SearchResults, rank: Rank },
 }
 
 impl Outcome {
@@ -37,18 +36,18 @@ impl Outcome {
 
     fn with_expected(expected: &Expected, results: &SearchResults) -> Self {
         match expected {
-            Expected::Unranked { key } => {
-                let search = CategorySearch::new(results);
-                match results.found() {
-                    true => Outcome::Found { search },
-                    false => Outcome::NotFound { search },
-                }
-            }
-            Expected::Ranked { key, min_rank } => {
-                let search = CategorySearch::new(results);
-                let rank = Rank::new(*min_rank, results.rank());
-                Outcome::Ranked { search, rank }
-            }
+            Expected::Unranked { key: _ } => match results.found() {
+                true => Outcome::Found {
+                    results: results.clone(),
+                },
+                false => Outcome::NotFound {
+                    results: results.clone(),
+                },
+            },
+            Expected::Ranked { key: _, min_rank } => Outcome::Ranked {
+                results: results.clone(),
+                rank: Rank::new(*min_rank, results.rank()),
+            },
         }
     }
 }
@@ -118,9 +117,9 @@ mod tests {
         assert_eq!(
             Outcome::new(&expected, Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::Found {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![SuttaplexUid::from("mn1")]
+                    results: vec![SuttaplexUid::from("mn1")]
                 }
             },
         )
@@ -137,9 +136,9 @@ mod tests {
         assert_eq!(
             Outcome::new(&Some(expected), Ok(String::from(SUTTAPLEX_MN1_JSON))),
             Outcome::NotFound {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn2"),
-                    in_results: vec![SuttaplexUid::from("mn1")],
+                    results: vec![SuttaplexUid::from("mn1")],
                 }
             }
         );
@@ -160,9 +159,9 @@ mod tests {
                 Ok(String::from(SUTTAPLEX_MN_FIRST_THREE_JSON))
             ),
             Outcome::Ranked {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![
+                    results: vec![
                         SuttaplexUid::from("mn1"),
                         SuttaplexUid::from("mn2"),
                         SuttaplexUid::from("mn3")
@@ -191,9 +190,9 @@ mod tests {
                 Ok(String::from(SUTTAPLEX_MN_FIRST_THREE_JSON))
             ),
             Outcome::Ranked {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn3"),
-                    in_results: vec![
+                    results: vec![
                         SuttaplexUid::from("mn1"),
                         SuttaplexUid::from("mn2"),
                         SuttaplexUid::from("mn3")
@@ -222,9 +221,9 @@ mod tests {
                 Ok(String::from(SUTTAPLEX_MN_FIRST_THREE_JSON))
             ),
             Outcome::Ranked {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn4"),
-                    in_results: vec![
+                    results: vec![
                         SuttaplexUid::from("mn1"),
                         SuttaplexUid::from("mn2"),
                         SuttaplexUid::from("mn3")

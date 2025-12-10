@@ -1,6 +1,7 @@
 use crate::category_search::CategorySearch;
 use crate::outcome::Outcome;
 use crate::rank::Rank;
+use crate::response::search_results::SearchResults;
 use crate::summary::Summary;
 use crate::test_result::TestResult;
 use std::fmt::{Display, Formatter};
@@ -17,12 +18,12 @@ impl TestResult {
         match &self.outcome {
             Outcome::Error { message } => Some(message.to_string()),
             Outcome::Success => None,
-            Outcome::Found { search: _ } => None,
-            Outcome::NotFound { search } => Some(Self::not_found_message(search)),
-            Outcome::Ranked { search, rank } => match rank {
-                Rank::NotFound { minimum } => Some(Self::rank_not_found_message(search, minimum)),
+            Outcome::Found { results: _ } => None,
+            Outcome::NotFound { results } => Some(Self::not_found_message(results)),
+            Outcome::Ranked { results, rank } => match rank {
+                Rank::NotFound { minimum } => Some(Self::rank_not_found_message(results, minimum)),
                 Rank::TooLow { minimum, actual } => {
-                    Some(Self::rank_too_low_message(search, minimum, actual))
+                    Some(Self::rank_too_low_message(results, minimum, actual))
                 }
                 Rank::Sufficient {
                     minimum: _,
@@ -32,38 +33,42 @@ impl TestResult {
         }
     }
 
-    fn search_term(search: &CategorySearch) -> String {
-        match search {
-            CategorySearch::Text {
-                expected: search_for,
-                in_results: _,
-            } => format!("Text hit {search_for}"),
-            CategorySearch::Dictionary {
-                expected: search_for,
-                in_results: _,
-            } => format!("Dictionary hit {search_for}"),
-            CategorySearch::Suttaplex {
-                expected: search_for,
-                in_results: _,
-            } => format!("Suttaplex hit {search_for}"),
+    fn search_term(results: &SearchResults) -> String {
+        match results {
+            SearchResults::Text {
+                expected,
+                results: _,
+            } => format!("Text hit {expected}"),
+            SearchResults::Dictionary {
+                expected,
+                results: _,
+            } => format!("Dictionary hit {expected}"),
+            SearchResults::Suttaplex {
+                expected,
+                results: _,
+            } => format!("Suttaplex hit {expected}"),
+            SearchResults::Volpage {
+                expected,
+                results: _,
+            } => todo!(),
         }
     }
 
-    fn not_found_message(search: &CategorySearch) -> String {
-        format!("{} not found in search results", Self::search_term(search))
+    fn not_found_message(results: &SearchResults) -> String {
+        format!("{} not found in search results", Self::search_term(results))
     }
 
-    fn rank_not_found_message(search: &CategorySearch, minimum: &usize) -> String {
+    fn rank_not_found_message(results: &SearchResults, minimum: &usize) -> String {
         format!(
             "Minium rank {minimum} expected for {} but it was not found",
-            Self::search_term(search)
+            Self::search_term(results)
         )
     }
 
-    fn rank_too_low_message(search: &CategorySearch, minimum: &usize, actual: &usize) -> String {
+    fn rank_too_low_message(results: &SearchResults, minimum: &usize, actual: &usize) -> String {
         format!(
             "Expected {} to have minimum rank of {minimum} but it was found at rank {actual}",
-            Self::search_term(search)
+            Self::search_term(results)
         )
     }
 }
@@ -151,9 +156,9 @@ mod tests {
             description: String::from("Find suttaplex mn1"),
             elapsed: Duration::from_millis(21),
             outcome: Outcome::Found {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+                    results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
                 },
             },
         };
@@ -170,9 +175,9 @@ mod tests {
             description: String::from("Find suttaplex mn1"),
             elapsed: Duration::from_millis(1),
             outcome: Outcome::NotFound {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![],
+                    results: vec![],
                 },
             },
         };
@@ -192,9 +197,9 @@ mod tests {
             description: String::from("Wanted rank, but not found"),
             elapsed: Duration::from_millis(10),
             outcome: Outcome::Ranked {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![],
+                    results: vec![],
                 },
                 rank: Rank::NotFound { minimum: 3 },
             },
@@ -215,9 +220,9 @@ mod tests {
             description: String::from("Expecting top rank"),
             elapsed: Duration::from_millis(76),
             outcome: Outcome::Ranked {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn2"),
-                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+                    results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
                 },
                 rank: Rank::TooLow {
                     minimum: 1,
@@ -243,9 +248,9 @@ mod tests {
             description: String::from("Expecting top rank"),
             elapsed: Duration::from_millis(123),
             outcome: Outcome::Ranked {
-                search: CategorySearch::Suttaplex {
+                results: SearchResults::Suttaplex {
                     expected: SuttaplexUid::from("mn1"),
-                    in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
+                    results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
                 },
                 rank: Rank::Sufficient {
                     minimum: 1,
