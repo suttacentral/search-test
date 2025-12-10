@@ -38,14 +38,14 @@ impl Outcome {
     fn with_expected(expected: &Expected, results: &SearchResults) -> Self {
         match expected {
             Expected::Unranked { key } => {
-                let search = CategorySearch::new(key, results);
+                let search = CategorySearch::new(results);
                 match search.found() {
                     true => Outcome::Found { search },
                     false => Outcome::NotFound { search },
                 }
             }
             Expected::Ranked { key, min_rank } => {
-                let search = CategorySearch::new(key, results);
+                let search = CategorySearch::new(results);
                 let rank = Rank::new(*min_rank, search.rank());
                 Outcome::Ranked { search, rank }
             }

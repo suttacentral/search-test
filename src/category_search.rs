@@ -1,4 +1,4 @@
-use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl};
+use crate::identifiers::{DictionaryUrl, SuttaplexUid, TextUrl};
 use crate::response::search_results::SearchResults;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -18,7 +18,7 @@ pub enum CategorySearch {
 }
 
 impl CategorySearch {
-    pub fn new(key: &SearchResultKey, results: &SearchResults) -> Self {
+    pub fn new(results: &SearchResults) -> Self {
         match results {
             SearchResults::Text { expected, results } => CategorySearch::Text {
                 expected: expected.clone(),
@@ -84,17 +84,13 @@ mod tests {
 
     #[test]
     fn new_text() {
-        let key = SearchResultKey::Text {
-            url: TextUrl::from("/mn1/en/bodhi"),
-        };
-
         let search_results = SearchResults::Text {
             expected: TextUrl::from("/mn1/en/bodhi"),
             results: vec![TextUrl::from("/mn1/en/bodhi")],
         };
 
         assert_eq!(
-            CategorySearch::new(&key, &search_results),
+            CategorySearch::new(&search_results),
             CategorySearch::Text {
                 expected: TextUrl::from("/mn1/en/bodhi"),
                 in_results: vec![TextUrl::from("/mn1/en/bodhi")]
@@ -104,17 +100,13 @@ mod tests {
 
     #[test]
     fn new_dictionary() {
-        let key = SearchResultKey::Dictionary {
-            url: DictionaryUrl::from("/define/metta"),
-        };
-
         let search_results = SearchResults::Dictionary {
             expected: DictionaryUrl::from("/define/metta"),
             results: vec![DictionaryUrl::from("/define/metta")],
         };
 
         assert_eq!(
-            CategorySearch::new(&key, &search_results),
+            CategorySearch::new(&search_results),
             CategorySearch::Dictionary {
                 expected: DictionaryUrl::from("/define/metta"),
                 in_results: vec![DictionaryUrl::from("/define/metta")]
@@ -124,17 +116,13 @@ mod tests {
 
     #[test]
     fn new_suttaplex() {
-        let key = SearchResultKey::Suttaplex {
-            uid: SuttaplexUid::from("mn1"),
-        };
-
         let search_results = SearchResults::Suttaplex {
             expected: SuttaplexUid::from("mn1"),
             results: vec![SuttaplexUid::from("mn1")],
         };
 
         assert_eq!(
-            CategorySearch::new(&key, &search_results),
+            CategorySearch::new(&search_results),
             CategorySearch::Suttaplex {
                 expected: SuttaplexUid::from("mn1"),
                 in_results: vec![SuttaplexUid::from("mn1")]
