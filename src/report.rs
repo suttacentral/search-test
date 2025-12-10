@@ -49,7 +49,7 @@ impl TestResult {
             SearchResults::Volpage {
                 expected,
                 results: _,
-            } => todo!(),
+            } => format!("Volpage hit {expected}"),
         }
     }
 

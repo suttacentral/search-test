@@ -12,4 +12,9 @@ selected-languages = ["en", "pli"]
 description = "Find volpage:SN ii 4"
 query = "volpage:SN ii 4"
 expected.volpage = "PTS SN ii 1"
-# expected.min_rank = 1
+
+[[test-case]]
+description = "Find and rank volpage:SN ii 4"
+query = "volpage:SN ii 4"
+expected.volpage = "PTS SN ii 4"
+expected.min-rank = 3

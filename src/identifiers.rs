@@ -50,6 +50,12 @@ impl From<&str> for SuttaplexUid {
 #[derive(Clone, Deserialize, Debug, PartialEq)]
 pub struct VolpageReference(String);
 
+impl Display for VolpageReference {
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
 impl From<&str> for VolpageReference {
     fn from(value: &str) -> Self {
         Self(String::from(value))
