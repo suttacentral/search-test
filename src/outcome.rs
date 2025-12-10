@@ -26,9 +26,9 @@ impl Outcome {
             Ok(json) => match expected {
                 None => Self::Success,
                 Some(expected) => {
-                    let results = SearchResults::new(expected.search_type(), json.as_str())
-                        .context("Could not extract search results from server response");
-                    match results {
+                    match SearchResults::new(expected.search_type(), json.as_str())
+                        .context("Could not extract search results from server response")
+                    {
                         Err(error) => Self::Error {
                             message: format!("{error:#}"),
                         },
