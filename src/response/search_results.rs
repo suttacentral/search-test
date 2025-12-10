@@ -1,6 +1,4 @@
-use crate::identifiers::{
-    DictionaryUrl, SearchResultKey, SearchType, SuttaplexUid, TextUrl, VolpageReference,
-};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
 use crate::response::dictionary::dictionary_results;
 use crate::response::suttaplex::suttaplex_results;
 use crate::response::texts::text_results;

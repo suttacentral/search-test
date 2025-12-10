@@ -1,6 +1,4 @@
-use crate::identifiers::{
-    DictionaryUrl, SearchResultKey, SearchType, SuttaplexUid, TextUrl, VolpageReference,
-};
+use crate::identifiers::{DictionaryUrl, SearchResultKey, SuttaplexUid, TextUrl, VolpageReference};
 use anyhow::{Context, Result, anyhow};
 use serde::Deserialize;
 
@@ -86,10 +84,10 @@ impl TryFrom<&ExpectedDetails> for Expected {
 }
 
 impl Expected {
-    pub fn search_type(&self) -> SearchType {
+    pub fn key(&self) -> SearchResultKey {
         match self {
-            Expected::Unranked { key } => SearchType::from(key),
-            Expected::Ranked { key, .. } => SearchType::from(key),
+            Expected::Unranked { key } => key.clone(),
+            Expected::Ranked { key, .. } => key.clone(),
         }
     }
 }
@@ -217,28 +215,5 @@ mod tests {
                 reference: VolpageReference::from("PTS SN ii 1")
             }
         )
-    }
-
-    #[test]
-    fn search_type_obtained_when_unranked_expected_present() {
-        let expected = Expected::Unranked {
-            key: SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            },
-        };
-
-        assert_eq!(expected.search_type(), SearchType::Suttaplex);
-    }
-
-    #[test]
-    fn search_type_obtained_when_ranked_expected_present() {
-        let expected = Expected::Ranked {
-            key: SearchResultKey::Suttaplex {
-                uid: SuttaplexUid::from("mn1"),
-            },
-            min_rank: 5,
-        };
-
-        assert_eq!(expected.search_type(), SearchType::Suttaplex);
     }
 }

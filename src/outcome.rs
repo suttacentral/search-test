@@ -28,11 +28,7 @@ impl Outcome {
         match expected {
             None => Ok(Self::Success),
             Some(expected) => {
-                let key = match expected {
-                    Expected::Unranked { key } => key,
-                    Expected::Ranked { key, min_rank: _ } => key,
-                };
-                let results = SearchResults::new(key, json.as_str())
+                let results = SearchResults::new(&expected.key(), json.as_str())
                     .context("Could not extract search results from server response")?;
                 Ok(Self::with_expected(expected, &results))
             }
