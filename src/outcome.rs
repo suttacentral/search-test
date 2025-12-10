@@ -156,7 +156,7 @@ mod tests {
     }
 
     #[test]
-    fn ranked_sufficient_when_expected_and_in_correct_position() {
+    fn ranked_sufficient() {
         let expected = Expected::Ranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn1"),
@@ -187,7 +187,38 @@ mod tests {
     }
 
     #[test]
-    fn ranked_not_found_when_expected_and_in_correct_position() {
+    fn ranked_too_low() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn3"),
+            },
+            min_rank: 2,
+        };
+
+        assert_eq!(
+            Outcome::new(
+                &Some(expected),
+                Ok(String::from(SUTTAPLEX_MN_FIRST_THREE_JSON))
+            ),
+            Outcome::Ranked {
+                search: CategorySearch::Suttaplex {
+                    expected: SuttaplexUid::from("mn3"),
+                    in_results: vec![
+                        SuttaplexUid::from("mn1"),
+                        SuttaplexUid::from("mn2"),
+                        SuttaplexUid::from("mn3")
+                    ],
+                },
+                rank: Rank::TooLow {
+                    minimum: 2,
+                    actual: 3
+                },
+            }
+        )
+    }
+
+    #[test]
+    fn ranked_not_found() {
         let expected = Expected::Ranked {
             key: SearchResultKey::Suttaplex {
                 uid: SuttaplexUid::from("mn4"),
