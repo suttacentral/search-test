@@ -35,15 +35,15 @@ impl TestResult {
     fn search_term(search: &CategorySearch) -> String {
         match search {
             CategorySearch::Text {
-                search_for,
+                expected: search_for,
                 in_results: _,
             } => format!("Text hit {search_for}"),
             CategorySearch::Dictionary {
-                search_for,
+                expected: search_for,
                 in_results: _,
             } => format!("Dictionary hit {search_for}"),
             CategorySearch::Suttaplex {
-                search_for,
+                expected: search_for,
                 in_results: _,
             } => format!("Suttaplex hit {search_for}"),
         }
@@ -152,7 +152,7 @@ mod tests {
             elapsed: Duration::from_millis(21),
             outcome: Outcome::Found {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn1"),
+                    expected: SuttaplexUid::from("mn1"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
                 },
             },
@@ -171,7 +171,7 @@ mod tests {
             elapsed: Duration::from_millis(1),
             outcome: Outcome::NotFound {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn1"),
+                    expected: SuttaplexUid::from("mn1"),
                     in_results: vec![],
                 },
             },
@@ -193,7 +193,7 @@ mod tests {
             elapsed: Duration::from_millis(10),
             outcome: Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn1"),
+                    expected: SuttaplexUid::from("mn1"),
                     in_results: vec![],
                 },
                 rank: Rank::NotFound { minimum: 3 },
@@ -216,7 +216,7 @@ mod tests {
             elapsed: Duration::from_millis(76),
             outcome: Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn2"),
+                    expected: SuttaplexUid::from("mn2"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
                 },
                 rank: Rank::TooLow {
@@ -244,7 +244,7 @@ mod tests {
             elapsed: Duration::from_millis(123),
             outcome: Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn1"),
+                    expected: SuttaplexUid::from("mn1"),
                     in_results: vec![SuttaplexUid::from("mn1"), SuttaplexUid::from("mn2")],
                 },
                 rank: Rank::Sufficient {

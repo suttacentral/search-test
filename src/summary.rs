@@ -54,7 +54,7 @@ mod tests {
     fn summary_is_passed_for_found() {
         let outcome = Outcome::Found {
             search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
+                expected: SuttaplexUid::from("mn1"),
                 in_results: Vec::new(),
             },
         };
@@ -65,7 +65,7 @@ mod tests {
     fn summary_is_failed_for_not_found() {
         let outcome = Outcome::NotFound {
             search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
+                expected: SuttaplexUid::from("mn1"),
                 in_results: Vec::new(),
             },
         };
@@ -76,7 +76,7 @@ mod tests {
     fn summary_is_failed_for_rank_not_found() {
         let outcome = Outcome::Ranked {
             search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
+                expected: SuttaplexUid::from("mn1"),
                 in_results: Vec::new(),
             },
             rank: Rank::NotFound { minimum: 3 },
@@ -89,7 +89,7 @@ mod tests {
     fn summary_is_failed_for_rank_too_low() {
         let outcome = Outcome::Ranked {
             search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
+                expected: SuttaplexUid::from("mn1"),
                 in_results: Vec::new(),
             },
             rank: Rank::TooLow {
@@ -105,7 +105,7 @@ mod tests {
     fn summary_is_passed_for_rank_sufficient() {
         let outcome = Outcome::Ranked {
             search: CategorySearch::Suttaplex {
-                search_for: SuttaplexUid::from("mn1"),
+                expected: SuttaplexUid::from("mn1"),
                 in_results: Vec::new(),
             },
             rank: Rank::Sufficient {

@@ -165,7 +165,7 @@ mod tests {
             ),
             Outcome::Found {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn1"),
+                    expected: SuttaplexUid::from("mn1"),
                     in_results: vec![SuttaplexUid::from("mn1")],
                 }
             }
@@ -187,7 +187,7 @@ mod tests {
             ),
             Outcome::NotFound {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn2"),
+                    expected: SuttaplexUid::from("mn2"),
                     in_results: vec![SuttaplexUid::from("mn1")],
                 }
             }
@@ -210,7 +210,7 @@ mod tests {
             ),
             Outcome::Ranked {
                 search: CategorySearch::Suttaplex {
-                    search_for: SuttaplexUid::from("mn1"),
+                    expected: SuttaplexUid::from("mn1"),
                     in_results: vec![SuttaplexUid::from("mn1")],
                 },
                 rank: Rank::Sufficient {
