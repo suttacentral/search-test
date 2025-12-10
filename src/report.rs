@@ -1,4 +1,3 @@
-use crate::category_search::CategorySearch;
 use crate::outcome::Outcome;
 use crate::rank::Rank;
 use crate::response::search_results::SearchResults;
@@ -96,7 +95,6 @@ impl Display for Summary {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::category_search::CategorySearch;
     use crate::identifiers::SuttaplexUid;
     use std::io::Write;
     use std::time::Duration;

@@ -1,4 +1,3 @@
-mod category_search;
 mod defaults;
 mod expected;
 mod file_load;
