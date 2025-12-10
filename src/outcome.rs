@@ -39,7 +39,7 @@ impl Outcome {
         match expected {
             Expected::Unranked { key } => {
                 let search = CategorySearch::new(results);
-                match search.found() {
+                match results.found() {
                     true => Outcome::Found { search },
                     false => Outcome::NotFound { search },
                 }
