@@ -287,7 +287,7 @@ mod tests {
     }
 
     #[test]
-    fn missing_suttaplex_has_no_rank() {
+    fn suttaplex_has_no_rank() {
         let results = SearchResults::Suttaplex {
             expected: SuttaplexUid::from("mn3"),
             results: Vec::new(),
@@ -335,5 +335,41 @@ mod tests {
             results: Vec::new(),
         };
         assert_eq!(results.rank(), None)
+    }
+
+    #[test]
+    fn volpage_has_no_rank() {
+        let results = SearchResults::Volpage {
+            expected: VolpageReference::from("PTS SN ii 1"),
+            results: Vec::new(),
+        };
+
+        assert_eq!(results.rank(), None);
+    }
+
+    #[test]
+    fn volpage_has_rank_without_duplicates() {
+        let results = SearchResults::Volpage {
+            expected: VolpageReference::from("PTS SN ii 1"),
+            results: vec![
+                VolpageReference::from("PTS SN ii 2"),
+                VolpageReference::from("PTS SN ii 1"),
+            ],
+        };
+
+        assert_eq!(results.rank(), Some(2));
+    }
+
+    #[test]
+    fn volpage_has_first_rank_returned_with_duplicates() {
+        let results = SearchResults::Volpage {
+            expected: VolpageReference::from("PTS SN ii 1"),
+            results: vec![
+                VolpageReference::from("PTS SN ii 1"),
+                VolpageReference::from("PTS SN ii 1"),
+            ],
+        };
+
+        assert_eq!(results.rank(), Some(1));
     }
 }
