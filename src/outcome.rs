@@ -185,4 +185,32 @@ mod tests {
             }
         )
     }
+
+    #[test]
+    fn ranked_not_found_when_expected_and_in_correct_position() {
+        let expected = Expected::Ranked {
+            key: SearchResultKey::Suttaplex {
+                uid: SuttaplexUid::from("mn4"),
+            },
+            min_rank: 1,
+        };
+
+        assert_eq!(
+            Outcome::new(
+                &Some(expected),
+                Ok(String::from(SUTTAPLEX_MN_FIRST_THREE_JSON))
+            ),
+            Outcome::Ranked {
+                search: CategorySearch::Suttaplex {
+                    expected: SuttaplexUid::from("mn4"),
+                    in_results: vec![
+                        SuttaplexUid::from("mn1"),
+                        SuttaplexUid::from("mn2"),
+                        SuttaplexUid::from("mn3")
+                    ],
+                },
+                rank: Rank::NotFound { minimum: 1 },
+            }
+        )
+    }
 }
