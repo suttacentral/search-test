@@ -34,10 +34,7 @@ impl Outcome {
         let json = maybe_json?;
         match expected {
             None => Ok(Self::Success),
-            Some(expected) => {
-                let outcome = Self::with_json(expected, json)?;
-                Ok(outcome)
-            }
+            Some(expected) => Ok(Self::with_json(expected, json)?),
         }
     }
 
