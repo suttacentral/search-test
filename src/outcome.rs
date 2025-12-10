@@ -20,46 +20,64 @@ impl Outcome {
         // can't choose a parser. Therefore, if expected is None, we don't parse the JSON
         // and won't know if it is well-formed so we just return Ok(None)
 
-        let search_results = match json {
-            Err(error) => Err(error),
+        match json {
+            Err(error) => Self::Error {
+                message: format!("{error:#}"),
+            },
             Ok(json) => match expected {
-                None => Ok(None),
+                None => Self::Success,
                 Some(expected) => {
                     let results = SearchResults::new(expected.search_type(), json.as_str())
                         .context("Could not extract search results from server response");
                     match results {
-                        Ok(results) => Ok(Some(results)),
-                        Err(error) => Err(error),
+                        Err(error) => Self::Error {
+                            message: format!("{error:#}"),
+                        },
+                        Ok(search_results) => match expected {
+                            Expected::Unranked { key } => {
+                                let search = CategorySearch::new(key, &search_results);
+                                match search.found() {
+                                    true => Outcome::Found { search },
+                                    false => Outcome::NotFound { search },
+                                }
+                            }
+                            Expected::Ranked { key, min_rank } => {
+                                let search = CategorySearch::new(key, &search_results);
+                                let rank = Rank::new(*min_rank, search.rank());
+                                Outcome::Ranked { search, rank }
+                            }
+                        },
                     }
                 }
             },
-        };
-
-        match search_results {
-            Err(error) => Self::Error {
-                message: format!("{error:#}"),
-            },
-            Ok(search_results) => match search_results {
-                None => Self::Success,
-                Some(search_results) => match expected {
-                    None => todo!(),
-                    Some(expected) => match expected {
-                        Expected::Unranked { key } => {
-                            let search = CategorySearch::new(key, &search_results);
-                            match search.found() {
-                                true => Outcome::Found { search },
-                                false => Outcome::NotFound { search },
-                            }
-                        }
-                        Expected::Ranked { key, min_rank } => {
-                            let search = CategorySearch::new(key, &search_results);
-                            let rank = Rank::new(*min_rank, search.rank());
-                            Outcome::Ranked { search, rank }
-                        }
-                    },
-                },
-            },
         }
+
+        //
+        // match search_results {
+        //     Err(error) => Self::Error {
+        //         message: format!("{error:#}"),
+        //     },
+        //     Ok(search_results) => match search_results {
+        //         None => Self::Success,
+        //         Some(search_results) => match expected {
+        //             None => todo!(),
+        //             Some(expected) => match expected {
+        //                 Expected::Unranked { key } => {
+        //                     let search = CategorySearch::new(key, &search_results);
+        //                     match search.found() {
+        //                         true => Outcome::Found { search },
+        //                         false => Outcome::NotFound { search },
+        //                     }
+        //                 }
+        //                 Expected::Ranked { key, min_rank } => {
+        //                     let search = CategorySearch::new(key, &search_results);
+        //                     let rank = Rank::new(*min_rank, search.rank());
+        //                     Outcome::Ranked { search, rank }
+        //                 }
+        //             },
+        //         },
+        //     },
+        // }
     }
 }
 
