@@ -28,7 +28,7 @@ description = "This sutta is ranked too low"
 query = "snake"
 selected-languages = ["en", "pli"]
 expected.sutta = "/an5.77/en/sujato"
-expected.min-rank = 3
+expected.min-rank = 2
 
 [[test-case]]
 description = "Metta sutta should be in the top three but isn't in results at all"
